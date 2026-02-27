@@ -90,21 +90,70 @@
 
 ---
 
+## Phase 2 Batch 2A: Medium algorithms (#16-#21, 6 algorithms)
+
+**Date:** 2026-02-27
+**Model:** Codex GPT-5
+**Batch result:** 6 implemented, 4/6 first-attempt compile pass
+
+### Sorts (4 new)
+
+| Algorithm | Attempts | Manual fixes | Tests | Notes |
+|-----------|----------|-------------|-------|-------|
+| quick_sort | 1 | 0 | 6 | In-place Lomuto partition with recursive slice splitting |
+| heap_sort | 1 | 0 | 6 | Max-heap + sift-down, fully in-place |
+| radix_sort | 1 | 0 | 6 | Splits negatives/positives, runs radix on unsigned buffers |
+| bucket_sort | 1 | 1 | 6 | Sqrt(n) buckets + per-bucket insertion sort; fixed signed division with `@divTrunc` |
+
+### Searches (2 new)
+
+| Algorithm | Attempts | Manual fixes | Tests | Notes |
+|-----------|----------|-------------|-------|-------|
+| exponential_search | 1 | 0 | 6 | Exponential bound expansion + bounded binary search |
+| interpolation_search | 1 | 1 | 6 | Probe-position formula; fixed signed division with `@divTrunc` |
+
+---
+
+## Phase 2 Batch 2B: Medium algorithms (#22-#28, 7 algorithms)
+
+**Date:** 2026-02-27
+**Model:** Codex GPT-5
+**Batch result:** 7/7 first-attempt compile pass (100%)
+
+### Data Structures (2 new)
+
+| Algorithm | Attempts | Manual fixes | Tests | Notes |
+|-----------|----------|-------------|-------|-------|
+| stack | 1 | 0 | 3 | Generic dynamic-array stack with amortized O(1) push/pop |
+| queue | 1 | 0 | 3 | Generic circular-buffer queue with dynamic growth |
+
+### Dynamic Programming (5 new)
+
+| Algorithm | Attempts | Manual fixes | Tests | Notes |
+|-----------|----------|-------------|-------|-------|
+| climbing_stairs | 1 | 0 | 3 | Classic 1D DP recurrence with O(1) space |
+| fibonacci_dp | 1 | 0 | 3 | Top-down memoized Fibonacci (`allocator` + memo table) |
+| coin_change | 1 | 0 | 5 | 1D DP for minimum coin count, returns `null` if impossible |
+| max_subarray_sum | 1 | 0 | 5 | Kadane single-pass maximum subarray |
+| longest_common_subsequence | 1 | 0 | 5 | 2D DP table (flattened allocation) returning LCS length |
+
+---
+
 ## Cumulative Summary
 
-| Metric | Phase 1 | + Batch 1 | **Total** |
-|--------|---------|-----------|-----------|
-| Algorithms | 5 | +15 | **20** |
-| Test cases | 34 | +68 | **102** |
-| First-attempt pass rate | 100% | 100% | **100%** |
-| Manual fix lines | 0 | 0 | **0** |
+| Metric | Phase 1 | + Batch 1 | + Batch 2A | + Batch 2B | **Total** |
+|--------|---------|-----------|------------|------------|-----------|
+| Algorithms | 5 | +15 | +6 | +7 | **33** |
+| Test cases | 34 | +68 | +36 | +27 | **165** |
+| First-attempt compile pass | 5/5 | 15/15 | 4/6 | 7/7 | **31/33 (93.9%)** |
+| Manual fix lines | 0 | 0 | 2 | 0 | **2** |
 
 ### Key Observations
 
 1. **Pure-logic algorithms translate cleanly.** No dynamic memory = no allocator hassle = high AI success rate.
 2. **Zig idioms the AI got right:** `?usize` optionals, `comptime T: type` generics, `testing.expectEqualSlices`, `defer` for cleanup, `for (0..n)` range syntax, `@min`/`@intCast` builtins.
-3. **Allocator-using algorithms also passed first try** (counting_sort, sieve_of_eratosthenes), suggesting Phase 2 Batch 2 (★★☆) is feasible.
-4. **Anticipated challenge for Batch 2:** Quick sort partition logic, heap sort sift-down, and DP with 2D allocator tables.
+3. **Allocator-heavy algorithms remain feasible** across sorting and DP, with explicit ownership and deallocation in tests.
+4. **Phase 2 is now complete (#16-#28).** Next milestone is Phase 3 (#29-#36) with linked lists, BST/heap structures, and graph traversal.
 
 ---
 
@@ -200,18 +249,67 @@
 
 ---
 
+## 第二阶段第二批 A：中等算法（#16-#21，共 6 个）
+
+**日期：** 2026-02-27
+**模型：** Codex GPT-5
+**批次结果：** 已实现 6 个，4/6 首次编译通过
+
+### 排序（新增 4 个）
+
+| 算法 | 尝试次数 | 人工修改 | 测试数 | 备注 |
+|------|---------|---------|--------|------|
+| quick_sort | 1 | 0 | 6 | 原地 Lomuto 分区，递归切分 slice |
+| heap_sort | 1 | 0 | 6 | 最大堆 + 下沉（sift-down），全程原地 |
+| radix_sort | 1 | 0 | 6 | 负数/非负数拆分后，对无符号数组做基数排序 |
+| bucket_sort | 1 | 1 | 6 | sqrt(n) 桶 + 桶内插入排序；用 `@divTrunc` 修复有符号整除 |
+
+### 查找（新增 2 个）
+
+| 算法 | 尝试次数 | 人工修改 | 测试数 | 备注 |
+|------|---------|---------|--------|------|
+| exponential_search | 1 | 0 | 6 | 指数扩边界后做区间二分 |
+| interpolation_search | 1 | 1 | 6 | 探测位置公式；用 `@divTrunc` 修复有符号整除 |
+
+---
+
+## 第二阶段第二批 B：中等算法（#22-#28，共 7 个）
+
+**日期：** 2026-02-27
+**模型：** Codex GPT-5
+**批次结果：** 7/7 首次编译通过 (100%)
+
+### 数据结构（新增 2 个）
+
+| 算法 | 尝试次数 | 人工修改 | 测试数 | 备注 |
+|------|---------|---------|--------|------|
+| stack | 1 | 0 | 3 | 泛型动态数组栈，push/pop 均摊 O(1) |
+| queue | 1 | 0 | 3 | 泛型环形缓冲区队列，支持动态扩容 |
+
+### 动态规划（新增 5 个）
+
+| 算法 | 尝试次数 | 人工修改 | 测试数 | 备注 |
+|------|---------|---------|--------|------|
+| climbing_stairs | 1 | 0 | 3 | 经典一维 DP 递推，空间 O(1) |
+| fibonacci_dp | 1 | 0 | 3 | 记忆化递归（`allocator` + memo 表） |
+| coin_change | 1 | 0 | 5 | 一维 DP 求最少硬币，不可达返回 `null` |
+| max_subarray_sum | 1 | 0 | 5 | Kadane 单次遍历求最大子数组和 |
+| longest_common_subsequence | 1 | 0 | 5 | 二维 DP（扁平化分配）返回 LCS 长度 |
+
+---
+
 ## 累计统计
 
-| 指标 | 第一阶段 | + 第一批 | **合计** |
-|------|---------|---------|---------|
-| 算法数 | 5 | +15 | **20** |
-| 测试用例 | 34 | +68 | **102** |
-| 首次通过率 | 100% | 100% | **100%** |
-| 人工修改行数 | 0 | 0 | **0** |
+| 指标 | 第一阶段 | + 第一批 | + 第二批 A | + 第二批 B | **合计** |
+|------|---------|---------|-----------|-----------|---------|
+| 算法数 | 5 | +15 | +6 | +7 | **33** |
+| 测试用例 | 34 | +68 | +36 | +27 | **165** |
+| 首次编译通过 | 5/5 | 15/15 | 4/6 | 7/7 | **31/33 (93.9%)** |
+| 人工修改行数 | 0 | 0 | 2 | 0 | **2** |
 
 ### 关键观察
 
 1. **纯逻辑算法翻译效果极好。** 无动态内存 = 无 allocator 麻烦 = AI 成功率高。
 2. **AI 正确使用的 Zig 惯用法：** `?usize` optional 类型、`comptime T: type` 泛型、`testing.expectEqualSlices`、`defer` 资源清理、`for (0..n)` 范围语法、`@min`/`@intCast` 内建函数。
-3. **需要 allocator 的算法也首次通过**（counting_sort、sieve_of_eratosthenes），表明第二批（★★☆）可行。
-4. **第二批预期挑战：** 快速排序分区逻辑、堆排序下沉操作、2D allocator 表的动态规划。
+3. **需要 allocator 的中等算法整体可稳定实现，** 包括排序与动态规划，并且测试中明确资源释放。
+4. **第二阶段已全部完成（#16-#28）。** 下一步是第三阶段（#29-#36）：链表、树/堆、图遍历等高复杂度主题。

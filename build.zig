@@ -13,6 +13,10 @@ pub fn build(b: *std.Build) void {
         "sorts/bubble_sort.zig",
         "sorts/insertion_sort.zig",
         "sorts/merge_sort.zig",
+        "sorts/quick_sort.zig",
+        "sorts/heap_sort.zig",
+        "sorts/radix_sort.zig",
+        "sorts/bucket_sort.zig",
         "sorts/selection_sort.zig",
         "sorts/shell_sort.zig",
         "sorts/counting_sort.zig",
@@ -21,6 +25,8 @@ pub fn build(b: *std.Build) void {
         // Searches
         "searches/linear_search.zig",
         "searches/binary_search.zig",
+        "searches/exponential_search.zig",
+        "searches/interpolation_search.zig",
         "searches/jump_search.zig",
         "searches/ternary_search.zig",
         // Maths
@@ -32,6 +38,15 @@ pub fn build(b: *std.Build) void {
         "maths/power.zig",
         "maths/factorial.zig",
         "maths/collatz_sequence.zig",
+        // Data Structures
+        "data_structures/stack.zig",
+        "data_structures/queue.zig",
+        // Dynamic Programming
+        "dynamic_programming/climbing_stairs.zig",
+        "dynamic_programming/fibonacci_dp.zig",
+        "dynamic_programming/coin_change.zig",
+        "dynamic_programming/max_subarray_sum.zig",
+        "dynamic_programming/longest_common_subsequence.zig",
     };
 
     for (test_files) |file| {

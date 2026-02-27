@@ -16,25 +16,31 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 
 ## Algorithm Catalog
 
-### Sorting (8)
+### Sorting (12)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
 | Bubble Sort | [`sorts/bubble_sort.zig`](sorts/bubble_sort.zig) | O(n²) |
 | Insertion Sort | [`sorts/insertion_sort.zig`](sorts/insertion_sort.zig) | O(n²) |
+| Merge Sort | [`sorts/merge_sort.zig`](sorts/merge_sort.zig) | O(n log n) |
+| Quick Sort | [`sorts/quick_sort.zig`](sorts/quick_sort.zig) | O(n log n) avg |
+| Heap Sort | [`sorts/heap_sort.zig`](sorts/heap_sort.zig) | O(n log n) |
+| Radix Sort | [`sorts/radix_sort.zig`](sorts/radix_sort.zig) | O(d · (n + b)) |
+| Bucket Sort | [`sorts/bucket_sort.zig`](sorts/bucket_sort.zig) | O(n + k) avg |
 | Selection Sort | [`sorts/selection_sort.zig`](sorts/selection_sort.zig) | O(n²) |
 | Shell Sort | [`sorts/shell_sort.zig`](sorts/shell_sort.zig) | O(n^1.3) avg |
 | Gnome Sort | [`sorts/gnome_sort.zig`](sorts/gnome_sort.zig) | O(n²) |
 | Cocktail Shaker Sort | [`sorts/cocktail_shaker_sort.zig`](sorts/cocktail_shaker_sort.zig) | O(n²) |
 | Counting Sort | [`sorts/counting_sort.zig`](sorts/counting_sort.zig) | O(n + k) |
-| Merge Sort | [`sorts/merge_sort.zig`](sorts/merge_sort.zig) | O(n log n) |
 
-### Searching (4)
+### Searching (6)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
 | Linear Search | [`searches/linear_search.zig`](searches/linear_search.zig) | O(n) |
 | Binary Search | [`searches/binary_search.zig`](searches/binary_search.zig) | O(log n) |
+| Exponential Search | [`searches/exponential_search.zig`](searches/exponential_search.zig) | O(log n) |
+| Interpolation Search | [`searches/interpolation_search.zig`](searches/interpolation_search.zig) | O(log log n) avg |
 | Jump Search | [`searches/jump_search.zig`](searches/jump_search.zig) | O(√n) |
 | Ternary Search | [`searches/ternary_search.zig`](searches/ternary_search.zig) | O(log₃ n) |
 
@@ -51,13 +57,22 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Binary Exponentiation | [`maths/power.zig`](maths/power.zig) | O(log n) |
 | Collatz Sequence | [`maths/collatz_sequence.zig`](maths/collatz_sequence.zig) | O(?) |
 
-### Data Structures
+### Data Structures (2)
 
-*Coming soon*
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Stack (Array) | [`data_structures/stack.zig`](data_structures/stack.zig) | O(1) amortized push/pop |
+| Queue (Array Circular Buffer) | [`data_structures/queue.zig`](data_structures/queue.zig) | O(1) amortized enqueue/dequeue |
 
-### Dynamic Programming
+### Dynamic Programming (5)
 
-*Coming soon*
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Climbing Stairs | [`dynamic_programming/climbing_stairs.zig`](dynamic_programming/climbing_stairs.zig) | O(n) |
+| Fibonacci (Memoized DP) | [`dynamic_programming/fibonacci_dp.zig`](dynamic_programming/fibonacci_dp.zig) | O(n) |
+| Minimum Coin Change | [`dynamic_programming/coin_change.zig`](dynamic_programming/coin_change.zig) | O(amount × coin_count) |
+| Max Subarray Sum (Kadane) | [`dynamic_programming/max_subarray_sum.zig`](dynamic_programming/max_subarray_sum.zig) | O(n) |
+| Longest Common Subsequence | [`dynamic_programming/longest_common_subsequence.zig`](dynamic_programming/longest_common_subsequence.zig) | O(m × n) |
 
 ## Quick Start
 
@@ -78,11 +93,11 @@ zig test sorts/bubble_sort.zig
 TheAlgorithms-Zig/
 ├── build.zig                # Build script — registers all test files
 ├── build.zig.zon            # Package manifest
-├── sorts/                   # 8 sorting algorithms
-├── searches/                # 4 search algorithms
+├── sorts/                   # 12 sorting algorithms
+├── searches/                # 6 search algorithms
 ├── maths/                   # 8 math algorithms
-├── data_structures/         # Data structures (WIP)
-└── dynamic_programming/     # DP algorithms (WIP)
+├── data_structures/         # 2 data structure implementations
+└── dynamic_programming/     # 5 dynamic programming algorithms
 ```
 
 ## Development
@@ -139,25 +154,31 @@ MIT
 
 ## 算法目录
 
-### 排序 (8)
+### 排序 (12)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
 | 冒泡排序 | [`sorts/bubble_sort.zig`](sorts/bubble_sort.zig) | O(n²) |
 | 插入排序 | [`sorts/insertion_sort.zig`](sorts/insertion_sort.zig) | O(n²) |
+| 归并排序 | [`sorts/merge_sort.zig`](sorts/merge_sort.zig) | O(n log n) |
+| 快速排序 | [`sorts/quick_sort.zig`](sorts/quick_sort.zig) | O(n log n) 平均 |
+| 堆排序 | [`sorts/heap_sort.zig`](sorts/heap_sort.zig) | O(n log n) |
+| 基数排序 | [`sorts/radix_sort.zig`](sorts/radix_sort.zig) | O(d · (n + b)) |
+| 桶排序 | [`sorts/bucket_sort.zig`](sorts/bucket_sort.zig) | O(n + k) 平均 |
 | 选择排序 | [`sorts/selection_sort.zig`](sorts/selection_sort.zig) | O(n²) |
 | 希尔排序 | [`sorts/shell_sort.zig`](sorts/shell_sort.zig) | O(n^1.3) 平均 |
 | 侏儒排序 | [`sorts/gnome_sort.zig`](sorts/gnome_sort.zig) | O(n²) |
 | 鸡尾酒排序 | [`sorts/cocktail_shaker_sort.zig`](sorts/cocktail_shaker_sort.zig) | O(n²) |
 | 计数排序 | [`sorts/counting_sort.zig`](sorts/counting_sort.zig) | O(n + k) |
-| 归并排序 | [`sorts/merge_sort.zig`](sorts/merge_sort.zig) | O(n log n) |
 
-### 查找 (4)
+### 查找 (6)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
 | 线性查找 | [`searches/linear_search.zig`](searches/linear_search.zig) | O(n) |
 | 二分查找 | [`searches/binary_search.zig`](searches/binary_search.zig) | O(log n) |
+| 指数查找 | [`searches/exponential_search.zig`](searches/exponential_search.zig) | O(log n) |
+| 插值查找 | [`searches/interpolation_search.zig`](searches/interpolation_search.zig) | O(log log n) 平均 |
 | 跳跃查找 | [`searches/jump_search.zig`](searches/jump_search.zig) | O(√n) |
 | 三分查找 | [`searches/ternary_search.zig`](searches/ternary_search.zig) | O(log₃ n) |
 
@@ -174,13 +195,22 @@ MIT
 | 快速幂 | [`maths/power.zig`](maths/power.zig) | O(log n) |
 | 考拉兹序列 | [`maths/collatz_sequence.zig`](maths/collatz_sequence.zig) | O(?) |
 
-### 数据结构
+### 数据结构 (2)
 
-*即将推出*
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 栈（数组实现） | [`data_structures/stack.zig`](data_structures/stack.zig) | push/pop 均摊 O(1) |
+| 队列（数组环形缓冲区） | [`data_structures/queue.zig`](data_structures/queue.zig) | enqueue/dequeue 均摊 O(1) |
 
-### 动态规划
+### 动态规划 (5)
 
-*即将推出*
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 爬楼梯 | [`dynamic_programming/climbing_stairs.zig`](dynamic_programming/climbing_stairs.zig) | O(n) |
+| 斐波那契（记忆化 DP） | [`dynamic_programming/fibonacci_dp.zig`](dynamic_programming/fibonacci_dp.zig) | O(n) |
+| 最少硬币找零 | [`dynamic_programming/coin_change.zig`](dynamic_programming/coin_change.zig) | O(amount × coin_count) |
+| 最大子数组和（Kadane） | [`dynamic_programming/max_subarray_sum.zig`](dynamic_programming/max_subarray_sum.zig) | O(n) |
+| 最长公共子序列 | [`dynamic_programming/longest_common_subsequence.zig`](dynamic_programming/longest_common_subsequence.zig) | O(m × n) |
 
 ## 快速开始
 
@@ -201,11 +231,11 @@ zig test sorts/bubble_sort.zig
 TheAlgorithms-Zig/
 ├── build.zig                # 构建脚本 — 注册所有测试文件
 ├── build.zig.zon            # 包清单
-├── sorts/                   # 8 种排序算法
-├── searches/                # 4 种查找算法
+├── sorts/                   # 12 种排序算法
+├── searches/                # 6 种查找算法
 ├── maths/                   # 8 种数学算法
-├── data_structures/         # 数据结构（开发中）
-└── dynamic_programming/     # 动态规划算法（开发中）
+├── data_structures/         # 2 种数据结构实现
+└── dynamic_programming/     # 5 个动态规划算法
 ```
 
 ## 开发指南
