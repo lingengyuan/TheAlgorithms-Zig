@@ -9,11 +9,29 @@ pub fn build(b: *std.Build) void {
 
     // 每个算法文件注册为独立测试单元
     const test_files = [_][]const u8{
+        // Sorts
         "sorts/bubble_sort.zig",
         "sorts/insertion_sort.zig",
         "sorts/merge_sort.zig",
+        "sorts/selection_sort.zig",
+        "sorts/shell_sort.zig",
+        "sorts/counting_sort.zig",
+        "sorts/cocktail_shaker_sort.zig",
+        "sorts/gnome_sort.zig",
+        // Searches
         "searches/linear_search.zig",
         "searches/binary_search.zig",
+        "searches/jump_search.zig",
+        "searches/ternary_search.zig",
+        // Maths
+        "maths/gcd.zig",
+        "maths/lcm.zig",
+        "maths/fibonacci.zig",
+        "maths/prime_check.zig",
+        "maths/sieve_of_eratosthenes.zig",
+        "maths/power.zig",
+        "maths/factorial.zig",
+        "maths/collatz_sequence.zig",
     };
 
     for (test_files) |file| {

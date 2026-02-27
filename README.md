@@ -16,26 +16,42 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 
 ## Algorithm Catalog
 
-### Sorting
+### Sorting (8)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
 | Bubble Sort | [`sorts/bubble_sort.zig`](sorts/bubble_sort.zig) | O(n²) |
 | Insertion Sort | [`sorts/insertion_sort.zig`](sorts/insertion_sort.zig) | O(n²) |
+| Selection Sort | [`sorts/selection_sort.zig`](sorts/selection_sort.zig) | O(n²) |
+| Shell Sort | [`sorts/shell_sort.zig`](sorts/shell_sort.zig) | O(n^1.3) avg |
+| Gnome Sort | [`sorts/gnome_sort.zig`](sorts/gnome_sort.zig) | O(n²) |
+| Cocktail Shaker Sort | [`sorts/cocktail_shaker_sort.zig`](sorts/cocktail_shaker_sort.zig) | O(n²) |
+| Counting Sort | [`sorts/counting_sort.zig`](sorts/counting_sort.zig) | O(n + k) |
 | Merge Sort | [`sorts/merge_sort.zig`](sorts/merge_sort.zig) | O(n log n) |
 
-### Searching
+### Searching (4)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
 | Linear Search | [`searches/linear_search.zig`](searches/linear_search.zig) | O(n) |
 | Binary Search | [`searches/binary_search.zig`](searches/binary_search.zig) | O(log n) |
+| Jump Search | [`searches/jump_search.zig`](searches/jump_search.zig) | O(√n) |
+| Ternary Search | [`searches/ternary_search.zig`](searches/ternary_search.zig) | O(log₃ n) |
+
+### Math (8)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| GCD (Euclidean) | [`maths/gcd.zig`](maths/gcd.zig) | O(log n) |
+| LCM | [`maths/lcm.zig`](maths/lcm.zig) | O(log n) |
+| Fibonacci | [`maths/fibonacci.zig`](maths/fibonacci.zig) | O(n) |
+| Factorial | [`maths/factorial.zig`](maths/factorial.zig) | O(n) |
+| Prime Check | [`maths/prime_check.zig`](maths/prime_check.zig) | O(√n) |
+| Sieve of Eratosthenes | [`maths/sieve_of_eratosthenes.zig`](maths/sieve_of_eratosthenes.zig) | O(n log log n) |
+| Binary Exponentiation | [`maths/power.zig`](maths/power.zig) | O(log n) |
+| Collatz Sequence | [`maths/collatz_sequence.zig`](maths/collatz_sequence.zig) | O(?) |
 
 ### Data Structures
-
-*Coming soon*
-
-### Math
 
 *Coming soon*
 
@@ -62,15 +78,10 @@ zig test sorts/bubble_sort.zig
 TheAlgorithms-Zig/
 ├── build.zig                # Build script — registers all test files
 ├── build.zig.zon            # Package manifest
-├── sorts/                   # Sorting algorithms
-│   ├── bubble_sort.zig
-│   ├── insertion_sort.zig
-│   └── merge_sort.zig
-├── searches/                # Search algorithms
-│   ├── linear_search.zig
-│   └── binary_search.zig
+├── sorts/                   # 8 sorting algorithms
+├── searches/                # 4 search algorithms
+├── maths/                   # 8 math algorithms
 ├── data_structures/         # Data structures (WIP)
-├── maths/                   # Math algorithms (WIP)
 └── dynamic_programming/     # DP algorithms (WIP)
 ```
 
@@ -128,26 +139,42 @@ MIT
 
 ## 算法目录
 
-### 排序
+### 排序 (8)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
 | 冒泡排序 | [`sorts/bubble_sort.zig`](sorts/bubble_sort.zig) | O(n²) |
 | 插入排序 | [`sorts/insertion_sort.zig`](sorts/insertion_sort.zig) | O(n²) |
+| 选择排序 | [`sorts/selection_sort.zig`](sorts/selection_sort.zig) | O(n²) |
+| 希尔排序 | [`sorts/shell_sort.zig`](sorts/shell_sort.zig) | O(n^1.3) 平均 |
+| 侏儒排序 | [`sorts/gnome_sort.zig`](sorts/gnome_sort.zig) | O(n²) |
+| 鸡尾酒排序 | [`sorts/cocktail_shaker_sort.zig`](sorts/cocktail_shaker_sort.zig) | O(n²) |
+| 计数排序 | [`sorts/counting_sort.zig`](sorts/counting_sort.zig) | O(n + k) |
 | 归并排序 | [`sorts/merge_sort.zig`](sorts/merge_sort.zig) | O(n log n) |
 
-### 查找
+### 查找 (4)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
 | 线性查找 | [`searches/linear_search.zig`](searches/linear_search.zig) | O(n) |
 | 二分查找 | [`searches/binary_search.zig`](searches/binary_search.zig) | O(log n) |
+| 跳跃查找 | [`searches/jump_search.zig`](searches/jump_search.zig) | O(√n) |
+| 三分查找 | [`searches/ternary_search.zig`](searches/ternary_search.zig) | O(log₃ n) |
+
+### 数学 (8)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 最大公约数 | [`maths/gcd.zig`](maths/gcd.zig) | O(log n) |
+| 最小公倍数 | [`maths/lcm.zig`](maths/lcm.zig) | O(log n) |
+| 斐波那契数列 | [`maths/fibonacci.zig`](maths/fibonacci.zig) | O(n) |
+| 阶乘 | [`maths/factorial.zig`](maths/factorial.zig) | O(n) |
+| 素数判定 | [`maths/prime_check.zig`](maths/prime_check.zig) | O(√n) |
+| 埃拉托色尼筛法 | [`maths/sieve_of_eratosthenes.zig`](maths/sieve_of_eratosthenes.zig) | O(n log log n) |
+| 快速幂 | [`maths/power.zig`](maths/power.zig) | O(log n) |
+| 考拉兹序列 | [`maths/collatz_sequence.zig`](maths/collatz_sequence.zig) | O(?) |
 
 ### 数据结构
-
-*即将推出*
-
-### 数学
 
 *即将推出*
 
@@ -174,15 +201,10 @@ zig test sorts/bubble_sort.zig
 TheAlgorithms-Zig/
 ├── build.zig                # 构建脚本 — 注册所有测试文件
 ├── build.zig.zon            # 包清单
-├── sorts/                   # 排序算法
-│   ├── bubble_sort.zig
-│   ├── insertion_sort.zig
-│   └── merge_sort.zig
-├── searches/                # 查找算法
-│   ├── linear_search.zig
-│   └── binary_search.zig
+├── sorts/                   # 8 种排序算法
+├── searches/                # 4 种查找算法
+├── maths/                   # 8 种数学算法
 ├── data_structures/         # 数据结构（开发中）
-├── maths/                   # 数学算法（开发中）
 └── dynamic_programming/     # 动态规划算法（开发中）
 ```
 
