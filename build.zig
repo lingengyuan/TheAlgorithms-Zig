@@ -41,12 +41,21 @@ pub fn build(b: *std.Build) void {
         // Data Structures
         "data_structures/stack.zig",
         "data_structures/queue.zig",
+        "data_structures/singly_linked_list.zig",
+        "data_structures/doubly_linked_list.zig",
+        "data_structures/binary_search_tree.zig",
+        "data_structures/min_heap.zig",
         // Dynamic Programming
         "dynamic_programming/climbing_stairs.zig",
         "dynamic_programming/fibonacci_dp.zig",
         "dynamic_programming/coin_change.zig",
         "dynamic_programming/max_subarray_sum.zig",
         "dynamic_programming/longest_common_subsequence.zig",
+        "dynamic_programming/edit_distance.zig",
+        "dynamic_programming/knapsack.zig",
+        // Graphs
+        "graphs/bfs.zig",
+        "graphs/dfs.zig",
     };
 
     for (test_files) |file| {
