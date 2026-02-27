@@ -8,9 +8,15 @@ const testing = std.testing;
 /// Time complexity: O(log(min(a, b))), Space complexity: O(1)
 pub fn lcm(a: i64, b: i64) u64 {
     if (a == 0 or b == 0) return 0;
-    const abs_a = if (a < 0) @as(u64, @intCast(-a)) else @as(u64, @intCast(a));
-    const abs_b = if (b < 0) @as(u64, @intCast(-b)) else @as(u64, @intCast(b));
+    const abs_a = absI64ToU64(a);
+    const abs_b = absI64ToU64(b);
     return abs_a / gcd_internal(abs_a, abs_b) * abs_b;
+}
+
+fn absI64ToU64(v: i64) u64 {
+    const wide: i128 = v;
+    const abs_wide: i128 = if (wide < 0) -wide else wide;
+    return @intCast(abs_wide);
 }
 
 fn gcd_internal(a: u64, b: u64) u64 {
@@ -43,4 +49,9 @@ test "lcm: same number" {
 
 test "lcm: coprime" {
     try testing.expectEqual(@as(u64, 35), lcm(5, 7));
+}
+
+test "lcm: i64 min value" {
+    try testing.expectEqual(@as(u64, @as(u64, 1) << 63), lcm(std.math.minInt(i64), 1));
+    try testing.expectEqual(@as(u64, @as(u64, 1) << 63), lcm(1, std.math.minInt(i64)));
 }

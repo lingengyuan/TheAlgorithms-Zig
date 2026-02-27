@@ -139,21 +139,52 @@
 
 ---
 
+## Phase 2 QA Hotfix: Safety + semantic alignment (no new algorithms)
+
+**Date:** 2026-02-27
+**Model:** Codex GPT-5
+**Batch result:** all regressions fixed, `zig build test` fully green
+
+### Issues found during review
+
+- Runtime panics on edge input:
+  - `gcd/lcm` overflow on `minInt(i64)`
+  - `powerMod` divide-by-zero when `modulus == 0`
+  - `counting_sort` overflow/huge-range allocation blow-up
+  - `collatz_sequence` potential out-of-bounds write on small buffers
+- Semantic mismatches against Python reference modules:
+  - `coin_change`: minimum coins vs number-of-ways
+  - `fibonacci_dp`: single value vs sequence output
+  - `longest_common_subsequence`: length-only vs `(length, subsequence)`
+  - `max_subarray_sum`: empty-input behavior / `allow_empty_subarrays` mode
+  - `climbing_stairs`: missing positive-input validation
+  - `stack/queue`: missing Python-style error-oriented APIs
+
+### Fix summary
+
+- Added explicit edge guards and error returns in affected algorithms.
+- Aligned DP algorithm outputs with referenced Python behavior where required.
+- Added Python-style error APIs (`StackOverflow/Underflow`, `EmptyQueue`) while keeping existing ergonomics.
+- Added targeted regression tests for each discovered failure mode.
+- Manual fixes applied: **305 insertions, 119 deletions** across 12 algorithm files.
+
+---
+
 ## Cumulative Summary
 
-| Metric | Phase 1 | + Batch 1 | + Batch 2A | + Batch 2B | **Total** |
-|--------|---------|-----------|------------|------------|-----------|
-| Algorithms | 5 | +15 | +6 | +7 | **33** |
-| Test cases | 34 | +68 | +36 | +27 | **165** |
-| First-attempt compile pass | 5/5 | 15/15 | 4/6 | 7/7 | **31/33 (93.9%)** |
-| Manual fix lines | 0 | 0 | 2 | 0 | **2** |
+| Metric | Phase 1 | + Batch 1 | + Batch 2A | + Batch 2B | + QA Hotfix | **Total** |
+|--------|---------|-----------|------------|------------|-------------|-----------|
+| Algorithms | 5 | +15 | +6 | +7 | +0 | **33** |
+| Test cases | 34 | +68 | +36 | +27 | +11 | **176** |
+| First-attempt compile pass | 5/5 | 15/15 | 4/6 | 7/7 | N/A | **31/33 (93.9%)** |
+| Manual fix lines | 0 | 0 | 2 | 0 | +424 | **426** |
 
 ### Key Observations
 
 1. **Pure-logic algorithms translate cleanly.** No dynamic memory = no allocator hassle = high AI success rate.
 2. **Zig idioms the AI got right:** `?usize` optionals, `comptime T: type` generics, `testing.expectEqualSlices`, `defer` for cleanup, `for (0..n)` range syntax, `@min`/`@intCast` builtins.
-3. **Allocator-heavy algorithms remain feasible** across sorting and DP, with explicit ownership and deallocation in tests.
-4. **Phase 2 is now complete (#16-#28).** Next milestone is Phase 3 (#29-#36) with linked lists, BST/heap structures, and graph traversal.
+3. **Post-implementation review surfaced real edge-case failures.** Compile-pass does not guarantee runtime safety for extremal inputs.
+4. **Phase 2 is complete with QA hotfixes merged.** Next milestone is Phase 3 (#29-#36) with the same “implement + review + harden” loop.
 
 ---
 
@@ -298,18 +329,49 @@
 
 ---
 
+## 第二阶段 QA 修复批：安全性与语义对齐（无新增算法）
+
+**日期：** 2026-02-27
+**模型：** Codex GPT-5
+**批次结果：** 已修复全部回归问题，`zig build test` 全绿
+
+### 评审中发现的问题
+
+- 边界输入下可触发运行时 panic：
+  - `gcd/lcm` 在 `minInt(i64)` 上溢出
+  - `powerMod` 在 `modulus == 0` 时除零
+  - `counting_sort` 极大取值范围下溢出/内存爆炸
+  - `collatz_sequence` 小缓冲区可能越界写入
+- 与 Python 参考语义不一致：
+  - `coin_change`：最少硬币数 vs 方案总数
+  - `fibonacci_dp`：单值输出 vs 序列输出
+  - `longest_common_subsequence`：仅长度 vs `(长度, 子序列)`
+  - `max_subarray_sum`：空数组行为与 `allow_empty_subarrays` 模式
+  - `climbing_stairs`：缺少正整数输入约束
+  - `stack/queue`：缺少 Python 风格错误 API
+
+### 修复摘要
+
+- 为上述风险点补齐显式输入校验和错误返回。
+- 将部分 DP 算法输出形式对齐至 Python 参考行为。
+- 在保留现有易用接口的同时，增加 Python 风格错误 API（`StackOverflow/Underflow`、`EmptyQueue`）。
+- 为每个问题新增定向回归测试。
+- 人工修复量：12 个算法文件共 **+305 / -119** 行。
+
+---
+
 ## 累计统计
 
-| 指标 | 第一阶段 | + 第一批 | + 第二批 A | + 第二批 B | **合计** |
-|------|---------|---------|-----------|-----------|---------|
-| 算法数 | 5 | +15 | +6 | +7 | **33** |
-| 测试用例 | 34 | +68 | +36 | +27 | **165** |
-| 首次编译通过 | 5/5 | 15/15 | 4/6 | 7/7 | **31/33 (93.9%)** |
-| 人工修改行数 | 0 | 0 | 2 | 0 | **2** |
+| 指标 | 第一阶段 | + 第一批 | + 第二批 A | + 第二批 B | + QA 修复批 | **合计** |
+|------|---------|---------|-----------|-----------|-------------|---------|
+| 算法数 | 5 | +15 | +6 | +7 | +0 | **33** |
+| 测试用例 | 34 | +68 | +36 | +27 | +11 | **176** |
+| 首次编译通过 | 5/5 | 15/15 | 4/6 | 7/7 | N/A | **31/33 (93.9%)** |
+| 人工修改行数 | 0 | 0 | 2 | 0 | +424 | **426** |
 
 ### 关键观察
 
 1. **纯逻辑算法翻译效果极好。** 无动态内存 = 无 allocator 麻烦 = AI 成功率高。
 2. **AI 正确使用的 Zig 惯用法：** `?usize` optional 类型、`comptime T: type` 泛型、`testing.expectEqualSlices`、`defer` 资源清理、`for (0..n)` 范围语法、`@min`/`@intCast` 内建函数。
-3. **需要 allocator 的中等算法整体可稳定实现，** 包括排序与动态规划，并且测试中明确资源释放。
-4. **第二阶段已全部完成（#16-#28）。** 下一步是第三阶段（#29-#36）：链表、树/堆、图遍历等高复杂度主题。
+3. **后置评审能有效暴露“可编译但不安全”的边界问题，** 需要将“实现 + 回归加固”作为固定步骤。
+4. **第二阶段已在 QA 修复后完成。** 下一步进入第三阶段（#29-#36），沿用同样的实现与加固闭环。

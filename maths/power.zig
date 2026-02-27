@@ -21,7 +21,8 @@ pub fn power(base: i64, exponent: u32) i64 {
 }
 
 /// Computes base^exponent mod modulus using modular exponentiation.
-pub fn powerMod(base: u64, exponent: u64, modulus: u64) u64 {
+pub fn powerMod(base: u64, exponent: u64, modulus: u64) !u64 {
+    if (modulus == 0) return error.InvalidModulus;
     if (modulus == 1) return 0;
     var result: u64 = 1;
     var b = base % modulus;
@@ -51,7 +52,11 @@ test "power: larger exponent" {
 }
 
 test "power mod: basic cases" {
-    try testing.expectEqual(@as(u64, 1), powerMod(3, 4, 5));
-    try testing.expectEqual(@as(u64, 4), powerMod(11, 13, 7));
-    try testing.expectEqual(@as(u64, 0), powerMod(5, 3, 1));
+    try testing.expectEqual(@as(u64, 1), try powerMod(3, 4, 5));
+    try testing.expectEqual(@as(u64, 4), try powerMod(11, 13, 7));
+    try testing.expectEqual(@as(u64, 0), try powerMod(5, 3, 1));
+}
+
+test "power mod: invalid modulus" {
+    try testing.expectError(error.InvalidModulus, powerMod(7, 13, 0));
 }

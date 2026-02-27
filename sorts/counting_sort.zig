@@ -3,6 +3,7 @@
 
 const std = @import("std");
 const testing = std.testing;
+const max_counting_range: u64 = 10_000_000;
 
 /// Counting sort for i32 slices. Returns a newly allocated sorted slice.
 /// Caller owns the returned memory.
@@ -21,13 +22,18 @@ pub fn countingSort(allocator: std.mem.Allocator, items: []const i32) ![]i32 {
     }
 
     // Build count array
-    const range: usize = @intCast(max_val - min_val + 1);
+    const range_i64: i64 = @as(i64, max_val) - @as(i64, min_val) + 1;
+    if (range_i64 <= 0) return error.RangeTooLarge;
+    const range_u64: u64 = @intCast(range_i64);
+    if (range_u64 > std.math.maxInt(usize)) return error.RangeTooLarge;
+    if (range_u64 > max_counting_range) return error.RangeTooLarge;
+    const range: usize = @intCast(range_u64);
     const counts = try allocator.alloc(usize, range);
     defer allocator.free(counts);
     @memset(counts, 0);
 
     for (items) |v| {
-        const idx: usize = @intCast(v - min_val);
+        const idx: usize = @intCast(@as(i64, v) - @as(i64, min_val));
         counts[idx] += 1;
     }
 
@@ -41,7 +47,7 @@ pub fn countingSort(allocator: std.mem.Allocator, items: []const i32) ![]i32 {
     var i: usize = items.len;
     while (i > 0) {
         i -= 1;
-        const idx: usize = @intCast(items[i] - min_val);
+        const idx: usize = @intCast(@as(i64, items[i]) - @as(i64, min_val));
         counts[idx] -= 1;
         output[counts[idx]] = items[i];
     }
@@ -82,4 +88,12 @@ test "counting sort: already sorted" {
     const sorted = try countingSort(alloc, &[_]i32{ 1, 2, 3, 4, 5 });
     defer alloc.free(sorted);
     try testing.expectEqualSlices(i32, &[_]i32{ 1, 2, 3, 4, 5 }, sorted);
+}
+
+test "counting sort: huge range returns error" {
+    const alloc = testing.allocator;
+    try testing.expectError(
+        error.RangeTooLarge,
+        countingSort(alloc, &[_]i32{ std.math.minInt(i32), std.math.maxInt(i32) }),
+    );
 }

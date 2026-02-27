@@ -13,13 +13,19 @@ pub fn Stack(comptime T: type) type {
         data: []T,
         len: usize,
         capacity: usize,
+        limit: usize,
 
         pub fn init(allocator: std.mem.Allocator) Self {
+            return initWithLimit(allocator, std.math.maxInt(usize));
+        }
+
+        pub fn initWithLimit(allocator: std.mem.Allocator, limit: usize) Self {
             return .{
                 .allocator = allocator,
                 .data = &[_]T{},
                 .len = 0,
                 .capacity = 0,
+                .limit = limit,
             };
         }
 
@@ -38,7 +44,16 @@ pub fn Stack(comptime T: type) type {
             return self.len;
         }
 
+        pub fn size(self: *const Self) usize {
+            return self.len;
+        }
+
+        pub fn isFull(self: *const Self) bool {
+            return self.len >= self.limit;
+        }
+
         pub fn push(self: *Self, value: T) !void {
+            if (self.len >= self.limit) return error.StackOverflow;
             try self.ensureCapacity(self.len + 1);
             self.data[self.len] = value;
             self.len += 1;
@@ -53,6 +68,14 @@ pub fn Stack(comptime T: type) type {
         pub fn peek(self: *const Self) ?T {
             if (self.len == 0) return null;
             return self.data[self.len - 1];
+        }
+
+        pub fn popOrError(self: *Self) !T {
+            return self.pop() orelse error.StackUnderflow;
+        }
+
+        pub fn peekOrError(self: *const Self) !T {
+            return self.peek() orelse error.StackUnderflow;
         }
 
         fn ensureCapacity(self: *Self, min_capacity: usize) !void {
@@ -120,4 +143,16 @@ test "stack: dynamic growth" {
     while (expected >= 0) : (expected -= 1) {
         try testing.expectEqual(@as(?i32, expected), stack.pop());
     }
+}
+
+test "stack: underflow and overflow" {
+    var stack = Stack(i32).initWithLimit(testing.allocator, 1);
+    defer stack.deinit();
+
+    try testing.expectError(error.StackUnderflow, stack.popOrError());
+    try stack.push(10);
+    try testing.expect(stack.isFull());
+    try testing.expectError(error.StackOverflow, stack.push(20));
+    try testing.expectEqual(@as(i32, 10), try stack.peekOrError());
+    try testing.expectEqual(@as(i32, 10), try stack.popOrError());
 }

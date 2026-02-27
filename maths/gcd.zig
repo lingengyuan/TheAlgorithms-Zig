@@ -7,14 +7,20 @@ const testing = std.testing;
 /// Iterative Euclidean algorithm for GCD.
 /// Time complexity: O(log(min(a, b))), Space complexity: O(1)
 pub fn gcd(a: i64, b: i64) u64 {
-    var x = if (a < 0) @as(u64, @intCast(-a)) else @as(u64, @intCast(a));
-    var y = if (b < 0) @as(u64, @intCast(-b)) else @as(u64, @intCast(b));
+    var x = absI64ToU64(a);
+    var y = absI64ToU64(b);
     while (y != 0) {
         const temp = y;
         y = x % y;
         x = temp;
     }
     return x;
+}
+
+fn absI64ToU64(v: i64) u64 {
+    const wide: i128 = v;
+    const abs_wide: i128 = if (wide < 0) -wide else wide;
+    return @intCast(abs_wide);
 }
 
 test "gcd: basic cases" {
@@ -36,4 +42,9 @@ test "gcd: zero" {
     try testing.expectEqual(@as(u64, 5), gcd(0, 5));
     try testing.expectEqual(@as(u64, 7), gcd(7, 0));
     try testing.expectEqual(@as(u64, 0), gcd(0, 0));
+}
+
+test "gcd: i64 min value" {
+    try testing.expectEqual(@as(u64, 1), gcd(std.math.minInt(i64), 1));
+    try testing.expectEqual(@as(u64, @as(u64, 1) << 63), gcd(std.math.minInt(i64), 0));
 }

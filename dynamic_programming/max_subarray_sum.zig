@@ -5,16 +5,15 @@ const std = @import("std");
 const testing = std.testing;
 
 /// Returns the maximum sum over all non-empty contiguous subarrays.
-/// Returns null for an empty slice.
 /// Time complexity: O(n), Space complexity: O(1)
-pub fn maxSubarraySum(items: []const i64) ?i64 {
-    if (items.len == 0) return null;
+pub fn maxSubarraySum(items: []const i64, allow_empty_subarrays: bool) i64 {
+    if (items.len == 0) return 0;
 
-    var best = items[0];
-    var current = items[0];
+    var best: i64 = if (allow_empty_subarrays) 0 else std.math.minInt(i64);
+    var current: i64 = 0;
 
-    for (items[1..]) |value| {
-        current = @max(value, current + value);
+    for (items) |value| {
+        current = @max(if (allow_empty_subarrays) 0 else value, current + value);
         best = @max(best, current);
     }
 
@@ -23,25 +22,30 @@ pub fn maxSubarraySum(items: []const i64) ?i64 {
 
 test "max subarray sum: mixed values" {
     const arr = [_]i64{ -2, 1, -3, 4, -1, 2, 1, -5, 4 };
-    try testing.expectEqual(@as(?i64, 6), maxSubarraySum(&arr));
+    try testing.expectEqual(@as(i64, 6), maxSubarraySum(&arr, false));
 }
 
 test "max subarray sum: all negative" {
-    const arr = [_]i64{ -8, -3, -6, -2, -5, -4 };
-    try testing.expectEqual(@as(?i64, -2), maxSubarraySum(&arr));
+    const arr = [_]i64{ -2, -3, -1, -4, -6 };
+    try testing.expectEqual(@as(i64, -1), maxSubarraySum(&arr, false));
 }
 
 test "max subarray sum: all positive" {
     const arr = [_]i64{ 1, 2, 3, 4 };
-    try testing.expectEqual(@as(?i64, 10), maxSubarraySum(&arr));
+    try testing.expectEqual(@as(i64, 10), maxSubarraySum(&arr, false));
 }
 
 test "max subarray sum: single element" {
     const arr = [_]i64{42};
-    try testing.expectEqual(@as(?i64, 42), maxSubarraySum(&arr));
+    try testing.expectEqual(@as(i64, 42), maxSubarraySum(&arr, false));
 }
 
 test "max subarray sum: empty array" {
     const arr = [_]i64{};
-    try testing.expectEqual(@as(?i64, null), maxSubarraySum(&arr));
+    try testing.expectEqual(@as(i64, 0), maxSubarraySum(&arr, false));
+}
+
+test "max subarray sum: allow empty subarrays" {
+    const arr = [_]i64{ -2, -3, -1, -4, -6 };
+    try testing.expectEqual(@as(i64, 0), maxSubarraySum(&arr, true));
 }

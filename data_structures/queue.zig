@@ -49,6 +49,10 @@ pub fn Queue(comptime T: type) type {
             self.len += 1;
         }
 
+        pub fn put(self: *Self, value: T) !void {
+            try self.enqueue(value);
+        }
+
         pub fn dequeue(self: *Self) ?T {
             if (self.len == 0) return null;
             const value = self.data[self.head];
@@ -60,6 +64,22 @@ pub fn Queue(comptime T: type) type {
         pub fn peek(self: *const Self) ?T {
             if (self.len == 0) return null;
             return self.data[self.head];
+        }
+
+        pub fn get(self: *Self) !T {
+            return self.dequeue() orelse error.EmptyQueue;
+        }
+
+        pub fn getFront(self: *const Self) !T {
+            return self.peek() orelse error.EmptyQueue;
+        }
+
+        pub fn rotate(self: *Self, rotation: usize) !void {
+            var i: usize = 0;
+            while (i < rotation) : (i += 1) {
+                const value = self.dequeue() orelse return;
+                try self.enqueue(value);
+            }
         }
 
         fn ensureCapacity(self: *Self, min_capacity: usize) !void {
@@ -140,4 +160,18 @@ test "queue: circular buffer growth" {
         try testing.expectEqual(@as(?i32, expected), queue.dequeue());
     }
     try testing.expect(queue.isEmpty());
+}
+
+test "queue: python-style api" {
+    var queue = Queue(i32).init(testing.allocator);
+    defer queue.deinit();
+
+    try testing.expectError(error.EmptyQueue, queue.get());
+    try queue.put(10);
+    try queue.put(20);
+    try queue.put(30);
+    try testing.expectEqual(@as(i32, 10), try queue.getFront());
+    try queue.rotate(1);
+    try testing.expectEqual(@as(i32, 20), try queue.getFront());
+    try testing.expectEqual(@as(i32, 20), try queue.get());
 }
