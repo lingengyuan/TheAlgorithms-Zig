@@ -57,14 +57,18 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Binary Exponentiation | [`maths/power.zig`](maths/power.zig) | O(log n) |
 | Collatz Sequence | [`maths/collatz_sequence.zig`](maths/collatz_sequence.zig) | O(?) |
 
-### Data Structures (2)
+### Data Structures (6)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
 | Stack (Array) | [`data_structures/stack.zig`](data_structures/stack.zig) | O(1) amortized push/pop |
 | Queue (Array Circular Buffer) | [`data_structures/queue.zig`](data_structures/queue.zig) | O(1) amortized enqueue/dequeue |
+| Singly Linked List | [`data_structures/singly_linked_list.zig`](data_structures/singly_linked_list.zig) | O(1) insert head, O(n) insert tail |
+| Doubly Linked List | [`data_structures/doubly_linked_list.zig`](data_structures/doubly_linked_list.zig) | O(1) insert/delete head/tail |
+| Binary Search Tree | [`data_structures/binary_search_tree.zig`](data_structures/binary_search_tree.zig) | O(log n) avg insert/search/delete |
+| Min Heap | [`data_structures/min_heap.zig`](data_structures/min_heap.zig) | O(log n) insert/extract, O(n) heapify |
 
-### Dynamic Programming (5)
+### Dynamic Programming (7)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -73,6 +77,15 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Coin Change (Ways) | [`dynamic_programming/coin_change.zig`](dynamic_programming/coin_change.zig) | O(amount × coin_count) |
 | Max Subarray Sum (Kadane) | [`dynamic_programming/max_subarray_sum.zig`](dynamic_programming/max_subarray_sum.zig) | O(n) |
 | Longest Common Subsequence | [`dynamic_programming/longest_common_subsequence.zig`](dynamic_programming/longest_common_subsequence.zig) | O(m × n) |
+| Edit Distance | [`dynamic_programming/edit_distance.zig`](dynamic_programming/edit_distance.zig) | O(m × n) |
+| 0/1 Knapsack | [`dynamic_programming/knapsack.zig`](dynamic_programming/knapsack.zig) | O(n × W) |
+
+### Graphs (2)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Breadth-First Search (BFS) | [`graphs/bfs.zig`](graphs/bfs.zig) | O(V + E) |
+| Depth-First Search (DFS) | [`graphs/dfs.zig`](graphs/dfs.zig) | O(V + E) |
 
 ## Quick Start
 
@@ -96,8 +109,9 @@ TheAlgorithms-Zig/
 ├── sorts/                   # 12 sorting algorithms
 ├── searches/                # 6 search algorithms
 ├── maths/                   # 8 math algorithms
-├── data_structures/         # 2 data structure implementations
-└── dynamic_programming/     # 5 dynamic programming algorithms
+├── data_structures/         # 6 data structure implementations
+├── dynamic_programming/     # 7 dynamic programming algorithms
+└── graphs/                  # 2 graph traversal algorithms
 ```
 
 ## Development
@@ -195,14 +209,18 @@ MIT
 | 快速幂 | [`maths/power.zig`](maths/power.zig) | O(log n) |
 | 考拉兹序列 | [`maths/collatz_sequence.zig`](maths/collatz_sequence.zig) | O(?) |
 
-### 数据结构 (2)
+### 数据结构 (6)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
 | 栈（数组实现） | [`data_structures/stack.zig`](data_structures/stack.zig) | push/pop 均摊 O(1) |
 | 队列（数组环形缓冲区） | [`data_structures/queue.zig`](data_structures/queue.zig) | enqueue/dequeue 均摊 O(1) |
+| 单向链表 | [`data_structures/singly_linked_list.zig`](data_structures/singly_linked_list.zig) | 头插 O(1)，尾插 O(n) |
+| 双向链表 | [`data_structures/doubly_linked_list.zig`](data_structures/doubly_linked_list.zig) | 头尾插删 O(1) |
+| 二叉搜索树 | [`data_structures/binary_search_tree.zig`](data_structures/binary_search_tree.zig) | 插入/查找/删除平均 O(log n) |
+| 最小堆 | [`data_structures/min_heap.zig`](data_structures/min_heap.zig) | 插入/取出 O(log n)，建堆 O(n) |
 
-### 动态规划 (5)
+### 动态规划 (7)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -211,6 +229,15 @@ MIT
 | 硬币找零（方案数） | [`dynamic_programming/coin_change.zig`](dynamic_programming/coin_change.zig) | O(amount × coin_count) |
 | 最大子数组和（Kadane） | [`dynamic_programming/max_subarray_sum.zig`](dynamic_programming/max_subarray_sum.zig) | O(n) |
 | 最长公共子序列 | [`dynamic_programming/longest_common_subsequence.zig`](dynamic_programming/longest_common_subsequence.zig) | O(m × n) |
+| 编辑距离 | [`dynamic_programming/edit_distance.zig`](dynamic_programming/edit_distance.zig) | O(m × n) |
+| 0/1 背包 | [`dynamic_programming/knapsack.zig`](dynamic_programming/knapsack.zig) | O(n × W) |
+
+### 图算法 (2)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 广度优先搜索 (BFS) | [`graphs/bfs.zig`](graphs/bfs.zig) | O(V + E) |
+| 深度优先搜索 (DFS) | [`graphs/dfs.zig`](graphs/dfs.zig) | O(V + E) |
 
 ## 快速开始
 
@@ -234,8 +261,9 @@ TheAlgorithms-Zig/
 ├── sorts/                   # 12 种排序算法
 ├── searches/                # 6 种查找算法
 ├── maths/                   # 8 种数学算法
-├── data_structures/         # 2 种数据结构实现
-└── dynamic_programming/     # 5 个动态规划算法
+├── data_structures/         # 6 种数据结构实现
+├── dynamic_programming/     # 7 个动态规划算法
+└── graphs/                  # 2 个图遍历算法
 ```
 
 ## 开发指南
