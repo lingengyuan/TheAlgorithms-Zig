@@ -93,7 +93,7 @@
 ## Phase 2 Batch 2A: Medium algorithms (#16-#21, 6 algorithms)
 
 **Date:** 2026-02-27
-**Model:** Codex GPT-5
+**Model:** Codex 5.3 Xhigh
 **Batch result:** 6 implemented, 4/6 first-attempt compile pass
 
 ### Sorts (4 new)
@@ -117,7 +117,7 @@
 ## Phase 2 Batch 2B: Medium algorithms (#22-#28, 7 algorithms)
 
 **Date:** 2026-02-27
-**Model:** Codex GPT-5
+**Model:** Codex 5.3 Xhigh
 **Batch result:** 7/7 first-attempt compile pass (100%)
 
 ### Data Structures (2 new)
@@ -142,7 +142,7 @@
 ## Phase 2 QA Hotfix: Safety + semantic alignment (no new algorithms)
 
 **Date:** 2026-02-27
-**Model:** Codex GPT-5
+**Model:** Codex 5.3 Xhigh
 **Batch result:** all regressions fixed, `zig build test` fully green
 
 ### Issues found during review
@@ -454,7 +454,7 @@ FAIL: test "kmp: not found"
 ## 第二阶段第二批 A：中等算法（#16-#21，共 6 个）
 
 **日期：** 2026-02-27
-**模型：** Codex GPT-5
+**模型：** Codex 5.3 Xhigh
 **批次结果：** 已实现 6 个，4/6 首次编译通过
 
 ### 排序（新增 4 个）
@@ -478,7 +478,7 @@ FAIL: test "kmp: not found"
 ## 第二阶段第二批 B：中等算法（#22-#28，共 7 个）
 
 **日期：** 2026-02-27
-**模型：** Codex GPT-5
+**模型：** Codex 5.3 Xhigh
 **批次结果：** 7/7 首次编译通过 (100%)
 
 ### 数据结构（新增 2 个）
@@ -503,7 +503,7 @@ FAIL: test "kmp: not found"
 ## 第二阶段 QA 修复批：安全性与语义对齐（无新增算法）
 
 **日期：** 2026-02-27
-**模型：** Codex GPT-5
+**模型：** Codex 5.3 Xhigh
 **批次结果：** 已修复全部回归问题，`zig build test` 全绿
 
 ### 评审中发现的问题
@@ -721,7 +721,7 @@ FAIL: test "kmp: not found"
 ## 第五批进行中（5A 图算法）：8/8 已完成（#77-#84）
 
 **日期：** 2026-02-28
-**模型：** Codex GPT-5
+**模型：** Codex 5.3 Xhigh
 **批次结果：** 8/8 编译通过，38/38 测试通过，Python/Zig 基准已按单算法增量方式对齐并入总榜
 
 ### 新增算法
