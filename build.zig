@@ -56,6 +56,29 @@ pub fn build(b: *std.Build) void {
         // Graphs
         "graphs/bfs.zig",
         "graphs/dfs.zig",
+        // Bit Manipulation
+        "bit_manipulation/is_power_of_two.zig",
+        "bit_manipulation/count_set_bits.zig",
+        "bit_manipulation/find_unique_number.zig",
+        "bit_manipulation/reverse_bits.zig",
+        "bit_manipulation/missing_number.zig",
+        "bit_manipulation/power_of_4.zig",
+        // Conversions
+        "conversions/decimal_to_binary.zig",
+        "conversions/binary_to_decimal.zig",
+        "conversions/decimal_to_hexadecimal.zig",
+        "conversions/binary_to_hexadecimal.zig",
+        // Strings
+        "strings/palindrome.zig",
+        "strings/reverse_words.zig",
+        "strings/anagram.zig",
+        "strings/hamming_distance.zig",
+        "strings/naive_string_search.zig",
+        "strings/knuth_morris_pratt.zig",
+        "strings/rabin_karp.zig",
+        "strings/z_function.zig",
+        "strings/levenshtein_distance.zig",
+        "strings/is_pangram.zig",
     };
 
     for (test_files) |file| {
