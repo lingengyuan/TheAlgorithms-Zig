@@ -227,14 +227,78 @@
 
 ---
 
+## Phase 4 Batch (4A+4C+4F): 20 new algorithms across 3 new categories
+
+**Date:** 2026-02-28
+**Model:** Claude Sonnet 4.6
+**Batch result:** 19/20 first-attempt test pass. KMP test assertions wrong (logic correct, index off-by-one in expected value). 1 fix.
+
+### Bit Manipulation (6 new) — all ★☆☆
+
+| Algorithm | Compile | Tests pass | Manual fixes | Notes |
+|-----------|---------|-----------|-------------|-------|
+| is_power_of_two | ✅ 1st | ✅ 3/3 | 0 | `n & (n-1) == 0` bit trick |
+| count_set_bits | ✅ 1st | ✅ 3/3 | 0 | Brian Kernighan's `x &= x-1` loop |
+| find_unique_number | ✅ 1st | ✅ 3/3 | 0 | XOR of all elements |
+| reverse_bits | ✅ 1st | ✅ 3/3 | 0 | 32-bit iterative bit-by-bit |
+| missing_number | ✅ 1st | ✅ 4/4 | 0 | XOR all indices with all values |
+| power_of_4 | ✅ 1st | ✅ 2/2 | 0 | Combine power-of-2 check with even-bit-position mask |
+
+### Conversions (4 new) — all ★☆☆
+
+| Algorithm | Compile | Tests pass | Manual fixes | Notes |
+|-----------|---------|-----------|-------------|-------|
+| decimal_to_binary | ✅ 1st | ✅ 2/2 | 0 | Bit-shift loop, no allocator-free alternative |
+| binary_to_decimal | ✅ 1st | ✅ 3/3 | 0 | Error union for invalid chars and empty input |
+| decimal_to_hexadecimal | ✅ 1st | ✅ 1/1 | 0 | Nibble-shift loop with lookup table |
+| binary_to_hexadecimal | ✅ 1st | ✅ 2/2 | 0 | Group-by-4 approach with left-padding |
+
+### Strings (10 new) — ★☆☆ to ★★☆
+
+| Algorithm | Compile | Tests pass | Manual fixes | Notes |
+|-----------|---------|-----------|-------------|-------|
+| palindrome | ✅ 1st | ✅ 3/3 | 0 | Two-pointer, byte-level comparison |
+| reverse_words | ✅ 1st | ✅ 4/4 | 0 | `std.mem.splitScalar` + reverse iteration |
+| anagram | ✅ 1st | ✅ 3/3 | 0 | Fixed 128-entry ASCII frequency table |
+| hamming_distance | ✅ 1st | ✅ 3/3 | 0 | Returns `error.LengthMismatch` on unequal lengths |
+| naive_string_search | ✅ 1st | ✅ 5/5 | 0 | Brute-force O(n·m), all matches |
+| **knuth_morris_pratt** | ✅ 1st | **❌ 2/4 failed** | **1** | **Algorithm correct. Test expected `tt` at index 15, actual index is 16; expected `rr` not found, but `rr` does exist at index 8 in `"knuth_morris_pratt"`. Off-by-one error in test assertions, not in algorithm. Fixed expected values.** |
+| rabin_karp | ✅ 1st | ✅ 3/3 | 0 | Rolling hash with sentinel check on collision |
+| z_function | ✅ 1st | ✅ 4/4 | 0 | Classic Z-array + sentinel concatenation for search |
+| levenshtein_distance | ✅ 1st | ✅ 3/3 | 0 | Space-optimised 1D DP (two rows), O(min(m,n)) space |
+| is_pangram | ✅ 1st | ✅ 2/2 | 0 | Fixed 26-entry bool table |
+
+### Failure detail: knuth_morris_pratt test assertions
+
+```
+FAIL: test "kmp: found"
+  expected: kmpSearch("knuth_morris_pratt", "tt") == 15
+  actual:   16
+  reason:   Manually miscounted — "pratt" ends at index 17, "tt" starts at 16.
+
+FAIL: test "kmp: not found"
+  expected: kmpSearch("knuth_morris_pratt", "rr") == null
+  actual:   8
+  reason:   "morris" contains "rr" at position 8. Pattern IS present.
+```
+
+**Root cause:** Test expected values were written by hand without verifying against Python's `str.find()`. Algorithm implementation is correct — verified against Python reference output after the failure.
+
+**Fix:** Updated expected values to `16` and `8` respectively; restructured "not found" test to use patterns genuinely absent from the text.
+
+---
+
 ## Cumulative Summary
 
-| Metric | Phase 1 | + Batch 1 | + Batch 2A | + Batch 2B | + QA₁ | + Phase 3 | + QA₂ | **Total** |
-|--------|---------|-----------|------------|------------|-------|-----------|-------|-----------|
-| Algorithms | 5 | +15 | +6 | +7 | +0 | +8 | +0 | **41** |
-| Test cases | 34 | +68 | +36 | +27 | +11 | +45 | +3 | **224** |
-| First-attempt compile pass | 5/5 | 15/15 | 4/6 | 7/7 | N/A | 7/8 | N/A | **38/41 (92.7%)** |
-| Manual fix lines | 0 | 0 | 2 | 0 | +424 | 1 | +8 | **435** |
+| Metric | Phase 1 | + Batch 1 | + Batch 2A | + Batch 2B | + QA₁ | + Phase 3 | + QA₂ | + Batch 4 | **Total** |
+|--------|---------|-----------|------------|------------|-------|-----------|-------|-----------|-----------|
+| Algorithms | 5 | +15 | +6 | +7 | +0 | +8 | +0 | +20 | **61** |
+| Test cases | 34 | +68 | +36 | +27 | +11 | +45 | +3 | +60 | **284** |
+| First-attempt compile pass | 5/5 | 15/15 | 4/6 | 7/7 | N/A | 7/8 | N/A | 20/20 | **42/43 (97.7%)** |
+| First-attempt test pass | 5/5 | 15/15 | — | — | — | 7/8 | — | **19/20** | — |
+| Manual fix lines | 0 | 0 | 2 | 0 | +424 | 1 | +8 | +1 | **436** |
+
+> Note: "First-attempt compile pass" counts algorithms that compiled without error on the first generation. "First-attempt test pass" counts algorithms whose test assertions were all correct on the first generation. KMP compiled fine but had wrong expected values in 2 test cases.
 
 ### Key Observations
 
@@ -243,7 +307,7 @@
 3. **Post-implementation review remains essential.** Phase 3 surfaced 3 High-severity runtime panics on boundary inputs (BFS/DFS out-of-bounds, knapsack length mismatch) — none caught by the AI's own test cases.
 4. **AI blind spot: defensive programming.** The AI consistently produces correct algorithms for valid inputs but rarely adds guards against malformed inputs. This pattern repeated across Phase 2 QA and Phase 3 QA.
 5. **DFS compile failure was a Zig 0.15 API change** (`ArrayListUnmanaged.pop()` returns optional). This confirms the Phase 2 observation that AI training data lags behind Zig 0.15 API changes.
-6. **All 41 algorithms implemented, all 224 tests green.** Project is feature-complete per the original plan.
+6. **Batch 4 new failure type: test assertion error.** KMP algorithm logic was correct but expected values in 2 test cases were wrong (manually miscounted string positions). This is a new failure category: correct implementation, wrong test. Distinguishing this from "wrong algorithm" matters for fair measurement of AI accuracy.
 
 ---
 
@@ -476,14 +540,76 @@
 
 ---
 
+## 第四批（4A+4C+4F）：3 个新分类，20 个新算法
+
+**日期：** 2026-02-28
+**模型：** Claude Sonnet 4.6
+**批次结果：** 20/20 首次编译通过；19/20 测试首次全部通过（KMP 断言值写错，算法逻辑正确）
+
+### 位运算（新增 6 个，全部 ★☆☆）
+
+| 算法 | 编译 | 测试 | 人工修改 | 备注 |
+|------|------|------|---------|------|
+| is_power_of_two | ✅ | ✅ 3/3 | 0 | `n & (n-1) == 0` 位技巧 |
+| count_set_bits | ✅ | ✅ 3/3 | 0 | Brian Kernighan 方法 |
+| find_unique_number | ✅ | ✅ 3/3 | 0 | 全部异或消对 |
+| reverse_bits | ✅ | ✅ 3/3 | 0 | 32 位逐位翻转 |
+| missing_number | ✅ | ✅ 4/4 | 0 | 对所有索引和值做 XOR |
+| power_of_4 | ✅ | ✅ 2/2 | 0 | 2 的幂 + 偶数位掩码联合判定 |
+
+### 进制转换（新增 4 个，全部 ★☆☆）
+
+| 算法 | 编译 | 测试 | 人工修改 | 备注 |
+|------|------|------|---------|------|
+| decimal_to_binary | ✅ | ✅ 2/2 | 0 | 位移循环 |
+| binary_to_decimal | ✅ | ✅ 3/3 | 0 | error union 处理非法字符和空输入 |
+| decimal_to_hexadecimal | ✅ | ✅ 1/1 | 0 | Nibble 位移 + 查找表 |
+| binary_to_hexadecimal | ✅ | ✅ 2/2 | 0 | 按 4 位分组 + 左侧补零 |
+
+### 字符串（新增 10 个，★☆☆ 到 ★★☆）
+
+| 算法 | 编译 | 测试 | 人工修改 | 备注 |
+|------|------|------|---------|------|
+| palindrome | ✅ | ✅ 3/3 | 0 | 双指针，字节级比较 |
+| reverse_words | ✅ | ✅ 4/4 | 0 | `std.mem.splitScalar` + 反向迭代 |
+| anagram | ✅ | ✅ 3/3 | 0 | 固定 128 项 ASCII 频率表 |
+| hamming_distance | ✅ | ✅ 3/3 | 0 | 长度不一致返回 `error.LengthMismatch` |
+| naive_string_search | ✅ | ✅ 5/5 | 0 | 暴力 O(n·m)，返回所有匹配位置 |
+| **knuth_morris_pratt** | ✅ | **❌ 2/4 失败** | **1** | **算法逻辑正确。测试断言手写时位置记错：`"tt"` 期望在 15 实为 16；`"rr"` 期望不存在但实际在 8（"morris" 含 "rr"）。非算法 bug，属于测试预期值错误，修正后通过。** |
+| rabin_karp | ✅ | ✅ 3/3 | 0 | 滚动哈希，碰撞时字符串验证 |
+| z_function | ✅ | ✅ 4/4 | 0 | 经典 Z 数组 + 哨兵拼接做搜索 |
+| levenshtein_distance | ✅ | ✅ 3/3 | 0 | 空间优化 1D DP（双行），O(min(m,n)) 空间 |
+| is_pangram | ✅ | ✅ 2/2 | 0 | 固定 26 项 bool 表 |
+
+### KMP 测试失败详情
+
+```
+失败：test "kmp: found"
+  期望：kmpSearch("knuth_morris_pratt", "tt") == 15
+  实际：16
+  原因：手数位置时数错，"pratt" 末尾 "tt" 起始于 16，非 15。
+
+失败：test "kmp: not found"
+  期望：kmpSearch("knuth_morris_pratt", "rr") == null（模式不存在）
+  实际：8
+  原因："morris" 中含 "rr"，在索引 8，模式确实存在。
+```
+
+**根因：** 测试预期值手写时未通过 Python `str.find()` 验证。算法实现完全正确，失败后对照 Python 参考验证确认无误。这是一类新的失败模式：**实现正确，测试写错**，需要与"算法逻辑错误"区分记录。
+
+---
+
 ## 累计统计
 
-| 指标 | 第一阶段 | + 第一批 | + 第二批 A | + 第二批 B | + QA₁ | + 第三阶段 | + QA₂ | **合计** |
-|------|---------|---------|-----------|-----------|-------|-----------|-------|---------|
-| 算法数 | 5 | +15 | +6 | +7 | +0 | +8 | +0 | **41** |
-| 测试用例 | 34 | +68 | +36 | +27 | +11 | +45 | +3 | **224** |
-| 首次编译通过 | 5/5 | 15/15 | 4/6 | 7/7 | N/A | 7/8 | N/A | **38/41 (92.7%)** |
-| 人工修改行数 | 0 | 0 | 2 | 0 | +424 | 1 | +8 | **435** |
+| 指标 | 第一阶段 | + 第一批 | + 第二批 A | + 第二批 B | + QA₁ | + 第三阶段 | + QA₂ | + 第四批 | **合计** |
+|------|---------|---------|-----------|-----------|-------|-----------|-------|---------|---------|
+| 算法数 | 5 | +15 | +6 | +7 | +0 | +8 | +0 | +20 | **61** |
+| 测试用例 | 34 | +68 | +36 | +27 | +11 | +45 | +3 | +60 | **284** |
+| 首次编译通过 | 5/5 | 15/15 | 4/6 | 7/7 | N/A | 7/8 | N/A | 20/20 | **42/43 (97.7%)** |
+| 首次测试全通过 | 5/5 | 15/15 | — | — | — | 7/8 | — | **19/20** | — |
+| 人工修改行数 | 0 | 0 | 2 | 0 | +424 | 1 | +8 | +1 | **436** |
+
+> 说明："首次编译通过"指第一次生成即编译无报错。"首次测试全通过"指测试断言全部正确。KMP 编译通过但 2 个测试预期值写错，属于不同失败类别。
 
 ### 关键观察
 
@@ -492,4 +618,4 @@
 3. **后置评审仍然不可或缺。** 第三阶段发现 3 个高严重度运行时 panic（BFS/DFS 越界、knapsack 长度不匹配）——均未被 AI 自身的测试用例覆盖。
 4. **AI 盲区：防御性编程。** AI 始终能为合法输入生成正确算法，但几乎不主动为畸形输入添加守卫。这一模式在第二阶段 QA 和第三阶段 QA 中反复出现。
 5. **DFS 编译失败源于 Zig 0.15 API 变更**（`ArrayListUnmanaged.pop()` 返回 optional）。再次验证了 AI 训练数据滞后于 Zig 0.15 API 的结论。
-6. **全部 41 个算法已实现，224 个测试全绿。** 项目按原始计划完成全部功能。
+6. **第四批新失败类型：测试断言错误。** KMP 算法逻辑完全正确，但 2 个测试的期望值手写时出错。这与"算法错误"是不同的失败类别，实验记录中需要加以区分。

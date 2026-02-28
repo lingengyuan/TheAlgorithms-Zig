@@ -87,6 +87,41 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Breadth-First Search (BFS) | [`graphs/bfs.zig`](graphs/bfs.zig) | O(V + E) |
 | Depth-First Search (DFS) | [`graphs/dfs.zig`](graphs/dfs.zig) | O(V + E) |
 
+### Bit Manipulation (6)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Is Power of Two | [`bit_manipulation/is_power_of_two.zig`](bit_manipulation/is_power_of_two.zig) | O(1) |
+| Count Set Bits | [`bit_manipulation/count_set_bits.zig`](bit_manipulation/count_set_bits.zig) | O(k) |
+| Find Unique Number | [`bit_manipulation/find_unique_number.zig`](bit_manipulation/find_unique_number.zig) | O(n) |
+| Reverse Bits | [`bit_manipulation/reverse_bits.zig`](bit_manipulation/reverse_bits.zig) | O(1) |
+| Missing Number | [`bit_manipulation/missing_number.zig`](bit_manipulation/missing_number.zig) | O(n) |
+| Is Power of Four | [`bit_manipulation/power_of_4.zig`](bit_manipulation/power_of_4.zig) | O(1) |
+
+### Conversions (4)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Decimal to Binary | [`conversions/decimal_to_binary.zig`](conversions/decimal_to_binary.zig) | O(log n) |
+| Binary to Decimal | [`conversions/binary_to_decimal.zig`](conversions/binary_to_decimal.zig) | O(n) |
+| Decimal to Hexadecimal | [`conversions/decimal_to_hexadecimal.zig`](conversions/decimal_to_hexadecimal.zig) | O(log n) |
+| Binary to Hexadecimal | [`conversions/binary_to_hexadecimal.zig`](conversions/binary_to_hexadecimal.zig) | O(n) |
+
+### Strings (10)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Palindrome Check | [`strings/palindrome.zig`](strings/palindrome.zig) | O(n) |
+| Reverse Words | [`strings/reverse_words.zig`](strings/reverse_words.zig) | O(n) |
+| Anagram Check | [`strings/anagram.zig`](strings/anagram.zig) | O(n) |
+| Hamming Distance | [`strings/hamming_distance.zig`](strings/hamming_distance.zig) | O(n) |
+| Naive String Search | [`strings/naive_string_search.zig`](strings/naive_string_search.zig) | O(n·m) |
+| Knuth-Morris-Pratt | [`strings/knuth_morris_pratt.zig`](strings/knuth_morris_pratt.zig) | O(n + m) |
+| Rabin-Karp | [`strings/rabin_karp.zig`](strings/rabin_karp.zig) | O(n + m) avg |
+| Z-Function | [`strings/z_function.zig`](strings/z_function.zig) | O(n + m) |
+| Levenshtein Distance | [`strings/levenshtein_distance.zig`](strings/levenshtein_distance.zig) | O(m × n) |
+| Is Pangram | [`strings/is_pangram.zig`](strings/is_pangram.zig) | O(n) |
+
 ## Quick Start
 
 ```bash
@@ -111,7 +146,10 @@ TheAlgorithms-Zig/
 ├── maths/                   # 8 math algorithms
 ├── data_structures/         # 6 data structure implementations
 ├── dynamic_programming/     # 7 dynamic programming algorithms
-└── graphs/                  # 2 graph traversal algorithms
+├── graphs/                  # 2 graph traversal algorithms
+├── bit_manipulation/        # 6 bit manipulation algorithms
+├── conversions/             # 4 number base conversions
+└── strings/                 # 10 string algorithms
 ```
 
 ## Development
@@ -239,6 +277,41 @@ MIT
 | 广度优先搜索 (BFS) | [`graphs/bfs.zig`](graphs/bfs.zig) | O(V + E) |
 | 深度优先搜索 (DFS) | [`graphs/dfs.zig`](graphs/dfs.zig) | O(V + E) |
 
+### 位运算 (6)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 判断 2 的幂 | [`bit_manipulation/is_power_of_two.zig`](bit_manipulation/is_power_of_two.zig) | O(1) |
+| 统计置位数 | [`bit_manipulation/count_set_bits.zig`](bit_manipulation/count_set_bits.zig) | O(k) |
+| 找唯一数 | [`bit_manipulation/find_unique_number.zig`](bit_manipulation/find_unique_number.zig) | O(n) |
+| 位翻转 | [`bit_manipulation/reverse_bits.zig`](bit_manipulation/reverse_bits.zig) | O(1) |
+| 缺失数字 | [`bit_manipulation/missing_number.zig`](bit_manipulation/missing_number.zig) | O(n) |
+| 判断 4 的幂 | [`bit_manipulation/power_of_4.zig`](bit_manipulation/power_of_4.zig) | O(1) |
+
+### 进制转换 (4)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 十进制转二进制 | [`conversions/decimal_to_binary.zig`](conversions/decimal_to_binary.zig) | O(log n) |
+| 二进制转十进制 | [`conversions/binary_to_decimal.zig`](conversions/binary_to_decimal.zig) | O(n) |
+| 十进制转十六进制 | [`conversions/decimal_to_hexadecimal.zig`](conversions/decimal_to_hexadecimal.zig) | O(log n) |
+| 二进制转十六进制 | [`conversions/binary_to_hexadecimal.zig`](conversions/binary_to_hexadecimal.zig) | O(n) |
+
+### 字符串 (10)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 回文检查 | [`strings/palindrome.zig`](strings/palindrome.zig) | O(n) |
+| 单词反转 | [`strings/reverse_words.zig`](strings/reverse_words.zig) | O(n) |
+| 异位词检查 | [`strings/anagram.zig`](strings/anagram.zig) | O(n) |
+| 汉明距离 | [`strings/hamming_distance.zig`](strings/hamming_distance.zig) | O(n) |
+| 朴素字符串搜索 | [`strings/naive_string_search.zig`](strings/naive_string_search.zig) | O(n·m) |
+| KMP 字符串搜索 | [`strings/knuth_morris_pratt.zig`](strings/knuth_morris_pratt.zig) | O(n + m) |
+| Rabin-Karp | [`strings/rabin_karp.zig`](strings/rabin_karp.zig) | O(n + m) 平均 |
+| Z 函数 | [`strings/z_function.zig`](strings/z_function.zig) | O(n + m) |
+| Levenshtein 距离 | [`strings/levenshtein_distance.zig`](strings/levenshtein_distance.zig) | O(m × n) |
+| 全字母句检查 | [`strings/is_pangram.zig`](strings/is_pangram.zig) | O(n) |
+
 ## 快速开始
 
 ```bash
@@ -263,7 +336,10 @@ TheAlgorithms-Zig/
 ├── maths/                   # 8 种数学算法
 ├── data_structures/         # 6 种数据结构实现
 ├── dynamic_programming/     # 7 个动态规划算法
-└── graphs/                  # 2 个图遍历算法
+├── graphs/                  # 2 个图遍历算法
+├── bit_manipulation/        # 6 个位运算算法
+├── conversions/             # 4 个进制转换
+└── strings/                 # 10 个字符串算法
 ```
 
 ## 开发指南
