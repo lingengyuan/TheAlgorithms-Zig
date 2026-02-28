@@ -42,3 +42,18 @@
 - Plan deviations are allowed, but must be explicitly recorded in both `README.md` and `EXPERIMENT_LOG.md` with rationale.
 - Approved Phase 4 substitutions: `manacher -> is_pangram`, `roman_to_integer -> binary_to_hexadecimal` (accepted as schedule/scope tradeoff).
 - Treat undocumented scope changes, contradictory batch stats, or mismatched summary numbers as defects that must be fixed before sync/release.
+
+## Performance Benchmark Rules (Mandatory)
+- Every newly added Zig algorithm that has a Python reference module must include a Python-vs-Zig performance comparison before merge.
+- For each new algorithm, keep workload parity:
+  - use equivalent input generation strategy in Python and Zig
+  - use equivalent iteration count and warm-up behavior
+  - include checksum/output guard to prevent dead-code elimination and to validate comparable results
+- During incremental development, single-algorithm comparison is required first:
+  - add/update a focused benchmark case for that algorithm
+  - record the result into `benchmarks/python_vs_zig` artifacts
+- For benchmark artifact maintenance after adding/updating an algorithm:
+  - update benchmark harness inputs/cases in `benchmarks/python_vs_zig/python_bench_all.py` and `benchmarks/python_vs_zig/zig_bench_all.zig`
+  - regenerate outputs via `bash benchmarks/python_vs_zig/run_all.sh` (or equivalent targeted run + `python3 benchmarks/python_vs_zig/build_leaderboard.py`)
+  - keep `leaderboard_all.md`, `leaderboard_all.csv`, `category_speedup_chart.csv`, and `summary_all.md` in sync
+- If an algorithm cannot be fairly aligned with a single-call Python counterpart (for example stateful data structures or traversal-order-sensitive backtracking), document the reason and the chosen benchmark protocol in `README.md` and `EXPERIMENT_LOG.md` before merge.

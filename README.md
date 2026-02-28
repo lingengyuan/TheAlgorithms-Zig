@@ -199,6 +199,40 @@ Each algorithm file is self-contained: implementation + tests in one file. To ad
 4. Register the file in `build.zig`'s `test_files` array
 5. Run `zig build test` to verify
 
+## Python vs Zig Benchmark (Phase 1-4 Alignable Set)
+
+As of **February 28, 2026**, this repository includes a one-click benchmark that compares Python and Zig implementations on a shared workload.
+
+- Benchmark scope: **64 alignable algorithms** out of 76 total
+- Excluded from this benchmark set: `data_structures/*` and `backtracking/*` (API/strategy differences make direct single-call alignment less reliable)
+- Environment used for the latest numbers:
+  - Zig `0.15.2`
+  - Python `3.12.3`
+  - CPU: `Intel(R) Xeon(R) Platinum 8255C`, 2 vCPU
+
+Summary from the latest run:
+
+| Metric | Value |
+|---|---:|
+| Alignable algorithms benchmarked | 64 |
+| Checksum match count | 64 |
+| Mean speedup (Python/Zig) | 299.31x |
+| Median speedup (Python/Zig) | 54.55x |
+| Geometric mean speedup (Python/Zig) | 33.69x |
+
+Run everything with one command:
+
+```bash
+bash benchmarks/python_vs_zig/run_all.sh
+```
+
+Generated outputs:
+
+- Full leaderboard (Markdown): [`benchmarks/python_vs_zig/leaderboard_all.md`](benchmarks/python_vs_zig/leaderboard_all.md)
+- Full leaderboard (CSV): [`benchmarks/python_vs_zig/leaderboard_all.csv`](benchmarks/python_vs_zig/leaderboard_all.csv)
+- Category chart data (CSV): [`benchmarks/python_vs_zig/category_speedup_chart.csv`](benchmarks/python_vs_zig/category_speedup_chart.csv)
+- Run summary (Markdown): [`benchmarks/python_vs_zig/summary_all.md`](benchmarks/python_vs_zig/summary_all.md)
+
 ## Vibe Coding Experiment
 
 This project doubles as a research experiment on AI-assisted development. Every algorithm records:
@@ -423,6 +457,40 @@ TheAlgorithms-Zig/
 3. 在文件末尾添加 `test` 块
 4. 在 `build.zig` 的 `test_files` 数组中注册该文件
 5. 运行 `zig build test` 验证
+
+## Python vs Zig 性能对比（第 1-4 批可对齐集合）
+
+截至 **2026 年 2 月 28 日**，仓库已提供一键脚本，对 Python 与 Zig 在同一工作负载下做性能对比。
+
+- 对比范围：76 个算法中的 **64 个可对齐算法**
+- 当前未纳入此基准口径：`data_structures/*` 与 `backtracking/*`（接口形态与策略差异较大，单次调用口径难以完全对齐）
+- 本轮数据环境：
+  - Zig `0.15.2`
+  - Python `3.12.3`
+  - CPU：`Intel(R) Xeon(R) Platinum 8255C`，2 vCPU
+
+最新一轮汇总：
+
+| 指标 | 数值 |
+|---|---:|
+| 已对齐并完成基准的算法数 | 64 |
+| checksum 一致算法数 | 64 |
+| 平均加速比（Python/Zig） | 299.31x |
+| 中位数加速比（Python/Zig） | 54.55x |
+| 几何平均加速比（Python/Zig） | 33.69x |
+
+一键运行：
+
+```bash
+bash benchmarks/python_vs_zig/run_all.sh
+```
+
+输出文件：
+
+- 完整总榜（Markdown）：[`benchmarks/python_vs_zig/leaderboard_all.md`](benchmarks/python_vs_zig/leaderboard_all.md)
+- 完整总榜（CSV）：[`benchmarks/python_vs_zig/leaderboard_all.csv`](benchmarks/python_vs_zig/leaderboard_all.csv)
+- 分类图表数据（CSV）：[`benchmarks/python_vs_zig/category_speedup_chart.csv`](benchmarks/python_vs_zig/category_speedup_chart.csv)
+- 运行摘要（Markdown）：[`benchmarks/python_vs_zig/summary_all.md`](benchmarks/python_vs_zig/summary_all.md)
 
 ## Vibe Coding 实验
 
