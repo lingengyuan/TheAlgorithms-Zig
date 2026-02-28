@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Python vs Zig benchmark harness (Python side, 64 alignable algorithms)."""
+"""Python vs Zig benchmark harness (Python side, alignable algorithms)."""
 
 from __future__ import annotations
 
 import heapq
 import math
+import os
 import time
 from dataclasses import dataclass
 from typing import Callable
@@ -650,6 +651,36 @@ def dfs(adj: list[list[int]], start: int) -> list[int]:
     return out
 
 
+def dijkstra(adj: list[list[tuple[int, int]]], start: int) -> list[int]:
+    n = len(adj)
+    if start >= n:
+        return []
+    inf = (1 << 63) - 1
+    dist = [inf] * n
+    visited = [False] * n
+    dist[start] = 0
+
+    for _ in range(n):
+        best = inf
+        best_idx = -1
+        for i, d in enumerate(dist):
+            if not visited[i] and d < best:
+                best = d
+                best_idx = i
+        if best_idx < 0:
+            break
+
+        visited[best_idx] = True
+        base = dist[best_idx]
+        for nb, weight in adj[best_idx]:
+            if 0 <= nb < n and not visited[nb]:
+                cand = base + weight
+                if cand < dist[nb]:
+                    dist[nb] = cand
+
+    return dist
+
+
 def is_power_of_two(n: int) -> bool:
     return n != 0 and (n & (n - 1)) == 0
 
@@ -1089,6 +1120,16 @@ def main() -> None:
         if i % 3 == 0 and i + 17 < graph_n:
             graph_adj[i].append(i + 17)
 
+    weighted_graph_n = 2_200
+    weighted_graph_adj: list[list[tuple[int, int]]] = [[] for _ in range(weighted_graph_n)]
+    for i in range(weighted_graph_n):
+        if i + 1 < weighted_graph_n:
+            weighted_graph_adj[i].append((i + 1, ((i * 17) + 3) % 23 + 1))
+        if i + 2 < weighted_graph_n:
+            weighted_graph_adj[i].append((i + 2, ((i * 31) + 7) % 29 + 1))
+        if i % 3 == 0 and i + 17 < weighted_graph_n:
+            weighted_graph_adj[i].append((i + 17, ((i * 13) + 11) % 41 + 1))
+
     knapsack_weights = [(((i * 73) + 19) % 40) + 1 for i in range(180)]
     knapsack_values = [(((i * 97) + 53) % 500) + 1 for i in range(180)]
     coin_set = [1, 2, 3, 5, 7, 11, 13]
@@ -1296,9 +1337,10 @@ def main() -> None:
         )
     )
 
-    # Graphs (2)
+    # Graphs (3)
     cases.append(BenchCase("bfs", "graphs", 12, lambda: checksum_ints(bfs(graph_adj, 0))))
     cases.append(BenchCase("dfs", "graphs", 12, lambda: checksum_ints(dfs(graph_adj, 0))))
+    cases.append(BenchCase("dijkstra", "graphs", 8, lambda: checksum_ints(dijkstra(weighted_graph_adj, 0))))
 
     # Bit manipulation (6)
     cases.append(BenchCase("is_power_of_two", "bit_manipulation", 120, lambda: checksum_u(sum(1 for i in range(1, 3_000_000) if is_power_of_two(i)))))
@@ -1361,6 +1403,12 @@ def main() -> None:
     cases.append(BenchCase("z_function", "strings", 80, lambda: checksum_ints(z_function(text))))
     cases.append(BenchCase("levenshtein_distance", "strings", 120, lambda: checksum_u(levenshtein_distance(s1, s2))))
     cases.append(BenchCase("is_pangram", "strings", 120, lambda: checksum_bool(is_pangram(pangram_text))))
+
+    selected_algorithm = os.getenv("BENCH_ALGORITHM", "").strip()
+    if selected_algorithm:
+        cases = [case for case in cases if case.name == selected_algorithm]
+        if not cases:
+            raise SystemExit(f"unknown benchmark algorithm: {selected_algorithm}")
 
     print("algorithm,category,iterations,total_ns,avg_ns,checksum")
     for case in cases:

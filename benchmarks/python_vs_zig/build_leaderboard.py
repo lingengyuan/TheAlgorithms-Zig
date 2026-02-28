@@ -89,7 +89,7 @@ def main() -> None:
 
     leaderboard_md = root / "leaderboard_all.md"
     lines = [
-        "# Python vs Zig Benchmark Leaderboard (64 alignable algorithms)",
+        f"# Python vs Zig Benchmark Leaderboard ({len(merged)} alignable algorithms)",
         "",
         "| Rank | Algorithm | Category | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |",
         "|---:|---|---|---:|---:|---:|---|",

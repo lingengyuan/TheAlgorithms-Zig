@@ -52,8 +52,9 @@
 - During incremental development, single-algorithm comparison is required first:
   - add/update a focused benchmark case for that algorithm
   - record the result into `benchmarks/python_vs_zig` artifacts
+  - prefer `bash benchmarks/python_vs_zig/run_single.sh <algorithm_name>` for incremental updates (it upserts into full CSVs and rebuilds leaderboard outputs)
 - For benchmark artifact maintenance after adding/updating an algorithm:
   - update benchmark harness inputs/cases in `benchmarks/python_vs_zig/python_bench_all.py` and `benchmarks/python_vs_zig/zig_bench_all.zig`
-  - regenerate outputs via `bash benchmarks/python_vs_zig/run_all.sh` (or equivalent targeted run + `python3 benchmarks/python_vs_zig/build_leaderboard.py`)
+  - regenerate outputs via `bash benchmarks/python_vs_zig/run_all.sh` for release/regression, or via `run_single.sh` for daily incremental additions
   - keep `leaderboard_all.md`, `leaderboard_all.csv`, `category_speedup_chart.csv`, and `summary_all.md` in sync
 - If an algorithm cannot be fairly aligned with a single-call Python counterpart (for example stateful data structures or traversal-order-sensitive backtracking), document the reason and the chosen benchmark protocol in `README.md` and `EXPERIMENT_LOG.md` before merge.

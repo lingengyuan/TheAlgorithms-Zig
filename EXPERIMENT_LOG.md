@@ -715,3 +715,42 @@ FAIL: test "kmp: not found"
 4. **AI 盲区：防御性编程。** AI 始终能为合法输入生成正确算法，但几乎不主动为畸形输入添加守卫。这一模式在第二阶段 QA 和第三阶段 QA 中反复出现。
 5. **DFS 编译失败源于 Zig 0.15 API 变更**（`ArrayListUnmanaged.pop()` 返回 optional）。再次验证了 AI 训练数据滞后于 Zig 0.15 API 的结论。
 6. **测试断言错误是第四批最主要的失败模式。** 两个子批共 6 次失败中有 5 次是期望值手写错误，而非算法 bug。根本原因：手数枚举顺序（排列、子集、DFS 顺序）或字符串位置（KMP）时未经 Python 验证。后续改进：写测试前先用 Python 验证期望值。
+
+---
+
+## 第五批启动（5A 图算法）：Dijkstra（#77）
+
+**日期：** 2026-02-28
+**模型：** Codex GPT-5
+**批次结果：** 1/1 编译通过，5/5 测试通过，Python/Zig 基准已对齐并入总榜
+
+### 新增算法
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|------|------|------|------|---------|------|
+| dijkstra | `graphs/dijkstra.zig` | ✅ | ✅ 5/5 | 0 | 邻接表加权图，返回单源最短路距离，忽略非法邻接点，溢出路径跳过 |
+
+### 基准对齐与流程改进
+
+- `benchmarks/python_vs_zig/python_bench_all.py` 与 `zig_bench_all.zig` 新增 `dijkstra` 对齐基准用例。
+- 一键全量基准已更新为 **65 个可对齐算法**，`checksum` 全量一致。
+- 新增单算法增量脚本：`benchmarks/python_vs_zig/run_single.sh <algorithm_name>`。
+- 新增结果合并脚本：`benchmarks/python_vs_zig/merge_single_result.py`（将单算法结果 upsert 到 `*_results_all.csv` 后重建榜单）。
+
+### Dijkstra 本轮基准（2026-02-28）
+
+| 指标 | 数值 |
+|---|---:|
+| Python avg ns | 242,070,497.88 |
+| Zig avg ns | 3,138,373.38 |
+| Speedup (Python/Zig) | 77.13x |
+| Checksum match | true |
+
+### 累计更新（截至 2026-02-28）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 77 |
+| 测试总数 | 338 |
+| 可对齐并完成基准算法数 | 65 |
+| 基准 checksum 一致数 | 65 |

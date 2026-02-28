@@ -56,6 +56,7 @@ pub fn build(b: *std.Build) void {
         // Graphs
         "graphs/bfs.zig",
         "graphs/dfs.zig",
+        "graphs/dijkstra.zig",
         // Bit Manipulation
         "bit_manipulation/is_power_of_two.zig",
         "bit_manipulation/count_set_bits.zig",

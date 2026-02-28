@@ -80,12 +80,13 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Edit Distance | [`dynamic_programming/edit_distance.zig`](dynamic_programming/edit_distance.zig) | O(m × n) |
 | 0/1 Knapsack | [`dynamic_programming/knapsack.zig`](dynamic_programming/knapsack.zig) | O(n × W) |
 
-### Graphs (2)
+### Graphs (3)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
 | Breadth-First Search (BFS) | [`graphs/bfs.zig`](graphs/bfs.zig) | O(V + E) |
 | Depth-First Search (DFS) | [`graphs/dfs.zig`](graphs/dfs.zig) | O(V + E) |
+| Dijkstra Shortest Path | [`graphs/dijkstra.zig`](graphs/dijkstra.zig) | O(V² + E) |
 
 ### Greedy Methods (4)
 
@@ -178,7 +179,7 @@ TheAlgorithms-Zig/
 ├── maths/                   # 8 math algorithms
 ├── data_structures/         # 6 data structure implementations
 ├── dynamic_programming/     # 7 dynamic programming algorithms
-├── graphs/                  # 2 graph traversal algorithms
+├── graphs/                  # 3 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 4 number base conversions
 ├── strings/                 # 10 string algorithms
@@ -199,11 +200,11 @@ Each algorithm file is self-contained: implementation + tests in one file. To ad
 4. Register the file in `build.zig`'s `test_files` array
 5. Run `zig build test` to verify
 
-## Python vs Zig Benchmark (Phase 1-4 Alignable Set)
+## Python vs Zig Benchmark (Phase 1-5 Alignable Set)
 
 As of **February 28, 2026**, this repository includes a one-click benchmark that compares Python and Zig implementations on a shared workload.
 
-- Benchmark scope: **64 alignable algorithms** out of 76 total
+- Benchmark scope: **65 alignable algorithms** out of 77 total
 - Excluded from this benchmark set: `data_structures/*` and `backtracking/*` (API/strategy differences make direct single-call alignment less reliable)
 - Environment used for the latest numbers:
   - Zig `0.15.2`
@@ -214,16 +215,22 @@ Summary from the latest run:
 
 | Metric | Value |
 |---|---:|
-| Alignable algorithms benchmarked | 64 |
-| Checksum match count | 64 |
-| Mean speedup (Python/Zig) | 299.31x |
-| Median speedup (Python/Zig) | 54.55x |
-| Geometric mean speedup (Python/Zig) | 33.69x |
+| Alignable algorithms benchmarked | 65 |
+| Checksum match count | 65 |
+| Mean speedup (Python/Zig) | 325.53x |
+| Median speedup (Python/Zig) | 53.75x |
+| Geometric mean speedup (Python/Zig) | 33.16x |
 
 Run everything with one command:
 
 ```bash
 bash benchmarks/python_vs_zig/run_all.sh
+```
+
+Run a single algorithm and merge it into full benchmark artifacts:
+
+```bash
+bash benchmarks/python_vs_zig/run_single.sh dijkstra
 ```
 
 Generated outputs:
@@ -339,12 +346,13 @@ MIT
 | 编辑距离 | [`dynamic_programming/edit_distance.zig`](dynamic_programming/edit_distance.zig) | O(m × n) |
 | 0/1 背包 | [`dynamic_programming/knapsack.zig`](dynamic_programming/knapsack.zig) | O(n × W) |
 
-### 图算法 (2)
+### 图算法 (3)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
 | 广度优先搜索 (BFS) | [`graphs/bfs.zig`](graphs/bfs.zig) | O(V + E) |
 | 深度优先搜索 (DFS) | [`graphs/dfs.zig`](graphs/dfs.zig) | O(V + E) |
+| Dijkstra 最短路径 | [`graphs/dijkstra.zig`](graphs/dijkstra.zig) | O(V² + E) |
 
 ### 贪心算法 (4)
 
@@ -437,7 +445,7 @@ TheAlgorithms-Zig/
 ├── maths/                   # 8 种数学算法
 ├── data_structures/         # 6 种数据结构实现
 ├── dynamic_programming/     # 7 个动态规划算法
-├── graphs/                  # 2 个图遍历算法
+├── graphs/                  # 3 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 4 个进制转换
 ├── strings/                 # 10 个字符串算法
@@ -458,11 +466,11 @@ TheAlgorithms-Zig/
 4. 在 `build.zig` 的 `test_files` 数组中注册该文件
 5. 运行 `zig build test` 验证
 
-## Python vs Zig 性能对比（第 1-4 批可对齐集合）
+## Python vs Zig 性能对比（第 1-5 批可对齐集合）
 
 截至 **2026 年 2 月 28 日**，仓库已提供一键脚本，对 Python 与 Zig 在同一工作负载下做性能对比。
 
-- 对比范围：76 个算法中的 **64 个可对齐算法**
+- 对比范围：77 个算法中的 **65 个可对齐算法**
 - 当前未纳入此基准口径：`data_structures/*` 与 `backtracking/*`（接口形态与策略差异较大，单次调用口径难以完全对齐）
 - 本轮数据环境：
   - Zig `0.15.2`
@@ -473,16 +481,22 @@ TheAlgorithms-Zig/
 
 | 指标 | 数值 |
 |---|---:|
-| 已对齐并完成基准的算法数 | 64 |
-| checksum 一致算法数 | 64 |
-| 平均加速比（Python/Zig） | 299.31x |
-| 中位数加速比（Python/Zig） | 54.55x |
-| 几何平均加速比（Python/Zig） | 33.69x |
+| 已对齐并完成基准的算法数 | 65 |
+| checksum 一致算法数 | 65 |
+| 平均加速比（Python/Zig） | 325.53x |
+| 中位数加速比（Python/Zig） | 53.75x |
+| 几何平均加速比（Python/Zig） | 33.16x |
 
 一键运行：
 
 ```bash
 bash benchmarks/python_vs_zig/run_all.sh
+```
+
+单算法增量运行并合并进总数据：
+
+```bash
+bash benchmarks/python_vs_zig/run_single.sh dijkstra
 ```
 
 输出文件：

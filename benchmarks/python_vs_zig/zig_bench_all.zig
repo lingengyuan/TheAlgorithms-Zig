@@ -1,4 +1,4 @@
-//! Python vs Zig benchmark harness (Zig side, 64 alignable algorithms).
+//! Python vs Zig benchmark harness (Zig side, alignable algorithms).
 
 const std = @import("std");
 const Allocator = std.mem.Allocator;
@@ -42,6 +42,7 @@ const knapsack_mod = @import("../../dynamic_programming/knapsack.zig");
 
 const bfs_mod = @import("../../graphs/bfs.zig");
 const dfs_mod = @import("../../graphs/dfs.zig");
+const dijkstra_mod = @import("../../graphs/dijkstra.zig");
 
 const is_power_two_mod = @import("../../bit_manipulation/is_power_of_two.zig");
 const count_set_bits_mod = @import("../../bit_manipulation/count_set_bits.zig");
@@ -231,6 +232,14 @@ fn benchRun(comptime Func: anytype, writer: anytype, name: []const u8, category:
     try printResult(writer, name, category, iterations, timer.read(), checksum);
 }
 
+fn benchRunMaybe(filter: ?[]const u8, matched: *bool, comptime Func: anytype, writer: anytype, name: []const u8, category: []const u8, iterations: usize, args: anytype) !void {
+    if (filter) |selected| {
+        if (!std.mem.eql(u8, selected, name)) return;
+        matched.* = true;
+    }
+    try benchRun(Func, writer, name, category, iterations, args);
+}
+
 fn runSortInPlace(comptime SortFn: anytype, allocator: Allocator, base: []const i32) !u64 {
     const working = try allocator.dupe(i32, base);
     defer allocator.free(working);
@@ -370,10 +379,9 @@ fn runKnapsack(allocator: Allocator, weights: []const usize, values: []const usi
 
 fn buildGraphAdj(allocator: Allocator, n: usize) ![][]usize {
     const adj = try allocator.alloc([]usize, n);
+    var built: usize = 0;
     errdefer {
-        for (0..n) |i| {
-            if (adj[i].len > 0) allocator.free(adj[i]);
-        }
+        for (0..built) |i| allocator.free(adj[i]);
         allocator.free(adj);
     }
     for (0..n) |i| {
@@ -382,6 +390,7 @@ fn buildGraphAdj(allocator: Allocator, n: usize) ![][]usize {
         if (i + 2 < n) count += 1;
         if (i % 3 == 0 and i + 17 < n) count += 1;
         adj[i] = try allocator.alloc(usize, count);
+        built += 1;
         var idx: usize = 0;
         if (i + 1 < n) {
             adj[i][idx] = i + 1;
@@ -404,6 +413,54 @@ fn freeGraphAdj(allocator: Allocator, adj: [][]usize) void {
     allocator.free(adj);
 }
 
+fn buildWeightedGraphAdj(allocator: Allocator, n: usize) ![][]dijkstra_mod.Edge {
+    const adj = try allocator.alloc([]dijkstra_mod.Edge, n);
+    var built: usize = 0;
+    errdefer {
+        for (0..built) |i| allocator.free(adj[i]);
+        allocator.free(adj);
+    }
+    for (0..n) |i| {
+        var count: usize = 0;
+        if (i + 1 < n) count += 1;
+        if (i + 2 < n) count += 1;
+        if (i % 3 == 0 and i + 17 < n) count += 1;
+
+        adj[i] = try allocator.alloc(dijkstra_mod.Edge, count);
+        built += 1;
+        var idx: usize = 0;
+        const i_u64: u64 = @intCast(i);
+
+        if (i + 1 < n) {
+            adj[i][idx] = .{
+                .to = i + 1,
+                .weight = ((i_u64 * 17) + 3) % 23 + 1,
+            };
+            idx += 1;
+        }
+        if (i + 2 < n) {
+            adj[i][idx] = .{
+                .to = i + 2,
+                .weight = ((i_u64 * 31) + 7) % 29 + 1,
+            };
+            idx += 1;
+        }
+        if (i % 3 == 0 and i + 17 < n) {
+            adj[i][idx] = .{
+                .to = i + 17,
+                .weight = ((i_u64 * 13) + 11) % 41 + 1,
+            };
+            idx += 1;
+        }
+    }
+    return adj;
+}
+
+fn freeWeightedGraphAdj(allocator: Allocator, adj: [][]dijkstra_mod.Edge) void {
+    for (adj) |row| allocator.free(row);
+    allocator.free(adj);
+}
+
 fn runBfs(allocator: Allocator, adj: []const []const usize) !u64 {
     const order = try bfs_mod.bfs(allocator, adj, 0);
     defer allocator.free(order);
@@ -414,6 +471,12 @@ fn runDfs(allocator: Allocator, adj: []const []const usize) !u64 {
     const order = try dfs_mod.dfs(allocator, adj, 0);
     defer allocator.free(order);
     return checksumSlice(usize, order);
+}
+
+fn runDijkstra(allocator: Allocator, adj: []const []const dijkstra_mod.Edge) !u64 {
+    const dist = try dijkstra_mod.dijkstra(allocator, adj, 0);
+    defer allocator.free(dist);
+    return checksumSlice(u64, dist);
 }
 
 fn runIsPowerOfTwo() u64 {
@@ -596,6 +659,13 @@ pub fn main() !void {
     defer _ = gpa_state.deinit();
     const allocator = gpa_state.allocator();
 
+    const filter_algorithm = std.process.getEnvVarOwned(allocator, "BENCH_ALGORITHM") catch |err| switch (err) {
+        error.EnvironmentVariableNotFound => null,
+        else => return err,
+    };
+    defer if (filter_algorithm) |v| allocator.free(v);
+    var filter_matched = false;
+
     const stdout = std.fs.File.stdout().deprecatedWriter();
     try stdout.print("algorithm,category,iterations,total_ns,avg_ns,checksum\n", .{});
 
@@ -676,6 +746,12 @@ pub fn main() !void {
     defer allocator.free(graph_adj);
     for (graph_adj_owned, 0..) |row, i| graph_adj[i] = row;
 
+    const weighted_graph_adj_owned = try buildWeightedGraphAdj(allocator, 2_200);
+    defer freeWeightedGraphAdj(allocator, weighted_graph_adj_owned);
+    const weighted_graph_adj = try allocator.alloc([]const dijkstra_mod.Edge, weighted_graph_adj_owned.len);
+    defer allocator.free(weighted_graph_adj);
+    for (weighted_graph_adj_owned, 0..) |row, i| weighted_graph_adj[i] = row;
+
     const knapsack_weights = try allocator.alloc(usize, 180);
     defer allocator.free(knapsack_weights);
     const knapsack_values = try allocator.alloc(usize, 180);
@@ -743,86 +819,91 @@ pub fn main() !void {
     const bin_text = "10101111100100101111000011101010";
 
     // Sorts (12)
-    try benchRun(runSortInPlace, stdout, "bubble_sort", "sorts", 2, .{ bubble_sort.bubbleSort, allocator, bubble_base });
-    try benchRun(runSortInPlace, stdout, "insertion_sort", "sorts", 2, .{ insertion_sort.insertionSort, allocator, n2_base });
-    try benchRun(runMergeSort, stdout, "merge_sort", "sorts", 4, .{ allocator, nlog_base });
-    try benchRun(runSortInPlace, stdout, "quick_sort", "sorts", 4, .{ quick_sort.quickSort, allocator, nlog_base });
-    try benchRun(runSortInPlace, stdout, "heap_sort", "sorts", 4, .{ heap_sort.heapSort, allocator, nlog_base });
-    try benchRun(runSortAllocated, stdout, "radix_sort", "sorts", 4, .{ radix_sort.radixSort, allocator, nlog_base });
-    try benchRun(runSortAllocated, stdout, "bucket_sort", "sorts", 4, .{ bucket_sort.bucketSort, allocator, nlog_base });
-    try benchRun(runSortInPlace, stdout, "selection_sort", "sorts", 2, .{ selection_sort.selectionSort, allocator, n2_base });
-    try benchRun(runSortInPlace, stdout, "shell_sort", "sorts", 4, .{ shell_sort.shellSort, allocator, nlog_base });
-    try benchRun(runSortAllocated, stdout, "counting_sort", "sorts", 4, .{ counting_sort.countingSort, allocator, non_neg_base });
-    try benchRun(runSortInPlace, stdout, "cocktail_shaker_sort", "sorts", 2, .{ cocktail_shaker_sort.cocktailShakerSort, allocator, bubble_base });
-    try benchRun(runSortInPlace, stdout, "gnome_sort", "sorts", 2, .{ gnome_sort.gnomeSort, allocator, bubble_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSortInPlace, stdout, "bubble_sort", "sorts", 2, .{ bubble_sort.bubbleSort, allocator, bubble_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSortInPlace, stdout, "insertion_sort", "sorts", 2, .{ insertion_sort.insertionSort, allocator, n2_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMergeSort, stdout, "merge_sort", "sorts", 4, .{ allocator, nlog_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSortInPlace, stdout, "quick_sort", "sorts", 4, .{ quick_sort.quickSort, allocator, nlog_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSortInPlace, stdout, "heap_sort", "sorts", 4, .{ heap_sort.heapSort, allocator, nlog_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSortAllocated, stdout, "radix_sort", "sorts", 4, .{ radix_sort.radixSort, allocator, nlog_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSortAllocated, stdout, "bucket_sort", "sorts", 4, .{ bucket_sort.bucketSort, allocator, nlog_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSortInPlace, stdout, "selection_sort", "sorts", 2, .{ selection_sort.selectionSort, allocator, n2_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSortInPlace, stdout, "shell_sort", "sorts", 4, .{ shell_sort.shellSort, allocator, nlog_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSortAllocated, stdout, "counting_sort", "sorts", 4, .{ counting_sort.countingSort, allocator, non_neg_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSortInPlace, stdout, "cocktail_shaker_sort", "sorts", 2, .{ cocktail_shaker_sort.cocktailShakerSort, allocator, bubble_base });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSortInPlace, stdout, "gnome_sort", "sorts", 2, .{ gnome_sort.gnomeSort, allocator, bubble_base });
 
     // Searches (6)
-    try benchRun(runSearch, stdout, "linear_search", "searches", 3, .{ linear_search.linearSearch, search_data, search_queries });
-    try benchRun(runSearch, stdout, "binary_search", "searches", 4, .{ binary_search.binarySearch, search_data, search_queries });
-    try benchRun(runSearch, stdout, "exponential_search", "searches", 4, .{ exponential_search.exponentialSearch, search_data, search_queries });
-    try benchRun(runInterpolationSearch, stdout, "interpolation_search", "searches", 4, .{ search_data, search_queries });
-    try benchRun(runSearch, stdout, "jump_search", "searches", 4, .{ jump_search.jumpSearch, search_data, search_queries });
-    try benchRun(runSearch, stdout, "ternary_search", "searches", 4, .{ ternary_search.ternarySearch, search_data, search_queries });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSearch, stdout, "linear_search", "searches", 3, .{ linear_search.linearSearch, search_data, search_queries });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSearch, stdout, "binary_search", "searches", 4, .{ binary_search.binarySearch, search_data, search_queries });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSearch, stdout, "exponential_search", "searches", 4, .{ exponential_search.exponentialSearch, search_data, search_queries });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runInterpolationSearch, stdout, "interpolation_search", "searches", 4, .{ search_data, search_queries });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSearch, stdout, "jump_search", "searches", 4, .{ jump_search.jumpSearch, search_data, search_queries });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSearch, stdout, "ternary_search", "searches", 4, .{ ternary_search.ternarySearch, search_data, search_queries });
 
     // Maths (8)
-    try benchRun(runMathGcd, stdout, "gcd", "maths", 6, .{math_values});
-    try benchRun(runMathLcm, stdout, "lcm", "maths", 6, .{math_values});
-    try benchRun(runFibonacciMany, stdout, "fibonacci", "maths", 200, .{fib_inputs});
-    try benchRun(runFactorialMany, stdout, "factorial", "maths", 200, .{fact_inputs});
-    try benchRun(runPowerMany, stdout, "power", "maths", 300, .{ power_bases, power_exps });
-    try benchRun(runPrimeCheck, stdout, "prime_check", "maths", 20, .{});
-    try benchRun(runSieve, stdout, "sieve_of_eratosthenes", "maths", 6, .{allocator});
-    try benchRun(runCollatzSteps, stdout, "collatz_sequence", "maths", 8, .{});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMathGcd, stdout, "gcd", "maths", 6, .{math_values});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMathLcm, stdout, "lcm", "maths", 6, .{math_values});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runFibonacciMany, stdout, "fibonacci", "maths", 200, .{fib_inputs});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runFactorialMany, stdout, "factorial", "maths", 200, .{fact_inputs});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runPowerMany, stdout, "power", "maths", 300, .{ power_bases, power_exps });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runPrimeCheck, stdout, "prime_check", "maths", 20, .{});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSieve, stdout, "sieve_of_eratosthenes", "maths", 6, .{allocator});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runCollatzSteps, stdout, "collatz_sequence", "maths", 8, .{});
 
     // Dynamic Programming (7)
-    try benchRun(runClimbingStairsMany, stdout, "climbing_stairs", "dynamic_programming", 1000, .{stairs_inputs});
-    try benchRun(runFibonacciDp, stdout, "fibonacci_dp", "dynamic_programming", 400, .{allocator});
-    try benchRun(runCoinChange, stdout, "coin_change", "dynamic_programming", 80, .{ allocator, &coin_set });
-    try benchRun(runMaxSubarray, stdout, "max_subarray_sum", "dynamic_programming", 20, .{dp_array});
-    try benchRun(runLcs, stdout, "longest_common_subsequence", "dynamic_programming", 30, .{ allocator, s1, s2 });
-    try benchRun(runEditDistance, stdout, "edit_distance", "dynamic_programming", 30, .{ allocator, s1, s2 });
-    try benchRun(runKnapsack, stdout, "knapsack", "dynamic_programming", 60, .{ allocator, knapsack_weights, knapsack_values });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runClimbingStairsMany, stdout, "climbing_stairs", "dynamic_programming", 1000, .{stairs_inputs});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runFibonacciDp, stdout, "fibonacci_dp", "dynamic_programming", 400, .{allocator});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runCoinChange, stdout, "coin_change", "dynamic_programming", 80, .{ allocator, &coin_set });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMaxSubarray, stdout, "max_subarray_sum", "dynamic_programming", 20, .{dp_array});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runLcs, stdout, "longest_common_subsequence", "dynamic_programming", 30, .{ allocator, s1, s2 });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runEditDistance, stdout, "edit_distance", "dynamic_programming", 30, .{ allocator, s1, s2 });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runKnapsack, stdout, "knapsack", "dynamic_programming", 60, .{ allocator, knapsack_weights, knapsack_values });
 
-    // Graphs (2)
-    try benchRun(runBfs, stdout, "bfs", "graphs", 12, .{ allocator, graph_adj });
-    try benchRun(runDfs, stdout, "dfs", "graphs", 12, .{ allocator, graph_adj });
+    // Graphs (3)
+    try benchRunMaybe(filter_algorithm, &filter_matched, runBfs, stdout, "bfs", "graphs", 12, .{ allocator, graph_adj });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runDfs, stdout, "dfs", "graphs", 12, .{ allocator, graph_adj });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runDijkstra, stdout, "dijkstra", "graphs", 8, .{ allocator, weighted_graph_adj });
 
     // Bit Manipulation (6)
-    try benchRun(runIsPowerOfTwo, stdout, "is_power_of_two", "bit_manipulation", 120, .{});
-    try benchRun(runCountSetBits, stdout, "count_set_bits", "bit_manipulation", 60, .{});
-    try benchRun(runFindUniqueFromSlice, stdout, "find_unique_number", "bit_manipulation", 1000, .{unique_arr});
-    try benchRun(runReverseBits, stdout, "reverse_bits", "bit_manipulation", 80, .{});
-    try benchRun(missing_number_mod.missingNumber, stdout, "missing_number", "bit_manipulation", 220, .{missing_nums});
-    try benchRun(runPowerOfFour, stdout, "power_of_4", "bit_manipulation", 120, .{});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runIsPowerOfTwo, stdout, "is_power_of_two", "bit_manipulation", 120, .{});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runCountSetBits, stdout, "count_set_bits", "bit_manipulation", 60, .{});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runFindUniqueFromSlice, stdout, "find_unique_number", "bit_manipulation", 1000, .{unique_arr});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runReverseBits, stdout, "reverse_bits", "bit_manipulation", 80, .{});
+    try benchRunMaybe(filter_algorithm, &filter_matched, missing_number_mod.missingNumber, stdout, "missing_number", "bit_manipulation", 220, .{missing_nums});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runPowerOfFour, stdout, "power_of_4", "bit_manipulation", 120, .{});
 
     // Conversions (4)
-    try benchRun(runDecimalToBinary, stdout, "decimal_to_binary", "conversions", 120, .{allocator});
-    try benchRun(runBinaryToDecimalMany, stdout, "binary_to_decimal", "conversions", 120, .{bin_samples});
-    try benchRun(runDecimalToHex, stdout, "decimal_to_hexadecimal", "conversions", 120, .{allocator});
-    try benchRun(runBinaryToHex, stdout, "binary_to_hexadecimal", "conversions", 120, .{ allocator, bin_text });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runDecimalToBinary, stdout, "decimal_to_binary", "conversions", 120, .{allocator});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runBinaryToDecimalMany, stdout, "binary_to_decimal", "conversions", 120, .{bin_samples});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runDecimalToHex, stdout, "decimal_to_hexadecimal", "conversions", 120, .{allocator});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runBinaryToHex, stdout, "binary_to_hexadecimal", "conversions", 120, .{ allocator, bin_text });
 
     // Greedy (4)
-    try benchRun(runBestStock, stdout, "best_time_to_buy_sell_stock", "greedy_methods", 20, .{prices});
-    try benchRun(runMinimumCoinChange, stdout, "minimum_coin_change", "greedy_methods", 200, .{ allocator, &coins_desc });
-    try benchRun(runMinimumWaitingTime, stdout, "minimum_waiting_time", "greedy_methods", 15, .{ allocator, waiting_queries });
-    try benchRun(runFractionalKnapsack, stdout, "fractional_knapsack", "greedy_methods", 600, .{ allocator, &frac_values, &frac_weights });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runBestStock, stdout, "best_time_to_buy_sell_stock", "greedy_methods", 20, .{prices});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMinimumCoinChange, stdout, "minimum_coin_change", "greedy_methods", 200, .{ allocator, &coins_desc });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMinimumWaitingTime, stdout, "minimum_waiting_time", "greedy_methods", 15, .{ allocator, waiting_queries });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runFractionalKnapsack, stdout, "fractional_knapsack", "greedy_methods", 600, .{ allocator, &frac_values, &frac_weights });
 
     // Matrix (5)
-    try benchRun(runMatrixMultiply, stdout, "matrix_multiply", "matrix", 10, .{ allocator, matrix_a, matrix_b, matrix_dim });
-    try benchRun(runMatrixTranspose, stdout, "matrix_transpose", "matrix", 25, .{ allocator, transpose_mat, transpose_rows, transpose_cols });
-    try benchRun(runRotateMatrix, stdout, "rotate_matrix", "matrix", 25, .{ allocator, rotate_mat, rotate_n });
-    try benchRun(runSpiral, stdout, "spiral_print", "matrix", 20, .{ allocator, spiral_mat, spiral_rows, spiral_cols });
-    try benchRun(runPascal, stdout, "pascal_triangle", "matrix", 120, .{ allocator, @as(usize, 180) });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMatrixMultiply, stdout, "matrix_multiply", "matrix", 10, .{ allocator, matrix_a, matrix_b, matrix_dim });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMatrixTranspose, stdout, "matrix_transpose", "matrix", 25, .{ allocator, transpose_mat, transpose_rows, transpose_cols });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runRotateMatrix, stdout, "rotate_matrix", "matrix", 25, .{ allocator, rotate_mat, rotate_n });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSpiral, stdout, "spiral_print", "matrix", 20, .{ allocator, spiral_mat, spiral_rows, spiral_cols });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runPascal, stdout, "pascal_triangle", "matrix", 120, .{ allocator, @as(usize, 180) });
 
     // Strings (10)
-    try benchRun(runPalindrome, stdout, "palindrome", "strings", 120, .{palindrome_text});
-    try benchRun(runReverseWords, stdout, "reverse_words", "strings", 80, .{ allocator, reverse_sentence });
-    try benchRun(runAnagram, stdout, "anagram", "strings", 600, .{ anagram_a, anagram_b });
-    try benchRun(runHammingDistance, stdout, "hamming_distance", "strings", 120, .{ s3, s4 });
-    try benchRun(runNaiveSearch, stdout, "naive_string_search", "strings", 30, .{ allocator, text, pattern });
-    try benchRun(runKmpSearch, stdout, "knuth_morris_pratt", "strings", 80, .{ allocator, text, pattern });
-    try benchRun(runRabinKarp, stdout, "rabin_karp", "strings", 60, .{ text, pattern });
-    try benchRun(runZFunction, stdout, "z_function", "strings", 80, .{ allocator, text });
-    try benchRun(runLevenshtein, stdout, "levenshtein_distance", "strings", 120, .{ allocator, s1, s2 });
-    try benchRun(is_pangram_mod.isPangram, stdout, "is_pangram", "strings", 120, .{pangram_text});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runPalindrome, stdout, "palindrome", "strings", 120, .{palindrome_text});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runReverseWords, stdout, "reverse_words", "strings", 80, .{ allocator, reverse_sentence });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runAnagram, stdout, "anagram", "strings", 600, .{ anagram_a, anagram_b });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runHammingDistance, stdout, "hamming_distance", "strings", 120, .{ s3, s4 });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runNaiveSearch, stdout, "naive_string_search", "strings", 30, .{ allocator, text, pattern });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runKmpSearch, stdout, "knuth_morris_pratt", "strings", 80, .{ allocator, text, pattern });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runRabinKarp, stdout, "rabin_karp", "strings", 60, .{ text, pattern });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runZFunction, stdout, "z_function", "strings", 80, .{ allocator, text });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runLevenshtein, stdout, "levenshtein_distance", "strings", 120, .{ allocator, s1, s2 });
+    try benchRunMaybe(filter_algorithm, &filter_matched, is_pangram_mod.isPangram, stdout, "is_pangram", "strings", 120, .{pangram_text});
+
+    if (filter_algorithm != null and !filter_matched) {
+        return error.UnknownBenchmarkAlgorithm;
+    }
 }
