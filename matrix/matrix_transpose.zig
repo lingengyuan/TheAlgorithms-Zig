@@ -7,7 +7,9 @@ const testing = std.testing;
 /// Transposes an m×n matrix (flat row-major) into n×m. Caller owns result.
 pub fn transpose(
     allocator: std.mem.Allocator,
-    mat: []const i64, rows: usize, cols: usize,
+    mat: []const i64,
+    rows: usize,
+    cols: usize,
 ) ![]i64 {
     const out = try allocator.alloc(i64, rows * cols);
     for (0..rows) |r| {

@@ -44,7 +44,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Jump Search | [`searches/jump_search.zig`](searches/jump_search.zig) | O(√n) |
 | Ternary Search | [`searches/ternary_search.zig`](searches/ternary_search.zig) | O(log₃ n) |
 
-### Math (8)
+### Math (14)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -56,8 +56,14 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Sieve of Eratosthenes | [`maths/sieve_of_eratosthenes.zig`](maths/sieve_of_eratosthenes.zig) | O(n log log n) |
 | Binary Exponentiation | [`maths/power.zig`](maths/power.zig) | O(log n) |
 | Collatz Sequence | [`maths/collatz_sequence.zig`](maths/collatz_sequence.zig) | O(?) |
+| Extended Euclidean | [`maths/extended_euclidean.zig`](maths/extended_euclidean.zig) | O(log n) |
+| Modular Inverse | [`maths/modular_inverse.zig`](maths/modular_inverse.zig) | O(log m) |
+| Euler's Totient | [`maths/eulers_totient.zig`](maths/eulers_totient.zig) | O(√n) |
+| Chinese Remainder Theorem | [`maths/chinese_remainder_theorem.zig`](maths/chinese_remainder_theorem.zig) | O(k² + k log M) |
+| Binomial Coefficient | [`maths/binomial_coefficient.zig`](maths/binomial_coefficient.zig) | O(min(k, n-k)) |
+| Integer Square Root | [`maths/integer_square_root.zig`](maths/integer_square_root.zig) | O(log n) |
 
-### Data Structures (6)
+### Data Structures (11)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -67,8 +73,13 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Doubly Linked List | [`data_structures/doubly_linked_list.zig`](data_structures/doubly_linked_list.zig) | O(1) insert/delete head/tail |
 | Binary Search Tree | [`data_structures/binary_search_tree.zig`](data_structures/binary_search_tree.zig) | O(log n) avg insert/search/delete |
 | Min Heap | [`data_structures/min_heap.zig`](data_structures/min_heap.zig) | O(log n) insert/extract, O(n) heapify |
+| Trie | [`data_structures/trie.zig`](data_structures/trie.zig) | O(L) insert/search/delete |
+| Disjoint Set (Union-Find) | [`data_structures/disjoint_set.zig`](data_structures/disjoint_set.zig) | O(alpha(n)) amortized |
+| AVL Tree | [`data_structures/avl_tree.zig`](data_structures/avl_tree.zig) | O(log n) insert/search/delete |
+| Max Heap | [`data_structures/max_heap.zig`](data_structures/max_heap.zig) | O(log n) insert/extract, O(n) heapify |
+| Priority Queue | [`data_structures/priority_queue.zig`](data_structures/priority_queue.zig) | O(log n) enqueue/dequeue |
 
-### Dynamic Programming (7)
+### Dynamic Programming (13)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -76,17 +87,30 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Fibonacci (Memoized DP) | [`dynamic_programming/fibonacci_dp.zig`](dynamic_programming/fibonacci_dp.zig) | O(n) |
 | Coin Change (Ways) | [`dynamic_programming/coin_change.zig`](dynamic_programming/coin_change.zig) | O(amount × coin_count) |
 | Max Subarray Sum (Kadane) | [`dynamic_programming/max_subarray_sum.zig`](dynamic_programming/max_subarray_sum.zig) | O(n) |
+| Longest Increasing Subsequence | [`dynamic_programming/longest_increasing_subsequence.zig`](dynamic_programming/longest_increasing_subsequence.zig) | O(n log n) |
+| Rod Cutting | [`dynamic_programming/rod_cutting.zig`](dynamic_programming/rod_cutting.zig) | O(n²) |
+| Matrix Chain Multiplication | [`dynamic_programming/matrix_chain_multiplication.zig`](dynamic_programming/matrix_chain_multiplication.zig) | O(n³) |
+| Palindrome Partitioning (Min Cuts) | [`dynamic_programming/palindrome_partitioning.zig`](dynamic_programming/palindrome_partitioning.zig) | O(n²) |
+| Word Break | [`dynamic_programming/word_break.zig`](dynamic_programming/word_break.zig) | O(n·m·k) |
+| Catalan Numbers | [`dynamic_programming/catalan_numbers.zig`](dynamic_programming/catalan_numbers.zig) | O(n²) |
 | Longest Common Subsequence | [`dynamic_programming/longest_common_subsequence.zig`](dynamic_programming/longest_common_subsequence.zig) | O(m × n) |
 | Edit Distance | [`dynamic_programming/edit_distance.zig`](dynamic_programming/edit_distance.zig) | O(m × n) |
 | 0/1 Knapsack | [`dynamic_programming/knapsack.zig`](dynamic_programming/knapsack.zig) | O(n × W) |
 
-### Graphs (3)
+### Graphs (10)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
 | Breadth-First Search (BFS) | [`graphs/bfs.zig`](graphs/bfs.zig) | O(V + E) |
 | Depth-First Search (DFS) | [`graphs/dfs.zig`](graphs/dfs.zig) | O(V + E) |
 | Dijkstra Shortest Path | [`graphs/dijkstra.zig`](graphs/dijkstra.zig) | O(V² + E) |
+| Bellman-Ford Shortest Path | [`graphs/bellman_ford.zig`](graphs/bellman_ford.zig) | O(V·E) |
+| Topological Sort | [`graphs/topological_sort.zig`](graphs/topological_sort.zig) | O(V + E) |
+| Floyd-Warshall | [`graphs/floyd_warshall.zig`](graphs/floyd_warshall.zig) | O(V³) |
+| Detect Cycle (Directed) | [`graphs/detect_cycle.zig`](graphs/detect_cycle.zig) | O(V + E) |
+| Connected Components | [`graphs/connected_components.zig`](graphs/connected_components.zig) | O(V + E) |
+| Kruskal MST | [`graphs/kruskal.zig`](graphs/kruskal.zig) | O(E log E) |
+| Prim MST | [`graphs/prim.zig`](graphs/prim.zig) | O(V² + E) |
 
 ### Greedy Methods (4)
 
@@ -176,10 +200,10 @@ TheAlgorithms-Zig/
 ├── build.zig.zon            # Package manifest
 ├── sorts/                   # 12 sorting algorithms
 ├── searches/                # 6 search algorithms
-├── maths/                   # 8 math algorithms
-├── data_structures/         # 6 data structure implementations
-├── dynamic_programming/     # 7 dynamic programming algorithms
-├── graphs/                  # 3 graph algorithms
+├── maths/                   # 14 math algorithms
+├── data_structures/         # 11 data structure implementations
+├── dynamic_programming/     # 13 dynamic programming algorithms
+├── graphs/                  # 10 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 4 number base conversions
 ├── strings/                 # 10 string algorithms
@@ -204,8 +228,8 @@ Each algorithm file is self-contained: implementation + tests in one file. To ad
 
 As of **February 28, 2026**, this repository includes a one-click benchmark that compares Python and Zig implementations on a shared workload.
 
-- Benchmark scope: **65 alignable algorithms** out of 77 total
-- Excluded from this benchmark set: `data_structures/*` and `backtracking/*` (API/strategy differences make direct single-call alignment less reliable)
+- Benchmark scope: **89 alignable algorithms** out of 101 total
+- Excluded from this benchmark set: `backtracking/*` and data-structure algorithms not yet standardized in benchmark harness (current included subset: `trie`, `disjoint_set`, `avl_tree`, `max_heap`, `priority_queue`)
 - Environment used for the latest numbers:
   - Zig `0.15.2`
   - Python `3.12.3`
@@ -215,11 +239,11 @@ Summary from the latest run:
 
 | Metric | Value |
 |---|---:|
-| Alignable algorithms benchmarked | 65 |
-| Checksum match count | 65 |
-| Mean speedup (Python/Zig) | 325.53x |
-| Median speedup (Python/Zig) | 53.75x |
-| Geometric mean speedup (Python/Zig) | 33.16x |
+| Alignable algorithms benchmarked | 89 |
+| Checksum match count | 89 |
+| Mean speedup (Python/Zig) | 219.11x |
+| Median speedup (Python/Zig) | 41.92x |
+| Geometric mean speedup (Python/Zig) | 26.30x |
 
 Run everything with one command:
 
@@ -310,7 +334,7 @@ MIT
 | 跳跃查找 | [`searches/jump_search.zig`](searches/jump_search.zig) | O(√n) |
 | 三分查找 | [`searches/ternary_search.zig`](searches/ternary_search.zig) | O(log₃ n) |
 
-### 数学 (8)
+### 数学 (14)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -322,8 +346,14 @@ MIT
 | 埃拉托色尼筛法 | [`maths/sieve_of_eratosthenes.zig`](maths/sieve_of_eratosthenes.zig) | O(n log log n) |
 | 快速幂 | [`maths/power.zig`](maths/power.zig) | O(log n) |
 | 考拉兹序列 | [`maths/collatz_sequence.zig`](maths/collatz_sequence.zig) | O(?) |
+| 扩展欧几里得算法 | [`maths/extended_euclidean.zig`](maths/extended_euclidean.zig) | O(log n) |
+| 模逆 | [`maths/modular_inverse.zig`](maths/modular_inverse.zig) | O(log m) |
+| 欧拉函数（Totient） | [`maths/eulers_totient.zig`](maths/eulers_totient.zig) | O(√n) |
+| 中国剩余定理 | [`maths/chinese_remainder_theorem.zig`](maths/chinese_remainder_theorem.zig) | O(k² + k log M) |
+| 二项式系数 | [`maths/binomial_coefficient.zig`](maths/binomial_coefficient.zig) | O(min(k, n-k)) |
+| 整数平方根 | [`maths/integer_square_root.zig`](maths/integer_square_root.zig) | O(log n) |
 
-### 数据结构 (6)
+### 数据结构 (11)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -333,8 +363,13 @@ MIT
 | 双向链表 | [`data_structures/doubly_linked_list.zig`](data_structures/doubly_linked_list.zig) | 头尾插删 O(1) |
 | 二叉搜索树 | [`data_structures/binary_search_tree.zig`](data_structures/binary_search_tree.zig) | 插入/查找/删除平均 O(log n) |
 | 最小堆 | [`data_structures/min_heap.zig`](data_structures/min_heap.zig) | 插入/取出 O(log n)，建堆 O(n) |
+| Trie（前缀树） | [`data_structures/trie.zig`](data_structures/trie.zig) | 插入/查询/删除 O(L) |
+| 并查集（Union-Find） | [`data_structures/disjoint_set.zig`](data_structures/disjoint_set.zig) | 均摊 O(alpha(n)) |
+| AVL 树 | [`data_structures/avl_tree.zig`](data_structures/avl_tree.zig) | 插入/查找/删除 O(log n) |
+| 最大堆 | [`data_structures/max_heap.zig`](data_structures/max_heap.zig) | 插入/取出 O(log n)，建堆 O(n) |
+| 优先队列 | [`data_structures/priority_queue.zig`](data_structures/priority_queue.zig) | 入队/出队 O(log n) |
 
-### 动态规划 (7)
+### 动态规划 (13)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -342,17 +377,30 @@ MIT
 | 斐波那契（记忆化 DP） | [`dynamic_programming/fibonacci_dp.zig`](dynamic_programming/fibonacci_dp.zig) | O(n) |
 | 硬币找零（方案数） | [`dynamic_programming/coin_change.zig`](dynamic_programming/coin_change.zig) | O(amount × coin_count) |
 | 最大子数组和（Kadane） | [`dynamic_programming/max_subarray_sum.zig`](dynamic_programming/max_subarray_sum.zig) | O(n) |
+| 最长递增子序列 | [`dynamic_programming/longest_increasing_subsequence.zig`](dynamic_programming/longest_increasing_subsequence.zig) | O(n log n) |
+| 钢条切割 | [`dynamic_programming/rod_cutting.zig`](dynamic_programming/rod_cutting.zig) | O(n²) |
+| 矩阵链乘法 | [`dynamic_programming/matrix_chain_multiplication.zig`](dynamic_programming/matrix_chain_multiplication.zig) | O(n³) |
+| 回文划分（最少切割） | [`dynamic_programming/palindrome_partitioning.zig`](dynamic_programming/palindrome_partitioning.zig) | O(n²) |
+| 单词拆分 | [`dynamic_programming/word_break.zig`](dynamic_programming/word_break.zig) | O(n·m·k) |
+| Catalan 数 | [`dynamic_programming/catalan_numbers.zig`](dynamic_programming/catalan_numbers.zig) | O(n²) |
 | 最长公共子序列 | [`dynamic_programming/longest_common_subsequence.zig`](dynamic_programming/longest_common_subsequence.zig) | O(m × n) |
 | 编辑距离 | [`dynamic_programming/edit_distance.zig`](dynamic_programming/edit_distance.zig) | O(m × n) |
 | 0/1 背包 | [`dynamic_programming/knapsack.zig`](dynamic_programming/knapsack.zig) | O(n × W) |
 
-### 图算法 (3)
+### 图算法 (10)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
 | 广度优先搜索 (BFS) | [`graphs/bfs.zig`](graphs/bfs.zig) | O(V + E) |
 | 深度优先搜索 (DFS) | [`graphs/dfs.zig`](graphs/dfs.zig) | O(V + E) |
 | Dijkstra 最短路径 | [`graphs/dijkstra.zig`](graphs/dijkstra.zig) | O(V² + E) |
+| Bellman-Ford 最短路径 | [`graphs/bellman_ford.zig`](graphs/bellman_ford.zig) | O(V·E) |
+| 拓扑排序 | [`graphs/topological_sort.zig`](graphs/topological_sort.zig) | O(V + E) |
+| Floyd-Warshall | [`graphs/floyd_warshall.zig`](graphs/floyd_warshall.zig) | O(V³) |
+| 有向图环检测 | [`graphs/detect_cycle.zig`](graphs/detect_cycle.zig) | O(V + E) |
+| 连通分量计数 | [`graphs/connected_components.zig`](graphs/connected_components.zig) | O(V + E) |
+| Kruskal 最小生成树 | [`graphs/kruskal.zig`](graphs/kruskal.zig) | O(E log E) |
+| Prim 最小生成树 | [`graphs/prim.zig`](graphs/prim.zig) | O(V² + E) |
 
 ### 贪心算法 (4)
 
@@ -442,10 +490,10 @@ TheAlgorithms-Zig/
 ├── build.zig.zon            # 包清单
 ├── sorts/                   # 12 种排序算法
 ├── searches/                # 6 种查找算法
-├── maths/                   # 8 种数学算法
-├── data_structures/         # 6 种数据结构实现
-├── dynamic_programming/     # 7 个动态规划算法
-├── graphs/                  # 3 个图算法
+├── maths/                   # 14 种数学算法
+├── data_structures/         # 11 种数据结构实现
+├── dynamic_programming/     # 13 个动态规划算法
+├── graphs/                  # 10 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 4 个进制转换
 ├── strings/                 # 10 个字符串算法
@@ -470,8 +518,8 @@ TheAlgorithms-Zig/
 
 截至 **2026 年 2 月 28 日**，仓库已提供一键脚本，对 Python 与 Zig 在同一工作负载下做性能对比。
 
-- 对比范围：77 个算法中的 **65 个可对齐算法**
-- 当前未纳入此基准口径：`data_structures/*` 与 `backtracking/*`（接口形态与策略差异较大，单次调用口径难以完全对齐）
+- 对比范围：101 个算法中的 **89 个可对齐算法**
+- 当前未纳入此基准口径：`backtracking/*` 及尚未标准化到基准脚本的数据结构算法（当前已纳入子集：`trie`、`disjoint_set`、`avl_tree`、`max_heap`、`priority_queue`）
 - 本轮数据环境：
   - Zig `0.15.2`
   - Python `3.12.3`
@@ -481,11 +529,11 @@ TheAlgorithms-Zig/
 
 | 指标 | 数值 |
 |---|---:|
-| 已对齐并完成基准的算法数 | 65 |
-| checksum 一致算法数 | 65 |
-| 平均加速比（Python/Zig） | 325.53x |
-| 中位数加速比（Python/Zig） | 53.75x |
-| 几何平均加速比（Python/Zig） | 33.16x |
+| 已对齐并完成基准的算法数 | 89 |
+| checksum 一致算法数 | 89 |
+| 平均加速比（Python/Zig） | 219.11x |
+| 中位数加速比（Python/Zig） | 41.92x |
+| 几何平均加速比（Python/Zig） | 26.30x |
 
 一键运行：
 

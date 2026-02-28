@@ -31,11 +31,28 @@ const power_mod = @import("../../maths/power.zig");
 const prime_check_mod = @import("../../maths/prime_check.zig");
 const sieve_mod = @import("../../maths/sieve_of_eratosthenes.zig");
 const collatz_mod = @import("../../maths/collatz_sequence.zig");
+const ext_gcd_mod = @import("../../maths/extended_euclidean.zig");
+const mod_inverse_mod = @import("../../maths/modular_inverse.zig");
+const totient_mod = @import("../../maths/eulers_totient.zig");
+const crt_mod = @import("../../maths/chinese_remainder_theorem.zig");
+const binom_mod = @import("../../maths/binomial_coefficient.zig");
+const isqrt_mod = @import("../../maths/integer_square_root.zig");
+const trie_mod = @import("../../data_structures/trie.zig");
+const disjoint_set_mod = @import("../../data_structures/disjoint_set.zig");
+const avl_tree_mod = @import("../../data_structures/avl_tree.zig");
+const max_heap_mod = @import("../../data_structures/max_heap.zig");
+const priority_queue_mod = @import("../../data_structures/priority_queue.zig");
 
 const climbing_stairs_mod = @import("../../dynamic_programming/climbing_stairs.zig");
 const fibonacci_dp_mod = @import("../../dynamic_programming/fibonacci_dp.zig");
 const coin_change_mod = @import("../../dynamic_programming/coin_change.zig");
 const max_subarray_mod = @import("../../dynamic_programming/max_subarray_sum.zig");
+const lis_mod = @import("../../dynamic_programming/longest_increasing_subsequence.zig");
+const rod_cutting_mod = @import("../../dynamic_programming/rod_cutting.zig");
+const matrix_chain_mod = @import("../../dynamic_programming/matrix_chain_multiplication.zig");
+const palindrome_partition_mod = @import("../../dynamic_programming/palindrome_partitioning.zig");
+const word_break_mod = @import("../../dynamic_programming/word_break.zig");
+const catalan_mod = @import("../../dynamic_programming/catalan_numbers.zig");
 const lcs_mod = @import("../../dynamic_programming/longest_common_subsequence.zig");
 const edit_distance_mod = @import("../../dynamic_programming/edit_distance.zig");
 const knapsack_mod = @import("../../dynamic_programming/knapsack.zig");
@@ -43,6 +60,13 @@ const knapsack_mod = @import("../../dynamic_programming/knapsack.zig");
 const bfs_mod = @import("../../graphs/bfs.zig");
 const dfs_mod = @import("../../graphs/dfs.zig");
 const dijkstra_mod = @import("../../graphs/dijkstra.zig");
+const bellman_ford_mod = @import("../../graphs/bellman_ford.zig");
+const topological_sort_mod = @import("../../graphs/topological_sort.zig");
+const floyd_warshall_mod = @import("../../graphs/floyd_warshall.zig");
+const detect_cycle_mod = @import("../../graphs/detect_cycle.zig");
+const connected_components_mod = @import("../../graphs/connected_components.zig");
+const kruskal_mod = @import("../../graphs/kruskal.zig");
+const prim_mod = @import("../../graphs/prim.zig");
 
 const is_power_two_mod = @import("../../bit_manipulation/is_power_of_two.zig");
 const count_set_bits_mod = @import("../../bit_manipulation/count_set_bits.zig");
@@ -77,6 +101,26 @@ const transpose_mod = @import("../../matrix/matrix_transpose.zig");
 const rotate_mod = @import("../../matrix/rotate_matrix.zig");
 const spiral_mod = @import("../../matrix/spiral_print.zig");
 const pascal_mod = @import("../../matrix/pascal_triangle.zig");
+
+const ExtPair = struct {
+    a: i64,
+    b: i64,
+};
+
+const ModInvPair = struct {
+    a: i64,
+    m: i64,
+};
+
+const CrtSystem = struct {
+    remainders: [3]i64,
+    moduli: [3]i64,
+};
+
+const BinomPair = struct {
+    n: u64,
+    k: u64,
+};
 
 fn intToU64(comptime T: type, v: T) u64 {
     const info = @typeInfo(T).int;
@@ -204,6 +248,32 @@ fn repeatString(allocator: Allocator, unit: []const u8, times: usize) ![]u8 {
         pos += unit.len;
     }
     return out;
+}
+
+fn encodeBase26Word(buf: []u8, value: u64) void {
+    var x = value;
+    var i = buf.len;
+    while (i > 0) {
+        i -= 1;
+        const d: u8 = @intCast(x % 26);
+        buf[i] = @as(u8, 'a') + d;
+        x /= 26;
+    }
+}
+
+fn generateBase26Words(allocator: Allocator, count: usize, word_len: usize) ![][]u8 {
+    const words = try allocator.alloc([]u8, count);
+    var built: usize = 0;
+    errdefer {
+        for (0..built) |i| allocator.free(words[i]);
+        allocator.free(words);
+    }
+    for (0..count) |i| {
+        words[i] = try allocator.alloc(u8, word_len);
+        built += 1;
+        encodeBase26Word(words[i], @intCast(i));
+    }
+    return words;
 }
 
 fn printResult(writer: anytype, algorithm: []const u8, category: []const u8, iterations: usize, total_ns: u64, checksum: u64) !void {
@@ -339,6 +409,184 @@ fn runCollatzSteps() !u64 {
     return sum;
 }
 
+fn runExtendedEuclidean(pairs: []const ExtPair) u64 {
+    var sum: u64 = 0;
+    for (pairs) |p| {
+        const r = ext_gcd_mod.extendedEuclidean(p.a, p.b);
+        sum +%= intToU64(i64, r.gcd);
+        sum +%= intToU64(i64, r.x);
+        sum +%= intToU64(i64, r.y);
+    }
+    return sum;
+}
+
+fn runModularInverse(pairs: []const ModInvPair) !u64 {
+    var sum: u64 = 0;
+    for (pairs) |p| {
+        sum +%= try mod_inverse_mod.modularInverse(p.a, p.m);
+    }
+    return sum;
+}
+
+fn runTotient(values: []const u64) u64 {
+    var sum: u64 = 0;
+    for (values) |v| {
+        sum +%= totient_mod.eulersTotient(v);
+    }
+    return sum;
+}
+
+fn runCrt(systems: []const CrtSystem) !u64 {
+    var sum: u64 = 0;
+    for (systems) |s| {
+        const x = try crt_mod.chineseRemainderTheorem(&s.remainders, &s.moduli);
+        sum +%= intToU64(i64, x);
+    }
+    return sum;
+}
+
+fn runBinomial(pairs: []const BinomPair) !u64 {
+    var sum: u64 = 0;
+    for (pairs) |p| {
+        sum +%= try binom_mod.binomialCoefficient(p.n, p.k);
+    }
+    return sum;
+}
+
+fn runIntegerSquareRoot(values: []const u64) u64 {
+    var sum: u64 = 0;
+    for (values) |v| {
+        sum +%= isqrt_mod.integerSquareRoot(v);
+    }
+    return sum;
+}
+
+fn runTrie(allocator: Allocator, words: []const []const u8) !u64 {
+    var trie = try trie_mod.Trie.init(allocator);
+    defer trie.deinit();
+
+    for (words) |word| try trie.insert(word);
+
+    var present: u64 = 0;
+    for (words) |word| {
+        if (trie.contains(word)) present +%= 1;
+    }
+
+    var prefix_hits: u64 = 0;
+    for (words) |word| {
+        if (trie.startsWith(word[0..3])) prefix_hits +%= 1;
+    }
+
+    var removed: u64 = 0;
+    var i: usize = 0;
+    while (i < words.len) : (i += 5) {
+        if (trie.remove(words[i])) removed +%= 1;
+    }
+
+    var remain: u64 = 0;
+    for (words) |word| {
+        if (trie.contains(word)) remain +%= 1;
+    }
+
+    return present +% (prefix_hits *% 3) +% (removed *% 5) +% (remain *% 7);
+}
+
+fn runDisjointSet(allocator: Allocator, n: usize) !u64 {
+    var ds = try disjoint_set_mod.DisjointSet.init(allocator, n);
+    defer ds.deinit();
+
+    var i: usize = 0;
+    while (i + 1 < n) : (i += 2) {
+        _ = try ds.unionSets(i, i + 1);
+    }
+    i = 0;
+    while (i + 3 < n) : (i += 3) {
+        _ = try ds.unionSets(i, i + 3);
+    }
+
+    var connected_hits: u64 = 0;
+    i = 0;
+    while (i < 20_000) : (i += 1) {
+        const a = (i * 97 + 31) % n;
+        const b = (i * 53 + 17) % n;
+        if (try ds.connected(a, b)) connected_hits +%= 1;
+    }
+
+    var root_sum: u64 = 0;
+    i = 0;
+    while (i < 10_000) : (i += 1) {
+        const idx = (i * 193 + 7) % n;
+        root_sum +%= @intCast(try ds.find(idx));
+    }
+
+    return connected_hits +% root_sum +% (@as(u64, @intCast(ds.componentCount())) *% 11);
+}
+
+fn runAvlTree(allocator: Allocator, values: []const i64, queries: []const i64) !u64 {
+    var tree = avl_tree_mod.AvlTree.init(allocator);
+    defer tree.deinit();
+
+    for (values) |v| _ = try tree.insert(v);
+
+    var hits_before: u64 = 0;
+    for (queries) |q| {
+        if (tree.contains(q)) hits_before +%= 1;
+    }
+
+    var removed: u64 = 0;
+    var i: usize = 0;
+    while (i < values.len) : (i += 4) {
+        if (tree.remove(values[i])) removed +%= 1;
+    }
+
+    var hits_after: u64 = 0;
+    for (queries) |q| {
+        if (tree.contains(q)) hits_after +%= 1;
+    }
+
+    const ordered = try tree.inorder(allocator);
+    defer allocator.free(ordered);
+    const inorder_checksum = checksumSlice(i64, ordered);
+
+    return hits_before +% (hits_after *% 3) +% (removed *% 5) +% (inorder_checksum *% 7);
+}
+
+fn runMaxHeap(allocator: Allocator, values: []const i64) !u64 {
+    var heap = try max_heap_mod.MaxHeap(i64).fromSlice(allocator, values);
+    defer heap.deinit();
+
+    const out = try allocator.alloc(i64, values.len);
+    defer allocator.free(out);
+
+    var idx: usize = 0;
+    while (heap.extractMax()) |v| {
+        out[idx] = v;
+        idx += 1;
+    }
+    return checksumSlice(i64, out[0..idx]);
+}
+
+fn runPriorityQueue(allocator: Allocator, n: usize) !u64 {
+    var pq = priority_queue_mod.PriorityQueue.init(allocator);
+    defer pq.deinit();
+
+    for (0..n) |i| {
+        const value: i64 = @intCast(i);
+        const idx: u64 = @intCast(i);
+        const priority: i64 = @intCast(((idx * 97) + 31) % 1000);
+        try pq.enqueue(value, priority);
+    }
+
+    const out = try allocator.alloc(i64, n);
+    defer allocator.free(out);
+    var idx: usize = 0;
+    while (pq.dequeue()) |item| {
+        out[idx] = item.value;
+        idx += 1;
+    }
+    return checksumSlice(i64, out[0..idx]);
+}
+
 fn runSieve(allocator: Allocator) !u64 {
     const primes = try sieve_mod.primeSieve(allocator, 300_000);
     defer allocator.free(primes);
@@ -363,6 +611,34 @@ fn runClimbingStairsMany(inputs: []const i32) !u64 {
 
 fn runMaxSubarray(dp_array: []const i64) u64 {
     return intToU64(i64, max_subarray_mod.maxSubarraySum(dp_array, false));
+}
+
+fn runLis(allocator: Allocator, arr: []const i64) !u64 {
+    return @intCast(try lis_mod.longestIncreasingSubsequenceLength(allocator, arr));
+}
+
+fn runRodCutting(allocator: Allocator, prices: []const i64, length: usize) !u64 {
+    return intToU64(i64, try rod_cutting_mod.rodCutting(allocator, prices, length));
+}
+
+fn runMatrixChainMultiplication(allocator: Allocator, dims: []const usize) !u64 {
+    return @intCast(try matrix_chain_mod.matrixChainMultiplication(allocator, dims));
+}
+
+fn runPalindromePartitioning(allocator: Allocator, text: []const u8) !u64 {
+    return @intCast(try palindrome_partition_mod.minPalindromeCuts(allocator, text));
+}
+
+fn runWordBreak(allocator: Allocator, text: []const u8, dict: []const []const u8) !u64 {
+    return checksumBool(try word_break_mod.wordBreak(allocator, text, dict));
+}
+
+fn runCatalanMany(allocator: Allocator, inputs: []const u32) !u64 {
+    var sum: u64 = 0;
+    for (inputs) |n| {
+        sum +%= try catalan_mod.catalanNumber(allocator, n);
+    }
+    return sum;
 }
 
 fn runLcs(allocator: Allocator, a: []const u8, b: []const u8) !u64 {
@@ -461,6 +737,237 @@ fn freeWeightedGraphAdj(allocator: Allocator, adj: [][]dijkstra_mod.Edge) void {
     allocator.free(adj);
 }
 
+fn buildBellmanEdges(allocator: Allocator, n: usize) ![]bellman_ford_mod.Edge {
+    var edge_count: usize = 0;
+    for (0..n) |i| {
+        if (i + 1 < n) edge_count += 1;
+        if (i + 2 < n) edge_count += 1;
+        if (i % 3 == 0 and i + 17 < n) edge_count += 1;
+    }
+
+    const edges = try allocator.alloc(bellman_ford_mod.Edge, edge_count);
+    var idx: usize = 0;
+    for (0..n) |i| {
+        const i_u64: u64 = @intCast(i);
+        if (i + 1 < n) {
+            edges[idx] = .{
+                .from = i,
+                .to = i + 1,
+                .weight = @intCast(((i_u64 * 17) + 3) % 23 + 1),
+            };
+            idx += 1;
+        }
+        if (i + 2 < n) {
+            edges[idx] = .{
+                .from = i,
+                .to = i + 2,
+                .weight = @intCast(((i_u64 * 31) + 7) % 29 + 1),
+            };
+            idx += 1;
+        }
+        if (i % 3 == 0 and i + 17 < n) {
+            edges[idx] = .{
+                .from = i,
+                .to = i + 17,
+                .weight = @intCast(((i_u64 * 13) + 11) % 41 + 1),
+            };
+            idx += 1;
+        }
+    }
+    return edges;
+}
+
+fn buildFloydMatrix(allocator: Allocator, n: usize, inf: i64) ![]i64 {
+    const mat = try allocator.alloc(i64, n * n);
+    @memset(mat, inf);
+
+    for (0..n) |i| {
+        mat[i * n + i] = 0;
+        const i_u64: u64 = @intCast(i);
+        if (i + 1 < n) {
+            mat[i * n + (i + 1)] = @intCast(((i_u64 * 17) + 3) % 23 + 1);
+        }
+        if (i + 2 < n) {
+            mat[i * n + (i + 2)] = @intCast(((i_u64 * 31) + 7) % 29 + 1);
+        }
+        if (i % 3 == 0 and i + 17 < n) {
+            mat[i * n + (i + 17)] = @intCast(((i_u64 * 13) + 11) % 41 + 1);
+        }
+    }
+    return mat;
+}
+
+fn buildCycleGraphAdj(allocator: Allocator, n: usize) ![][]usize {
+    const adj = try allocator.alloc([]usize, n);
+    var built: usize = 0;
+    errdefer {
+        for (0..built) |i| allocator.free(adj[i]);
+        allocator.free(adj);
+    }
+
+    for (0..n) |i| {
+        var count: usize = 0;
+        if (i + 1 < n) count += 1;
+        if (i + 2 < n) count += 1;
+        if (i % 3 == 0 and i + 17 < n) count += 1;
+        if (i + 1 == n and n > 0) count += 1; // last node links back to 0
+
+        adj[i] = try allocator.alloc(usize, count);
+        built += 1;
+
+        var idx: usize = 0;
+        if (i + 1 < n) {
+            adj[i][idx] = i + 1;
+            idx += 1;
+        }
+        if (i + 2 < n) {
+            adj[i][idx] = i + 2;
+            idx += 1;
+        }
+        if (i % 3 == 0 and i + 17 < n) {
+            adj[i][idx] = i + 17;
+            idx += 1;
+        }
+        if (i + 1 == n and n > 0) {
+            adj[i][idx] = 0;
+            idx += 1;
+        }
+    }
+    return adj;
+}
+
+fn buildComponentAdj(allocator: Allocator, n: usize) ![][]usize {
+    const adj = try allocator.alloc([]usize, n);
+    var built: usize = 0;
+    errdefer {
+        for (0..built) |i| allocator.free(adj[i]);
+        allocator.free(adj);
+    }
+
+    const split = if (n >= 2) (n / 2) - 1 else 0;
+    for (0..n) |i| {
+        var count: usize = 0;
+        if (i > 0 and i - 1 != split) count += 1;
+        if (i + 1 < n and i != split) count += 1;
+
+        adj[i] = try allocator.alloc(usize, count);
+        built += 1;
+
+        var idx: usize = 0;
+        if (i > 0 and i - 1 != split) {
+            adj[i][idx] = i - 1;
+            idx += 1;
+        }
+        if (i + 1 < n and i != split) {
+            adj[i][idx] = i + 1;
+            idx += 1;
+        }
+    }
+    return adj;
+}
+
+fn buildMstEdgesKruskal(allocator: Allocator, n: usize) ![]kruskal_mod.Edge {
+    var edge_count: usize = 0;
+    for (0..n) |i| {
+        if (i + 1 < n) edge_count += 1;
+        if (i + 2 < n) edge_count += 1;
+        if (i % 5 == 0 and i + 11 < n) edge_count += 1;
+    }
+
+    const edges = try allocator.alloc(kruskal_mod.Edge, edge_count);
+    var idx: usize = 0;
+    for (0..n) |i| {
+        const i_u64: u64 = @intCast(i);
+        if (i + 1 < n) {
+            edges[idx] = .{
+                .u = i,
+                .v = i + 1,
+                .weight = @intCast(((i_u64 * 19) + 5) % 37 + 1),
+            };
+            idx += 1;
+        }
+        if (i + 2 < n) {
+            edges[idx] = .{
+                .u = i,
+                .v = i + 2,
+                .weight = @intCast(((i_u64 * 23) + 7) % 43 + 1),
+            };
+            idx += 1;
+        }
+        if (i % 5 == 0 and i + 11 < n) {
+            edges[idx] = .{
+                .u = i,
+                .v = i + 11,
+                .weight = @intCast(((i_u64 * 29) + 13) % 53 + 1),
+            };
+            idx += 1;
+        }
+    }
+    return edges;
+}
+
+fn buildMstAdjPrim(allocator: Allocator, n: usize) ![][]prim_mod.Edge {
+    const adj = try allocator.alloc([]prim_mod.Edge, n);
+    var built: usize = 0;
+    errdefer {
+        for (0..built) |i| allocator.free(adj[i]);
+        allocator.free(adj);
+    }
+
+    for (0..n) |i| {
+        var count: usize = 0;
+        if (i > 0) count += 1;
+        if (i + 1 < n) count += 1;
+        if (i >= 2) count += 1;
+        if (i + 2 < n) count += 1;
+        if (i >= 11 and (i - 11) % 5 == 0) count += 1;
+        if (i % 5 == 0 and i + 11 < n) count += 1;
+
+        adj[i] = try allocator.alloc(prim_mod.Edge, count);
+        built += 1;
+
+        var idx: usize = 0;
+        const i_u64: u64 = @intCast(i);
+
+        if (i > 0) {
+            const j = i - 1;
+            const j_u64: u64 = @intCast(j);
+            adj[i][idx] = .{ .to = j, .weight = @intCast(((j_u64 * 19) + 5) % 37 + 1) };
+            idx += 1;
+        }
+        if (i + 1 < n) {
+            adj[i][idx] = .{ .to = i + 1, .weight = @intCast(((i_u64 * 19) + 5) % 37 + 1) };
+            idx += 1;
+        }
+        if (i >= 2) {
+            const j = i - 2;
+            const j_u64: u64 = @intCast(j);
+            adj[i][idx] = .{ .to = j, .weight = @intCast(((j_u64 * 23) + 7) % 43 + 1) };
+            idx += 1;
+        }
+        if (i + 2 < n) {
+            adj[i][idx] = .{ .to = i + 2, .weight = @intCast(((i_u64 * 23) + 7) % 43 + 1) };
+            idx += 1;
+        }
+        if (i >= 11 and (i - 11) % 5 == 0) {
+            const j = i - 11;
+            const j_u64: u64 = @intCast(j);
+            adj[i][idx] = .{ .to = j, .weight = @intCast(((j_u64 * 29) + 13) % 53 + 1) };
+            idx += 1;
+        }
+        if (i % 5 == 0 and i + 11 < n) {
+            adj[i][idx] = .{ .to = i + 11, .weight = @intCast(((i_u64 * 29) + 13) % 53 + 1) };
+            idx += 1;
+        }
+    }
+    return adj;
+}
+
+fn freePrimAdj(allocator: Allocator, adj: [][]prim_mod.Edge) void {
+    for (adj) |row| allocator.free(row);
+    allocator.free(adj);
+}
+
 fn runBfs(allocator: Allocator, adj: []const []const usize) !u64 {
     const order = try bfs_mod.bfs(allocator, adj, 0);
     defer allocator.free(order);
@@ -477,6 +984,42 @@ fn runDijkstra(allocator: Allocator, adj: []const []const dijkstra_mod.Edge) !u6
     const dist = try dijkstra_mod.dijkstra(allocator, adj, 0);
     defer allocator.free(dist);
     return checksumSlice(u64, dist);
+}
+
+fn runBellmanFord(allocator: Allocator, vertex_count: usize, edges: []const bellman_ford_mod.Edge) !u64 {
+    const dist = try bellman_ford_mod.bellmanFord(allocator, vertex_count, edges, 0);
+    defer allocator.free(dist);
+    return checksumSlice(i64, dist);
+}
+
+fn runTopologicalSort(allocator: Allocator, adj: []const []const usize) !u64 {
+    const order = try topological_sort_mod.topologicalSort(allocator, adj);
+    defer allocator.free(order);
+    return checksumSlice(usize, order);
+}
+
+fn runFloydWarshall(allocator: Allocator, matrix: []const i64, n: usize, inf: i64) !u64 {
+    const out = try floyd_warshall_mod.floydWarshall(allocator, matrix, n, inf);
+    defer allocator.free(out);
+    return checksumSlice(i64, out);
+}
+
+fn runDetectCycle(allocator: Allocator, adj: []const []const usize) !u64 {
+    return checksumBool(try detect_cycle_mod.hasCycle(allocator, adj));
+}
+
+fn runConnectedComponents(allocator: Allocator, adj: []const []const usize) !u64 {
+    return @intCast(try connected_components_mod.countConnectedComponents(allocator, adj));
+}
+
+fn runKruskal(allocator: Allocator, vertex_count: usize, edges: []const kruskal_mod.Edge) !u64 {
+    const weight = try kruskal_mod.kruskalMstWeight(allocator, vertex_count, edges);
+    return intToU64(i64, weight);
+}
+
+fn runPrim(allocator: Allocator, adj: []const []const prim_mod.Edge) !u64 {
+    const weight = try prim_mod.primMstWeight(allocator, adj, 0);
+    return intToU64(i64, weight);
 }
 
 fn runIsPowerOfTwo() u64 {
@@ -683,6 +1226,97 @@ pub fn main() !void {
     defer allocator.free(search_queries);
     const math_values = try generateU64Data(allocator, 40_000);
     defer allocator.free(math_values);
+    const ext_pairs = try allocator.alloc(ExtPair, 4_000);
+    defer allocator.free(ext_pairs);
+    for (0..ext_pairs.len) |i| {
+        const idx = i * 2;
+        var a: i64 = @intCast(math_values[idx] % 200_000);
+        var b: i64 = @intCast(math_values[idx + 1] % 200_000);
+        a -= 100_000;
+        b -= 100_000;
+        if (a == 0 and b == 0) b = 1;
+        ext_pairs[i] = .{ .a = a, .b = b };
+    }
+
+    const modinv_pairs = try allocator.alloc(ModInvPair, 2_000);
+    defer allocator.free(modinv_pairs);
+    for (0..modinv_pairs.len) |i| {
+        const idx: u64 = @intCast(i);
+        var m: i64 = @intCast(((idx * 37) + 101) % 50_000 + 3);
+        if (@mod(m, 2) == 0) m += 1;
+
+        const m_u64: u64 = @intCast(m);
+        var a: i64 = @intCast(((idx * 97) + 31) % m_u64);
+        if (a == 0) a = 1;
+        while (gcd_mod.gcd(a, m) != 1) {
+            a = @mod(a + 1, m);
+            if (a == 0) a = 1;
+        }
+        modinv_pairs[i] = .{ .a = a, .m = m };
+    }
+
+    const totient_inputs = try allocator.alloc(u64, 20_000);
+    defer allocator.free(totient_inputs);
+    for (0..totient_inputs.len) |i| {
+        totient_inputs[i] = (math_values[i] % 1_000_000) + 1;
+    }
+
+    const crt_systems = try allocator.alloc(CrtSystem, 2_500);
+    defer allocator.free(crt_systems);
+    for (0..crt_systems.len) |i| {
+        const i_u64: u64 = @intCast(i);
+        crt_systems[i] = .{
+            .remainders = .{
+                @intCast(i_u64 % 3),
+                @intCast((i_u64 * 2 + 1) % 5),
+                @intCast((i_u64 * 3 + 2) % 7),
+            },
+            .moduli = .{ 3, 5, 7 },
+        };
+    }
+
+    const binom_pairs = try allocator.alloc(BinomPair, 3_000);
+    defer allocator.free(binom_pairs);
+    for (0..binom_pairs.len) |i| {
+        const idx: u64 = @intCast(i);
+        binom_pairs[i] = .{
+            .n = ((idx * 19) + 20) % 47 + 20,
+            .k = ((idx * 11) + 7) % 20 + 1,
+        };
+    }
+
+    const isqrt_inputs = try allocator.alloc(u64, 40_000);
+    defer allocator.free(isqrt_inputs);
+    const isqrt_modulus: u64 = (@as(u64, 1) << 63) - 1;
+    for (0..isqrt_inputs.len) |i| {
+        const idx: u64 = @intCast(i);
+        isqrt_inputs[i] = ((idx * 9_999_991) + 1_234_567_891) % isqrt_modulus;
+    }
+    const trie_words_owned = try generateBase26Words(allocator, 12_000, 6);
+    defer {
+        for (trie_words_owned) |word| allocator.free(word);
+        allocator.free(trie_words_owned);
+    }
+    const trie_words = try allocator.alloc([]const u8, trie_words_owned.len);
+    defer allocator.free(trie_words);
+    for (trie_words_owned, 0..) |word, idx| trie_words[idx] = word;
+    const disjoint_set_n: usize = 50_000;
+    const avl_values = try allocator.alloc(i64, 50_000);
+    defer allocator.free(avl_values);
+    for (0..avl_values.len) |i| {
+        const idx: u64 = @intCast(i);
+        avl_values[i] = @intCast(((idx * 73) + 19) % 50_000);
+    }
+    const avl_queries = try allocator.alloc(i64, 20_000);
+    defer allocator.free(avl_queries);
+    for (0..avl_queries.len) |i| {
+        const idx: u64 = @intCast(i);
+        avl_queries[i] = @intCast(((idx * 97) + 31) % 50_000);
+    }
+    const max_heap_values = try generateIntData64(allocator, 50_000);
+    defer allocator.free(max_heap_values);
+    const priority_queue_n: usize = 60_000;
+
     const dp_array = try generateIntData64(allocator, 90_000);
     defer allocator.free(dp_array);
 
@@ -752,6 +1386,36 @@ pub fn main() !void {
     defer allocator.free(weighted_graph_adj);
     for (weighted_graph_adj_owned, 0..) |row, i| weighted_graph_adj[i] = row;
 
+    const bellman_n: usize = 1_800;
+    const bellman_edges = try buildBellmanEdges(allocator, bellman_n);
+    defer allocator.free(bellman_edges);
+
+    const floyd_n: usize = 120;
+    const floyd_inf: i64 = 1_000_000_000_000;
+    const floyd_mat = try buildFloydMatrix(allocator, floyd_n, floyd_inf);
+    defer allocator.free(floyd_mat);
+
+    const cycle_graph_adj_owned = try buildCycleGraphAdj(allocator, 600);
+    defer freeGraphAdj(allocator, cycle_graph_adj_owned);
+    const cycle_graph_adj = try allocator.alloc([]const usize, cycle_graph_adj_owned.len);
+    defer allocator.free(cycle_graph_adj);
+    for (cycle_graph_adj_owned, 0..) |row, i| cycle_graph_adj[i] = row;
+
+    const component_adj_owned = try buildComponentAdj(allocator, 6_000);
+    defer freeGraphAdj(allocator, component_adj_owned);
+    const component_adj = try allocator.alloc([]const usize, component_adj_owned.len);
+    defer allocator.free(component_adj);
+    for (component_adj_owned, 0..) |row, i| component_adj[i] = row;
+
+    const mst_n: usize = 1_800;
+    const mst_edges = try buildMstEdgesKruskal(allocator, mst_n);
+    defer allocator.free(mst_edges);
+    const mst_adj_owned = try buildMstAdjPrim(allocator, mst_n);
+    defer freePrimAdj(allocator, mst_adj_owned);
+    const mst_adj = try allocator.alloc([]const prim_mod.Edge, mst_adj_owned.len);
+    defer allocator.free(mst_adj);
+    for (mst_adj_owned, 0..) |row, i| mst_adj[i] = row;
+
     const knapsack_weights = try allocator.alloc(usize, 180);
     defer allocator.free(knapsack_weights);
     const knapsack_values = try allocator.alloc(usize, 180);
@@ -761,6 +1425,32 @@ pub fn main() !void {
         knapsack_weights[i] = @intCast(((idx * 73) + 19) % 40 + 1);
         knapsack_values[i] = @intCast(((idx * 97) + 53) % 500 + 1);
     }
+
+    const rod_prices = try allocator.alloc(i64, 220);
+    defer allocator.free(rod_prices);
+    for (0..rod_prices.len) |i| {
+        const idx: u64 = @intCast(i);
+        rod_prices[i] = @intCast(((idx * 37) + 11) % 600 + 1);
+    }
+    const rod_length: usize = 200;
+
+    const mcm_dims = try allocator.alloc(usize, 71);
+    defer allocator.free(mcm_dims);
+    for (0..mcm_dims.len) |i| {
+        const idx: u64 = @intCast(i);
+        mcm_dims[i] = @intCast(((idx * 13) + 7) % 50 + 5);
+    }
+
+    const pal_part_text = try repeatString(allocator, "abacdcaba", 80);
+    defer allocator.free(pal_part_text);
+
+    const word_break_text = try repeatString(allocator, "zigisfastandsafe", 3_000);
+    defer allocator.free(word_break_text);
+    const word_break_dict = [_][]const u8{ "zig", "is", "fast", "and", "safe" };
+
+    const catalan_inputs = try allocator.alloc(u32, 30);
+    defer allocator.free(catalan_inputs);
+    for (0..30) |i| catalan_inputs[i] = @intCast(i + 1);
 
     const fib_inputs = try allocator.alloc(u32, 90);
     defer allocator.free(fib_inputs);
@@ -840,7 +1530,7 @@ pub fn main() !void {
     try benchRunMaybe(filter_algorithm, &filter_matched, runSearch, stdout, "jump_search", "searches", 4, .{ jump_search.jumpSearch, search_data, search_queries });
     try benchRunMaybe(filter_algorithm, &filter_matched, runSearch, stdout, "ternary_search", "searches", 4, .{ ternary_search.ternarySearch, search_data, search_queries });
 
-    // Maths (8)
+    // Maths (14)
     try benchRunMaybe(filter_algorithm, &filter_matched, runMathGcd, stdout, "gcd", "maths", 6, .{math_values});
     try benchRunMaybe(filter_algorithm, &filter_matched, runMathLcm, stdout, "lcm", "maths", 6, .{math_values});
     try benchRunMaybe(filter_algorithm, &filter_matched, runFibonacciMany, stdout, "fibonacci", "maths", 200, .{fib_inputs});
@@ -849,20 +1539,46 @@ pub fn main() !void {
     try benchRunMaybe(filter_algorithm, &filter_matched, runPrimeCheck, stdout, "prime_check", "maths", 20, .{});
     try benchRunMaybe(filter_algorithm, &filter_matched, runSieve, stdout, "sieve_of_eratosthenes", "maths", 6, .{allocator});
     try benchRunMaybe(filter_algorithm, &filter_matched, runCollatzSteps, stdout, "collatz_sequence", "maths", 8, .{});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runExtendedEuclidean, stdout, "extended_euclidean", "maths", 20, .{ext_pairs});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runModularInverse, stdout, "modular_inverse", "maths", 20, .{modinv_pairs});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runTotient, stdout, "eulers_totient", "maths", 12, .{totient_inputs});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runCrt, stdout, "chinese_remainder_theorem", "maths", 25, .{crt_systems});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runBinomial, stdout, "binomial_coefficient", "maths", 20, .{binom_pairs});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runIntegerSquareRoot, stdout, "integer_square_root", "maths", 25, .{isqrt_inputs});
 
-    // Dynamic Programming (7)
+    // Data Structures (5)
+    try benchRunMaybe(filter_algorithm, &filter_matched, runTrie, stdout, "trie", "data_structures", 8, .{ allocator, trie_words });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runDisjointSet, stdout, "disjoint_set", "data_structures", 10, .{ allocator, disjoint_set_n });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runAvlTree, stdout, "avl_tree", "data_structures", 4, .{ allocator, avl_values, avl_queries });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMaxHeap, stdout, "max_heap", "data_structures", 8, .{ allocator, max_heap_values });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runPriorityQueue, stdout, "priority_queue", "data_structures", 8, .{ allocator, priority_queue_n });
+
+    // Dynamic Programming (13)
     try benchRunMaybe(filter_algorithm, &filter_matched, runClimbingStairsMany, stdout, "climbing_stairs", "dynamic_programming", 1000, .{stairs_inputs});
     try benchRunMaybe(filter_algorithm, &filter_matched, runFibonacciDp, stdout, "fibonacci_dp", "dynamic_programming", 400, .{allocator});
     try benchRunMaybe(filter_algorithm, &filter_matched, runCoinChange, stdout, "coin_change", "dynamic_programming", 80, .{ allocator, &coin_set });
     try benchRunMaybe(filter_algorithm, &filter_matched, runMaxSubarray, stdout, "max_subarray_sum", "dynamic_programming", 20, .{dp_array});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runLis, stdout, "longest_increasing_subsequence", "dynamic_programming", 12, .{ allocator, dp_array });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runRodCutting, stdout, "rod_cutting", "dynamic_programming", 80, .{ allocator, rod_prices, rod_length });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMatrixChainMultiplication, stdout, "matrix_chain_multiplication", "dynamic_programming", 30, .{ allocator, mcm_dims });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runPalindromePartitioning, stdout, "palindrome_partitioning", "dynamic_programming", 60, .{ allocator, pal_part_text });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runWordBreak, stdout, "word_break", "dynamic_programming", 60, .{ allocator, word_break_text, &word_break_dict });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runCatalanMany, stdout, "catalan_numbers", "dynamic_programming", 120, .{ allocator, catalan_inputs });
     try benchRunMaybe(filter_algorithm, &filter_matched, runLcs, stdout, "longest_common_subsequence", "dynamic_programming", 30, .{ allocator, s1, s2 });
     try benchRunMaybe(filter_algorithm, &filter_matched, runEditDistance, stdout, "edit_distance", "dynamic_programming", 30, .{ allocator, s1, s2 });
     try benchRunMaybe(filter_algorithm, &filter_matched, runKnapsack, stdout, "knapsack", "dynamic_programming", 60, .{ allocator, knapsack_weights, knapsack_values });
 
-    // Graphs (3)
+    // Graphs (10)
     try benchRunMaybe(filter_algorithm, &filter_matched, runBfs, stdout, "bfs", "graphs", 12, .{ allocator, graph_adj });
     try benchRunMaybe(filter_algorithm, &filter_matched, runDfs, stdout, "dfs", "graphs", 12, .{ allocator, graph_adj });
     try benchRunMaybe(filter_algorithm, &filter_matched, runDijkstra, stdout, "dijkstra", "graphs", 8, .{ allocator, weighted_graph_adj });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runBellmanFord, stdout, "bellman_ford", "graphs", 4, .{ allocator, bellman_n, bellman_edges });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runTopologicalSort, stdout, "topological_sort", "graphs", 12, .{ allocator, graph_adj });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runFloydWarshall, stdout, "floyd_warshall", "graphs", 2, .{ allocator, floyd_mat, floyd_n, floyd_inf });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runDetectCycle, stdout, "detect_cycle", "graphs", 20, .{ allocator, cycle_graph_adj });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runConnectedComponents, stdout, "connected_components", "graphs", 8, .{ allocator, component_adj });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runKruskal, stdout, "kruskal", "graphs", 6, .{ allocator, mst_n, mst_edges });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runPrim, stdout, "prim", "graphs", 6, .{ allocator, mst_adj });
 
     // Bit Manipulation (6)
     try benchRunMaybe(filter_algorithm, &filter_matched, runIsPowerOfTwo, stdout, "is_power_of_two", "bit_manipulation", 120, .{});

@@ -19,7 +19,10 @@ pub fn rotate90(mat: []i64, n: usize) void {
     for (0..n) |r| {
         var lo: usize = 0;
         var hi: usize = n - 1;
-        while (lo < hi) : ({ lo += 1; hi -= 1; }) {
+        while (lo < hi) : ({
+            lo += 1;
+            hi -= 1;
+        }) {
             const tmp = mat[r * n + lo];
             mat[r * n + lo] = mat[r * n + hi];
             mat[r * n + hi] = tmp;

@@ -10,7 +10,10 @@ pub fn isPalindrome(s: []const u8) bool {
     if (s.len == 0) return true;
     var lo: usize = 0;
     var hi: usize = s.len - 1;
-    while (lo < hi) : ({ lo += 1; hi -= 1; }) {
+    while (lo < hi) : ({
+        lo += 1;
+        hi -= 1;
+    }) {
         if (s[lo] != s[hi]) return false;
     }
     return true;

@@ -53,6 +53,8 @@
   - add/update a focused benchmark case for that algorithm
   - record the result into `benchmarks/python_vs_zig` artifacts
   - prefer `bash benchmarks/python_vs_zig/run_single.sh <algorithm_name>` for incremental updates (it upserts into full CSVs and rebuilds leaderboard outputs)
+- Experimental integrity is mandatory: any real errors encountered during implementation/testing/benchmarking (compile errors, runtime panics, checksum mismatches, overflow/data-range issues, benchmark harness failures) must be truthfully logged in `EXPERIMENT_LOG.md` in the same batch section; do not report only final success.
+  - each recorded issue must include: failing step/command, error symptom, root cause, fix applied, and post-fix verification result
 - For benchmark artifact maintenance after adding/updating an algorithm:
   - update benchmark harness inputs/cases in `benchmarks/python_vs_zig/python_bench_all.py` and `benchmarks/python_vs_zig/zig_bench_all.zig`
   - regenerate outputs via `bash benchmarks/python_vs_zig/run_all.sh` for release/regression, or via `run_single.sh` for daily incremental additions

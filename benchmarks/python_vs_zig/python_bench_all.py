@@ -7,6 +7,7 @@ import heapq
 import math
 import os
 import time
+from bisect import bisect_left
 from dataclasses import dataclass
 from typing import Callable
 
@@ -499,6 +500,422 @@ def collatz_steps(n: int) -> int:
     return steps
 
 
+def extended_euclidean(a: int, b: int) -> tuple[int, int, int]:
+    old_r, r = a, b
+    old_s, s = 1, 0
+    old_t, t = 0, 1
+    while r != 0:
+        q = old_r // r
+        old_r, r = r, old_r - q * r
+        old_s, s = s, old_s - q * s
+        old_t, t = t, old_t - q * t
+    if old_r < 0:
+        old_r, old_s, old_t = -old_r, -old_s, -old_t
+    return old_r, old_s, old_t
+
+
+def modular_inverse(a: int, m: int) -> int:
+    if m <= 1:
+        raise ValueError("invalid modulus")
+    g, x, _ = extended_euclidean(a, m)
+    if g != 1:
+        raise ValueError("no inverse")
+    return x % m
+
+
+def eulers_totient(n: int) -> int:
+    if n == 0:
+        return 0
+    result = n
+    x = n
+    p = 2
+    while p * p <= x:
+        if x % p == 0:
+            while x % p == 0:
+                x //= p
+            result -= result // p
+        p += 1
+    if x > 1:
+        result -= result // x
+    return result
+
+
+def chinese_remainder_theorem(remainders: list[int], moduli: list[int]) -> int:
+    if len(remainders) != len(moduli):
+        raise ValueError("length mismatch")
+    if not remainders:
+        raise ValueError("empty")
+    for m in moduli:
+        if m <= 0:
+            raise ValueError("invalid modulus")
+    for i in range(len(moduli)):
+        for j in range(i + 1, len(moduli)):
+            if math.gcd(moduli[i], moduli[j]) != 1:
+                raise ValueError("not pairwise coprime")
+
+    prod = 1
+    for m in moduli:
+        prod *= m
+
+    total = 0
+    for a, m in zip(remainders, moduli):
+        ni = prod // m
+        inv = modular_inverse(ni % m, m)
+        total += (a % m) * ni * inv
+    return total % prod
+
+
+def binomial_coefficient(n: int, k: int) -> int:
+    if k > n:
+        return 0
+    kk = min(k, n - k)
+    result = 1
+    for i in range(1, kk + 1):
+        result = result * (n - kk + i) // i
+    return result
+
+
+def integer_square_root(n: int) -> int:
+    if n < 2:
+        return n
+    x = n
+    y = (x + n // x) // 2
+    while y < x:
+        x = y
+        y = (x + n // x) // 2
+    return x
+
+
+def encode_base26_word(value: int, length: int) -> str:
+    chars = ["a"] * length
+    x = value
+    for i in range(length - 1, -1, -1):
+        chars[i] = chr(ord("a") + (x % 26))
+        x //= 26
+    return "".join(chars)
+
+
+class TrieNode:
+    __slots__ = ("children", "is_end")
+
+    def __init__(self) -> None:
+        self.children: dict[str, TrieNode] = {}
+        self.is_end = False
+
+
+class Trie:
+    def __init__(self) -> None:
+        self.root = TrieNode()
+
+    def insert(self, word: str) -> None:
+        node = self.root
+        for ch in word:
+            node = node.children.setdefault(ch, TrieNode())
+        node.is_end = True
+
+    def search(self, word: str) -> bool:
+        node = self.root
+        for ch in word:
+            nxt = node.children.get(ch)
+            if nxt is None:
+                return False
+            node = nxt
+        return node.is_end
+
+    def starts_with(self, prefix: str) -> bool:
+        node = self.root
+        for ch in prefix:
+            nxt = node.children.get(ch)
+            if nxt is None:
+                return False
+            node = nxt
+        return True
+
+    def delete(self, word: str) -> bool:
+        def dfs(node: TrieNode, idx: int) -> tuple[bool, bool]:
+            if idx == len(word):
+                if not node.is_end:
+                    return False, False
+                node.is_end = False
+                return True, not node.children
+
+            ch = word[idx]
+            child = node.children.get(ch)
+            if child is None:
+                return False, False
+
+            removed, prune_child = dfs(child, idx + 1)
+            if prune_child:
+                del node.children[ch]
+            return removed, (not node.is_end and not node.children)
+
+        removed, _ = dfs(self.root, 0)
+        return removed
+
+
+def trie_workload(words: list[str]) -> int:
+    trie = Trie()
+    for word in words:
+        trie.insert(word)
+
+    present = sum(1 for word in words if trie.search(word))
+    prefix_hits = sum(1 for word in words if trie.starts_with(word[:3]))
+    removed = sum(1 for word in words[::5] if trie.delete(word))
+    remain = sum(1 for word in words if trie.search(word))
+    return (present + (prefix_hits * 3) + (removed * 5) + (remain * 7)) & MASK_64
+
+
+class DisjointSetBench:
+    def __init__(self, n: int) -> None:
+        self.parent = list(range(n))
+        self.rank = [0] * n
+        self.components = n
+
+    def find(self, x: int) -> int:
+        parent = self.parent
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(self, a: int, b: int) -> bool:
+        ra = self.find(a)
+        rb = self.find(b)
+        if ra == rb:
+            return False
+        if self.rank[ra] < self.rank[rb]:
+            ra, rb = rb, ra
+        self.parent[rb] = ra
+        if self.rank[ra] == self.rank[rb]:
+            self.rank[ra] += 1
+        self.components -= 1
+        return True
+
+    def connected(self, a: int, b: int) -> bool:
+        return self.find(a) == self.find(b)
+
+
+def disjoint_set_workload(n: int) -> int:
+    ds = DisjointSetBench(n)
+    for i in range(0, n - 1, 2):
+        ds.union(i, i + 1)
+    for i in range(0, n - 3, 3):
+        ds.union(i, i + 3)
+
+    connected_hits = 0
+    for i in range(20_000):
+        a = ((i * 97) + 31) % n
+        b = ((i * 53) + 17) % n
+        if ds.connected(a, b):
+            connected_hits += 1
+
+    root_sum = 0
+    for i in range(10_000):
+        idx = ((i * 193) + 7) % n
+        root_sum = (root_sum + ds.find(idx)) & MASK_64
+
+    return (connected_hits + root_sum + (ds.components * 11)) & MASK_64
+
+
+class AvlNode:
+    __slots__ = ("key", "height", "left", "right")
+
+    def __init__(self, key: int) -> None:
+        self.key = key
+        self.height = 1
+        self.left: AvlNode | None = None
+        self.right: AvlNode | None = None
+
+
+class AvlTreeBench:
+    def __init__(self) -> None:
+        self.root: AvlNode | None = None
+        self.size = 0
+
+    @staticmethod
+    def _h(node: AvlNode | None) -> int:
+        return node.height if node else 0
+
+    @staticmethod
+    def _update(node: AvlNode) -> None:
+        node.height = max(AvlTreeBench._h(node.left), AvlTreeBench._h(node.right)) + 1
+
+    @staticmethod
+    def _balance(node: AvlNode) -> int:
+        return AvlTreeBench._h(node.left) - AvlTreeBench._h(node.right)
+
+    @staticmethod
+    def _rotate_left(x: AvlNode) -> AvlNode:
+        y = x.right
+        assert y is not None
+        t2 = y.left
+        y.left = x
+        x.right = t2
+        AvlTreeBench._update(x)
+        AvlTreeBench._update(y)
+        return y
+
+    @staticmethod
+    def _rotate_right(y: AvlNode) -> AvlNode:
+        x = y.left
+        assert x is not None
+        t2 = x.right
+        x.right = y
+        y.left = t2
+        AvlTreeBench._update(y)
+        AvlTreeBench._update(x)
+        return x
+
+    @staticmethod
+    def _rebalance(node: AvlNode) -> AvlNode:
+        bf = AvlTreeBench._balance(node)
+        if bf > 1:
+            assert node.left is not None
+            if AvlTreeBench._balance(node.left) < 0:
+                node.left = AvlTreeBench._rotate_left(node.left)
+            return AvlTreeBench._rotate_right(node)
+        if bf < -1:
+            assert node.right is not None
+            if AvlTreeBench._balance(node.right) > 0:
+                node.right = AvlTreeBench._rotate_right(node.right)
+            return AvlTreeBench._rotate_left(node)
+        return node
+
+    def insert(self, key: int) -> bool:
+        inserted = False
+
+        def rec(node: AvlNode | None) -> AvlNode:
+            nonlocal inserted
+            if node is None:
+                inserted = True
+                return AvlNode(key)
+            if key < node.key:
+                node.left = rec(node.left)
+            elif key > node.key:
+                node.right = rec(node.right)
+            else:
+                return node
+            self._update(node)
+            return self._rebalance(node)
+
+        self.root = rec(self.root)
+        if inserted:
+            self.size += 1
+        return inserted
+
+    def contains(self, key: int) -> bool:
+        cur = self.root
+        while cur is not None:
+            if key == cur.key:
+                return True
+            cur = cur.left if key < cur.key else cur.right
+        return False
+
+    def remove(self, key: int) -> bool:
+        removed = False
+
+        def min_node(node: AvlNode) -> AvlNode:
+            cur = node
+            while cur.left is not None:
+                cur = cur.left
+            return cur
+
+        def rec(node: AvlNode | None) -> AvlNode | None:
+            nonlocal removed
+            if node is None:
+                return None
+            if key < node.key:
+                node.left = rec(node.left)
+            elif key > node.key:
+                node.right = rec(node.right)
+            else:
+                removed = True
+                if node.left is None:
+                    return node.right
+                if node.right is None:
+                    return node.left
+                succ = min_node(node.right)
+                node.key = succ.key
+                node.right = rec_delete_key(node.right, succ.key)
+
+            self._update(node)
+            return self._rebalance(node)
+
+        def rec_delete_key(node: AvlNode | None, target: int) -> AvlNode | None:
+            if node is None:
+                return None
+            if target < node.key:
+                node.left = rec_delete_key(node.left, target)
+            elif target > node.key:
+                node.right = rec_delete_key(node.right, target)
+            else:
+                if node.left is None:
+                    return node.right
+                if node.right is None:
+                    return node.left
+                succ = min_node(node.right)
+                node.key = succ.key
+                node.right = rec_delete_key(node.right, succ.key)
+            self._update(node)
+            return self._rebalance(node)
+
+        self.root = rec(self.root)
+        if removed:
+            self.size -= 1
+        return removed
+
+    def inorder(self) -> list[int]:
+        out: list[int] = []
+
+        def walk(node: AvlNode | None) -> None:
+            if node is None:
+                return
+            walk(node.left)
+            out.append(node.key)
+            walk(node.right)
+
+        walk(self.root)
+        return out
+
+
+def avl_tree_workload(values: list[int], queries: list[int]) -> int:
+    tree = AvlTreeBench()
+    for v in values:
+        tree.insert(v)
+
+    hits_before = sum(1 for q in queries if tree.contains(q))
+    removed = sum(1 for v in values[::4] if tree.remove(v))
+    hits_after = sum(1 for q in queries if tree.contains(q))
+
+    ordered = tree.inorder()
+    if not ordered:
+        inorder_checksum = 0
+    else:
+        inorder_checksum = (
+            signed_i64_to_u64(ordered[0])
+            + signed_i64_to_u64(ordered[len(ordered) // 2])
+            + signed_i64_to_u64(ordered[-1])
+            + len(ordered)
+        ) & MASK_64
+
+    return (hits_before + (hits_after * 3) + (removed * 5) + (inorder_checksum * 7)) & MASK_64
+
+
+def max_heap_workload(values: list[int]) -> int:
+    heap = [-v for v in values]
+    heapq.heapify(heap)
+    out = [-heapq.heappop(heap) for _ in range(len(heap))]
+    return checksum_ints(out)
+
+
+def priority_queue_workload(n: int) -> int:
+    heap: list[tuple[int, int]] = []
+    for i in range(n):
+        heapq.heappush(heap, ((((i * 97) + 31) % 1000), i))
+    out = [heapq.heappop(heap)[1] for _ in range(len(heap))]
+    return checksum_ints(out)
+
+
 def climbing_stairs(n: int) -> int:
     if n <= 0:
         raise ValueError("invalid input")
@@ -611,6 +1028,107 @@ def knapsack(capacity: int, weights: list[int], values: list[int]) -> int:
     return dp[n * cols + capacity]
 
 
+def longest_increasing_subsequence(arr: list[int]) -> int:
+    tails: list[int] = []
+    for value in arr:
+        idx = bisect_left(tails, value)
+        if idx == len(tails):
+            tails.append(value)
+        else:
+            tails[idx] = value
+    return len(tails)
+
+
+def rod_cutting(prices: list[int], length: int) -> int:
+    if length == 0:
+        return 0
+    dp = [0] * (length + 1)
+    for rod_len in range(1, length + 1):
+        best = None
+        for cut in range(1, rod_len + 1):
+            if cut > len(prices):
+                continue
+            cand = prices[cut - 1] + dp[rod_len - cut]
+            if best is None or cand > best:
+                best = cand
+        dp[rod_len] = 0 if best is None else best
+    return dp[length]
+
+
+def matrix_chain_multiplication(dims: list[int]) -> int:
+    if len(dims) <= 2:
+        return 0
+    n = len(dims) - 1
+    inf = (1 << 63) - 1
+    dp = [0] * (n * n)
+    for chain_len in range(2, n + 1):
+        for i in range(n - chain_len + 1):
+            j = i + chain_len - 1
+            best = inf
+            for k in range(i, j):
+                cost = (
+                    dp[i * n + k]
+                    + dp[(k + 1) * n + j]
+                    + (dims[i] * dims[k + 1] * dims[j + 1])
+                )
+                if cost < best:
+                    best = cost
+            dp[i * n + j] = best
+    return dp[n - 1]
+
+
+def palindrome_partition_min_cuts(text: str) -> int:
+    n = len(text)
+    if n == 0:
+        return 0
+
+    is_pal = [False] * (n * n)
+    for i in range(n - 1, -1, -1):
+        for j in range(i, n):
+            if text[i] == text[j] and (j - i <= 1 or is_pal[(i + 1) * n + (j - 1)]):
+                is_pal[i * n + j] = True
+
+    cuts = [0] * n
+    for end in range(n):
+        if is_pal[end]:
+            cuts[end] = 0
+            continue
+        best = end
+        for prev in range(end):
+            if is_pal[(prev + 1) * n + end]:
+                cand = cuts[prev] + 1
+                if cand < best:
+                    best = cand
+        cuts[end] = best
+    return cuts[-1]
+
+
+def word_break(text: str, dictionary: list[str]) -> bool:
+    n = len(text)
+    dp = [False] * (n + 1)
+    dp[0] = True
+    for i in range(1, n + 1):
+        for word in dictionary:
+            wl = len(word)
+            if wl <= i and dp[i - wl] and text[i - wl : i] == word:
+                dp[i] = True
+                break
+    return dp[n]
+
+
+def catalan_number(n: int) -> int:
+    if n == 0:
+        return 1
+    dp = [0] * (n + 1)
+    dp[0] = dp[1] = 1
+    for i in range(2, n + 1):
+        total = 0
+        for j in range(i):
+            total += dp[j] * dp[i - 1 - j]
+        dp[i] = total
+    return dp[n]
+
+
 def bfs(adj: list[list[int]], start: int) -> list[int]:
     n = len(adj)
     if start >= n:
@@ -679,6 +1197,207 @@ def dijkstra(adj: list[list[tuple[int, int]]], start: int) -> list[int]:
                     dist[nb] = cand
 
     return dist
+
+
+def bellman_ford(vertex_count: int, edges: list[tuple[int, int, int]], start: int) -> list[int]:
+    if start >= vertex_count:
+        return []
+    inf = (1 << 63) - 1
+    dist = [inf] * vertex_count
+    dist[start] = 0
+
+    for _ in range(vertex_count - 1):
+        changed = False
+        for u, v, w in edges:
+            if not (0 <= u < vertex_count and 0 <= v < vertex_count):
+                continue
+            if dist[u] == inf:
+                continue
+            cand = dist[u] + w
+            if cand < dist[v]:
+                dist[v] = cand
+                changed = True
+        if not changed:
+            break
+
+    for u, v, w in edges:
+        if not (0 <= u < vertex_count and 0 <= v < vertex_count):
+            continue
+        if dist[u] == inf:
+            continue
+        if dist[u] + w < dist[v]:
+            raise ValueError("negative cycle")
+
+    return dist
+
+
+def topological_sort(adj: list[list[int]]) -> list[int]:
+    n = len(adj)
+    if n == 0:
+        return []
+    indegree = [0] * n
+    for neighbors in adj:
+        for nb in neighbors:
+            if 0 <= nb < n:
+                indegree[nb] += 1
+
+    queue = [i for i, deg in enumerate(indegree) if deg == 0]
+    head = 0
+    out: list[int] = []
+    while head < len(queue):
+        cur = queue[head]
+        head += 1
+        out.append(cur)
+        for nb in adj[cur]:
+            if 0 <= nb < n:
+                indegree[nb] -= 1
+                if indegree[nb] == 0:
+                    queue.append(nb)
+
+    if len(out) != n:
+        raise ValueError("cycle")
+    return out
+
+
+def floyd_warshall(matrix: list[int], n: int, inf: int) -> list[int]:
+    if n == 0:
+        return []
+    if len(matrix) != n * n:
+        raise ValueError("invalid matrix size")
+    dist = matrix.copy()
+    for k in range(n):
+        k_base = k * n
+        for i in range(n):
+            i_base = i * n
+            ik = dist[i_base + k]
+            if ik == inf:
+                continue
+            for j in range(n):
+                kj = dist[k_base + j]
+                if kj == inf:
+                    continue
+                cand = ik + kj
+                idx = i_base + j
+                if cand < dist[idx]:
+                    dist[idx] = cand
+    return dist
+
+
+def detect_cycle(adj: list[list[int]]) -> bool:
+    n = len(adj)
+    state = [0] * n  # 0=unvisited, 1=visiting, 2=done
+
+    def dfs(node: int) -> bool:
+        if state[node] == 1:
+            return True
+        if state[node] == 2:
+            return False
+        state[node] = 1
+        for nb in adj[node]:
+            if 0 <= nb < n and dfs(nb):
+                return True
+        state[node] = 2
+        return False
+
+    for i in range(n):
+        if state[i] == 0 and dfs(i):
+            return True
+    return False
+
+
+def connected_components(adj: list[list[int]]) -> int:
+    n = len(adj)
+    visited = [False] * n
+    count = 0
+    for i in range(n):
+        if visited[i]:
+            continue
+        count += 1
+        visited[i] = True
+        stack = [i]
+        while stack:
+            cur = stack.pop()
+            for nb in adj[cur]:
+                if 0 <= nb < n and not visited[nb]:
+                    visited[nb] = True
+                    stack.append(nb)
+    return count
+
+
+def kruskal_mst_weight(vertex_count: int, edges: list[tuple[int, int, int]]) -> int:
+    if vertex_count == 0:
+        return 0
+
+    parent = list(range(vertex_count))
+    rank = [0] * vertex_count
+
+    def find(x: int) -> int:
+        root = x
+        while parent[root] != root:
+            root = parent[root]
+        while parent[x] != x:
+            nxt = parent[x]
+            parent[x] = root
+            x = nxt
+        return root
+
+    def union(a: int, b: int) -> bool:
+        ra = find(a)
+        rb = find(b)
+        if ra == rb:
+            return False
+        if rank[ra] < rank[rb]:
+            ra, rb = rb, ra
+        parent[rb] = ra
+        if rank[ra] == rank[rb]:
+            rank[ra] += 1
+        return True
+
+    valid = sorted((e for e in edges if 0 <= e[0] < vertex_count and 0 <= e[1] < vertex_count), key=lambda e: e[2])
+    total = 0
+    used = 0
+    for u, v, w in valid:
+        if union(u, v):
+            total += w
+            used += 1
+            if used == vertex_count - 1:
+                break
+
+    if used != vertex_count - 1:
+        raise ValueError("disconnected")
+    return total
+
+
+def prim_mst_weight(adj: list[list[tuple[int, int]]], start: int = 0) -> int:
+    n = len(adj)
+    if n == 0:
+        return 0
+    if start >= n:
+        raise ValueError("invalid start")
+
+    inf = (1 << 63) - 1
+    key = [inf] * n
+    used = [False] * n
+    key[start] = 0
+    total = 0
+
+    for _ in range(n):
+        best = inf
+        u = -1
+        for i in range(n):
+            if not used[i] and key[i] < best:
+                best = key[i]
+                u = i
+        if u < 0 or key[u] == inf:
+            raise ValueError("disconnected")
+        used[u] = True
+        total += key[u]
+
+        for nb, weight in adj[u]:
+            if 0 <= nb < n and not used[nb] and weight < key[nb]:
+                key[nb] = weight
+
+    return total
 
 
 def is_power_of_two(n: int) -> bool:
@@ -1072,6 +1791,26 @@ def bench_case(case: BenchCase) -> tuple[str, str, int, int, int, int]:
     return case.name, case.category, case.iterations, total_ns, avg_ns, checksum
 
 
+def extended_euclidean_checksum(pairs: list[tuple[int, int]]) -> int:
+    total = 0
+    for a, b in pairs:
+        g, x, y = extended_euclidean(a, b)
+        total = (
+            total
+            + signed_i64_to_u64(g)
+            + signed_i64_to_u64(x)
+            + signed_i64_to_u64(y)
+        ) & MASK_64
+    return total
+
+
+def crt_many_checksum(systems: list[tuple[list[int], list[int]]]) -> int:
+    total = 0
+    for rem, mod in systems:
+        total = (total + chinese_remainder_theorem(rem, mod)) & MASK_64
+    return total
+
+
 def main() -> None:
     bubble_base = generate_int_data(1_200)
     n2_base = generate_int_data(1_300)
@@ -1080,6 +1819,49 @@ def main() -> None:
     search_data = generate_sorted_data(40_000)
     search_queries = generate_search_queries(1_200, len(search_data))
     math_values = generate_u64_data(40_000)
+    ext_pairs: list[tuple[int, int]] = []
+    for i in range(0, 8_000, 2):
+        a = int(math_values[i] % 200_000) - 100_000
+        b = int(math_values[i + 1] % 200_000) - 100_000
+        if a == 0 and b == 0:
+            b = 1
+        ext_pairs.append((a, b))
+
+    modinv_pairs: list[tuple[int, int]] = []
+    for i in range(2_000):
+        m = ((i * 37) + 101) % 50_000 + 3
+        if m % 2 == 0:
+            m += 1
+        a = ((i * 97) + 31) % m
+        if a == 0:
+            a = 1
+        while math.gcd(a, m) != 1:
+            a = (a + 1) % m
+            if a == 0:
+                a = 1
+        modinv_pairs.append((a, m))
+
+    totient_inputs = [int(v % 1_000_000) + 1 for v in math_values[:20_000]]
+
+    crt_systems: list[tuple[list[int], list[int]]] = []
+    crt_moduli = [3, 5, 7]
+    for i in range(2_500):
+        crt_systems.append(
+            (
+                [i % 3, (i * 2 + 1) % 5, (i * 3 + 2) % 7],
+                crt_moduli,
+            )
+        )
+
+    binom_pairs = [(((i * 19) + 20) % 47 + 20, ((i * 11) + 7) % 20 + 1) for i in range(3_000)]
+
+    isqrt_inputs = [((i * 9_999_991) + 1_234_567_891) % ((1 << 63) - 1) for i in range(40_000)]
+    trie_words = [encode_base26_word(i, 6) for i in range(12_000)]
+    disjoint_set_n = 50_000
+    avl_values = [((i * 73) + 19) % 50_000 for i in range(50_000)]
+    avl_queries = [((i * 97) + 31) % 50_000 for i in range(20_000)]
+    max_heap_values = generate_int_data(50_000)
+    priority_queue_n = 60_000
     dp_array = generate_int_data(90_000)
     prices = [abs(x) % 1000 for x in generate_int_data(80_000)]
     waiting_queries = [x % 100 for x in generate_u64_data(50_000)]
@@ -1130,8 +1912,76 @@ def main() -> None:
         if i % 3 == 0 and i + 17 < weighted_graph_n:
             weighted_graph_adj[i].append((i + 17, ((i * 13) + 11) % 41 + 1))
 
+    bellman_n = 1_800
+    bellman_edges: list[tuple[int, int, int]] = []
+    for i in range(bellman_n):
+        if i + 1 < bellman_n:
+            bellman_edges.append((i, i + 1, ((i * 17) + 3) % 23 + 1))
+        if i + 2 < bellman_n:
+            bellman_edges.append((i, i + 2, ((i * 31) + 7) % 29 + 1))
+        if i % 3 == 0 and i + 17 < bellman_n:
+            bellman_edges.append((i, i + 17, ((i * 13) + 11) % 41 + 1))
+
+    floyd_n = 120
+    floyd_inf = 1_000_000_000_000
+    floyd_mat = [floyd_inf] * (floyd_n * floyd_n)
+    for i in range(floyd_n):
+        floyd_mat[i * floyd_n + i] = 0
+        if i + 1 < floyd_n:
+            floyd_mat[i * floyd_n + (i + 1)] = ((i * 17) + 3) % 23 + 1
+        if i + 2 < floyd_n:
+            floyd_mat[i * floyd_n + (i + 2)] = ((i * 31) + 7) % 29 + 1
+        if i % 3 == 0 and i + 17 < floyd_n:
+            floyd_mat[i * floyd_n + (i + 17)] = ((i * 13) + 11) % 41 + 1
+
+    cycle_graph_n = 600
+    cycle_graph_adj: list[list[int]] = [[] for _ in range(cycle_graph_n)]
+    for i in range(cycle_graph_n):
+        if i + 1 < cycle_graph_n:
+            cycle_graph_adj[i].append(i + 1)
+        if i + 2 < cycle_graph_n:
+            cycle_graph_adj[i].append(i + 2)
+        if i % 3 == 0 and i + 17 < cycle_graph_n:
+            cycle_graph_adj[i].append(i + 17)
+    cycle_graph_adj[-1].append(0)
+
+    component_n = 6_000
+    component_adj: list[list[int]] = [[] for _ in range(component_n)]
+    split = (component_n // 2) - 1
+    for i in range(component_n):
+        if i + 1 < component_n and i != split:
+            component_adj[i].append(i + 1)
+            component_adj[i + 1].append(i)
+
+    mst_n = 1_800
+    mst_edges: list[tuple[int, int, int]] = []
+    mst_adj: list[list[tuple[int, int]]] = [[] for _ in range(mst_n)]
+    for i in range(mst_n):
+        if i + 1 < mst_n:
+            w = ((i * 19) + 5) % 37 + 1
+            mst_edges.append((i, i + 1, w))
+            mst_adj[i].append((i + 1, w))
+            mst_adj[i + 1].append((i, w))
+        if i + 2 < mst_n:
+            w = ((i * 23) + 7) % 43 + 1
+            mst_edges.append((i, i + 2, w))
+            mst_adj[i].append((i + 2, w))
+            mst_adj[i + 2].append((i, w))
+        if i % 5 == 0 and i + 11 < mst_n:
+            w = ((i * 29) + 13) % 53 + 1
+            mst_edges.append((i, i + 11, w))
+            mst_adj[i].append((i + 11, w))
+            mst_adj[i + 11].append((i, w))
+
     knapsack_weights = [(((i * 73) + 19) % 40) + 1 for i in range(180)]
     knapsack_values = [(((i * 97) + 53) % 500) + 1 for i in range(180)]
+    rod_prices = [(((i * 37) + 11) % 600) + 1 for i in range(220)]
+    rod_length = 200
+    mcm_dims = [(((i * 13) + 7) % 50) + 5 for i in range(71)]
+    pal_part_text = "abacdcaba" * 80
+    word_break_text = "zigisfastandsafe" * 3000
+    word_break_dict = ["zig", "is", "fast", "and", "safe"]
+    catalan_inputs = list(range(1, 31))
     coin_set = [1, 2, 3, 5, 7, 11, 13]
     coins_desc = [2000, 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1]
     frac_values = [60.0, 100.0, 120.0, 140.0, 30.0, 20.0, 80.0, 75.0]
@@ -1283,7 +2133,7 @@ def main() -> None:
         )
     )
 
-    # Maths (8)
+    # Maths (14)
     cases.append(
         BenchCase(
             "gcd",
@@ -1313,8 +2163,49 @@ def main() -> None:
     cases.append(BenchCase("prime_check", "maths", 20, lambda: checksum_u(sum(1 for i in range(2, 120_000) if is_prime(i)))))
     cases.append(BenchCase("sieve_of_eratosthenes", "maths", 6, lambda: checksum_ints(sieve(300_000))))
     cases.append(BenchCase("collatz_sequence", "maths", 8, lambda: checksum_u(sum(collatz_steps(i) for i in range(2, 60_000)))))
+    cases.append(BenchCase("extended_euclidean", "maths", 20, lambda: checksum_u(extended_euclidean_checksum(ext_pairs))))
+    cases.append(
+        BenchCase(
+            "modular_inverse",
+            "maths",
+            20,
+            lambda: checksum_u(sum(modular_inverse(a, m) for (a, m) in modinv_pairs)),
+        )
+    )
+    cases.append(
+        BenchCase(
+            "eulers_totient",
+            "maths",
+            12,
+            lambda: checksum_u(sum(eulers_totient(v) for v in totient_inputs)),
+        )
+    )
+    cases.append(BenchCase("chinese_remainder_theorem", "maths", 25, lambda: checksum_u(crt_many_checksum(crt_systems))))
+    cases.append(
+        BenchCase(
+            "binomial_coefficient",
+            "maths",
+            20,
+            lambda: checksum_u(sum(binomial_coefficient(n, k if k <= n else n) for (n, k) in binom_pairs)),
+        )
+    )
+    cases.append(
+        BenchCase(
+            "integer_square_root",
+            "maths",
+            25,
+            lambda: checksum_u(sum(integer_square_root(v) for v in isqrt_inputs)),
+        )
+    )
 
-    # Dynamic Programming (7)
+    # Data Structures (5)
+    cases.append(BenchCase("trie", "data_structures", 8, lambda: checksum_u(trie_workload(trie_words))))
+    cases.append(BenchCase("disjoint_set", "data_structures", 10, lambda: checksum_u(disjoint_set_workload(disjoint_set_n))))
+    cases.append(BenchCase("avl_tree", "data_structures", 4, lambda: checksum_u(avl_tree_workload(avl_values, avl_queries))))
+    cases.append(BenchCase("max_heap", "data_structures", 8, lambda: checksum_u(max_heap_workload(max_heap_values))))
+    cases.append(BenchCase("priority_queue", "data_structures", 8, lambda: checksum_u(priority_queue_workload(priority_queue_n))))
+
+    # Dynamic Programming (13)
     cases.append(
         BenchCase(
             "climbing_stairs",
@@ -1326,6 +2217,12 @@ def main() -> None:
     cases.append(BenchCase("fibonacci_dp", "dynamic_programming", 400, lambda: checksum_ints(fibonacci_dp(280))))
     cases.append(BenchCase("coin_change", "dynamic_programming", 80, lambda: checksum_u(coin_change_ways(coin_set, 420))))
     cases.append(BenchCase("max_subarray_sum", "dynamic_programming", 20, lambda: checksum_u(max_subarray_sum(dp_array, False))))
+    cases.append(BenchCase("longest_increasing_subsequence", "dynamic_programming", 12, lambda: checksum_u(longest_increasing_subsequence(dp_array))))
+    cases.append(BenchCase("rod_cutting", "dynamic_programming", 80, lambda: checksum_u(rod_cutting(rod_prices, rod_length))))
+    cases.append(BenchCase("matrix_chain_multiplication", "dynamic_programming", 30, lambda: checksum_u(matrix_chain_multiplication(mcm_dims))))
+    cases.append(BenchCase("palindrome_partitioning", "dynamic_programming", 60, lambda: checksum_u(palindrome_partition_min_cuts(pal_part_text))))
+    cases.append(BenchCase("word_break", "dynamic_programming", 60, lambda: checksum_bool(word_break(word_break_text, word_break_dict))))
+    cases.append(BenchCase("catalan_numbers", "dynamic_programming", 120, lambda: checksum_u(sum(catalan_number(i) for i in catalan_inputs))))
     cases.append(BenchCase("longest_common_subsequence", "dynamic_programming", 30, lambda: checksum_u(lcs_length(s1, s2))))
     cases.append(BenchCase("edit_distance", "dynamic_programming", 30, lambda: checksum_u(edit_distance(s1, s2))))
     cases.append(
@@ -1337,10 +2234,17 @@ def main() -> None:
         )
     )
 
-    # Graphs (3)
+    # Graphs (10)
     cases.append(BenchCase("bfs", "graphs", 12, lambda: checksum_ints(bfs(graph_adj, 0))))
     cases.append(BenchCase("dfs", "graphs", 12, lambda: checksum_ints(dfs(graph_adj, 0))))
     cases.append(BenchCase("dijkstra", "graphs", 8, lambda: checksum_ints(dijkstra(weighted_graph_adj, 0))))
+    cases.append(BenchCase("bellman_ford", "graphs", 4, lambda: checksum_ints(bellman_ford(bellman_n, bellman_edges, 0))))
+    cases.append(BenchCase("topological_sort", "graphs", 12, lambda: checksum_ints(topological_sort(graph_adj))))
+    cases.append(BenchCase("floyd_warshall", "graphs", 2, lambda: checksum_ints(floyd_warshall(floyd_mat, floyd_n, floyd_inf))))
+    cases.append(BenchCase("detect_cycle", "graphs", 20, lambda: checksum_bool(detect_cycle(cycle_graph_adj))))
+    cases.append(BenchCase("connected_components", "graphs", 8, lambda: checksum_u(connected_components(component_adj))))
+    cases.append(BenchCase("kruskal", "graphs", 6, lambda: checksum_u(kruskal_mst_weight(mst_n, mst_edges))))
+    cases.append(BenchCase("prim", "graphs", 6, lambda: checksum_u(prim_mst_weight(mst_adj, 0))))
 
     # Bit manipulation (6)
     cases.append(BenchCase("is_power_of_two", "bit_manipulation", 120, lambda: checksum_u(sum(1 for i in range(1, 3_000_000) if is_power_of_two(i)))))

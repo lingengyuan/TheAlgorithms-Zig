@@ -18,10 +18,10 @@ pub fn countSetBits(n: u64) u64 {
 }
 
 test "count set bits: known values" {
-    try testing.expectEqual(@as(u64, 3), countSetBits(25));  // 11001
-    try testing.expectEqual(@as(u64, 2), countSetBits(36));  // 100100
-    try testing.expectEqual(@as(u64, 1), countSetBits(16));  // 10000
-    try testing.expectEqual(@as(u64, 4), countSetBits(58));  // 111010
+    try testing.expectEqual(@as(u64, 3), countSetBits(25)); // 11001
+    try testing.expectEqual(@as(u64, 2), countSetBits(36)); // 100100
+    try testing.expectEqual(@as(u64, 1), countSetBits(16)); // 10000
+    try testing.expectEqual(@as(u64, 4), countSetBits(58)); // 111010
     try testing.expectEqual(@as(u64, 0), countSetBits(0));
     try testing.expectEqual(@as(u64, 1), countSetBits(1));
 }

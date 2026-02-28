@@ -718,39 +718,174 @@ FAIL: test "kmp: not found"
 
 ---
 
-## 第五批启动（5A 图算法）：Dijkstra（#77）
+## 第五批进行中（5A 图算法）：8/8 已完成（#77-#84）
 
 **日期：** 2026-02-28
 **模型：** Codex GPT-5
-**批次结果：** 1/1 编译通过，5/5 测试通过，Python/Zig 基准已对齐并入总榜
+**批次结果：** 8/8 编译通过，38/38 测试通过，Python/Zig 基准已按单算法增量方式对齐并入总榜
 
 ### 新增算法
 
 | 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
 |------|------|------|------|---------|------|
 | dijkstra | `graphs/dijkstra.zig` | ✅ | ✅ 5/5 | 0 | 邻接表加权图，返回单源最短路距离，忽略非法邻接点，溢出路径跳过 |
+| bellman_ford | `graphs/bellman_ford.zig` | ✅ | ✅ 5/5 | 0 | 支持负权边，检测可达负环并返回 `error.NegativeCycle` |
+| topological_sort | `graphs/topological_sort.zig` | ✅ | ✅ 4/4 | 0 | Kahn 算法，图中存在环时返回 `error.CycleDetected` |
+| floyd_warshall | `graphs/floyd_warshall.zig` | ✅ | ✅ 5/5 | 0 | 全源最短路（扁平矩阵输入），`inf` 语义与 Python 对齐 |
+| detect_cycle | `graphs/detect_cycle.zig` | ✅ | ✅ 5/5 | 0 | 有向图 DFS 颜色标记法；非法邻接点忽略 |
+| connected_components | `graphs/connected_components.zig` | ✅ | ✅ 4/4 | 0 | 迭代 DFS 统计连通分量 |
+| kruskal | `graphs/kruskal.zig` | ✅ | ✅ 5/5 | 0 | 并查集 + 边排序，返回 MST 总权重 |
+| prim | `graphs/prim.zig` | ✅ | ✅ 5/5 | 0 | O(V²+E) Prim，连通性不足返回错误 |
 
 ### 基准对齐与流程改进
 
-- `benchmarks/python_vs_zig/python_bench_all.py` 与 `zig_bench_all.zig` 新增 `dijkstra` 对齐基准用例。
-- 一键全量基准已更新为 **65 个可对齐算法**，`checksum` 全量一致。
+- `benchmarks/python_vs_zig/python_bench_all.py` 与 `zig_bench_all.zig` 新增 5A 全部 8 个图算法对齐基准用例。
+- 全部采用单算法增量基准（`run_single.sh <algorithm>`）更新到总榜；完成后总榜为 **72 个可对齐算法**，`checksum` 全量一致。
 - 新增单算法增量脚本：`benchmarks/python_vs_zig/run_single.sh <algorithm_name>`。
 - 新增结果合并脚本：`benchmarks/python_vs_zig/merge_single_result.py`（将单算法结果 upsert 到 `*_results_all.csv` 后重建榜单）。
 
-### Dijkstra 本轮基准（2026-02-28）
+### 5A 单算法基准结果（2026-02-28）
 
-| 指标 | 数值 |
-|---|---:|
-| Python avg ns | 242,070,497.88 |
-| Zig avg ns | 3,138,373.38 |
-| Speedup (Python/Zig) | 77.13x |
-| Checksum match | true |
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| dijkstra | 242,070,497.88 | 3,138,373.38 | 77.13x | true |
+| floyd_warshall | 48,863,849.00 | 704,214.00 | 69.39x | true |
+| prim | 135,011,306.00 | 2,128,201.83 | 63.44x | true |
+| bellman_ford | 1,686,594.50 | 35,331.50 | 47.74x | true |
+| connected_components | 1,332,714.75 | 41,741.38 | 31.93x | true |
+| topological_sort | 3,534,843.25 | 342,141.83 | 10.33x | true |
+| detect_cycle | 167,908.25 | 26,032.35 | 6.45x | true |
+| kruskal | 2,869,138.83 | 561,585.17 | 5.11x | true |
 
 ### 累计更新（截至 2026-02-28）
 
 | 指标 | 数值 |
 |---|---:|
-| 算法总数 | 77 |
-| 测试总数 | 338 |
-| 可对齐并完成基准算法数 | 65 |
-| 基准 checksum 一致数 | 65 |
+| 算法总数 | 84 |
+| 测试总数 | 371 |
+| 可对齐并完成基准算法数 | 72 |
+| 基准 checksum 一致数 | 72 |
+
+### 5B 动态规划进展：6/6 已完成（#85-#90）
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|---|---|---|---|---:|---|
+| longest_increasing_subsequence | `dynamic_programming/longest_increasing_subsequence.zig` | ✅ | ✅ 5/5 | 0 | O(n log n) tails + 二分 |
+| rod_cutting | `dynamic_programming/rod_cutting.zig` | ✅ | ✅ 5/5 | 0 | 一维 DP，最大收益 |
+| matrix_chain_multiplication | `dynamic_programming/matrix_chain_multiplication.zig` | ✅ | ✅ 5/5 | 0 | 经典区间 DP，最少乘法次数 |
+| palindrome_partitioning | `dynamic_programming/palindrome_partitioning.zig` | ✅ | ✅ 5/5 | 0 | 回文划分最少切割（O(n²)） |
+| word_break | `dynamic_programming/word_break.zig` | ✅ | ✅ 5/5 | 0 | 布尔 DP 判断可分词 |
+| catalan_numbers | `dynamic_programming/catalan_numbers.zig` | ✅ | ✅ 5/5 | 0 | 递推计算 Catalan 数 |
+
+### 5B 单算法基准结果（2026-02-28）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| palindrome_partitioning | 51,543,055.52 | 644,485.28 | 79.98x | true |
+| matrix_chain_multiplication | 16,255,526.00 | 223,658.57 | 72.68x | true |
+| word_break | 26,468,486.87 | 438,413.98 | 60.37x | true |
+| rod_cutting | 2,073,737.79 | 42,246.38 | 49.09x | true |
+| longest_increasing_subsequence | 17,681,903.25 | 2,950,966.17 | 5.99x | true |
+| catalan_numbers | 462,055.64 | 458,607.13 | 1.01x | true |
+
+### 累计更新（截至 2026-02-28，含 5B 已完成 6 个）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 90 |
+| 测试总数 | 401 |
+| 可对齐并完成基准算法数 | 78 |
+| 基准 checksum 一致数 | 78 |
+
+### 5C 数学进展：6/6 已完成（#91-#96，期间修复真实报错）
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|---|---|---|---|---:|---|
+| extended_euclidean | `maths/extended_euclidean.zig` | ✅ | ✅ 5/5 | 0 | 返回 `gcd, x, y`，保证 `gcd` 非负 |
+| modular_inverse | `maths/modular_inverse.zig` | ✅ | ✅ 5/5 | 0 | 基于扩展欧几里得，逆元不存在返回错误 |
+| eulers_totient | `maths/eulers_totient.zig` | ✅ | ✅ 4/4 | 0 | 质因数分解法计算 φ(n) |
+| chinese_remainder_theorem | `maths/chinese_remainder_theorem.zig` | ✅ | ✅ 5/5 | 0 | 检查 pairwise coprime，返回最小非负解 |
+| binomial_coefficient | `maths/binomial_coefficient.zig` | ✅ | ✅ 4/4 | 1 | 组合数迭代乘除，超出 `u64` 上限返回 `error.Overflow` |
+| integer_square_root | `maths/integer_square_root.zig` | ✅ | ✅ 4/4 | 1 | 牛顿迭代，修复 `u64` 上界输入时中间加法溢出 |
+
+### 5C 真实错误与修复记录
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| 算法测试（`zig build test`） | `maths/integer_square_root.zig:12:16: panic: integer overflow`（`std.math.maxInt(u64)` 用例） | Newton 迭代中的 `(x + n / x)` 在 `u64` 上界输入发生中间加法溢出 | 将中间计算提升到 `u128` 再回转 `u64` | `integer_square_root` 全部测试通过 |
+| 算法编译（`zig build test`） | `maths/binomial_coefficient.zig:12:9: error: local variable is never mutated` | Zig 0.15 对未变更 `var` 报编译错误 | `var kk` 改为 `const kk` | `binomial_coefficient` 编译与测试通过 |
+| 基准编译（`run_single.sh`） | `remainder division with 'i64' ... must use @rem or @mod`（`zig_bench_all.zig` 两处） | 基准数据构造里对有符号整数使用 `%` | 改为 `@mod(...)` | `run_single.sh` 可正常编译执行 |
+| 基准执行（`run_single.sh binomial_coefficient`） | Zig 侧运行报 `error: Overflow`，Python 可继续（大整数） | 初始 `binom_pairs` 取值超出 Zig `u64` 可表示范围，口径不一致 | Python/Zig 两侧统一收敛 `binom_pairs` 到 `n∈[20,66], k∈[1,20]` | checksum 再次对齐，单算法结果并入总榜 |
+
+### 5C 单算法基准结果（2026-02-28）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| eulers_totient | 259,251,836.67 | 13,812,452.75 | 18.77x | true |
+| extended_euclidean | 5,727,176.55 | 452,858.95 | 12.65x | true |
+| integer_square_root | 164,949,888.80 | 13,936,939.72 | 11.84x | true |
+| chinese_remainder_theorem | 7,803,565.24 | 744,652.44 | 10.48x | true |
+| binomial_coefficient | 3,763,067.80 | 387,143.00 | 9.72x | true |
+| modular_inverse | 4,014,280.35 | 438,702.30 | 9.15x | true |
+
+### 5C 基准口径说明
+
+- `binomial_coefficient` 初始基准数据包含超出 `u64` 的组合数；Python 大整数可继续计算而 Zig 会按设计返回 `error.Overflow`，导致无法直接对齐。
+- 已将 Python/Zig 两侧 `binom_pairs` 统一收敛为 `n∈[20,66]`、`k∈[1,20]`，确保结果在 `u64` 可表示范围内，恢复 checksum 可对齐。
+
+### 累计更新（截至 2026-02-28，含 5C 已完成 6 个）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 96 |
+| 测试总数 | 428 |
+| 可对齐并完成基准算法数 | 84 |
+| 基准 checksum 一致数 | 84 |
+
+### 5D 数据结构进展：5/5 已完成（#97-#101，含真实报错修复）
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|---|---|---|---|---:|---|
+| trie | `data_structures/trie.zig` | ✅ | ✅ 4/4 | 0 | 小写字母前缀树，支持插入/查询/前缀匹配/删除 |
+| disjoint_set | `data_structures/disjoint_set.zig` | ✅ | ✅ 4/4 | 2 | 路径压缩 + 按秩合并，支持连通性查询与分量计数 |
+| avl_tree | `data_structures/avl_tree.zig` | ✅ | ✅ 4/4 | 0 | 自平衡 BST，覆盖 LL/LR/RR/RL 旋转场景 |
+| max_heap | `data_structures/max_heap.zig` | ✅ | ✅ 4/4 | 0 | 数组堆实现，支持 heapify/插入/取最大 |
+| priority_queue | `data_structures/priority_queue.zig` | ✅ | ✅ 4/4 | 0 | 最小优先级队列，`priority` 升序、同优先级按 `value` 升序 |
+
+### 5D 真实错误与修复记录
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| 算法编译（`zig test data_structures/disjoint_set.zig`） | `error: expected '(', found 'union'` | `union` 是 Zig 关键字，不能直接作为函数名 | API 改为 `unionSets`，并同步调用点 | `disjoint_set` 编译通过 |
+| 算法测试（`zig test data_structures/disjoint_set.zig`） | `error: invalid left-hand side to assignment`（`try _ = ...`） | Zig 语法误用，`_ =` 赋值不能写成 `try _ = ...` | 改为 `_ = try ...` | 测试全部通过 |
+
+### 5D 单算法基准结果（2026-02-28）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| disjoint_set | 37,999,293.00 | 559,369.90 | 67.93x | true |
+| avl_tree | 966,380,417.75 | 16,958,624.50 | 56.98x | true |
+| trie | 47,516,405.00 | 3,736,889.12 | 12.72x | true |
+| priority_queue | 116,417,455.62 | 10,323,680.75 | 11.28x | true |
+| max_heap | 29,228,217.50 | 5,452,033.00 | 5.36x | true |
+
+### 累计更新（截至 2026-02-28，含 5D 已完成 5 个）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 101 |
+| 测试总数 | 448 |
+| 可对齐并完成基准算法数 | 89 |
+| 基准 checksum 一致数 | 89 |
+
+### 第五批（5A-5D）全量封板基准（`run_all.sh`，2026-02-28）
+
+> 说明：上面 5A-5D 表格是“逐算法增量跑分”结果；本节为第五批完成后的全量统一重跑口径（用于发布封板）。
+
+| 指标 | 数值 |
+|---|---:|
+| 可对齐并完成基准算法数 | 89 |
+| 基准 checksum 一致数 | 89 |
+| 平均加速比（Python/Zig） | 219.11x |
+| 中位数加速比（Python/Zig） | 41.92x |
+| 几何平均加速比（Python/Zig） | 26.30x |

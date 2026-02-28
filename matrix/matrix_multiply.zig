@@ -10,8 +10,12 @@ pub const MatrixError = error{DimensionMismatch};
 /// Matrices are flat row-major slices. Caller owns result.
 pub fn matMul(
     allocator: std.mem.Allocator,
-    a: []const i64, a_rows: usize, a_cols: usize,
-    b: []const i64, b_rows: usize, b_cols: usize,
+    a: []const i64,
+    a_rows: usize,
+    a_cols: usize,
+    b: []const i64,
+    b_rows: usize,
+    b_cols: usize,
 ) (MatrixError || std.mem.Allocator.Error)![]i64 {
     if (a_cols != b_rows) return MatrixError.DimensionMismatch;
     _ = a.len;

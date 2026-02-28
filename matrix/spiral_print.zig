@@ -16,21 +16,35 @@ pub fn spiralOrder(allocator: std.mem.Allocator, mat: []const i64, rows: usize, 
 
     while (top < bottom and left < right) {
         // top row left→right
-        for (left..right) |c| { out[idx] = mat[top * cols + c]; idx += 1; }
+        for (left..right) |c| {
+            out[idx] = mat[top * cols + c];
+            idx += 1;
+        }
         top += 1;
         // right col top→bottom
-        for (top..bottom) |r| { out[idx] = mat[r * cols + (right - 1)]; idx += 1; }
+        for (top..bottom) |r| {
+            out[idx] = mat[r * cols + (right - 1)];
+            idx += 1;
+        }
         right -= 1;
         if (top < bottom) {
             // bottom row right→left
             var c = right;
-            while (c > left) { c -= 1; out[idx] = mat[(bottom - 1) * cols + c]; idx += 1; }
+            while (c > left) {
+                c -= 1;
+                out[idx] = mat[(bottom - 1) * cols + c];
+                idx += 1;
+            }
             bottom -= 1;
         }
         if (left < right) {
             // left col bottom→top
             var r = bottom;
-            while (r > top) { r -= 1; out[idx] = mat[r * cols + left]; idx += 1; }
+            while (r > top) {
+                r -= 1;
+                out[idx] = mat[r * cols + left];
+                idx += 1;
+            }
             left += 1;
         }
     }

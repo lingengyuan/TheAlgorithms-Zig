@@ -1,7 +1,7 @@
 | Metric | Value |
 |---|---:|
-| Alignable algorithms benchmarked | 65 |
-| Checksum match count | 65 |
-| Mean speedup (Python/Zig) | 325.53x |
-| Median speedup (Python/Zig) | 53.75x |
-| Geometric mean speedup (Python/Zig) | 33.16x |
+| Alignable algorithms benchmarked | 89 |
+| Checksum match count | 89 |
+| Mean speedup (Python/Zig) | 219.11x |
+| Median speedup (Python/Zig) | 41.92x |
+| Geometric mean speedup (Python/Zig) | 26.30x |
