@@ -87,6 +87,36 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Breadth-First Search (BFS) | [`graphs/bfs.zig`](graphs/bfs.zig) | O(V + E) |
 | Depth-First Search (DFS) | [`graphs/dfs.zig`](graphs/dfs.zig) | O(V + E) |
 
+### Greedy Methods (4)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Best Time to Buy/Sell Stock | [`greedy_methods/best_time_to_buy_sell_stock.zig`](greedy_methods/best_time_to_buy_sell_stock.zig) | O(n) |
+| Minimum Coin Change (Greedy) | [`greedy_methods/minimum_coin_change.zig`](greedy_methods/minimum_coin_change.zig) | O(n·k) |
+| Minimum Waiting Time | [`greedy_methods/minimum_waiting_time.zig`](greedy_methods/minimum_waiting_time.zig) | O(n log n) |
+| Fractional Knapsack | [`greedy_methods/fractional_knapsack.zig`](greedy_methods/fractional_knapsack.zig) | O(n log n) |
+
+### Matrix (5)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Matrix Multiply | [`matrix/matrix_multiply.zig`](matrix/matrix_multiply.zig) | O(m·k·n) |
+| Matrix Transpose | [`matrix/matrix_transpose.zig`](matrix/matrix_transpose.zig) | O(m·n) |
+| Rotate Matrix 90° | [`matrix/rotate_matrix.zig`](matrix/rotate_matrix.zig) | O(n²) |
+| Spiral Print | [`matrix/spiral_print.zig`](matrix/spiral_print.zig) | O(m·n) |
+| Pascal's Triangle | [`matrix/pascal_triangle.zig`](matrix/pascal_triangle.zig) | O(n²) |
+
+### Backtracking (6)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Permutations | [`backtracking/permutations.zig`](backtracking/permutations.zig) | O(n! · n) |
+| Combinations | [`backtracking/combinations.zig`](backtracking/combinations.zig) | O(C(n,k)) |
+| Subsets | [`backtracking/subsets.zig`](backtracking/subsets.zig) | O(2ⁿ) |
+| Generate Parentheses | [`backtracking/generate_parentheses.zig`](backtracking/generate_parentheses.zig) | O(Catalan(n)) |
+| N-Queens | [`backtracking/n_queens.zig`](backtracking/n_queens.zig) | O(n!) |
+| Sudoku Solver | [`backtracking/sudoku_solver.zig`](backtracking/sudoku_solver.zig) | O(9^m) |
+
 ### Bit Manipulation (6)
 
 | Algorithm | File | Complexity |
@@ -149,7 +179,10 @@ TheAlgorithms-Zig/
 ├── graphs/                  # 2 graph traversal algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 4 number base conversions
-└── strings/                 # 10 string algorithms
+├── strings/                 # 10 string algorithms
+├── greedy_methods/          # 4 greedy algorithms
+├── matrix/                  # 5 matrix algorithms
+└── backtracking/            # 6 backtracking algorithms
 ```
 
 ## Development
@@ -277,6 +310,36 @@ MIT
 | 广度优先搜索 (BFS) | [`graphs/bfs.zig`](graphs/bfs.zig) | O(V + E) |
 | 深度优先搜索 (DFS) | [`graphs/dfs.zig`](graphs/dfs.zig) | O(V + E) |
 
+### 贪心算法 (4)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 买卖股票最佳时机 | [`greedy_methods/best_time_to_buy_sell_stock.zig`](greedy_methods/best_time_to_buy_sell_stock.zig) | O(n) |
+| 最少硬币数（贪心） | [`greedy_methods/minimum_coin_change.zig`](greedy_methods/minimum_coin_change.zig) | O(n·k) |
+| 最小等待时间 | [`greedy_methods/minimum_waiting_time.zig`](greedy_methods/minimum_waiting_time.zig) | O(n log n) |
+| 分数背包 | [`greedy_methods/fractional_knapsack.zig`](greedy_methods/fractional_knapsack.zig) | O(n log n) |
+
+### 矩阵 (5)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 矩阵乘法 | [`matrix/matrix_multiply.zig`](matrix/matrix_multiply.zig) | O(m·k·n) |
+| 矩阵转置 | [`matrix/matrix_transpose.zig`](matrix/matrix_transpose.zig) | O(m·n) |
+| 矩阵旋转 90° | [`matrix/rotate_matrix.zig`](matrix/rotate_matrix.zig) | O(n²) |
+| 螺旋打印 | [`matrix/spiral_print.zig`](matrix/spiral_print.zig) | O(m·n) |
+| 杨辉三角 | [`matrix/pascal_triangle.zig`](matrix/pascal_triangle.zig) | O(n²) |
+
+### 回溯算法 (6)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 全排列 | [`backtracking/permutations.zig`](backtracking/permutations.zig) | O(n! · n) |
+| 组合 | [`backtracking/combinations.zig`](backtracking/combinations.zig) | O(C(n,k)) |
+| 子集（幂集） | [`backtracking/subsets.zig`](backtracking/subsets.zig) | O(2ⁿ) |
+| 生成括号 | [`backtracking/generate_parentheses.zig`](backtracking/generate_parentheses.zig) | O(Catalan(n)) |
+| N 皇后 | [`backtracking/n_queens.zig`](backtracking/n_queens.zig) | O(n!) |
+| 数独求解 | [`backtracking/sudoku_solver.zig`](backtracking/sudoku_solver.zig) | O(9^m) |
+
 ### 位运算 (6)
 
 | 算法 | 文件 | 复杂度 |
@@ -339,7 +402,10 @@ TheAlgorithms-Zig/
 ├── graphs/                  # 2 个图遍历算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 4 个进制转换
-└── strings/                 # 10 个字符串算法
+├── strings/                 # 10 个字符串算法
+├── greedy_methods/          # 4 个贪心算法
+├── matrix/                  # 5 个矩阵算法
+└── backtracking/            # 6 个回溯算法
 ```
 
 ## 开发指南

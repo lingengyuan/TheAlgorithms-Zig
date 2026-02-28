@@ -68,6 +68,24 @@ pub fn build(b: *std.Build) void {
         "conversions/binary_to_decimal.zig",
         "conversions/decimal_to_hexadecimal.zig",
         "conversions/binary_to_hexadecimal.zig",
+        // Greedy Methods
+        "greedy_methods/best_time_to_buy_sell_stock.zig",
+        "greedy_methods/minimum_coin_change.zig",
+        "greedy_methods/minimum_waiting_time.zig",
+        "greedy_methods/fractional_knapsack.zig",
+        // Matrix
+        "matrix/pascal_triangle.zig",
+        "matrix/matrix_multiply.zig",
+        "matrix/matrix_transpose.zig",
+        "matrix/rotate_matrix.zig",
+        "matrix/spiral_print.zig",
+        // Backtracking
+        "backtracking/permutations.zig",
+        "backtracking/combinations.zig",
+        "backtracking/subsets.zig",
+        "backtracking/generate_parentheses.zig",
+        "backtracking/n_queens.zig",
+        "backtracking/sudoku_solver.zig",
         // Strings
         "strings/palindrome.zig",
         "strings/reverse_words.zig",
