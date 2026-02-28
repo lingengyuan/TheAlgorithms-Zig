@@ -1,8 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- `sorts/`, `searches/`, and `maths/` contain implemented algorithms.
-- `data_structures/` and `dynamic_programming/` are placeholders for upcoming work.
+- Core categories are: `sorts/`, `searches/`, `maths/`, `data_structures/`, `dynamic_programming/`, `graphs/`, `bit_manipulation/`, `conversions/`, `strings/`, `greedy_methods/`, `matrix/`, `backtracking/`.
 - Each algorithm lives in one `.zig` file with both implementation and `test` blocks.
 - [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig) is the test registry; add new algorithm files to `test_files` so they run in CI-style local checks.
 
@@ -36,3 +35,10 @@
   - new files are registered in [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig)
   - reference link and complexity comments are present in each new algorithm file.
 - PR descriptions should include scope, touched directories, and local test evidence.
+
+## Maintainer Decisions (Persistent)
+- Review baseline is: algorithm correctness, boundary safety (no avoidable runtime panic), `zig build test` green, and documentation/metrics that reflect reality.
+- Do **not** require strict 1:1 Python API cloning. Zig-idiomatic differences are acceptable when algorithmic outcome is equivalent and behavior differences are documented (e.g., `null`/error unions, output formatting, traversal order representation).
+- Plan deviations are allowed, but must be explicitly recorded in both `README.md` and `EXPERIMENT_LOG.md` with rationale.
+- Approved Phase 4 substitutions: `manacher -> is_pangram`, `roman_to_integer -> binary_to_hexadecimal` (accepted as schedule/scope tradeoff).
+- Treat undocumented scope changes, contradictory batch stats, or mismatched summary numbers as defects that must be fixed before sync/release.

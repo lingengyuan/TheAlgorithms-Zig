@@ -1,5 +1,6 @@
 //! Breadth-First Search (BFS) - Zig implementation
 //! Uses an adjacency list represented as slices of slices.
+//! Reference: https://github.com/TheAlgorithms/Python/blob/master/graphs/breadth_first_search.py
 
 const std = @import("std");
 const testing = std.testing;

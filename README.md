@@ -152,6 +152,8 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Levenshtein Distance | [`strings/levenshtein_distance.zig`](strings/levenshtein_distance.zig) | O(m × n) |
 | Is Pangram | [`strings/is_pangram.zig`](strings/is_pangram.zig) | O(n) |
 
+> Phase 4 scope note: compared with `phase3-release-plan`, `is_pangram` replaced `manacher`, and `binary_to_hexadecimal` replaced `roman_to_integer`. See `EXPERIMENT_LOG.md` for rationale and decision records.
+
 ## Quick Start
 
 ```bash
@@ -374,6 +376,8 @@ MIT
 | Z 函数 | [`strings/z_function.zig`](strings/z_function.zig) | O(n + m) |
 | Levenshtein 距离 | [`strings/levenshtein_distance.zig`](strings/levenshtein_distance.zig) | O(m × n) |
 | 全字母句检查 | [`strings/is_pangram.zig`](strings/is_pangram.zig) | O(n) |
+
+> 第四批范围说明：相较 `phase3-release-plan`，`is_pangram` 替换了 `manacher`，`binary_to_hexadecimal` 替换了 `roman_to_integer`。详细原因与决策记录见 `EXPERIMENT_LOG.md`。
 
 ## 快速开始
 

@@ -1,5 +1,6 @@
 //! Depth-First Search (DFS) - Zig implementation (iterative with explicit stack)
 //! Uses an adjacency list represented as slices of slices.
+//! Reference: https://github.com/TheAlgorithms/Python/blob/master/graphs/depth_first_search.py
 
 const std = @import("std");
 const testing = std.testing;

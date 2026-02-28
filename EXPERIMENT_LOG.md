@@ -232,6 +232,7 @@
 **Date:** 2026-02-28
 **Model:** Claude Sonnet 4.6
 **Batch result:** 19/20 first-attempt test pass. KMP test assertions wrong (logic correct, index off-by-one in expected value). 1 fix.
+**Scope note:** Compared with `phase3-release-plan`, this batch used `is_pangram` (instead of `manacher`) and `binary_to_hexadecimal` (instead of `roman_to_integer`) to stay aligned with available Python reference modules and keep Phase 4 schedule manageable.
 
 ### Bit Manipulation (6 new) — all ★☆☆
 
@@ -292,7 +293,7 @@ FAIL: test "kmp: not found"
 
 **Date:** 2026-02-28
 **Model:** Claude Sonnet 4.6
-**Batch result:** 15/15 compile pass; **11/15 first-attempt test pass** (4 assertion errors — algorithms correct)
+**Batch result:** 15/15 eventually compiled; **14/15 first-attempt compile pass**; **11/15 first-attempt test pass** (4 assertion errors — algorithms correct)
 
 ### Greedy Methods (4 new)
 
@@ -301,7 +302,7 @@ FAIL: test "kmp: not found"
 | best_time_to_buy_sell_stock | ✅ 1st | ✅ 5/5 | 0 | Single-pass greedy, track min_price |
 | minimum_coin_change | ✅ 1st | **❌ 1/3 failed → fixed** | 1 | Test used full denomination set (incl. 200); greedy correctly chose 200×2 but test expected 100×4. Split into two tests: without-200 matches Python reference, with-200 validates correct greedy behavior. |
 | minimum_waiting_time | ✅ 1st | ✅ 2/2 | 0 | Sort ascending then multiply position by remaining count |
-| fractional_knapsack | ✅ 1st | ✅ 4/4 | 0 | First attempt used invalid `std.mem.sort` context-type idiom. Rewrote with top-level `fn byRatioDesc` comparator — correct Zig 0.15 pattern. Compile failed first try; logic correct. |
+| fractional_knapsack | ❌ 1st → ✅ 2nd | ✅ 4/4 | 0 | First attempt used invalid `std.mem.sort` context-type idiom. Rewrote with top-level `fn byRatioDesc` comparator — correct Zig 0.15 pattern. |
 
 ### Matrix (5 new)
 
@@ -341,11 +342,11 @@ FAIL: test "kmp: not found"
 |--------|---------|-----------|------------|------------|-------|-----------|-------|------------|------------|-----------|
 | Algorithms | 5 | +15 | +6 | +7 | +0 | +8 | +0 | +20 | +15 | **76** |
 | Test cases | 34 | +68 | +36 | +27 | +11 | +45 | +3 | +60 | +49 | **333** |
-| First-attempt compile pass | 5/5 | 15/15 | 4/6 | 7/7 | N/A | 7/8 | N/A | 20/20 | 15/15 | **57/58 (98.3%)** |
+| First-attempt compile pass | 5/5 | 15/15 | 4/6 | 7/7 | N/A | 7/8 | N/A | 20/20 | 14/15 | **72/76 (94.7%)** |
 | First-attempt test pass | 5/5 | 15/15 | — | — | — | 7/8 | — | 19/20 | **11/15** | — |
 | Manual fix lines | 0 | 0 | 2 | 0 | +424 | 1 | +8 | +1 | +4 | **440** |
 
-> "First-attempt compile pass" = compiled without error on generation 1. "First-attempt test pass" = all test assertions correct on generation 1. KMP (Batch 4A) and 4 algorithms in Batch 4B compiled fine but had wrong test expected values.
+> "First-attempt compile pass" = compiled without error on generation 1. "First-attempt test pass" = all test assertions correct on generation 1. KMP (Batch 4A) and 4 algorithms in Batch 4B compiled fine but had wrong test expected values. `fractional_knapsack` (Batch 4B) required one compile retry due a Zig 0.15 comparator API usage issue.
 
 ### Key Observations
 
@@ -592,6 +593,7 @@ FAIL: test "kmp: not found"
 **日期：** 2026-02-28
 **模型：** Claude Sonnet 4.6
 **批次结果：** 20/20 首次编译通过；19/20 测试首次全部通过（KMP 断言值写错，算法逻辑正确）
+**范围说明：** 相比 `phase3-release-plan`，本批将 `manacher` 替换为 `is_pangram`，将 `roman_to_integer` 替换为 `binary_to_hexadecimal`。这样可以更稳定地对齐 Python 参考仓库现有模块，并控制第四批交付节奏。
 
 ### 位运算（新增 6 个，全部 ★☆☆）
 
@@ -650,7 +652,7 @@ FAIL: test "kmp: not found"
 
 **日期：** 2026-02-28
 **模型：** Claude Sonnet 4.6
-**批次结果：** 15/15 编译通过；**11/15 首次测试全通过**（4 个断言错误，算法均正确）
+**批次结果：** 15/15 最终编译通过；**14/15 首次编译通过**；**11/15 首次测试全通过**（4 个断言错误，算法均正确）
 
 ### 贪心算法（新增 4 个）
 
@@ -659,7 +661,7 @@ FAIL: test "kmp: not found"
 | best_time_to_buy_sell_stock | ✅ | ✅ 5/5 | 0 | 单次遍历，记录最低价 |
 | minimum_coin_change | ✅ | **❌ 1/3 失败 → 修复** | 1 | 测试含 200 元面额；贪心正确选 200×2，但期望值写的是 100×4。拆为两个测试：无 200 面额对应 Python 参考，有 200 面额验证正确贪心行为。 |
 | minimum_waiting_time | ✅ | ✅ 2/2 | 0 | 升序排序后按位置加权求和 |
-| fractional_knapsack | ✅ | ✅ 4/4 | 0 | 首次 `std.mem.sort` 上下文类型写法不对，改用顶层 `fn byRatioDesc` 比较函数——Zig 0.15 正确模式。 |
+| fractional_knapsack | ❌ 首次失败 → ✅ 第 2 次通过 | ✅ 4/4 | 0 | 首次 `std.mem.sort` 上下文类型写法不对，改用顶层 `fn byRatioDesc` 比较函数——Zig 0.15 正确模式。 |
 
 ### 矩阵（新增 5 个）
 
@@ -699,11 +701,11 @@ FAIL: test "kmp: not found"
 |------|---------|---------|-----------|-----------|-------|-----------|-------|-----------|-----------|---------|
 | 算法数 | 5 | +15 | +6 | +7 | +0 | +8 | +0 | +20 | +15 | **76** |
 | 测试用例 | 34 | +68 | +36 | +27 | +11 | +45 | +3 | +60 | +49 | **333** |
-| 首次编译通过 | 5/5 | 15/15 | 4/6 | 7/7 | N/A | 7/8 | N/A | 20/20 | 15/15 | **57/58 (98.3%)** |
+| 首次编译通过 | 5/5 | 15/15 | 4/6 | 7/7 | N/A | 7/8 | N/A | 20/20 | 14/15 | **72/76 (94.7%)** |
 | 首次测试全通过 | 5/5 | 15/15 | — | — | — | 7/8 | — | 19/20 | **11/15** | — |
 | 人工修改行数 | 0 | 0 | 2 | 0 | +424 | 1 | +8 | +1 | +4 | **440** |
 
-> 说明："首次编译通过"指第一次生成即编译无报错。"首次测试全通过"指测试断言全部正确。KMP（第四批 A）和本批 4 个算法编译正常但测试期望值写错，属于不同失败类别。
+> 说明："首次编译通过"指第一次生成即编译无报错。"首次测试全通过"指测试断言全部正确。KMP（第四批 A）和本批 4 个算法编译正常但测试期望值写错，属于不同失败类别。`fractional_knapsack`（第四批 B）另有 1 次首次编译失败，原因是 Zig 0.15 比较器 API 用法不匹配。
 
 ### 关键观察
 
