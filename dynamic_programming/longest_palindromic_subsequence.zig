@@ -13,7 +13,9 @@ pub fn longestPalindromicSubsequenceLength(
     const n = text.len;
     if (n == 0) return 0;
 
-    const dp = try allocator.alloc(usize, n * n);
+    const elem_count = @mulWithOverflow(n, n);
+    if (elem_count[1] != 0) return error.Overflow;
+    const dp = try allocator.alloc(usize, elem_count[0]);
     defer allocator.free(dp);
     @memset(dp, 0);
 
@@ -68,4 +70,10 @@ test "longest palindromic subsequence: extreme repeated chars" {
     var buf: [1024]u8 = undefined;
     @memset(&buf, 'a');
     try testing.expectEqual(@as(usize, 1024), try longestPalindromicSubsequenceLength(alloc, &buf));
+}
+
+test "longest palindromic subsequence: oversize input length returns overflow" {
+    const fake_ptr: [*]const u8 = @ptrFromInt(@alignOf(u8));
+    const fake_text = fake_ptr[0..std.math.maxInt(usize)];
+    try testing.expectError(error.Overflow, longestPalindromicSubsequenceLength(testing.allocator, fake_text));
 }

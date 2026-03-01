@@ -1546,3 +1546,58 @@ FAIL: test "kmp: not found"
 | `zig test data_structures/segment_tree.zig` | ✅ |
 | `zig test greedy_methods/huffman_coding.zig` | ✅ |
 | `zig build test` | ✅ |
+
+## 8B 补充复核（R3）：边界溢出防护 + Sudoku 输入契约修复
+
+**日期：** 2026-03-01  
+**范围：** `graphs/floyd_warshall.zig`、`maths/matrix_exponentiation.zig`、`backtracking/generate_parentheses.zig`、`backtracking/sudoku_solver.zig`
+
+### 8B-R3 发现与修复
+
+| 算法 | 发现 | 根因 | 修复 | 验证 |
+|---|---|---|---|---|
+| Floyd-Warshall | 极端 `n` 下维度校验触发运行时整数溢出 panic | 直接计算 `n * n` 进行长度比较，未做 checked 乘法 | 先 `@mulWithOverflow(n, n)`，溢出返回 `error.Overflow`，再做矩阵长度校验；补溢出测试 | `zig test graphs/floyd_warshall.zig` 6/6 通过 |
+| Matrix Exponentiation | `matrixMultiply/matrixPower/identityMatrix` 在极端 `n` 下均可能因 `n * n` panic | 维度与分配长度均未做 checked 乘法 | 新增 `matrixElemCount` 统一做 checked 乘法并返回 `MatrixError.Overflow`；补维度溢出测试 | `zig test maths/matrix_exponentiation.zig` 7/7 通过 |
+| Generate Parentheses | 超大 `n` 时 `2 * n` 触发 panic | 缓冲区长度与终止条件直接使用 `2 * n` | 预先 checked 乘法得到 `total_len`，溢出返回 `error.Overflow`；回溯使用 `total_len`；补溢出测试 | `zig test backtracking/generate_parentheses.zig` 5/5 通过 |
+| Sudoku Solver | 对“已填满但非法”的盘面返回 `true` | 仅依赖“是否存在 0”作为终止条件，缺少初始盘面合法性校验 | 新增 `isGridValid`/`isExistingCellValid`，`solve` 入口先校验再递归求解；补“非法满盘”和“越界数字”测试 | `zig test backtracking/sudoku_solver.zig` 4/4 通过 |
+
+### 8B-R3 真实错误与修复记录（命令执行层）
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| `zig test /root/projects/TheAlgorithms-Zig/tmp_floyd_overflow_test.zig` | `panic: integer overflow`，定位到 `graphs/floyd_warshall.zig:14` | `n * n` 未做 checked 乘法 | 加入 `@mulWithOverflow` 维度检查并返回 `error.Overflow` | 对应正式测试新增后通过 |
+| `zig test /root/projects/TheAlgorithms-Zig/tmp_matrix_exp_dim_overflow_test.zig` | `panic: integer overflow`，定位到 `maths/matrix_exponentiation.zig:64` | 维度检查和分配长度均直接 `n * n` | 统一改为 `matrixElemCount` checked 乘法 | 对应正式测试新增后通过 |
+| `zig test /root/projects/TheAlgorithms-Zig/tmp_paren_overflow_test.zig` | `panic: integer overflow`，定位到 `backtracking/generate_parentheses.zig:39` | 直接使用 `2 * n` 分配缓冲区 | 改为 checked 乘法，溢出返回 `error.Overflow` | 对应正式测试新增后通过 |
+| `zig test /root/projects/TheAlgorithms-Zig/tmp_sudoku_invalid_full_test.zig` | 断言失败：非法满盘仍返回 `true` | 缺失初始盘面合法性校验 | 新增盘面合法性校验并在入口执行 | 对应正式测试新增后通过 |
+
+### 8B-R3 回归结果
+
+| 命令 | 结果 |
+|---|---|
+| `zig test graphs/floyd_warshall.zig` | ✅ |
+| `zig test maths/matrix_exponentiation.zig` | ✅ |
+| `zig test backtracking/generate_parentheses.zig` | ✅ |
+| `zig test backtracking/sudoku_solver.zig` | ✅ |
+| `zig build test` | ✅ |
+
+## 8B 补充复核（R4）：DP 模块 `n*n` 维度溢出一致性修复
+
+**日期：** 2026-03-01  
+**范围：** `dynamic_programming/matrix_chain_multiplication.zig`、`dynamic_programming/longest_palindromic_subsequence.zig`、`dynamic_programming/palindrome_partitioning.zig`
+
+### 8B-R4 发现与修复
+
+| 算法 | 发现 | 根因 | 修复 | 验证 |
+|---|---|---|---|---|
+| Matrix Chain Multiplication | DP 表分配长度 `n*n` 在极端 `dims.len` 下存在溢出风险 | 分配前未做 checked 乘法 | 分配长度改为 `@mulWithOverflow` 检查，溢出返回 `error.Overflow`；补极端长度测试 | `zig test dynamic_programming/matrix_chain_multiplication.zig` 6/6 通过 |
+| Longest Palindromic Subsequence | DP 表 `n*n` 分配存在同类溢出风险 | 分配前未做 checked 乘法 | 增加 `@mulWithOverflow` 维度检查，溢出返回 `error.Overflow`；补极端长度测试 | `zig test dynamic_programming/longest_palindromic_subsequence.zig` 6/6 通过 |
+| Palindrome Partitioning | 回文表 `n*n` 分配存在同类溢出风险 | 分配前未做 checked 乘法 | 增加 `@mulWithOverflow` 维度检查，溢出返回 `error.Overflow`；补极端长度测试 | `zig test dynamic_programming/palindrome_partitioning.zig` 6/6 通过 |
+
+### 8B-R4 回归结果
+
+| 命令 | 结果 |
+|---|---|
+| `zig test dynamic_programming/matrix_chain_multiplication.zig` | ✅ |
+| `zig test dynamic_programming/longest_palindromic_subsequence.zig` | ✅ |
+| `zig test dynamic_programming/palindrome_partitioning.zig` | ✅ |
+| `zig build test` | ✅ |

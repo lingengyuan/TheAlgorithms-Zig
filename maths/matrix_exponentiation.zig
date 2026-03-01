@@ -6,6 +6,12 @@ const testing = std.testing;
 
 pub const MatrixError = error{ InvalidDimensions, Overflow };
 
+fn matrixElemCount(n: usize) MatrixError!usize {
+    const mul = @mulWithOverflow(n, n);
+    if (mul[1] != 0) return MatrixError.Overflow;
+    return mul[0];
+}
+
 fn addMulChecked(acc: i64, a: i64, b: i64) MatrixError!i64 {
     const mul = @mulWithOverflow(a, b);
     if (mul[1] != 0) return MatrixError.Overflow;
@@ -26,9 +32,10 @@ pub fn matrixMultiply(
     b: []const i64,
     n: usize,
 ) (MatrixError || std.mem.Allocator.Error)![]i64 {
-    if (a.len != n * n or b.len != n * n) return MatrixError.InvalidDimensions;
+    const elem_count = try matrixElemCount(n);
+    if (a.len != elem_count or b.len != elem_count) return MatrixError.InvalidDimensions;
 
-    const out = try allocator.alloc(i64, n * n);
+    const out = try allocator.alloc(i64, elem_count);
     errdefer allocator.free(out);
     @memset(out, 0);
 
@@ -44,8 +51,9 @@ pub fn matrixMultiply(
     return out;
 }
 
-fn identityMatrix(allocator: std.mem.Allocator, n: usize) ![]i64 {
-    const out = try allocator.alloc(i64, n * n);
+fn identityMatrix(allocator: std.mem.Allocator, n: usize) (MatrixError || std.mem.Allocator.Error)![]i64 {
+    const elem_count = try matrixElemCount(n);
+    const out = try allocator.alloc(i64, elem_count);
     @memset(out, 0);
     for (0..n) |i| out[i * n + i] = 1;
     return out;
@@ -61,7 +69,8 @@ pub fn matrixPower(
     n: usize,
     exponent: u64,
 ) (MatrixError || std.mem.Allocator.Error)![]i64 {
-    if (matrix.len != n * n) return MatrixError.InvalidDimensions;
+    const elem_count = try matrixElemCount(n);
+    if (matrix.len != elem_count) return MatrixError.InvalidDimensions;
 
     var result = try identityMatrix(allocator, n);
     errdefer allocator.free(result);
@@ -141,4 +150,10 @@ test "matrix exponentiation: overflow is reported" {
     const a = [_]i64{std.math.maxInt(i64)};
     const b = [_]i64{2};
     try testing.expectError(MatrixError.Overflow, matrixMultiply(alloc, &a, &b, 1));
+}
+
+test "matrix exponentiation: oversize dimension returns overflow" {
+    const alloc = testing.allocator;
+    const tiny = [_]i64{1};
+    try testing.expectError(MatrixError.Overflow, matrixPower(alloc, &tiny, std.math.maxInt(usize), 2));
 }

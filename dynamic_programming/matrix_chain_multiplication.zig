@@ -12,7 +12,9 @@ pub fn matrixChainMultiplication(allocator: Allocator, dims: []const usize) !usi
     if (dims.len <= 2) return 0; // 0 or 1 matrix needs no multiplication
 
     const n = dims.len - 1;
-    const dp = try allocator.alloc(usize, n * n);
+    const elem_count = @mulWithOverflow(n, n);
+    if (elem_count[1] != 0) return error.Overflow;
+    const dp = try allocator.alloc(usize, elem_count[0]);
     defer allocator.free(dp);
     @memset(dp, 0);
 
@@ -78,4 +80,10 @@ test "matrix chain multiplication: one matrix" {
 test "matrix chain multiplication: empty dims" {
     const alloc = testing.allocator;
     try testing.expectEqual(@as(usize, 0), try matrixChainMultiplication(alloc, &[_]usize{}));
+}
+
+test "matrix chain multiplication: oversize dims length returns overflow" {
+    const fake_ptr: [*]const usize = @ptrFromInt(@alignOf(usize));
+    const fake_dims = fake_ptr[0..std.math.maxInt(usize)];
+    try testing.expectError(error.Overflow, matrixChainMultiplication(testing.allocator, fake_dims));
 }

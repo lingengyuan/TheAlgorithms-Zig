@@ -11,7 +11,9 @@ const Allocator = std.mem.Allocator;
 /// Time complexity: O(V^3), Space complexity: O(V^2)
 pub fn floydWarshall(allocator: Allocator, matrix: []const i64, n: usize, inf: i64) ![]i64 {
     if (n == 0) return try allocator.alloc(i64, 0);
-    if (matrix.len != n * n) return error.InvalidMatrixSize;
+    const elem_count = @mulWithOverflow(n, n);
+    if (elem_count[1] != 0) return error.Overflow;
+    if (matrix.len != elem_count[0]) return error.InvalidMatrixSize;
 
     const dist = try allocator.dupe(i64, matrix);
 
@@ -107,4 +109,10 @@ test "floyd-warshall: empty graph returns empty" {
     const out = try floydWarshall(alloc, &[_]i64{}, 0, 1_000_000_000);
     defer alloc.free(out);
     try testing.expectEqual(@as(usize, 0), out.len);
+}
+
+test "floyd-warshall: oversize dimension returns overflow" {
+    const alloc = testing.allocator;
+    const tiny = [_]i64{0};
+    try testing.expectError(error.Overflow, floydWarshall(alloc, &tiny, std.math.maxInt(usize), 1_000_000_000));
 }

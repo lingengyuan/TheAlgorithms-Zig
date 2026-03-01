@@ -12,7 +12,9 @@ pub fn minPalindromeCuts(allocator: Allocator, text: []const u8) !usize {
     const n = text.len;
     if (n == 0) return 0;
 
-    const is_pal = try allocator.alloc(bool, n * n);
+    const elem_count = @mulWithOverflow(n, n);
+    if (elem_count[1] != 0) return error.Overflow;
+    const is_pal = try allocator.alloc(bool, elem_count[0]);
     defer allocator.free(is_pal);
     @memset(is_pal, false);
 
@@ -71,4 +73,10 @@ test "palindrome partitioning: already palindrome" {
 test "palindrome partitioning: empty string" {
     const alloc = testing.allocator;
     try testing.expectEqual(@as(usize, 0), try minPalindromeCuts(alloc, ""));
+}
+
+test "palindrome partitioning: oversize input length returns overflow" {
+    const fake_ptr: [*]const u8 = @ptrFromInt(@alignOf(u8));
+    const fake_text = fake_ptr[0..std.math.maxInt(usize)];
+    try testing.expectError(error.Overflow, minPalindromeCuts(testing.allocator, fake_text));
 }
