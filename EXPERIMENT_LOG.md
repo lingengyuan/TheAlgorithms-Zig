@@ -1484,3 +1484,37 @@ FAIL: test "kmp: not found"
 | 测试总数 | 608 |
 | 可对齐并完成基准算法数 | 130 |
 | 基准 checksum 一致数 | 130 |
+
+## 8B 补充复核：复杂算法契约一致性与失效路径修复
+
+**日期：** 2026-03-01  
+**范围：** `graphs/`, `data_structures/`, `maths/`, `strings/` 的高复杂度实现（A*、Eulerian、LRU、Matrix Exponentiation、Ford-Fulkerson、Suffix Array）
+
+### 8B-R1 发现与修复
+
+| 算法 | 发现 | 根因 | 修复 | 验证 |
+|---|---|---|---|---|
+| A* Search | 文档声称最短路，但仅要求“非负 heuristic”，在非一致 heuristic 下可能返回次优路径 | 实现使用 closed 集且不重开节点，隐含要求 heuristic 一致性 | 明确契约：`heuristics[goal] == 0` 且必须满足一致性；入口新增校验，不满足返回错误 | `zig test graphs/a_star_search.zig` 10/10 通过（含新增 2 个契约测试） |
+| Eulerian Path/Circuit | 无向图输入若邻接不对称会被静默丢边，可能误判合法 | 计数时采用 `min(count(u,v), count(v,u))`，不匹配边被吞掉 | 新增无向输入对称性校验；不对称或奇数自环计数直接报 `error.InvalidUndirectedInput` | `zig test graphs/eulerian_path_circuit_undirected.zig` 9/9 通过（含新增 2 个非法输入测试） |
+| LRU Cache | `put` 在 OOM 时可能留下半更新状态 | 旧流程先挂链表，再 `map.put`；若 `map.put` 失败，链表/size/map 可能不一致 | 改为先 `map.put` 成功，再执行淘汰与链表插入；补 failing allocator 回归 | `zig test data_structures/lru_cache.zig` 6/6 通过（含 OOM 一致性测试） |
+| Matrix Exponentiation | 与 Python 大整数语义相比，`i64` 溢出行为未显式定义 | 矩阵乘法未做 checked overflow | 新增 `MatrixError.Overflow`，乘加均显式溢出检测 | `zig test maths/matrix_exponentiation.zig` 6/6 通过（含溢出测试） |
+| Ford-Fulkerson | 复杂度注释与实现形态不一致 | 注释沿用邻接表口径，实际为邻接矩阵扫描实现 | 更新注释，明确矩阵实现最坏复杂度口径 | `zig test graphs/ford_fulkerson.zig` 7/7 通过 |
+| Suffix Array | 参考链接不可追溯（本地参考仓库无该 Python 文件） | 计划文档与本地参考镜像文件名不一致 | 将文件头 reference 改为算法口径说明（doubling + Kasai） | `zig test strings/suffix_array.zig` 6/6 通过 |
+
+### 8B-R1 真实错误与修复记录（命令执行层）
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| 临时反例验证（A* / Euler） | 首次 `zig test` 返回 `AccessDenied`（标准库子编译读取失败） | 当前执行环境下，命令包装方式偶发触发沙箱限制 | 改为直接单命令重跑同一 `zig test` | 两个临时反例均成功复现并用于定位问题，修复后对应正式测试全部通过 |
+
+### 8B-R1 回归结果
+
+| 命令 | 结果 |
+|---|---|
+| `zig test graphs/a_star_search.zig` | ✅ |
+| `zig test graphs/eulerian_path_circuit_undirected.zig` | ✅ |
+| `zig test data_structures/lru_cache.zig` | ✅ |
+| `zig test maths/matrix_exponentiation.zig` | ✅ |
+| `zig test graphs/ford_fulkerson.zig` | ✅ |
+| `zig test strings/suffix_array.zig` | ✅ |
+| `zig build test` | ✅ |

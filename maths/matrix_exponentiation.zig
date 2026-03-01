@@ -4,10 +4,21 @@
 const std = @import("std");
 const testing = std.testing;
 
-pub const MatrixError = error{InvalidDimensions};
+pub const MatrixError = error{ InvalidDimensions, Overflow };
+
+fn addMulChecked(acc: i64, a: i64, b: i64) MatrixError!i64 {
+    const mul = @mulWithOverflow(a, b);
+    if (mul[1] != 0) return MatrixError.Overflow;
+
+    const sum = @addWithOverflow(acc, mul[0]);
+    if (sum[1] != 0) return MatrixError.Overflow;
+
+    return sum[0];
+}
 
 /// Multiplies two square matrices (n x n), row-major flat representation.
 /// Caller owns returned slice.
+/// Returns `error.Overflow` when intermediate/product values exceed `i64`.
 /// Time complexity: O(n^3), space complexity: O(n^2)
 pub fn matrixMultiply(
     allocator: std.mem.Allocator,
@@ -25,7 +36,7 @@ pub fn matrixMultiply(
         for (0..n) |k| {
             const aik = a[i * n + k];
             for (0..n) |j| {
-                out[i * n + j] += aik * b[k * n + j];
+                out[i * n + j] = try addMulChecked(out[i * n + j], aik, b[k * n + j]);
             }
         }
     }
@@ -42,6 +53,7 @@ fn identityMatrix(allocator: std.mem.Allocator, n: usize) ![]i64 {
 
 /// Raises square matrix `matrix` to `exponent` using binary exponentiation.
 /// Caller owns returned slice.
+/// Returns `error.Overflow` when intermediate values exceed `i64`.
 /// Time complexity: O(n^3 log exponent), space complexity: O(n^2)
 pub fn matrixPower(
     allocator: std.mem.Allocator,
@@ -122,4 +134,11 @@ test "matrix exponentiation: extreme exponent on diagonal matrix" {
     defer alloc.free(out);
 
     try testing.expectEqualSlices(i64, &[_]i64{ 1024, 0, 0, 59049 }, out);
+}
+
+test "matrix exponentiation: overflow is reported" {
+    const alloc = testing.allocator;
+    const a = [_]i64{std.math.maxInt(i64)};
+    const b = [_]i64{2};
+    try testing.expectError(MatrixError.Overflow, matrixMultiply(alloc, &a, &b, 1));
 }

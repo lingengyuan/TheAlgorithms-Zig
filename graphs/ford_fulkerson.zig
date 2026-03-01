@@ -8,7 +8,8 @@ const Allocator = std.mem.Allocator;
 /// Computes maximum flow from `source` to `sink` using BFS-based augmenting paths
 /// (Edmonds-Karp specialization of Ford-Fulkerson).
 /// Input is an adjacency matrix of capacities.
-/// Time complexity: O(V * E^2), Space complexity: O(V^2)
+/// Time complexity: O(V^5) worst-case for dense adjacency-matrix traversal,
+/// Space complexity: O(V^2)
 pub fn fordFulkersonMaxFlow(
     allocator: Allocator,
     capacity: []const []const i64,

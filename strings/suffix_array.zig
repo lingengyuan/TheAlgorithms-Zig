@@ -1,5 +1,5 @@
 //! Suffix Array - Zig implementation
-//! Reference: https://github.com/TheAlgorithms/Python/blob/master/strings/suffix_array.py
+//! Reference: Standard doubling + Kasai construction
 
 const std = @import("std");
 const testing = std.testing;

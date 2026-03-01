@@ -17,7 +17,7 @@ pub const AStarResult = struct {
 
 /// Finds a shortest path from `start` to `goal` using A* search on a weighted directed graph.
 /// `adj` is adjacency-list based; invalid neighbor indices are ignored.
-/// `heuristics[i]` must provide a non-negative heuristic estimate from node `i` to `goal`.
+/// `heuristics[i]` must be non-negative, consistent across edges, and `heuristics[goal] == 0`.
 /// Returns the found path (including start and goal) and path cost.
 /// Time complexity: O(V² + E), Space complexity: O(V)
 pub fn aStarSearch(
@@ -30,6 +30,8 @@ pub fn aStarSearch(
     const n = adj.len;
     if (start >= n or goal >= n) return error.InvalidNode;
     if (heuristics.len != n) return error.InvalidHeuristicLength;
+    if (heuristics[goal] != 0) return error.InvalidGoalHeuristic;
+    try validateConsistentHeuristic(adj, heuristics);
 
     const inf = std.math.maxInt(u64);
     const none = std.math.maxInt(usize);
@@ -101,6 +103,18 @@ pub fn aStarSearch(
                 f_score[edge.to] = if (add_f[1] != 0) inf else add_f[0];
                 in_open[edge.to] = true;
             }
+        }
+    }
+}
+
+fn validateConsistentHeuristic(adj: []const []const Edge, heuristics: []const u64) !void {
+    for (adj, 0..) |edges, u| {
+        const hu = heuristics[u];
+        for (edges) |edge| {
+            if (edge.to >= adj.len) continue;
+            const with_overflow = @addWithOverflow(edge.weight, heuristics[edge.to]);
+            if (with_overflow[1] != 0) continue;
+            if (hu > with_overflow[0]) return error.InconsistentHeuristic;
         }
     }
 }
@@ -195,6 +209,30 @@ test "a star search: heuristic length mismatch returns error" {
     const heuristics = [_]u64{0};
 
     try testing.expectError(error.InvalidHeuristicLength, aStarSearch(alloc, &adj, &heuristics, 0, 1));
+}
+
+test "a star search: goal heuristic must be zero" {
+    const alloc = testing.allocator;
+    const adj = [_][]const Edge{
+        &[_]Edge{.{ .to = 1, .weight = 1 }},
+        &[_]Edge{},
+    };
+    const heuristics = [_]u64{ 1, 2 };
+
+    try testing.expectError(error.InvalidGoalHeuristic, aStarSearch(alloc, &adj, &heuristics, 0, 1));
+}
+
+test "a star search: inconsistent heuristic returns error" {
+    const alloc = testing.allocator;
+    const adj = [_][]const Edge{
+        &[_]Edge{ .{ .to = 1, .weight = 2 }, .{ .to = 2, .weight = 1 } },
+        &[_]Edge{.{ .to = 3, .weight = 1 }},
+        &[_]Edge{ .{ .to = 1, .weight = 0 }, .{ .to = 3, .weight = 100 } },
+        &[_]Edge{},
+    };
+    const heuristics = [_]u64{ 0, 0, 100, 0 };
+
+    try testing.expectError(error.InconsistentHeuristic, aStarSearch(alloc, &adj, &heuristics, 0, 3));
 }
 
 test "a star search: invalid neighbor index is ignored" {

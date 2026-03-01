@@ -79,14 +79,16 @@ pub const LruCache = struct {
             return;
         }
 
+        const node = try self.allocator.create(Node);
+        errdefer self.allocator.destroy(node);
+        node.* = .{ .key = key, .value = value, .prev = null, .next = null };
+
+        try self.map.put(key, node);
+
         if (self.size >= self.capacity) {
             self.evictFront();
         }
-
-        const node = try self.allocator.create(Node);
-        node.* = .{ .key = key, .value = value, .prev = null, .next = null };
         self.insertBeforeTail(node);
-        try self.map.put(key, node);
         self.size += 1;
     }
 
@@ -194,4 +196,16 @@ test "lru cache: hit/miss accounting" {
     try testing.expectEqual(@as(usize, 2), info.hits);
     try testing.expectEqual(@as(usize, 1), info.misses);
     try testing.expectEqual(@as(usize, 1), info.size);
+}
+
+test "lru cache: failed map insertion does not corrupt state" {
+    var failing = std.testing.FailingAllocator.init(testing.allocator, .{ .fail_index = 3 });
+    const alloc = failing.allocator();
+
+    var cache = try LruCache.init(alloc, 2);
+    defer cache.deinit();
+
+    try testing.expectError(error.OutOfMemory, cache.put(1, 1));
+    try testing.expectEqual(@as(usize, 0), cache.len());
+    try testing.expectEqual(@as(?i64, null), cache.get(1));
 }

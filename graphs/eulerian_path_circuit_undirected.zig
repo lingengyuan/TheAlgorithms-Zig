@@ -28,6 +28,7 @@ const UndirectedEdge = struct {
 
 /// Finds an Eulerian path or circuit in an undirected graph using Hierholzer's algorithm.
 /// Input is adjacency-list based; invalid neighbor indices are ignored.
+/// Valid (non-ignored) undirected edges must appear symmetrically in adjacency lists.
 /// Returns `error.NotEulerian` when no Eulerian path/circuit exists.
 /// Time complexity: O(V + E), Space complexity: O(V + E)
 pub fn findEulerianPathOrCircuit(allocator: Allocator, adj: []const []const usize) !EulerResult {
@@ -54,6 +55,8 @@ pub fn findEulerianPathOrCircuit(allocator: Allocator, adj: []const []const usiz
         }
     }
 
+    try validateUndirectedAdjacency(&directed_counts);
+
     var pairs = std.ArrayListUnmanaged(PairCount){};
     defer pairs.deinit(allocator);
 
@@ -68,8 +71,7 @@ pub fn findEulerianPathOrCircuit(allocator: Allocator, adj: []const []const usiz
         if (u == v) {
             undirected_count = entry.value_ptr.* / 2;
         } else {
-            const reverse_count = directed_counts.get(encodePair(v, u)) orelse 0;
-            undirected_count = @min(entry.value_ptr.*, reverse_count);
+            undirected_count = entry.value_ptr.*;
         }
 
         if (undirected_count > 0) {
@@ -200,6 +202,26 @@ pub fn findEulerianPathOrCircuit(allocator: Allocator, adj: []const []const usiz
     };
 }
 
+fn validateUndirectedAdjacency(directed_counts: *const std.AutoHashMap(u128, usize)) !void {
+    var it = directed_counts.iterator();
+    while (it.next()) |entry| {
+        const key = entry.key_ptr.*;
+        const u = decodeA(key);
+        const v = decodeB(key);
+        const count = entry.value_ptr.*;
+
+        if (u == v) {
+            if (count % 2 != 0) return error.InvalidUndirectedInput;
+            continue;
+        }
+
+        if (u < v) {
+            const reverse_count = directed_counts.get(encodePair(v, u)) orelse 0;
+            if (count != reverse_count) return error.InvalidUndirectedInput;
+        }
+    }
+}
+
 fn lessPair(_: void, a: PairCount, b: PairCount) bool {
     if (a.u != b.u) return a.u < b.u;
     if (a.v != b.v) return a.v < b.v;
@@ -323,6 +345,25 @@ test "euler undirected: invalid neighbor index is ignored" {
 
     try testing.expectEqual(EulerKind.path, result.kind);
     try testing.expectEqualSlices(usize, &[_]usize{ 0, 1 }, result.path);
+}
+
+test "euler undirected: asymmetric adjacency is invalid input" {
+    const alloc = testing.allocator;
+    const adj = [_][]const usize{
+        &[_]usize{1},
+        &[_]usize{},
+    };
+
+    try testing.expectError(error.InvalidUndirectedInput, findEulerianPathOrCircuit(alloc, &adj));
+}
+
+test "euler undirected: odd self-loop count is invalid input" {
+    const alloc = testing.allocator;
+    const adj = [_][]const usize{
+        &[_]usize{0},
+    };
+
+    try testing.expectError(error.InvalidUndirectedInput, findEulerianPathOrCircuit(alloc, &adj));
 }
 
 test "euler undirected: parallel edges form circuit" {
