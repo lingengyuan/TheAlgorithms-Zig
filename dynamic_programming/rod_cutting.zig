@@ -5,20 +5,26 @@ const std = @import("std");
 const testing = std.testing;
 const Allocator = std.mem.Allocator;
 
+pub const RodCuttingError = error{Overflow};
+
 /// Returns the maximum obtainable value for a rod of `length`.
 /// `prices[i]` is the price of a rod segment with length `i + 1`.
 /// Time complexity: O(n^2), Space complexity: O(n)
-pub fn rodCutting(allocator: Allocator, prices: []const i64, length: usize) !i64 {
+pub fn rodCutting(allocator: Allocator, prices: []const i64, length: usize) (RodCuttingError || Allocator.Error)!i64 {
     if (length == 0) return 0;
 
-    const dp = try allocator.alloc(i64, length + 1);
+    const length_plus = @addWithOverflow(length, @as(usize, 1));
+    if (length_plus[1] != 0) return RodCuttingError.Overflow;
+    const dp = try allocator.alloc(i64, length_plus[0]);
     defer allocator.free(dp);
     @memset(dp, 0);
 
     const min_i64: i64 = std.math.minInt(i64);
-    for (1..length + 1) |rod_len| {
+    for (1..length_plus[0]) |rod_len| {
         var best: i64 = min_i64;
-        for (1..rod_len + 1) |cut| {
+        const rod_len_plus = @addWithOverflow(rod_len, @as(usize, 1));
+        if (rod_len_plus[1] != 0) return RodCuttingError.Overflow;
+        for (1..rod_len_plus[0]) |cut| {
             if (cut > prices.len) continue;
             const sum = @addWithOverflow(prices[cut - 1], dp[rod_len - cut]);
             if (sum[1] != 0) continue;
@@ -57,4 +63,8 @@ test "rod cutting: direct no-cut is optimal" {
     const alloc = testing.allocator;
     const prices = [_]i64{ 2, 5, 9, 20 };
     try testing.expectEqual(@as(i64, 20), try rodCutting(alloc, &prices, 4));
+}
+
+test "rod cutting: oversize length returns overflow" {
+    try testing.expectError(RodCuttingError.Overflow, rodCutting(testing.allocator, &[_]i64{ 1, 2, 3 }, std.math.maxInt(usize)));
 }

@@ -1662,3 +1662,37 @@ FAIL: test "kmp: not found"
 | `zig test strings/z_function.zig` | ✅ |
 | `zig test maths/sieve_of_eratosthenes.zig` | ✅ |
 | `zig build test` | ✅ |
+
+## 8B 补充复核（R7）：`+1` 扩展边界与数值溢出语义统一
+
+**日期：** 2026-03-01  
+**范围：** `dynamic_programming/subset_sum.zig`、`dynamic_programming/word_break.zig`、`dynamic_programming/rod_cutting.zig`、`dynamic_programming/egg_drop_problem.zig`、`dynamic_programming/catalan_numbers.zig`、`dynamic_programming/fibonacci_dp.zig`、`strings/levenshtein_distance.zig`、`matrix/pascal_triangle.zig`
+
+### 8B-R7 发现与修复
+
+| 算法/模块 | 发现 | 根因 | 修复 | 验证 |
+|---|---|---|---|---|
+| word_break / rod_cutting / egg_drop / catalan / fibonacci_dp / levenshtein | `n+1` 或 `eggs+1` 类扩展在极端输入下存在溢出风险 | 分配长度与循环边界缺少 checked 运算 | 统一增加 `@addWithOverflow` 校验并返回显式 `Overflow` 错误；补对应极端测试 | 6 个文件定向测试全部通过 |
+| fibonacci_dp | 递归求和存在 `u64` 溢出风险 | `fib(n-1)+fib(n-2)` 直接相加 | 改为 checked 加法并返回 `FibonacciError.Overflow`；补 `n=94` 溢出测试 | `zig test dynamic_programming/fibonacci_dp.zig` 4/4 通过 |
+| pascal_triangle | 行内系数求和可能超过 `u64` 上限，且失败路径需要释放已分配行 | 行构造阶段未做 checked 加法/失败回收 | 加入 checked 加法与 `errdefer` 全链路清理；补大行数溢出测试 | `zig test matrix/pascal_triangle.zig` 4/4 通过 |
+| subset_sum | 负值以外的极端转换边界（跨架构 `i64 -> usize`）未显式定义 | 直接 `@intCast` 依赖平台位宽 | 新增 `TargetTooLarge/ElementTooLarge/Overflow` 分支并补平台兼容测试 | `zig test dynamic_programming/subset_sum.zig` 9/9 通过（含 fuzz） |
+
+### 8B-R7 真实错误与修复记录（命令执行层）
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| `zig test dynamic_programming/subset_sum.zig`（首次） | `subset sum: values too large are rejected` 用例触发 `OutOfMemory` | 64 位分支错误地构造了超大 target，导致分配过大 DP 表 | 将 64 位分支改为小 target 的等价覆盖（验证不会误命中） | 重跑该文件通过（9/9） |
+
+### 8B-R7 回归结果
+
+| 命令 | 结果 |
+|---|---|
+| `zig test dynamic_programming/subset_sum.zig` | ✅ |
+| `zig test dynamic_programming/word_break.zig` | ✅ |
+| `zig test dynamic_programming/rod_cutting.zig` | ✅ |
+| `zig test dynamic_programming/egg_drop_problem.zig` | ✅ |
+| `zig test dynamic_programming/catalan_numbers.zig` | ✅ |
+| `zig test dynamic_programming/fibonacci_dp.zig` | ✅ |
+| `zig test strings/levenshtein_distance.zig` | ✅ |
+| `zig test matrix/pascal_triangle.zig` | ✅ |
+| `zig build test` | ✅ |

@@ -4,10 +4,15 @@
 const std = @import("std");
 const testing = std.testing;
 
+pub const FibonacciError = error{Overflow};
+
 /// Returns the n-th Fibonacci number (0-indexed) using top-down memoization.
 /// Time complexity: O(n), Space complexity: O(n)
-pub fn fibonacciDp(allocator: std.mem.Allocator, n: usize) ![]u64 {
-    const memo = try allocator.alloc(u64, n + 1);
+pub fn fibonacciDp(allocator: std.mem.Allocator, n: usize) (FibonacciError || std.mem.Allocator.Error)![]u64 {
+    const n_plus = @addWithOverflow(n, @as(usize, 1));
+    if (n_plus[1] != 0) return FibonacciError.Overflow;
+
+    const memo = try allocator.alloc(u64, n_plus[0]);
     defer allocator.free(memo);
 
     const unseen = std.math.maxInt(u64);
@@ -16,16 +21,21 @@ pub fn fibonacciDp(allocator: std.mem.Allocator, n: usize) ![]u64 {
     memo[0] = 0;
     if (n >= 1) memo[1] = 1;
 
-    const sequence = try allocator.alloc(u64, n + 1);
-    for (0..(n + 1)) |i| {
-        sequence[i] = fibMemo(i, memo, unseen);
+    const sequence = try allocator.alloc(u64, n_plus[0]);
+    errdefer allocator.free(sequence);
+    for (0..n_plus[0]) |i| {
+        sequence[i] = try fibMemo(i, memo, unseen);
     }
     return sequence;
 }
 
-fn fibMemo(n: usize, memo: []u64, unseen: u64) u64 {
+fn fibMemo(n: usize, memo: []u64, unseen: u64) FibonacciError!u64 {
     if (memo[n] != unseen) return memo[n];
-    memo[n] = fibMemo(n - 1, memo, unseen) + fibMemo(n - 2, memo, unseen);
+    const left = try fibMemo(n - 1, memo, unseen);
+    const right = try fibMemo(n - 2, memo, unseen);
+    const sum = @addWithOverflow(left, right);
+    if (sum[1] != 0) return FibonacciError.Overflow;
+    memo[n] = sum[0];
     return memo[n];
 }
 
@@ -56,4 +66,8 @@ test "fibonacci dp: larger value" {
     const seq = try fibonacciDp(alloc, 20);
     defer alloc.free(seq);
     try testing.expectEqual(@as(u64, 6765), seq[20]);
+}
+
+test "fibonacci dp: overflow is reported" {
+    try testing.expectError(FibonacciError.Overflow, fibonacciDp(testing.allocator, 94));
 }

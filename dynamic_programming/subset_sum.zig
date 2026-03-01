@@ -4,7 +4,7 @@
 const std = @import("std");
 const testing = std.testing;
 
-pub const SubsetSumError = error{ NegativeTarget, NegativeElement };
+pub const SubsetSumError = error{ NegativeTarget, NegativeElement, TargetTooLarge, ElementTooLarge, Overflow };
 
 /// Returns whether any subset of `numbers` sums to `target`.
 /// This implementation accepts only non-negative inputs.
@@ -15,12 +15,16 @@ pub fn isSubsetSum(
     target: i64,
 ) (SubsetSumError || std.mem.Allocator.Error)!bool {
     if (target < 0) return SubsetSumError.NegativeTarget;
+    if (target > std.math.maxInt(usize)) return SubsetSumError.TargetTooLarge;
     for (numbers) |value| {
         if (value < 0) return SubsetSumError.NegativeElement;
+        if (value > std.math.maxInt(usize)) return SubsetSumError.ElementTooLarge;
     }
 
     const target_u: usize = @intCast(target);
-    const dp = try allocator.alloc(bool, target_u + 1);
+    const target_plus = @addWithOverflow(target_u, @as(usize, 1));
+    if (target_plus[1] != 0) return SubsetSumError.Overflow;
+    const dp = try allocator.alloc(bool, target_plus[0]);
     defer allocator.free(dp);
     @memset(dp, false);
     dp[0] = true;
@@ -69,6 +73,24 @@ test "subset sum: reject negative input" {
     const alloc = testing.allocator;
     try testing.expectError(SubsetSumError.NegativeTarget, isSubsetSum(alloc, &[_]i64{ 1, 2, 3 }, -1));
     try testing.expectError(SubsetSumError.NegativeElement, isSubsetSum(alloc, &[_]i64{ 1, -2, 3 }, 3));
+}
+
+test "subset sum: values too large are rejected" {
+    const alloc = testing.allocator;
+    if (std.math.maxInt(usize) < std.math.maxInt(i64)) {
+        try testing.expectError(SubsetSumError.ElementTooLarge, isSubsetSum(alloc, &[_]i64{std.math.maxInt(i64)}, 1));
+    } else {
+        try testing.expect(!(try isSubsetSum(alloc, &[_]i64{std.math.maxInt(i64)}, 1)));
+    }
+}
+
+test "subset sum: target too large is rejected" {
+    const alloc = testing.allocator;
+    if (std.math.maxInt(usize) < std.math.maxInt(i64)) {
+        try testing.expectError(SubsetSumError.TargetTooLarge, isSubsetSum(alloc, &[_]i64{1}, std.math.maxInt(i64)));
+    } else {
+        try testing.expect(try isSubsetSum(alloc, &[_]i64{1}, 1));
+    }
 }
 
 test "subset sum: extreme input size" {
