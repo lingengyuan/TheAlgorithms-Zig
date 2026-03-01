@@ -37,11 +37,25 @@ const totient_mod = @import("../../maths/eulers_totient.zig");
 const crt_mod = @import("../../maths/chinese_remainder_theorem.zig");
 const binom_mod = @import("../../maths/binomial_coefficient.zig");
 const isqrt_mod = @import("../../maths/integer_square_root.zig");
+const miller_rabin_mod = @import("../../maths/miller_rabin.zig");
+const matrix_exp_mod = @import("../../maths/matrix_exponentiation.zig");
+const stack_mod = @import("../../data_structures/stack.zig");
+const queue_mod = @import("../../data_structures/queue.zig");
+const singly_linked_list_mod = @import("../../data_structures/singly_linked_list.zig");
+const doubly_linked_list_mod = @import("../../data_structures/doubly_linked_list.zig");
+const binary_search_tree_mod = @import("../../data_structures/binary_search_tree.zig");
+const min_heap_mod = @import("../../data_structures/min_heap.zig");
 const trie_mod = @import("../../data_structures/trie.zig");
 const disjoint_set_mod = @import("../../data_structures/disjoint_set.zig");
 const avl_tree_mod = @import("../../data_structures/avl_tree.zig");
 const max_heap_mod = @import("../../data_structures/max_heap.zig");
 const priority_queue_mod = @import("../../data_structures/priority_queue.zig");
+const hash_map_open_addressing_mod = @import("../../data_structures/hash_map_open_addressing.zig");
+const segment_tree_mod = @import("../../data_structures/segment_tree.zig");
+const fenwick_tree_mod = @import("../../data_structures/fenwick_tree.zig");
+const red_black_tree_mod = @import("../../data_structures/red_black_tree.zig");
+const lru_cache_mod = @import("../../data_structures/lru_cache.zig");
+const deque_mod = @import("../../data_structures/deque.zig");
 
 const climbing_stairs_mod = @import("../../dynamic_programming/climbing_stairs.zig");
 const fibonacci_dp_mod = @import("../../dynamic_programming/fibonacci_dp.zig");
@@ -56,10 +70,20 @@ const catalan_mod = @import("../../dynamic_programming/catalan_numbers.zig");
 const lcs_mod = @import("../../dynamic_programming/longest_common_subsequence.zig");
 const edit_distance_mod = @import("../../dynamic_programming/edit_distance.zig");
 const knapsack_mod = @import("../../dynamic_programming/knapsack.zig");
+const subset_sum_mod = @import("../../dynamic_programming/subset_sum.zig");
+const egg_drop_mod = @import("../../dynamic_programming/egg_drop_problem.zig");
+const lps_mod = @import("../../dynamic_programming/longest_palindromic_subsequence.zig");
+const max_product_mod = @import("../../dynamic_programming/max_product_subarray.zig");
 
 const bfs_mod = @import("../../graphs/bfs.zig");
 const dfs_mod = @import("../../graphs/dfs.zig");
 const dijkstra_mod = @import("../../graphs/dijkstra.zig");
+const a_star_mod = @import("../../graphs/a_star_search.zig");
+const tarjan_mod = @import("../../graphs/tarjan_scc.zig");
+const bridges_mod = @import("../../graphs/bridges.zig");
+const euler_mod = @import("../../graphs/eulerian_path_circuit_undirected.zig");
+const ford_mod = @import("../../graphs/ford_fulkerson.zig");
+const bipartite_mod = @import("../../graphs/bipartite_check_bfs.zig");
 const bellman_ford_mod = @import("../../graphs/bellman_ford.zig");
 const topological_sort_mod = @import("../../graphs/topological_sort.zig");
 const floyd_warshall_mod = @import("../../graphs/floyd_warshall.zig");
@@ -79,6 +103,11 @@ const dec_to_bin_mod = @import("../../conversions/decimal_to_binary.zig");
 const bin_to_dec_mod = @import("../../conversions/binary_to_decimal.zig");
 const dec_to_hex_mod = @import("../../conversions/decimal_to_hexadecimal.zig");
 const bin_to_hex_mod = @import("../../conversions/binary_to_hexadecimal.zig");
+const roman_to_int_mod = @import("../../conversions/roman_to_integer.zig");
+const int_to_roman_mod = @import("../../conversions/integer_to_roman.zig");
+const temp_conv_mod = @import("../../conversions/temperature_conversion.zig");
+const caesar_cipher_mod = @import("../../ciphers/caesar_cipher.zig");
+const sha256_mod = @import("../../hashing/sha256.zig");
 
 const palindrome_mod = @import("../../strings/palindrome.zig");
 const reverse_words_mod = @import("../../strings/reverse_words.zig");
@@ -90,17 +119,29 @@ const rabin_karp_mod = @import("../../strings/rabin_karp.zig");
 const z_function_mod = @import("../../strings/z_function.zig");
 const levenshtein_mod = @import("../../strings/levenshtein_distance.zig");
 const is_pangram_mod = @import("../../strings/is_pangram.zig");
+const aho_corasick_mod = @import("../../strings/aho_corasick.zig");
+const suffix_array_mod = @import("../../strings/suffix_array.zig");
+const run_length_encoding_mod = @import("../../strings/run_length_encoding.zig");
 
 const best_stock_mod = @import("../../greedy_methods/best_time_to_buy_sell_stock.zig");
 const min_coin_mod = @import("../../greedy_methods/minimum_coin_change.zig");
 const min_waiting_mod = @import("../../greedy_methods/minimum_waiting_time.zig");
 const fractional_knapsack_mod = @import("../../greedy_methods/fractional_knapsack.zig");
+const activity_selection_mod = @import("../../greedy_methods/activity_selection.zig");
+const huffman_coding_mod = @import("../../greedy_methods/huffman_coding.zig");
+const job_seq_mod = @import("../../greedy_methods/job_sequencing_with_deadline.zig");
 
 const matrix_mul_mod = @import("../../matrix/matrix_multiply.zig");
 const transpose_mod = @import("../../matrix/matrix_transpose.zig");
 const rotate_mod = @import("../../matrix/rotate_matrix.zig");
 const spiral_mod = @import("../../matrix/spiral_print.zig");
 const pascal_mod = @import("../../matrix/pascal_triangle.zig");
+const permutations_mod = @import("../../backtracking/permutations.zig");
+const combinations_mod = @import("../../backtracking/combinations.zig");
+const subsets_mod = @import("../../backtracking/subsets.zig");
+const generate_parentheses_mod = @import("../../backtracking/generate_parentheses.zig");
+const n_queens_mod = @import("../../backtracking/n_queens.zig");
+const sudoku_mod = @import("../../backtracking/sudoku_solver.zig");
 
 const ExtPair = struct {
     a: i64,
@@ -120,6 +161,17 @@ const CrtSystem = struct {
 const BinomPair = struct {
     n: u64,
     k: u64,
+};
+
+const TemperatureCase = struct {
+    value: f64,
+    from: temp_conv_mod.Scale,
+    to: temp_conv_mod.Scale,
+};
+
+const EggDropCase = struct {
+    eggs: usize,
+    floors: usize,
 };
 
 fn intToU64(comptime T: type, v: T) u64 {
@@ -274,6 +326,21 @@ fn generateBase26Words(allocator: Allocator, count: usize, word_len: usize) ![][
         encodeBase26Word(words[i], @intCast(i));
     }
     return words;
+}
+
+fn generateRleText(allocator: Allocator, run_count: usize) ![]u8 {
+    var out = std.ArrayListUnmanaged(u8){};
+    errdefer out.deinit(allocator);
+
+    for (0..run_count) |i| {
+        const ch: u8 = @as(u8, 'a') + @as(u8, @intCast(i % 26));
+        const run_len: usize = ((i * 7 + 3) % 9) + 1;
+        const old_len = out.items.len;
+        try out.resize(allocator, old_len + run_len);
+        @memset(out.items[old_len .. old_len + run_len], ch);
+    }
+
+    return try out.toOwnedSlice(allocator);
 }
 
 fn printResult(writer: anytype, algorithm: []const u8, category: []const u8, iterations: usize, total_ns: u64, checksum: u64) !void {
@@ -461,6 +528,190 @@ fn runIntegerSquareRoot(values: []const u64) u64 {
     return sum;
 }
 
+fn runMillerRabin(values: []const u64) u64 {
+    var prime_count: u64 = 0;
+    var signature: u64 = 0;
+    for (values) |v| {
+        if (miller_rabin_mod.isPrimeMillerRabin(v)) {
+            prime_count +%= 1;
+            signature +%= v;
+        }
+    }
+    return prime_count +% (signature *% 3);
+}
+
+fn runMatrixExponentiation(allocator: Allocator, matrix: []const i64, dim: usize, exponent: u64) !u64 {
+    const out = try matrix_exp_mod.matrixPower(allocator, matrix, dim, exponent);
+    defer allocator.free(out);
+    return checksumSlice(i64, out);
+}
+
+fn runStack(values: []const i64, allocator: Allocator) !u64 {
+    var stack = stack_mod.Stack(i64).initWithLimit(allocator, values.len + 16);
+    defer stack.deinit();
+
+    var total: u64 = 0;
+    for (values, 0..) |v, i| {
+        try stack.push(v);
+        if (i % 3 == 0) {
+            if (stack.peek()) |top| total +%= intToU64(i64, top);
+        }
+        if (i % 5 == 0) {
+            if (stack.pop()) |popped| total +%= intToU64(i64, popped) *% 3;
+        }
+    }
+
+    while (stack.pop()) |v| {
+        total +%= intToU64(i64, v);
+    }
+    return total +% (@as(u64, @intCast(values.len)) *% 11);
+}
+
+fn runQueue(values: []const i64, allocator: Allocator) !u64 {
+    var queue = queue_mod.Queue(i64).init(allocator);
+    defer queue.deinit();
+
+    var total: u64 = 0;
+    for (values, 0..) |v, i| {
+        try queue.enqueue(v);
+        if (i % 4 == 0) {
+            if (queue.peek()) |front| total +%= intToU64(i64, front);
+        }
+        if (i % 6 == 0) {
+            if (queue.dequeue()) |x| total +%= intToU64(i64, x) *% 3;
+        }
+        if (i % 25 == 0) {
+            try queue.rotate(1);
+        }
+    }
+
+    while (queue.dequeue()) |v| {
+        total +%= intToU64(i64, v);
+    }
+    return total +% (@as(u64, @intCast(values.len)) *% 13);
+}
+
+fn runSinglyLinkedList(values: []const i64, allocator: Allocator) !u64 {
+    var list = singly_linked_list_mod.SinglyLinkedList(i64).init(allocator);
+    defer list.deinit();
+
+    var total: u64 = 0;
+    for (values, 0..) |v, i| {
+        if (i % 2 == 0) {
+            try list.insertTail(v);
+        } else {
+            try list.insertHead(v);
+        }
+
+        if (i % 7 == 0) {
+            if (list.get(0)) |head| total +%= intToU64(i64, head);
+        }
+        if (i % 11 == 0 and !list.isEmpty()) {
+            if (list.deleteTail()) |x| total +%= intToU64(i64, x) *% 5;
+        }
+    }
+
+    const probe = @min(list.len, @as(usize, 1024));
+    for (0..probe) |idx| {
+        if (list.get(idx)) |v| total +%= intToU64(i64, v);
+    }
+
+    list.reverse();
+    while (!list.isEmpty()) {
+        if (list.deleteHead()) |v| total +%= intToU64(i64, v) *% 3;
+    }
+    return total +% (@as(u64, @intCast(values.len)) *% 17);
+}
+
+fn runDoublyLinkedList(values: []const i64, allocator: Allocator) !u64 {
+    var list = doubly_linked_list_mod.DoublyLinkedList(i64).init(allocator);
+    defer list.deinit();
+
+    var total: u64 = 0;
+    for (values, 0..) |v, i| {
+        if (i % 3 == 0) {
+            try list.insertHead(v);
+        } else {
+            try list.insertTail(v);
+        }
+
+        if (i % 9 == 0 and !list.isEmpty()) {
+            if (list.deleteHead()) |x| total +%= intToU64(i64, x) *% 3;
+        }
+        if (i % 13 == 0 and !list.isEmpty()) {
+            if (list.deleteTail()) |x| total +%= intToU64(i64, x) *% 5;
+        }
+    }
+
+    const probe = @min(list.len, @as(usize, 1024));
+    for (0..probe) |idx| {
+        if (list.get(idx)) |v| total +%= intToU64(i64, v);
+    }
+
+    list.reverse();
+    while (!list.isEmpty()) {
+        if (list.deleteTail()) |v| total +%= intToU64(i64, v);
+    }
+    return total +% (@as(u64, @intCast(values.len)) *% 19);
+}
+
+fn runBinarySearchTree(values: []const i64, queries: []const i64, removals: []const i64, allocator: Allocator) !u64 {
+    var tree = binary_search_tree_mod.BinarySearchTree(i64).init(allocator);
+    defer tree.deinit();
+
+    for (values) |v| try tree.insert(v);
+
+    var hits: u64 = 0;
+    for (queries) |q| {
+        if (tree.search(q)) hits +%= 1;
+    }
+
+    const ordered = try tree.inorder(allocator);
+    defer allocator.free(ordered);
+    const inorder_checksum = checksumSlice(i64, ordered);
+
+    const min_value = tree.getMin() orelse 0;
+    const max_value = tree.getMax() orelse 0;
+
+    var removed: u64 = 0;
+    for (removals) |v| {
+        if (tree.remove(v)) removed +%= 1;
+    }
+
+    return inorder_checksum +
+        (hits *% 31) +
+        (removed *% 17) +
+        (intToU64(i64, min_value) *% 3) +
+        (intToU64(i64, max_value) *% 5) +
+        (@as(u64, @intCast(tree.len)) *% 7);
+}
+
+fn runMinHeap(values: []const i64, push_count: usize, allocator: Allocator) !u64 {
+    var heap = try min_heap_mod.MinHeap(i64).fromSlice(allocator, values);
+    defer heap.deinit();
+
+    var total: u64 = 0;
+    for (0..push_count) |i| {
+        if (heap.extractMin()) |x| total +%= intToU64(i64, x);
+
+        const idx: i64 = @intCast(i);
+        const new_value = @mod(idx * 97 + 31, 100_000) - 50_000;
+        try heap.insert(new_value);
+
+        if (i % 4 == 0) {
+            if (heap.peek()) |p| total +%= intToU64(i64, p) *% 3;
+        }
+    }
+
+    while (heap.extractMin()) |x| {
+        total +%= intToU64(i64, x);
+    }
+
+    return total +
+        (@as(u64, @intCast(values.len)) *% 23) +
+        (@as(u64, @intCast(push_count)) *% 5);
+}
+
 fn runTrie(allocator: Allocator, words: []const []const u8) !u64 {
     var trie = try trie_mod.Trie.init(allocator);
     defer trie.deinit();
@@ -587,6 +838,222 @@ fn runPriorityQueue(allocator: Allocator, n: usize) !u64 {
     return checksumSlice(i64, out[0..idx]);
 }
 
+fn runHashMapOpenAddressing(allocator: Allocator, n: usize) !u64 {
+    var map = try hash_map_open_addressing_mod.OpenAddressHashMap.init(allocator, n);
+    defer map.deinit();
+
+    const keys = try allocator.alloc(i64, n);
+    defer allocator.free(keys);
+
+    for (0..n) |i| {
+        const idx: i64 = @intCast(i);
+        const key = idx * 2 - 80_000;
+        const i_u64: u64 = @intCast(i);
+        const value: i64 = @intCast(((i_u64 * 131) + 17) % 1_000_003);
+        try map.put(key, value - 500_000);
+        keys[i] = key;
+    }
+
+    var updated: u64 = 0;
+    var i: usize = 0;
+    while (i < n) : (i += 3) {
+        const key = keys[i];
+        if (map.get(key)) |value| {
+            try map.put(key, value + 11);
+            updated +%= 1;
+        }
+    }
+
+    var removed: u64 = 0;
+    i = 0;
+    while (i < n) : (i += 5) {
+        if (map.remove(keys[i])) removed +%= 1;
+    }
+
+    var hits: u64 = 0;
+    var lookup_sum: u64 = 0;
+    for (keys) |key| {
+        if (map.get(key)) |value| {
+            hits +%= 1;
+            lookup_sum +%= intToU64(i64, value);
+        }
+    }
+
+    return lookup_sum +% (hits *% 3) +% (removed *% 5) +% (updated *% 7) +% (@as(u64, @intCast(map.count())) *% 11);
+}
+
+fn runSegmentTree(allocator: Allocator, values: []const i64) !u64 {
+    if (values.len == 0) return 0;
+
+    var st = try segment_tree_mod.SegmentTree.init(allocator, values);
+    defer st.deinit();
+
+    const n = values.len;
+    var checksum: u64 = 0;
+
+    var i: usize = 0;
+    while (i < n) : (i += 97) {
+        const left = i;
+        const right = @min(n - 1, left + 63);
+        const q = try st.query(left, right);
+        checksum +%= intToU64(i64, q);
+    }
+
+    i = 0;
+    while (i < n) : (i += 53) {
+        const index = (i * 37 + 11) % n;
+        const i_u64: u64 = @intCast(i);
+        const value: i64 = @intCast(((i_u64 * 131) + 19) % 1_000_003);
+        try st.update(index, value - 500_000);
+    }
+
+    i = 0;
+    while (i < n) : (i += 89) {
+        const left = (i * 17 + 5) % n;
+        const span = ((i * 29 + 7) % 64) + 1;
+        const right = @min(n - 1, left + span - 1);
+        const q = try st.query(left, right);
+        checksum +%= intToU64(i64, q);
+    }
+
+    return checksum;
+}
+
+fn runFenwickTree(allocator: Allocator, values: []const i64) !u64 {
+    if (values.len == 0) return 0;
+
+    var fw = try fenwick_tree_mod.FenwickTree.fromSlice(allocator, values);
+    defer fw.deinit();
+
+    const n = values.len;
+    var checksum: u64 = 0;
+
+    var i: usize = 0;
+    while (i < n) : (i += 97) {
+        const right = (i * 41 + 23) % (n + 1);
+        const sum = try fw.prefixSum(right);
+        checksum +%= intToU64(i64, sum);
+    }
+
+    i = 0;
+    while (i < n) : (i += 53) {
+        const index = (i * 31 + 9) % n;
+        const delta: i64 = @intCast(((i * 17 + 5) % 201));
+        try fw.add(index, delta - 100);
+    }
+
+    i = 0;
+    while (i < n) : (i += 71) {
+        const index = (i * 37 + 11) % n;
+        const i_u64: u64 = @intCast(i);
+        const value: i64 = @intCast(((i_u64 * 101) + 3) % 1_000_003);
+        try fw.set(index, value - 500_000);
+    }
+
+    i = 0;
+    while (i < n) : (i += 83) {
+        const left = (i * 13 + 7) % n;
+        const span = ((i * 19 + 5) % 128) + 1;
+        const right = @min(n, left + span);
+        const sum = try fw.rangeSum(left, right);
+        checksum +%= intToU64(i64, sum);
+    }
+
+    i = 0;
+    while (i < n) : (i += 101) {
+        const index = (i * 43 + 29) % n;
+        const value = try fw.get(index);
+        checksum +%= intToU64(i64, value);
+    }
+
+    return checksum;
+}
+
+fn runRedBlackTree(allocator: Allocator, values: []const i64, queries: []const i64) !u64 {
+    var tree = red_black_tree_mod.RedBlackTree.init(allocator);
+    defer tree.deinit();
+
+    var inserted: u64 = 0;
+    for (values) |v| {
+        if (try tree.insert(v)) inserted +%= 1;
+    }
+
+    var hits: u64 = 0;
+    for (queries) |q| {
+        if (tree.contains(q)) hits +%= 1;
+    }
+
+    const ordered = try tree.inorder(allocator);
+    defer allocator.free(ordered);
+    const inorder_checksum = checksumSlice(i64, ordered);
+    const color_props_ok: u64 = if (tree.checkColorProperties()) 1 else 0;
+
+    return inserted +% (hits *% 3) +% (inorder_checksum *% 5) +% (color_props_ok *% 7) +% (@as(u64, @intCast(tree.len())) *% 11);
+}
+
+fn runLruCache(allocator: Allocator, capacity: usize, ops: usize) !u64 {
+    if (capacity == 0) return 0;
+
+    var cache = try lru_cache_mod.LruCache.init(allocator, capacity);
+    defer cache.deinit();
+
+    for (0..capacity) |i| {
+        const key: i64 = @intCast(i);
+        const value: i64 = @intCast(@as(i64, @intCast(i)) * 2 - 3);
+        try cache.put(key, value);
+    }
+
+    const key_space = capacity * 3;
+    for (0..ops) |i| {
+        const key: i64 = @intCast((i * 97 + 31) % key_space);
+        if (i % 5 == 0) {
+            const i_u64: u64 = @intCast(i);
+            const value: i64 = @intCast(((i_u64 * 131) + 17) % 1_000_003);
+            try cache.put(key, value - 500_000);
+        } else {
+            _ = cache.get(key);
+        }
+    }
+
+    var probe_sum: u64 = 0;
+    for (0..2_000) |i| {
+        const key: i64 = @intCast((i * 53 + 7) % key_space);
+        if (cache.get(key)) |value| {
+            probe_sum +%= intToU64(i64, value);
+        }
+    }
+
+    const info = cache.cacheInfo();
+    return probe_sum +% (@as(u64, @intCast(info.hits)) *% 3) +% (@as(u64, @intCast(info.misses)) *% 5) +% (@as(u64, @intCast(info.size)) *% 7);
+}
+
+fn runDeque(allocator: Allocator, ops: usize) !u64 {
+    var dq = try deque_mod.Deque.init(allocator);
+    defer dq.deinit();
+
+    var checksum: u64 = 0;
+    for (0..ops) |i| {
+        if (i % 4 == 0) {
+            const value: i64 = @intCast(@as(i64, @intCast(i)) - 25_000);
+            try dq.pushFront(value);
+        } else {
+            const value: i64 = @intCast(@as(i64, @intCast(i)) * 3 - 12_345);
+            try dq.pushBack(value);
+        }
+
+        if (i % 7 == 0) {
+            if (dq.popFront()) |value| checksum +%= intToU64(i64, value);
+        }
+        if (i % 11 == 0) {
+            if (dq.popBack()) |value| checksum +%= intToU64(i64, value);
+        }
+    }
+
+    const front = dq.peekFront() orelse 0;
+    const back = dq.peekBack() orelse 0;
+    return checksum +% (intToU64(i64, front) *% 3) +% (intToU64(i64, back) *% 5) +% (@as(u64, @intCast(dq.len())) *% 7);
+}
+
 fn runSieve(allocator: Allocator) !u64 {
     const primes = try sieve_mod.primeSieve(allocator, 300_000);
     defer allocator.free(primes);
@@ -653,6 +1120,38 @@ fn runKnapsack(allocator: Allocator, weights: []const usize, values: []const usi
     return try knapsack_mod.knapsack(allocator, 800, weights, values);
 }
 
+fn runSubsetSum(allocator: Allocator, numbers: []const i64, targets: []const i64) !u64 {
+    var possible: u64 = 0;
+    var signature: u64 = 0;
+    for (targets) |target| {
+        if (try subset_sum_mod.isSubsetSum(allocator, numbers, target)) {
+            possible +%= 1;
+            signature +%= intToU64(i64, target);
+        }
+    }
+    return possible +% (signature *% 3);
+}
+
+fn runEggDropProblem(allocator: Allocator, cases: []const EggDropCase) !u64 {
+    var checksum: u64 = 0;
+    for (cases) |c| {
+        const trials = try egg_drop_mod.eggDropMinTrials(allocator, c.eggs, c.floors);
+        checksum +%= @as(u64, @intCast(trials)) +
+            (@as(u64, @intCast(c.floors)) *% 3) +
+            (@as(u64, @intCast(c.eggs)) *% 5);
+    }
+    return checksum;
+}
+
+fn runLongestPalindromicSubsequence(allocator: Allocator, text: []const u8) !u64 {
+    return @intCast(try lps_mod.longestPalindromicSubsequenceLength(allocator, text));
+}
+
+fn runMaxProductSubarray(values: []const i64) !u64 {
+    const best = try max_product_mod.maxProductSubarray(values);
+    return intToU64(i64, best);
+}
+
 fn buildGraphAdj(allocator: Allocator, n: usize) ![][]usize {
     const adj = try allocator.alloc([]usize, n);
     var built: usize = 0;
@@ -689,8 +1188,8 @@ fn freeGraphAdj(allocator: Allocator, adj: [][]usize) void {
     allocator.free(adj);
 }
 
-fn buildWeightedGraphAdj(allocator: Allocator, n: usize) ![][]dijkstra_mod.Edge {
-    const adj = try allocator.alloc([]dijkstra_mod.Edge, n);
+fn buildWeightedGraphAdj(comptime EdgeType: type, allocator: Allocator, n: usize) ![][]EdgeType {
+    const adj = try allocator.alloc([]EdgeType, n);
     var built: usize = 0;
     errdefer {
         for (0..built) |i| allocator.free(adj[i]);
@@ -702,7 +1201,7 @@ fn buildWeightedGraphAdj(allocator: Allocator, n: usize) ![][]dijkstra_mod.Edge 
         if (i + 2 < n) count += 1;
         if (i % 3 == 0 and i + 17 < n) count += 1;
 
-        adj[i] = try allocator.alloc(dijkstra_mod.Edge, count);
+        adj[i] = try allocator.alloc(EdgeType, count);
         built += 1;
         var idx: usize = 0;
         const i_u64: u64 = @intCast(i);
@@ -732,9 +1231,202 @@ fn buildWeightedGraphAdj(allocator: Allocator, n: usize) ![][]dijkstra_mod.Edge 
     return adj;
 }
 
-fn freeWeightedGraphAdj(allocator: Allocator, adj: [][]dijkstra_mod.Edge) void {
+fn freeWeightedGraphAdj(comptime EdgeType: type, allocator: Allocator, adj: [][]EdgeType) void {
     for (adj) |row| allocator.free(row);
     allocator.free(adj);
+}
+
+fn buildTarjanAdj(allocator: Allocator, n: usize, block_size: usize) ![][]usize {
+    const adj = try allocator.alloc([]usize, n);
+    var built: usize = 0;
+    errdefer {
+        for (0..built) |i| allocator.free(adj[i]);
+        allocator.free(adj);
+    }
+
+    for (0..n) |i| {
+        const block = if (block_size == 0) 1 else block_size;
+        const block_start = (i / block) * block;
+        const block_len = @min(block, n - block_start);
+
+        var count: usize = 1; // cycle edge inside the block
+        if (i % block == 0 and i + block < n) {
+            count += 1; // one-way edge to next block leader
+        }
+
+        adj[i] = try allocator.alloc(usize, count);
+        built += 1;
+
+        const offset = i - block_start;
+        const next_in_block = block_start + ((offset + 1) % block_len);
+
+        adj[i][0] = next_in_block;
+        if (count == 2) {
+            adj[i][1] = i + block;
+        }
+    }
+    return adj;
+}
+
+fn buildBridgesAdj(allocator: Allocator, n: usize) ![][]usize {
+    const adj = try allocator.alloc([]usize, n);
+    var built: usize = 0;
+    errdefer {
+        for (0..built) |i| allocator.free(adj[i]);
+        allocator.free(adj);
+    }
+
+    for (0..n) |i| {
+        var count: usize = 0;
+        const block = i / 3;
+        const pos = i % 3;
+        const block_start = block * 3;
+        const a = block_start;
+        const b = block_start + 1;
+        const c = block_start + 2;
+        const has_full_block = c < n;
+        const next_block_a = block_start + 3;
+
+        if (!has_full_block) {
+            adj[i] = try allocator.alloc(usize, 0);
+            built += 1;
+            continue;
+        }
+
+        if (pos == 0) {
+            count = 2; // a <-> b, a <-> c
+        } else if (pos == 1) {
+            count = 2; // b <-> a, b <-> c
+        } else {
+            count = 2; // c <-> a, c <-> b
+            if (next_block_a < n) count += 1; // bridge c -> next block a
+        }
+        if (pos == 0 and block > 0) {
+            count += 1; // back bridge from previous block c -> current a
+        }
+
+        adj[i] = try allocator.alloc(usize, count);
+        built += 1;
+
+        var idx: usize = 0;
+        if (pos == 0) {
+            adj[i][idx] = b;
+            idx += 1;
+            adj[i][idx] = c;
+            idx += 1;
+            if (block > 0) {
+                adj[i][idx] = block_start - 1;
+                idx += 1;
+            }
+        } else if (pos == 1) {
+            adj[i][idx] = a;
+            idx += 1;
+            adj[i][idx] = c;
+            idx += 1;
+        } else {
+            adj[i][idx] = a;
+            idx += 1;
+            adj[i][idx] = b;
+            idx += 1;
+            if (next_block_a < n) {
+                adj[i][idx] = next_block_a;
+                idx += 1;
+            }
+        }
+    }
+    return adj;
+}
+
+fn buildEulerChainAdj(allocator: Allocator, n: usize) ![][]usize {
+    const adj = try allocator.alloc([]usize, n);
+    var built: usize = 0;
+    errdefer {
+        for (0..built) |i| allocator.free(adj[i]);
+        allocator.free(adj);
+    }
+
+    for (0..n) |i| {
+        var count: usize = 0;
+        if (i > 0) count += 1;
+        if (i + 1 < n) count += 1;
+
+        adj[i] = try allocator.alloc(usize, count);
+        built += 1;
+
+        var idx: usize = 0;
+        if (i > 0) {
+            adj[i][idx] = i - 1;
+            idx += 1;
+        }
+        if (i + 1 < n) {
+            adj[i][idx] = i + 1;
+            idx += 1;
+        }
+    }
+    return adj;
+}
+
+fn buildFlowCapacityFlat(allocator: Allocator, n: usize) ![]i64 {
+    const mat = try allocator.alloc(i64, n * n);
+    @memset(mat, 0);
+
+    for (0..n) |i| {
+        const i_u64: u64 = @intCast(i);
+        if (i + 1 < n) {
+            mat[i * n + (i + 1)] = @intCast(((i_u64 * 17) + 3) % 23 + 1);
+        }
+        if (i + 2 < n) {
+            mat[i * n + (i + 2)] = @intCast(((i_u64 * 31) + 7) % 19 + 1);
+        }
+        if (i % 5 == 0 and i + 7 < n) {
+            mat[i * n + (i + 7)] = @intCast(((i_u64 * 13) + 11) % 29 + 1);
+        }
+    }
+    return mat;
+}
+
+fn buildBipartiteAdj(allocator: Allocator, n: usize) ![][]usize {
+    const adj = try allocator.alloc([]usize, n);
+    var built: usize = 0;
+    errdefer {
+        for (0..built) |i| allocator.free(adj[i]);
+        allocator.free(adj);
+    }
+
+    for (0..n) |i| {
+        var count: usize = 0;
+
+        if (i % 2 == 0) {
+            if (i + 1 < n) count += 1;
+            if (i + 3 < n) count += 1;
+        } else {
+            if (i >= 1) count += 1;
+            if (i >= 3) count += 1;
+        }
+
+        adj[i] = try allocator.alloc(usize, count);
+        built += 1;
+
+        var idx: usize = 0;
+        if (i % 2 == 0) {
+            if (i + 1 < n) {
+                adj[i][idx] = i + 1;
+                idx += 1;
+            }
+            if (i + 3 < n) {
+                adj[i][idx] = i + 3;
+                idx += 1;
+            }
+        } else {
+            adj[i][idx] = i - 1;
+            idx += 1;
+            if (i >= 3) {
+                adj[i][idx] = i - 3;
+                idx += 1;
+            }
+        }
+    }
+    return adj;
 }
 
 fn buildBellmanEdges(allocator: Allocator, n: usize) ![]bellman_ford_mod.Edge {
@@ -986,6 +1678,60 @@ fn runDijkstra(allocator: Allocator, adj: []const []const dijkstra_mod.Edge) !u6
     return checksumSlice(u64, dist);
 }
 
+fn runAStar(allocator: Allocator, adj: []const []const a_star_mod.Edge, heuristics: []const u64, goal: usize) !u64 {
+    const result = try a_star_mod.aStarSearch(allocator, adj, heuristics, 0, goal);
+    defer allocator.free(result.path);
+    return result.cost +% @as(u64, @intCast(result.path.len));
+}
+
+fn runTarjanScc(allocator: Allocator, adj: []const []const usize) !u64 {
+    var result = try tarjan_mod.tarjanScc(allocator, adj);
+    defer result.deinit(allocator);
+
+    var checksum: u64 = @intCast(result.components.len);
+    for (result.components) |component| {
+        checksum +%= @as(u64, @intCast(component.len));
+    }
+    return checksum;
+}
+
+fn runBridges(allocator: Allocator, adj: []const []const usize) !u64 {
+    const bridges = try bridges_mod.findBridges(allocator, adj);
+    defer allocator.free(bridges);
+
+    var checksum: u64 = @intCast(bridges.len);
+    for (bridges) |bridge| {
+        const u64_u: u64 = @intCast(bridge.u);
+        const u64_v: u64 = @intCast(bridge.v);
+        checksum +%= u64_u *% 1_315_423_911 +% u64_v;
+    }
+    return checksum;
+}
+
+fn runEulerianPathUndirected(allocator: Allocator, adj: []const []const usize) !u64 {
+    const result = try euler_mod.findEulerianPathOrCircuit(allocator, adj);
+    defer allocator.free(result.path);
+
+    const kind_value: u64 = switch (result.kind) {
+        .circuit => 1,
+        .path => 2,
+    };
+
+    if (result.path.len == 0) return kind_value;
+    return kind_value +% checksumSlice(usize, result.path);
+}
+
+fn runFordFulkerson(allocator: Allocator, capacity: []const []const i64) !u64 {
+    const source: usize = 0;
+    const sink: usize = if (capacity.len == 0) 0 else capacity.len - 1;
+    const flow = try ford_mod.fordFulkersonMaxFlow(allocator, capacity, source, sink);
+    return intToU64(i64, flow);
+}
+
+fn runBipartiteCheck(allocator: Allocator, adj: []const []const usize) !u64 {
+    return checksumBool(try bipartite_mod.isBipartiteBfs(allocator, adj));
+}
+
 fn runBellmanFord(allocator: Allocator, vertex_count: usize, edges: []const bellman_ford_mod.Edge) !u64 {
     const dist = try bellman_ford_mod.bellmanFord(allocator, vertex_count, edges, 0);
     defer allocator.free(dist);
@@ -1098,6 +1844,65 @@ fn runBinaryToHex(allocator: Allocator, bin_text: []const u8) !u64 {
     return checksumBytes(s);
 }
 
+fn runRomanToIntegerMany(romans: []const []const u8) !u64 {
+    var checksum: u64 = 0;
+    for (romans) |roman| {
+        const value = try roman_to_int_mod.romanToInteger(roman);
+        checksum +%= (@as(u64, value) *% 3) +% @as(u64, @intCast(roman.len));
+    }
+    return checksum;
+}
+
+fn runIntegerToRomanMany(allocator: Allocator, numbers: []const u32) !u64 {
+    var checksum: u64 = 0;
+    for (numbers) |n| {
+        const roman = try int_to_roman_mod.integerToRoman(allocator, n);
+        checksum +%= checksumBytes(roman) +% @as(u64, n);
+        allocator.free(roman);
+    }
+    return checksum;
+}
+
+fn runTemperatureConversion(cases: []const TemperatureCase) !u64 {
+    var checksum: u64 = 0;
+    for (cases) |c| {
+        const converted = try temp_conv_mod.convertTemperature(c.value, c.from, c.to);
+        const scaled = converted * 1_000_000.0;
+        const quantized: i64 = @intFromFloat(@round(scaled));
+        checksum +%= intToU64(i64, quantized);
+    }
+    return checksum;
+}
+
+fn runCaesarCipher(allocator: Allocator, text: []const u8, key: i64) !u64 {
+    const encrypted = try caesar_cipher_mod.encrypt(allocator, text, key, null);
+    defer allocator.free(encrypted);
+
+    const decrypted = try caesar_cipher_mod.decrypt(allocator, encrypted, key, null);
+    defer allocator.free(decrypted);
+
+    if (!std.mem.eql(u8, decrypted, text)) return error.RoundTripMismatch;
+
+    return checksumBytes(encrypted) +
+        (checksumBytes(decrypted) *% 3) +
+        @as(u64, @intCast(text.len));
+}
+
+fn runSha256(allocator: Allocator, payload: []const u8) !u64 {
+    const digest_hex = try sha256_mod.sha256Hex(allocator, payload);
+    defer allocator.free(digest_hex);
+
+    const first: u64 = if (payload.len == 0) 0 else payload[0];
+    const mid: u64 = if (payload.len == 0) 0 else payload[payload.len / 2];
+    const last: u64 = if (payload.len == 0) 0 else payload[payload.len - 1];
+
+    return checksumBytes(digest_hex) +
+        first +
+        (mid *% 3) +
+        (last *% 5) +
+        @as(u64, @intCast(payload.len));
+}
+
 fn runReverseWords(allocator: Allocator, sentence: []const u8) !u64 {
     const s = try reverse_words_mod.reverseWords(allocator, sentence);
     defer allocator.free(s);
@@ -1139,6 +1944,84 @@ fn runLevenshtein(allocator: Allocator, a: []const u8, b: []const u8) !u64 {
 
 fn runRabinKarp(text: []const u8, pattern: []const u8) u64 {
     return checksumBool(rabin_karp_mod.rabinKarp(text, pattern));
+}
+
+fn runAhoCorasick(allocator: Allocator, patterns: []const []const u8, text: []const u8) !u64 {
+    const matches = try aho_corasick_mod.findMatches(allocator, patterns, text);
+    defer allocator.free(matches);
+
+    const counts = try allocator.alloc(usize, patterns.len);
+    defer allocator.free(counts);
+    @memset(counts, 0);
+
+    var pos_sum: u64 = 0;
+    for (matches) |m| {
+        if (m.pattern_index < counts.len) counts[m.pattern_index] += 1;
+        pos_sum +%= (@as(u64, @intCast(m.position + 1)) *% 1_315_423_911) +% @as(u64, @intCast(m.pattern_index));
+    }
+
+    var total: u64 = 0;
+    for (counts, 0..) |count, i| {
+        total +%= @as(u64, @intCast(i + 1)) *% @as(u64, @intCast(count));
+    }
+    return total +% pos_sum;
+}
+
+fn runSuffixArray(allocator: Allocator, text: []const u8) !u64 {
+    const sa = try suffix_array_mod.suffixArray(allocator, text);
+    defer allocator.free(sa);
+    const lcp = try suffix_array_mod.lcpArray(allocator, text, sa);
+    defer allocator.free(lcp);
+
+    return checksumSlice(usize, sa) +% (checksumSlice(usize, lcp) *% 3) +% (@as(u64, @intCast(text.len)) *% 7);
+}
+
+fn runRunLengthEncoding(allocator: Allocator, text: []const u8) !u64 {
+    const encoded = try run_length_encoding_mod.runLengthEncode(allocator, text);
+    defer allocator.free(encoded);
+    const decoded = try run_length_encoding_mod.runLengthDecode(allocator, encoded);
+    defer allocator.free(decoded);
+    if (!std.mem.eql(u8, text, decoded)) return error.RoundTripMismatch;
+
+    const first_count: usize = if (encoded.len == 0) 0 else encoded[0].count;
+    const last_count: usize = if (encoded.len == 0) 0 else encoded[encoded.len - 1].count;
+    return checksumBytes(decoded) +
+        (@as(u64, @intCast(encoded.len)) *% 3) +
+        (@as(u64, @intCast(first_count)) *% 5) +
+        (@as(u64, @intCast(last_count)) *% 7);
+}
+
+fn runActivitySelection(allocator: Allocator, start: []const i64, finish: []const i64) !u64 {
+    const selected = try activity_selection_mod.activitySelection(allocator, start, finish);
+    defer allocator.free(selected);
+    return checksumSlice(usize, selected);
+}
+
+fn runHuffmanCoding(allocator: Allocator, text: []const u8) !u64 {
+    const codes = try huffman_coding_mod.buildHuffmanCodes(allocator, text);
+    defer huffman_coding_mod.freeHuffmanCodes(allocator, codes);
+
+    const encoded = try huffman_coding_mod.encodeText(allocator, text, codes);
+    defer allocator.free(encoded);
+    const decoded = try huffman_coding_mod.decodeBits(allocator, encoded, codes);
+    defer allocator.free(decoded);
+
+    if (!std.mem.eql(u8, decoded, text)) return error.RoundTripMismatch;
+
+    const first_bit: u64 = if (encoded.len > 0 and encoded[0] == '1') 1 else 0;
+    const last_bit: u64 = if (encoded.len > 0 and encoded[encoded.len - 1] == '1') 1 else 0;
+
+    return checksumBytes(decoded) +
+        (@as(u64, @intCast(encoded.len)) *% 3) +
+        (@as(u64, @intCast(codes.len)) *% 5) +
+        (first_bit *% 7) +
+        (last_bit *% 11);
+}
+
+fn runJobSequencingWithDeadline(allocator: Allocator, jobs: []const job_seq_mod.Job) !u64 {
+    const result = try job_seq_mod.jobSequencingWithDeadlines(allocator, jobs);
+    defer allocator.free(result.slots);
+    return @as(u64, @intCast(result.count)) +% (intToU64(i64, result.max_profit) *% 3);
 }
 
 fn runMinimumCoinChange(allocator: Allocator, coins: []const u64) !u64 {
@@ -1195,6 +2078,120 @@ fn runPascal(allocator: Allocator, rows: usize) !u64 {
     var sum: u64 = 0;
     for (tri[tri.len - 1]) |v| sum +%= v;
     return sum;
+}
+
+fn runPermutations(allocator: Allocator, items_base: []const i32) !u64 {
+    const items = try allocator.dupe(i32, items_base);
+    defer allocator.free(items);
+
+    var result = std.ArrayListUnmanaged([]i32){};
+    defer {
+        for (result.items) |perm| allocator.free(perm);
+        result.deinit(allocator);
+    }
+    try permutations_mod.permutations(allocator, items, 0, &result);
+
+    var total: u64 = 0;
+    for (result.items) |perm| {
+        var sig: u64 = 0;
+        for (perm, 0..) |v, idx| {
+            sig +%= (@as(u64, @intCast(idx + 1)) *% intToU64(i32, v));
+        }
+        total +%= sig;
+    }
+
+    return total +
+        (@as(u64, @intCast(result.items.len)) *% 17) +
+        @as(u64, @intCast(items_base.len));
+}
+
+fn runCombinations(allocator: Allocator, n: usize, k: usize) !u64 {
+    var result = std.ArrayListUnmanaged([]usize){};
+    defer {
+        for (result.items) |combo| allocator.free(combo);
+        result.deinit(allocator);
+    }
+    try combinations_mod.combinations(allocator, n, k, &result);
+
+    var total: u64 = 0;
+    for (result.items) |combo| {
+        var sig = @as(u64, @intCast(combo.len)) *% 11;
+        for (combo, 0..) |v, idx| {
+            sig +%= @as(u64, @intCast(idx + 1)) *% @as(u64, @intCast(v));
+        }
+        total +%= sig;
+    }
+
+    return total +
+        (@as(u64, @intCast(result.items.len)) *% 13) +
+        (@as(u64, @intCast(n)) *% 5) +
+        @as(u64, @intCast(k));
+}
+
+fn runSubsets(allocator: Allocator, items: []const i32) !u64 {
+    var result = std.ArrayListUnmanaged([]i32){};
+    defer {
+        for (result.items) |subset| allocator.free(subset);
+        result.deinit(allocator);
+    }
+    try subsets_mod.allSubsets(allocator, items, &result);
+
+    var total: u64 = 0;
+    for (result.items) |subset| {
+        var sig = @as(u64, @intCast(subset.len)) *% 19;
+        for (subset, 0..) |v, idx| {
+            const adjusted: i64 = @as(i64, v) + 37;
+            sig +%= @as(u64, @intCast(idx + 1)) *% intToU64(i64, adjusted);
+        }
+        total +%= sig;
+    }
+
+    return total +
+        (@as(u64, @intCast(result.items.len)) *% 7) +
+        (@as(u64, @intCast(items.len)) *% 3);
+}
+
+fn runGenerateParentheses(allocator: Allocator, n: usize) !u64 {
+    var result = std.ArrayListUnmanaged([]u8){};
+    defer {
+        for (result.items) |s| allocator.free(s);
+        result.deinit(allocator);
+    }
+    try generate_parentheses_mod.generateParentheses(allocator, n, &result);
+
+    var total: u64 = 0;
+    for (result.items) |s| total +%= checksumBytes(s);
+
+    return total +
+        (@as(u64, @intCast(result.items.len)) *% 23) +
+        @as(u64, @intCast(n));
+}
+
+fn runNQueens(allocator: Allocator, n: usize) !u64 {
+    const count = try n_queens_mod.nQueensCount(allocator, n);
+    return (@as(u64, @intCast(count)) *% 97) +% @as(u64, @intCast(n));
+}
+
+fn runSudoku(solvable: [9][9]u8, unsolvable: [9][9]u8) !u64 {
+    var grid = solvable;
+    if (!sudoku_mod.solve(&grid)) return error.SudokuExpectedSolved;
+
+    var flat: [81]u8 = undefined;
+    var weighted: u64 = 0;
+    var idx: usize = 0;
+    for (grid) |row| {
+        for (row) |cell| {
+            flat[idx] = cell;
+            weighted +%= (@as(u64, @intCast(idx + 1)) *% @as(u64, cell));
+            idx += 1;
+        }
+    }
+
+    var impossible = unsolvable;
+    const unsolved_ok = !sudoku_mod.solve(&impossible);
+    return checksumSlice(u8, flat[0..]) +
+        weighted +
+        (if (unsolved_ok) @as(u64, 97) else 0);
 }
 
 pub fn main() !void {
@@ -1316,6 +2313,55 @@ pub fn main() !void {
     const max_heap_values = try generateIntData64(allocator, 50_000);
     defer allocator.free(max_heap_values);
     const priority_queue_n: usize = 60_000;
+    const hash_map_n: usize = 60_000;
+    const segment_values = try generateIntData64(allocator, 60_000);
+    defer allocator.free(segment_values);
+    const fenwick_values = try generateIntData64(allocator, 60_000);
+    defer allocator.free(fenwick_values);
+    const rb_values = try allocator.alloc(i64, 70_000);
+    defer allocator.free(rb_values);
+    for (0..rb_values.len) |i| {
+        const idx: u64 = @intCast(i);
+        const value: i64 = @intCast(((idx * 73) + 19) % 50_000);
+        rb_values[i] = value - 25_000;
+    }
+    const rb_queries = try allocator.alloc(i64, 30_000);
+    defer allocator.free(rb_queries);
+    for (0..rb_queries.len) |i| {
+        const idx: u64 = @intCast(i);
+        const value: i64 = @intCast(((idx * 97) + 31) % 80_000);
+        rb_queries[i] = value - 40_000;
+    }
+    const lru_capacity: usize = 4_096;
+    const lru_ops: usize = 80_000;
+    const deque_ops: usize = 90_000;
+    const stack_values = try generateIntData64(allocator, 70_000);
+    defer allocator.free(stack_values);
+    const queue_values = try generateIntData64(allocator, 70_000);
+    defer allocator.free(queue_values);
+    const singly_list_values = try generateIntData64(allocator, 24_000);
+    defer allocator.free(singly_list_values);
+    const doubly_list_values = try generateIntData64(allocator, 24_000);
+    defer allocator.free(doubly_list_values);
+    const bst_values = try allocator.alloc(i64, 20_000);
+    defer allocator.free(bst_values);
+    for (0..bst_values.len) |i| {
+        bst_values[i] = @intCast((i * 73) + 19);
+    }
+    const bst_queries = try allocator.alloc(i64, 12_000);
+    defer allocator.free(bst_queries);
+    for (0..bst_queries.len) |i| {
+        const base = bst_values[i % bst_values.len];
+        bst_queries[i] = if (i % 2 == 0) base else base + 1;
+    }
+    const bst_removals = try allocator.alloc(i64, 4_000);
+    defer allocator.free(bst_removals);
+    for (0..bst_removals.len) |i| {
+        bst_removals[i] = bst_values[(i * 5) % bst_values.len];
+    }
+    const min_heap_bench_values = try generateIntData64(allocator, 20_000);
+    defer allocator.free(min_heap_bench_values);
+    const min_heap_push_count: usize = 8_000;
 
     const dp_array = try generateIntData64(allocator, 90_000);
     defer allocator.free(dp_array);
@@ -1373,6 +2419,62 @@ pub fn main() !void {
     defer allocator.free(anagram_a);
     const anagram_b = try repeatString(allocator, "Is this a string ", 4_000);
     defer allocator.free(anagram_b);
+    const aho_patterns_owned = try generateBase26Words(allocator, 600, 4);
+    defer {
+        for (aho_patterns_owned) |word| allocator.free(word);
+        allocator.free(aho_patterns_owned);
+    }
+    const aho_patterns = try allocator.alloc([]const u8, aho_patterns_owned.len);
+    defer allocator.free(aho_patterns);
+    for (aho_patterns_owned, 0..) |word, idx| aho_patterns[idx] = word;
+
+    var aho_text_builder = std.ArrayListUnmanaged(u8){};
+    defer aho_text_builder.deinit(allocator);
+    for (0..18_000) |i| {
+        const pattern_idx = (i * 37 + 11) % aho_patterns.len;
+        try aho_text_builder.appendSlice(allocator, aho_patterns[pattern_idx]);
+        try aho_text_builder.append(allocator, 'x');
+    }
+    const aho_text = try aho_text_builder.toOwnedSlice(allocator);
+    defer allocator.free(aho_text);
+
+    const suffix_text = try generateAsciiString(allocator, 12_000, 7, 3);
+    defer allocator.free(suffix_text);
+    const rle_text = try generateRleText(allocator, 20_000);
+    defer allocator.free(rle_text);
+    const caesar_text = try repeatString(allocator, "The quick brown fox jumps over the lazy dog 0123456789! ", 6_000);
+    defer allocator.free(caesar_text);
+    const caesar_key: i64 = 8_000;
+    const sha_payload = try generateAsciiString(allocator, 220_000, 17, 5);
+    defer allocator.free(sha_payload);
+    const permutations_items = [_]i32{ 1, 2, 3, 4, 5, 6, 7, 8 };
+    const combinations_n: usize = 16;
+    const combinations_k: usize = 8;
+    const subset_items = [_]i32{ 3, 8, 13, 18, 23, 28, 2, 7, 12, 17, 22, 27, 1, 6 };
+    const parentheses_n: usize = 9;
+    const n_queens_n: usize = 10;
+    const sudoku_solvable = [9][9]u8{
+        [_]u8{ 3, 0, 6, 5, 0, 8, 4, 0, 0 },
+        [_]u8{ 5, 2, 0, 0, 0, 0, 0, 0, 0 },
+        [_]u8{ 0, 8, 7, 0, 0, 0, 0, 3, 1 },
+        [_]u8{ 0, 0, 3, 0, 1, 0, 0, 8, 0 },
+        [_]u8{ 9, 0, 0, 8, 6, 3, 0, 0, 5 },
+        [_]u8{ 0, 5, 0, 0, 9, 0, 6, 0, 0 },
+        [_]u8{ 1, 3, 0, 0, 0, 0, 2, 5, 0 },
+        [_]u8{ 0, 0, 0, 0, 0, 0, 0, 7, 4 },
+        [_]u8{ 0, 0, 5, 2, 0, 6, 3, 0, 0 },
+    };
+    const sudoku_unsolvable = [9][9]u8{
+        [_]u8{ 5, 0, 6, 5, 0, 8, 4, 0, 3 },
+        [_]u8{ 5, 2, 0, 0, 0, 0, 0, 0, 2 },
+        [_]u8{ 1, 8, 7, 0, 0, 0, 0, 3, 1 },
+        [_]u8{ 0, 0, 3, 0, 1, 0, 0, 8, 0 },
+        [_]u8{ 9, 0, 0, 8, 6, 3, 0, 0, 5 },
+        [_]u8{ 0, 5, 0, 0, 9, 0, 6, 0, 0 },
+        [_]u8{ 1, 3, 0, 0, 0, 0, 2, 5, 0 },
+        [_]u8{ 0, 0, 0, 0, 0, 0, 0, 7, 4 },
+        [_]u8{ 0, 0, 5, 2, 0, 6, 3, 0, 0 },
+    };
 
     const graph_adj_owned = try buildGraphAdj(allocator, 6_000);
     defer freeGraphAdj(allocator, graph_adj_owned);
@@ -1380,11 +2482,54 @@ pub fn main() !void {
     defer allocator.free(graph_adj);
     for (graph_adj_owned, 0..) |row, i| graph_adj[i] = row;
 
-    const weighted_graph_adj_owned = try buildWeightedGraphAdj(allocator, 2_200);
-    defer freeWeightedGraphAdj(allocator, weighted_graph_adj_owned);
+    const weighted_graph_adj_owned = try buildWeightedGraphAdj(dijkstra_mod.Edge, allocator, 2_200);
+    defer freeWeightedGraphAdj(dijkstra_mod.Edge, allocator, weighted_graph_adj_owned);
     const weighted_graph_adj = try allocator.alloc([]const dijkstra_mod.Edge, weighted_graph_adj_owned.len);
     defer allocator.free(weighted_graph_adj);
     for (weighted_graph_adj_owned, 0..) |row, i| weighted_graph_adj[i] = row;
+
+    const weighted_graph_astar_owned = try buildWeightedGraphAdj(a_star_mod.Edge, allocator, 2_200);
+    defer freeWeightedGraphAdj(a_star_mod.Edge, allocator, weighted_graph_astar_owned);
+    const weighted_graph_astar = try allocator.alloc([]const a_star_mod.Edge, weighted_graph_astar_owned.len);
+    defer allocator.free(weighted_graph_astar);
+    for (weighted_graph_astar_owned, 0..) |row, i| weighted_graph_astar[i] = row;
+    const weighted_graph_heuristics = try allocator.alloc(u64, weighted_graph_astar.len);
+    defer allocator.free(weighted_graph_heuristics);
+    @memset(weighted_graph_heuristics, 0);
+    const weighted_graph_goal = weighted_graph_astar.len - 1;
+
+    const tarjan_adj_owned = try buildTarjanAdj(allocator, 700, 5);
+    defer freeGraphAdj(allocator, tarjan_adj_owned);
+    const tarjan_adj = try allocator.alloc([]const usize, tarjan_adj_owned.len);
+    defer allocator.free(tarjan_adj);
+    for (tarjan_adj_owned, 0..) |row, i| tarjan_adj[i] = row;
+
+    const bridges_adj_owned = try buildBridgesAdj(allocator, 600);
+    defer freeGraphAdj(allocator, bridges_adj_owned);
+    const bridges_adj = try allocator.alloc([]const usize, bridges_adj_owned.len);
+    defer allocator.free(bridges_adj);
+    for (bridges_adj_owned, 0..) |row, i| bridges_adj[i] = row;
+
+    const euler_adj_owned = try buildEulerChainAdj(allocator, 4_000);
+    defer freeGraphAdj(allocator, euler_adj_owned);
+    const euler_adj = try allocator.alloc([]const usize, euler_adj_owned.len);
+    defer allocator.free(euler_adj);
+    for (euler_adj_owned, 0..) |row, i| euler_adj[i] = row;
+
+    const flow_n: usize = 120;
+    const flow_capacity_flat = try buildFlowCapacityFlat(allocator, flow_n);
+    defer allocator.free(flow_capacity_flat);
+    const flow_capacity_rows = try allocator.alloc([]const i64, flow_n);
+    defer allocator.free(flow_capacity_rows);
+    for (0..flow_n) |i| {
+        flow_capacity_rows[i] = flow_capacity_flat[i * flow_n .. (i + 1) * flow_n];
+    }
+
+    const bipartite_adj_owned = try buildBipartiteAdj(allocator, 6_000);
+    defer freeGraphAdj(allocator, bipartite_adj_owned);
+    const bipartite_adj = try allocator.alloc([]const usize, bipartite_adj_owned.len);
+    defer allocator.free(bipartite_adj);
+    for (bipartite_adj_owned, 0..) |row, i| bipartite_adj[i] = row;
 
     const bellman_n: usize = 1_800;
     const bellman_edges = try buildBellmanEdges(allocator, bellman_n);
@@ -1452,6 +2597,41 @@ pub fn main() !void {
     defer allocator.free(catalan_inputs);
     for (0..30) |i| catalan_inputs[i] = @intCast(i + 1);
 
+    const subset_numbers = try allocator.alloc(i64, 72);
+    defer allocator.free(subset_numbers);
+    for (0..subset_numbers.len) |i| {
+        subset_numbers[i] = @intCast(((i * 17) + 5) % 50 + 1);
+    }
+
+    const subset_targets = try allocator.alloc(i64, 64);
+    defer allocator.free(subset_targets);
+    for (0..subset_targets.len) |i| {
+        subset_targets[i] = @intCast(((i * 97) + 31) % 1200);
+    }
+
+    const egg_drop_cases = try allocator.alloc(EggDropCase, 220);
+    defer allocator.free(egg_drop_cases);
+    for (0..egg_drop_cases.len) |i| {
+        egg_drop_cases[i] = .{
+            .eggs = (i % 10) + 2,
+            .floors = ((i * 131) + 17) % 5000 + 1,
+        };
+    }
+
+    const lps_text = try generateAsciiString(allocator, 700, 7, 3);
+    defer allocator.free(lps_text);
+
+    const max_product_array = try allocator.alloc(i64, 90_000);
+    defer allocator.free(max_product_array);
+    for (0..max_product_array.len) |i| {
+        if (i % 8 == 0) {
+            max_product_array[i] = 0;
+        } else {
+            const value: i64 = @intCast(((i * 73) + 19) % 7);
+            max_product_array[i] = value - 3;
+        }
+    }
+
     const fib_inputs = try allocator.alloc(u32, 90);
     defer allocator.free(fib_inputs);
     for (0..90) |i| fib_inputs[i] = @intCast(i + 1);
@@ -1508,6 +2688,110 @@ pub fn main() !void {
     }
     const bin_text = "10101111100100101111000011101010";
 
+    const activity_n: usize = 60_000;
+    const activity_start = try allocator.alloc(i64, activity_n);
+    defer allocator.free(activity_start);
+    const activity_finish = try allocator.alloc(i64, activity_n);
+    defer allocator.free(activity_finish);
+    for (0..activity_n) |i| {
+        const base: i64 = @intCast(i);
+        activity_finish[i] = base + 1;
+        activity_start[i] = if (i % 4 == 0 and i > 0) base - 1 else base;
+    }
+    if (activity_n > 0) activity_start[0] = 0;
+
+    var huffman_text_builder = std.ArrayListUnmanaged(u8){};
+    defer huffman_text_builder.deinit(allocator);
+    for (0..12) |i| {
+        const ch: u8 = @as(u8, 'a') + @as(u8, @intCast(i));
+        const repeat: usize = 4_000 - i * 250;
+        const old_len = huffman_text_builder.items.len;
+        try huffman_text_builder.resize(allocator, old_len + repeat);
+        @memset(huffman_text_builder.items[old_len .. old_len + repeat], ch);
+    }
+    const huffman_text = try huffman_text_builder.toOwnedSlice(allocator);
+    defer allocator.free(huffman_text);
+
+    const job_data = try allocator.alloc(job_seq_mod.Job, 30_000);
+    defer allocator.free(job_data);
+    for (0..job_data.len) |i| {
+        job_data[i] = .{
+            .id = @intCast(i + 1),
+            .deadline = ((i * 7) % 600) + 1,
+            .profit = @intCast(((i * 97) % 900) + 50),
+        };
+    }
+
+    const roman_numbers = try allocator.alloc(u32, 10_000);
+    defer allocator.free(roman_numbers);
+    for (0..roman_numbers.len) |i| {
+        roman_numbers[i] = @intCast(((i * 37) % 3999) + 1);
+    }
+    const roman_samples_owned = try allocator.alloc([]u8, roman_numbers.len);
+    defer {
+        for (roman_samples_owned) |s| allocator.free(s);
+        allocator.free(roman_samples_owned);
+    }
+    for (roman_numbers, 0..) |n, i| {
+        roman_samples_owned[i] = try int_to_roman_mod.integerToRoman(allocator, n);
+    }
+    const roman_samples = try allocator.alloc([]const u8, roman_numbers.len);
+    defer allocator.free(roman_samples);
+    for (roman_samples_owned, 0..) |s, i| roman_samples[i] = s;
+
+    const temperature_cases = try allocator.alloc(TemperatureCase, 24_000);
+    defer allocator.free(temperature_cases);
+    for (0..temperature_cases.len) |i| {
+        const from_scale: temp_conv_mod.Scale = switch (i % 4) {
+            0 => .celsius,
+            1 => .fahrenheit,
+            2 => .kelvin,
+            else => .rankine,
+        };
+        const to_scale: temp_conv_mod.Scale = switch ((i * 3 + 1) % 4) {
+            0 => .celsius,
+            1 => .fahrenheit,
+            2 => .kelvin,
+            else => .rankine,
+        };
+        const value: f64 = switch (from_scale) {
+            .celsius => @as(f64, @floatFromInt((i * 17) % 7000)) / 10.0 - 273.0,
+            .fahrenheit => @as(f64, @floatFromInt((i * 13) % 8000)) / 10.0 - 459.0,
+            .kelvin => @as(f64, @floatFromInt((i * 11) % 9000)) / 10.0,
+            .rankine => @as(f64, @floatFromInt((i * 19) % 9000)) / 10.0,
+        };
+        temperature_cases[i] = .{
+            .value = value,
+            .from = from_scale,
+            .to = to_scale,
+        };
+    }
+
+    const miller_rabin_values = try allocator.alloc(u64, 45_008);
+    defer allocator.free(miller_rabin_values);
+    for (0..45_000) |i| {
+        const idx: u64 = @intCast(i);
+        miller_rabin_values[i] = ((idx * 48_271 + 12_345) % 2_000_000) + 2;
+    }
+    const miller_extras = [_]u64{
+        561,
+        563,
+        838_201,
+        838_207,
+        3_078_386_641,
+        3_078_386_653,
+        18_446_744_073_709_551_556,
+        18_446_744_073_709_551_557,
+    };
+    for (miller_extras, 0..) |v, i| {
+        miller_rabin_values[45_000 + i] = v;
+    }
+
+    const matrix_exp_dim: usize = 12;
+    const matrix_exp_base = try generateMatrixData(allocator, matrix_exp_dim * matrix_exp_dim, 43, 17, 31, 15);
+    defer allocator.free(matrix_exp_base);
+    const matrix_exp_exponent: u64 = 17;
+
     // Sorts (12)
     try benchRunMaybe(filter_algorithm, &filter_matched, runSortInPlace, stdout, "bubble_sort", "sorts", 2, .{ bubble_sort.bubbleSort, allocator, bubble_base });
     try benchRunMaybe(filter_algorithm, &filter_matched, runSortInPlace, stdout, "insertion_sort", "sorts", 2, .{ insertion_sort.insertionSort, allocator, n2_base });
@@ -1530,7 +2814,7 @@ pub fn main() !void {
     try benchRunMaybe(filter_algorithm, &filter_matched, runSearch, stdout, "jump_search", "searches", 4, .{ jump_search.jumpSearch, search_data, search_queries });
     try benchRunMaybe(filter_algorithm, &filter_matched, runSearch, stdout, "ternary_search", "searches", 4, .{ ternary_search.ternarySearch, search_data, search_queries });
 
-    // Maths (14)
+    // Maths (16)
     try benchRunMaybe(filter_algorithm, &filter_matched, runMathGcd, stdout, "gcd", "maths", 6, .{math_values});
     try benchRunMaybe(filter_algorithm, &filter_matched, runMathLcm, stdout, "lcm", "maths", 6, .{math_values});
     try benchRunMaybe(filter_algorithm, &filter_matched, runFibonacciMany, stdout, "fibonacci", "maths", 200, .{fib_inputs});
@@ -1545,15 +2829,29 @@ pub fn main() !void {
     try benchRunMaybe(filter_algorithm, &filter_matched, runCrt, stdout, "chinese_remainder_theorem", "maths", 25, .{crt_systems});
     try benchRunMaybe(filter_algorithm, &filter_matched, runBinomial, stdout, "binomial_coefficient", "maths", 20, .{binom_pairs});
     try benchRunMaybe(filter_algorithm, &filter_matched, runIntegerSquareRoot, stdout, "integer_square_root", "maths", 25, .{isqrt_inputs});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMillerRabin, stdout, "miller_rabin", "maths", 12, .{miller_rabin_values});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMatrixExponentiation, stdout, "matrix_exponentiation", "maths", 80, .{ allocator, matrix_exp_base, matrix_exp_dim, matrix_exp_exponent });
 
-    // Data Structures (5)
+    // Data Structures (17)
+    try benchRunMaybe(filter_algorithm, &filter_matched, runStack, stdout, "stack", "data_structures", 10, .{ stack_values, allocator });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runQueue, stdout, "queue", "data_structures", 10, .{ queue_values, allocator });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSinglyLinkedList, stdout, "singly_linked_list", "data_structures", 8, .{ singly_list_values, allocator });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runDoublyLinkedList, stdout, "doubly_linked_list", "data_structures", 8, .{ doubly_list_values, allocator });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runBinarySearchTree, stdout, "binary_search_tree", "data_structures", 6, .{ bst_values, bst_queries, bst_removals, allocator });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMinHeap, stdout, "min_heap", "data_structures", 8, .{ min_heap_bench_values, min_heap_push_count, allocator });
     try benchRunMaybe(filter_algorithm, &filter_matched, runTrie, stdout, "trie", "data_structures", 8, .{ allocator, trie_words });
     try benchRunMaybe(filter_algorithm, &filter_matched, runDisjointSet, stdout, "disjoint_set", "data_structures", 10, .{ allocator, disjoint_set_n });
     try benchRunMaybe(filter_algorithm, &filter_matched, runAvlTree, stdout, "avl_tree", "data_structures", 4, .{ allocator, avl_values, avl_queries });
     try benchRunMaybe(filter_algorithm, &filter_matched, runMaxHeap, stdout, "max_heap", "data_structures", 8, .{ allocator, max_heap_values });
     try benchRunMaybe(filter_algorithm, &filter_matched, runPriorityQueue, stdout, "priority_queue", "data_structures", 8, .{ allocator, priority_queue_n });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runHashMapOpenAddressing, stdout, "hash_map_open_addressing", "data_structures", 6, .{ allocator, hash_map_n });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSegmentTree, stdout, "segment_tree", "data_structures", 8, .{ allocator, segment_values });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runFenwickTree, stdout, "fenwick_tree", "data_structures", 10, .{ allocator, fenwick_values });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runRedBlackTree, stdout, "red_black_tree", "data_structures", 6, .{ allocator, rb_values, rb_queries });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runLruCache, stdout, "lru_cache", "data_structures", 8, .{ allocator, lru_capacity, lru_ops });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runDeque, stdout, "deque", "data_structures", 20, .{ allocator, deque_ops });
 
-    // Dynamic Programming (13)
+    // Dynamic Programming (17)
     try benchRunMaybe(filter_algorithm, &filter_matched, runClimbingStairsMany, stdout, "climbing_stairs", "dynamic_programming", 1000, .{stairs_inputs});
     try benchRunMaybe(filter_algorithm, &filter_matched, runFibonacciDp, stdout, "fibonacci_dp", "dynamic_programming", 400, .{allocator});
     try benchRunMaybe(filter_algorithm, &filter_matched, runCoinChange, stdout, "coin_change", "dynamic_programming", 80, .{ allocator, &coin_set });
@@ -1567,11 +2865,21 @@ pub fn main() !void {
     try benchRunMaybe(filter_algorithm, &filter_matched, runLcs, stdout, "longest_common_subsequence", "dynamic_programming", 30, .{ allocator, s1, s2 });
     try benchRunMaybe(filter_algorithm, &filter_matched, runEditDistance, stdout, "edit_distance", "dynamic_programming", 30, .{ allocator, s1, s2 });
     try benchRunMaybe(filter_algorithm, &filter_matched, runKnapsack, stdout, "knapsack", "dynamic_programming", 60, .{ allocator, knapsack_weights, knapsack_values });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSubsetSum, stdout, "subset_sum", "dynamic_programming", 8, .{ allocator, subset_numbers, subset_targets });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runEggDropProblem, stdout, "egg_drop_problem", "dynamic_programming", 120, .{ allocator, egg_drop_cases });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runLongestPalindromicSubsequence, stdout, "longest_palindromic_subsequence", "dynamic_programming", 25, .{ allocator, lps_text });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runMaxProductSubarray, stdout, "max_product_subarray", "dynamic_programming", 20, .{max_product_array});
 
-    // Graphs (10)
+    // Graphs (16)
     try benchRunMaybe(filter_algorithm, &filter_matched, runBfs, stdout, "bfs", "graphs", 12, .{ allocator, graph_adj });
     try benchRunMaybe(filter_algorithm, &filter_matched, runDfs, stdout, "dfs", "graphs", 12, .{ allocator, graph_adj });
     try benchRunMaybe(filter_algorithm, &filter_matched, runDijkstra, stdout, "dijkstra", "graphs", 8, .{ allocator, weighted_graph_adj });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runAStar, stdout, "a_star_search", "graphs", 8, .{ allocator, weighted_graph_astar, weighted_graph_heuristics, weighted_graph_goal });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runTarjanScc, stdout, "tarjan_scc", "graphs", 10, .{ allocator, tarjan_adj });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runBridges, stdout, "bridges", "graphs", 8, .{ allocator, bridges_adj });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runEulerianPathUndirected, stdout, "eulerian_path_circuit_undirected", "graphs", 20, .{ allocator, euler_adj });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runFordFulkerson, stdout, "ford_fulkerson", "graphs", 4, .{ allocator, flow_capacity_rows });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runBipartiteCheck, stdout, "bipartite_check_bfs", "graphs", 16, .{ allocator, bipartite_adj });
     try benchRunMaybe(filter_algorithm, &filter_matched, runBellmanFord, stdout, "bellman_ford", "graphs", 4, .{ allocator, bellman_n, bellman_edges });
     try benchRunMaybe(filter_algorithm, &filter_matched, runTopologicalSort, stdout, "topological_sort", "graphs", 12, .{ allocator, graph_adj });
     try benchRunMaybe(filter_algorithm, &filter_matched, runFloydWarshall, stdout, "floyd_warshall", "graphs", 2, .{ allocator, floyd_mat, floyd_n, floyd_inf });
@@ -1588,17 +2896,29 @@ pub fn main() !void {
     try benchRunMaybe(filter_algorithm, &filter_matched, missing_number_mod.missingNumber, stdout, "missing_number", "bit_manipulation", 220, .{missing_nums});
     try benchRunMaybe(filter_algorithm, &filter_matched, runPowerOfFour, stdout, "power_of_4", "bit_manipulation", 120, .{});
 
-    // Conversions (4)
+    // Conversions (7)
     try benchRunMaybe(filter_algorithm, &filter_matched, runDecimalToBinary, stdout, "decimal_to_binary", "conversions", 120, .{allocator});
     try benchRunMaybe(filter_algorithm, &filter_matched, runBinaryToDecimalMany, stdout, "binary_to_decimal", "conversions", 120, .{bin_samples});
     try benchRunMaybe(filter_algorithm, &filter_matched, runDecimalToHex, stdout, "decimal_to_hexadecimal", "conversions", 120, .{allocator});
     try benchRunMaybe(filter_algorithm, &filter_matched, runBinaryToHex, stdout, "binary_to_hexadecimal", "conversions", 120, .{ allocator, bin_text });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runRomanToIntegerMany, stdout, "roman_to_integer", "conversions", 120, .{roman_samples});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runIntegerToRomanMany, stdout, "integer_to_roman", "conversions", 120, .{ allocator, roman_numbers });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runTemperatureConversion, stdout, "temperature_conversion", "conversions", 120, .{temperature_cases});
 
-    // Greedy (4)
+    // Ciphers (1)
+    try benchRunMaybe(filter_algorithm, &filter_matched, runCaesarCipher, stdout, "caesar_cipher", "ciphers", 80, .{ allocator, caesar_text, caesar_key });
+
+    // Hashing (1)
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSha256, stdout, "sha256", "hashing", 10, .{ allocator, sha_payload });
+
+    // Greedy (7)
     try benchRunMaybe(filter_algorithm, &filter_matched, runBestStock, stdout, "best_time_to_buy_sell_stock", "greedy_methods", 20, .{prices});
     try benchRunMaybe(filter_algorithm, &filter_matched, runMinimumCoinChange, stdout, "minimum_coin_change", "greedy_methods", 200, .{ allocator, &coins_desc });
     try benchRunMaybe(filter_algorithm, &filter_matched, runMinimumWaitingTime, stdout, "minimum_waiting_time", "greedy_methods", 15, .{ allocator, waiting_queries });
     try benchRunMaybe(filter_algorithm, &filter_matched, runFractionalKnapsack, stdout, "fractional_knapsack", "greedy_methods", 600, .{ allocator, &frac_values, &frac_weights });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runActivitySelection, stdout, "activity_selection", "greedy_methods", 120, .{ allocator, activity_start, activity_finish });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runHuffmanCoding, stdout, "huffman_coding", "greedy_methods", 60, .{ allocator, huffman_text });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runJobSequencingWithDeadline, stdout, "job_sequencing_with_deadline", "greedy_methods", 15, .{ allocator, job_data });
 
     // Matrix (5)
     try benchRunMaybe(filter_algorithm, &filter_matched, runMatrixMultiply, stdout, "matrix_multiply", "matrix", 10, .{ allocator, matrix_a, matrix_b, matrix_dim });
@@ -1607,7 +2927,15 @@ pub fn main() !void {
     try benchRunMaybe(filter_algorithm, &filter_matched, runSpiral, stdout, "spiral_print", "matrix", 20, .{ allocator, spiral_mat, spiral_rows, spiral_cols });
     try benchRunMaybe(filter_algorithm, &filter_matched, runPascal, stdout, "pascal_triangle", "matrix", 120, .{ allocator, @as(usize, 180) });
 
-    // Strings (10)
+    // Backtracking (6)
+    try benchRunMaybe(filter_algorithm, &filter_matched, runPermutations, stdout, "permutations", "backtracking", 3, .{ allocator, &permutations_items });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runCombinations, stdout, "combinations", "backtracking", 6, .{ allocator, combinations_n, combinations_k });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSubsets, stdout, "subsets", "backtracking", 6, .{ allocator, &subset_items });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runGenerateParentheses, stdout, "generate_parentheses", "backtracking", 12, .{ allocator, parentheses_n });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runNQueens, stdout, "n_queens", "backtracking", 60, .{ allocator, n_queens_n });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSudoku, stdout, "sudoku_solver", "backtracking", 40, .{ sudoku_solvable, sudoku_unsolvable });
+
+    // Strings (13)
     try benchRunMaybe(filter_algorithm, &filter_matched, runPalindrome, stdout, "palindrome", "strings", 120, .{palindrome_text});
     try benchRunMaybe(filter_algorithm, &filter_matched, runReverseWords, stdout, "reverse_words", "strings", 80, .{ allocator, reverse_sentence });
     try benchRunMaybe(filter_algorithm, &filter_matched, runAnagram, stdout, "anagram", "strings", 600, .{ anagram_a, anagram_b });
@@ -1618,6 +2946,9 @@ pub fn main() !void {
     try benchRunMaybe(filter_algorithm, &filter_matched, runZFunction, stdout, "z_function", "strings", 80, .{ allocator, text });
     try benchRunMaybe(filter_algorithm, &filter_matched, runLevenshtein, stdout, "levenshtein_distance", "strings", 120, .{ allocator, s1, s2 });
     try benchRunMaybe(filter_algorithm, &filter_matched, is_pangram_mod.isPangram, stdout, "is_pangram", "strings", 120, .{pangram_text});
+    try benchRunMaybe(filter_algorithm, &filter_matched, runAhoCorasick, stdout, "aho_corasick", "strings", 20, .{ allocator, aho_patterns, aho_text });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runSuffixArray, stdout, "suffix_array", "strings", 6, .{ allocator, suffix_text });
+    try benchRunMaybe(filter_algorithm, &filter_matched, runRunLengthEncoding, stdout, "run_length_encoding", "strings", 40, .{ allocator, rle_text });
 
     if (filter_algorithm != null and !filter_matched) {
         return error.UnknownBenchmarkAlgorithm;

@@ -44,6 +44,8 @@ pub fn build(b: *std.Build) void {
         "maths/chinese_remainder_theorem.zig",
         "maths/binomial_coefficient.zig",
         "maths/integer_square_root.zig",
+        "maths/miller_rabin.zig",
+        "maths/matrix_exponentiation.zig",
         // Data Structures
         "data_structures/stack.zig",
         "data_structures/queue.zig",
@@ -56,6 +58,12 @@ pub fn build(b: *std.Build) void {
         "data_structures/avl_tree.zig",
         "data_structures/max_heap.zig",
         "data_structures/priority_queue.zig",
+        "data_structures/hash_map_open_addressing.zig",
+        "data_structures/segment_tree.zig",
+        "data_structures/fenwick_tree.zig",
+        "data_structures/red_black_tree.zig",
+        "data_structures/lru_cache.zig",
+        "data_structures/deque.zig",
         // Dynamic Programming
         "dynamic_programming/climbing_stairs.zig",
         "dynamic_programming/fibonacci_dp.zig",
@@ -70,6 +78,10 @@ pub fn build(b: *std.Build) void {
         "dynamic_programming/palindrome_partitioning.zig",
         "dynamic_programming/word_break.zig",
         "dynamic_programming/catalan_numbers.zig",
+        "dynamic_programming/subset_sum.zig",
+        "dynamic_programming/egg_drop_problem.zig",
+        "dynamic_programming/longest_palindromic_subsequence.zig",
+        "dynamic_programming/max_product_subarray.zig",
         // Graphs
         "graphs/bfs.zig",
         "graphs/dfs.zig",
@@ -81,6 +93,12 @@ pub fn build(b: *std.Build) void {
         "graphs/connected_components.zig",
         "graphs/kruskal.zig",
         "graphs/prim.zig",
+        "graphs/a_star_search.zig",
+        "graphs/tarjan_scc.zig",
+        "graphs/bridges.zig",
+        "graphs/eulerian_path_circuit_undirected.zig",
+        "graphs/ford_fulkerson.zig",
+        "graphs/bipartite_check_bfs.zig",
         // Bit Manipulation
         "bit_manipulation/is_power_of_two.zig",
         "bit_manipulation/count_set_bits.zig",
@@ -93,11 +111,21 @@ pub fn build(b: *std.Build) void {
         "conversions/binary_to_decimal.zig",
         "conversions/decimal_to_hexadecimal.zig",
         "conversions/binary_to_hexadecimal.zig",
+        "conversions/roman_to_integer.zig",
+        "conversions/integer_to_roman.zig",
+        "conversions/temperature_conversion.zig",
+        // Ciphers
+        "ciphers/caesar_cipher.zig",
+        // Hashing
+        "hashing/sha256.zig",
         // Greedy Methods
         "greedy_methods/best_time_to_buy_sell_stock.zig",
         "greedy_methods/minimum_coin_change.zig",
         "greedy_methods/minimum_waiting_time.zig",
         "greedy_methods/fractional_knapsack.zig",
+        "greedy_methods/activity_selection.zig",
+        "greedy_methods/huffman_coding.zig",
+        "greedy_methods/job_sequencing_with_deadline.zig",
         // Matrix
         "matrix/pascal_triangle.zig",
         "matrix/matrix_multiply.zig",
@@ -122,6 +150,9 @@ pub fn build(b: *std.Build) void {
         "strings/z_function.zig",
         "strings/levenshtein_distance.zig",
         "strings/is_pangram.zig",
+        "strings/aho_corasick.zig",
+        "strings/suffix_array.zig",
+        "strings/run_length_encoding.zig",
     };
 
     for (test_files) |file| {

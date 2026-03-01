@@ -25,6 +25,7 @@
 - Keep tests in the same file as the algorithm.
 - Name tests with pattern `test "algorithm: scenario"` (example: `test "binary search: not found"`).
 - Cover normal, edge, and boundary cases (empty input, single item, sorted/reversed, negative values when applicable).
+- Mandatory (Phase 4 rule #3): every algorithm test set must include extreme-case scenarios to verify correctness under stress/edge conditions (for example: empty/min/max inputs, degenerate structures, overflow-prone values, invalid/out-of-range inputs, and disconnected/unreachable cases when applicable).
 - For allocator-returning functions, free allocated memory in tests.
 
 ## Commit & Pull Request Guidelines

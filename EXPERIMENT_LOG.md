@@ -170,7 +170,7 @@
 
 ---
 
-## Phase 3: Hard algorithms (#29-#36, 8 algorithms)
+## Batch 3: Hard algorithms (#29-#36, 8 algorithms)
 
 **Date:** 2026-02-27
 **Model:** Claude Opus 4.6
@@ -201,7 +201,7 @@
 
 ---
 
-## Phase 3 QA Hotfix: Boundary safety hardening
+## Batch 3 QA Hotfix: Boundary safety hardening
 
 **Date:** 2026-02-27
 **Model:** Claude Opus 4.6
@@ -227,12 +227,12 @@
 
 ---
 
-## Phase 4 Batch (4A+4C+4F): 20 new algorithms across 3 new categories
+## Batch (4A+4C+4F): 20 new algorithms across 3 new categories
 
 **Date:** 2026-02-28
 **Model:** Claude Sonnet 4.6
 **Batch result:** 19/20 first-attempt test pass. KMP test assertions wrong (logic correct, index off-by-one in expected value). 1 fix.
-**Scope note:** Compared with `phase3-release-plan`, this batch used `is_pangram` (instead of `manacher`) and `binary_to_hexadecimal` (instead of `roman_to_integer`) to stay aligned with available Python reference modules and keep Phase 4 schedule manageable.
+**Scope note:** This batch used `is_pangram` (instead of `manacher`) and `binary_to_hexadecimal` (instead of `roman_to_integer`) to stay aligned with available Python reference modules.
 
 ### Bit Manipulation (6 new) — all ★☆☆
 
@@ -289,7 +289,7 @@ FAIL: test "kmp: not found"
 
 ---
 
-## Phase 4 Batch (4B+4D+4E): 15 new algorithms — greedy, matrix, backtracking
+## Batch (4B+4D+4E): 15 new algorithms — greedy, matrix, backtracking
 
 **Date:** 2026-02-28
 **Model:** Claude Sonnet 4.6
@@ -338,7 +338,7 @@ FAIL: test "kmp: not found"
 
 ## Cumulative Summary
 
-| Metric | Phase 1 | + Batch 1 | + Batch 2A | + Batch 2B | + QA₁ | + Phase 3 | + QA₂ | + Batch 4A | + Batch 4B | **Total** |
+| Metric | Phase 1 | + Batch 1 | + Batch 2A | + Batch 2B | + QA₁ | + Batch 3 | + QA₂ | + Batch 4A | + Batch 4B | **Total** |
 |--------|---------|-----------|------------|------------|-------|-----------|-------|------------|------------|-----------|
 | Algorithms | 5 | +15 | +6 | +7 | +0 | +8 | +0 | +20 | +15 | **76** |
 | Test cases | 34 | +68 | +36 | +27 | +11 | +45 | +3 | +60 | +49 | **333** |
@@ -351,10 +351,10 @@ FAIL: test "kmp: not found"
 ### Key Observations
 
 1. **Pure-logic algorithms translate cleanly.** No dynamic memory = no allocator hassle = high AI success rate.
-2. **Zig idioms the AI got right:** `?usize` optionals, `comptime T: type` generics, `testing.expectEqualSlices`, `defer` for cleanup, `for (0..n)` range syntax, `@min`/`@intCast` builtins. In Phase 3: generic type-returning functions, `allocator.create/destroy` for linked nodes, `ArrayListUnmanaged` for heap backing.
-3. **Post-implementation review remains essential.** Phase 3 surfaced 3 High-severity runtime panics on boundary inputs (BFS/DFS out-of-bounds, knapsack length mismatch) — none caught by the AI's own test cases.
-4. **AI blind spot: defensive programming.** The AI consistently produces correct algorithms for valid inputs but rarely adds guards against malformed inputs. This pattern repeated across Phase 2 QA and Phase 3 QA.
-5. **DFS compile failure was a Zig 0.15 API change** (`ArrayListUnmanaged.pop()` returns optional). This confirms the Phase 2 observation that AI training data lags behind Zig 0.15 API changes.
+2. **Zig idioms the AI got right:** `?usize` optionals, `comptime T: type` generics, `testing.expectEqualSlices`, `defer` for cleanup, `for (0..n)` range syntax, `@min`/`@intCast` builtins. In Batch 3: generic type-returning functions, `allocator.create/destroy` for linked nodes, `ArrayListUnmanaged` for heap backing.
+3. **Post-implementation review remains essential.** Batch 3 surfaced 3 High-severity runtime panics on boundary inputs (BFS/DFS out-of-bounds, knapsack length mismatch) — none caught by the AI's own test cases.
+4. **AI blind spot: defensive programming.** The AI consistently produces correct algorithms for valid inputs but rarely adds guards against malformed inputs. This pattern repeated across Batch 2 QA and Batch 3 QA.
+5. **DFS compile failure was a Zig 0.15 API change** (`ArrayListUnmanaged.pop()` returns optional). This confirms the earlier observation that AI training data lags behind Zig 0.15 API changes.
 6. **Test assertion errors are the dominant failure mode for Batch 4.** 5 out of 6 total failures across both Batch 4A and 4B were wrong expected values in tests, not algorithm bugs. Root causes: hand-counting without verification (KMP positions, permutation/subset order, coin selections, sudoku cell values). Future mitigation: verify expected values via Python reference before writing test assertions.
 
 ---
@@ -593,7 +593,7 @@ FAIL: test "kmp: not found"
 **日期：** 2026-02-28
 **模型：** Claude Sonnet 4.6
 **批次结果：** 20/20 首次编译通过；19/20 测试首次全部通过（KMP 断言值写错，算法逻辑正确）
-**范围说明：** 相比 `phase3-release-plan`，本批将 `manacher` 替换为 `is_pangram`，将 `roman_to_integer` 替换为 `binary_to_hexadecimal`。这样可以更稳定地对齐 Python 参考仓库现有模块，并控制第四批交付节奏。
+**范围说明：** 本批将 `manacher` 替换为 `is_pangram`，将 `roman_to_integer` 替换为 `binary_to_hexadecimal`，以更稳定地对齐 Python 参考仓库现有模块。
 
 ### 位运算（新增 6 个，全部 ★☆☆）
 
@@ -889,3 +889,598 @@ FAIL: test "kmp: not found"
 | 平均加速比（Python/Zig） | 219.11x |
 | 中位数加速比（Python/Zig） | 41.92x |
 | 几何平均加速比（Python/Zig） | 26.30x |
+
+## 第七批启动（7A）：A* Search（#102）
+
+**日期：** 2026-03-01  
+**参考：** `/root/projects/python-reference/graphs/a_star.py`
+
+### 7A-1 算法落地结果
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|---|---|---|---|---:|---|
+| a_star_search | `graphs/a_star_search.zig` | ✅ | ✅ 8/8 | 0 | 邻接表加权图 A*，返回路径与总代价；支持无路可达、非法节点、启发式长度不匹配、越界邻接点忽略、溢出路径跳过 |
+
+### 7A-1 极端用例覆盖（按规则 #3）
+
+- `start == goal`
+- 空图输入
+- 目标不可达（`error.NoPath`）
+- `start/goal` 越界（`error.InvalidNode`）
+- 启发式长度与节点数不一致（`error.InvalidHeuristicLength`）
+- 邻接点越界被忽略
+- 溢出风险路径被跳过，仍能找到可行最短路
+
+### 7A-1 真实错误与修复记录
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| 格式化（`zig fmt AGENTS.md ...`） | `error: expected type expression` | 误把 `AGENTS.md`（非 Zig 文件）传入 `zig fmt` | 改为仅格式化 Zig 文件：`zig fmt build.zig graphs/a_star_search.zig benchmarks/python_vs_zig/zig_bench_all.zig` | 格式化成功 |
+| 单测（`zig test graphs/a_star_search.zig`） | `AccessDenied`（沙箱读取 Zig 标准库失败） | 当前环境沙箱限制导致 Zig 编译器无法读取系统 Zig 库目录 | 以允许权限重新执行同命令 | 8/8 测试全部通过 |
+
+### 7A-1 单算法基准结果（2026-03-01）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| a_star_search | 3,134,962.38 | 2,907,790.12 | 1.08x | true |
+
+### 累计更新（截至 2026-03-01，7A-1 完成）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 102 |
+| 测试总数 | 456 |
+| 可对齐并完成基准算法数 | 90 |
+| 基准 checksum 一致数 | 90 |
+
+### 全量基准快照（`run_single.sh a_star_search` 合并后）
+
+| 指标 | 数值 |
+|---|---:|
+| 可对齐并完成基准算法数 | 90 |
+| 基准 checksum 一致数 | 90 |
+| 平均加速比（Python/Zig） | 216.69x |
+| 中位数加速比（Python/Zig） | 40.70x |
+| 几何平均加速比（Python/Zig） | 25.38x |
+
+## 第七批继续（7A）：Tarjan SCC（#103）
+
+**日期：** 2026-03-01  
+**参考：** `/root/projects/python-reference/graphs/tarjans_scc.py`
+
+### 7A-2 算法落地结果
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|---|---|---|---|---:|---|
+| tarjan_scc | `graphs/tarjan_scc.zig` | ✅ | ✅ 6/6 | 0 | Tarjan 强连通分量算法，返回 `[][]usize` 组件集合，忽略越界邻接点 |
+
+### 7A-2 极端用例覆盖（按规则 #3）
+
+- 空图输入
+- 单节点图
+- 含自环节点
+- 含越界邻接点（忽略）
+- 非连通图 + 孤立点
+- 退化长链（64 节点）验证每个节点均为单独 SCC
+
+### 7A-2 真实错误与修复记录
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| 参考对齐（读取 Python 文件） | `sed: can't read .../graphs/tarjan.py: No such file or directory` | 误用了参考文件名，仓库实际文件为 `tarjans_scc.py` | 改为读取 `/root/projects/python-reference/graphs/tarjans_scc.py` 并据此对齐实现 | 参考对齐完成，后续实现/测试正常 |
+
+### 7A-2 单算法基准结果（2026-03-01）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| tarjan_scc | 798,929.70 | 1,698,913.40 | 0.47x | true |
+
+### 累计更新（截至 2026-03-01，7A-2 完成）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 103 |
+| 测试总数 | 462 |
+| 可对齐并完成基准算法数 | 91 |
+| 基准 checksum 一致数 | 91 |
+
+### 全量基准快照（`run_single.sh tarjan_scc` 合并后）
+
+| 指标 | 数值 |
+|---|---:|
+| 可对齐并完成基准算法数 | 91 |
+| 基准 checksum 一致数 | 91 |
+| 平均加速比（Python/Zig） | 214.31x |
+| 中位数加速比（Python/Zig） | 39.49x |
+| 几何平均加速比（Python/Zig） | 24.29x |
+
+## 第七批继续（7A）：Bridges / Euler / Max Flow / Bipartite（#104-#107）
+
+**日期：** 2026-03-01  
+**参考：**
+- `/root/projects/python-reference/graphs/finding_bridges.py`
+- `/root/projects/python-reference/graphs/eulerian_path_and_circuit_for_undirected_graph.py`
+- `/root/projects/python-reference/networking_flow/ford_fulkerson.py`
+- `/root/projects/python-reference/graphs/check_bipatrite.py`
+
+### 7A-3~7A-6 算法落地结果
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|---|---|---|---|---:|---|
+| bridges | `graphs/bridges.zig` | ✅ | ✅ 6/6 | 1 | Tarjan low-link 割边检测，忽略越界邻接点，输出 `(u<v)` |
+| eulerian_path_circuit_undirected | `graphs/eulerian_path_circuit_undirected.zig` | ✅ | ✅ 7/7 | 0 | Hierholzer，支持路径/回路判定，多重边与空图处理 |
+| ford_fulkerson | `graphs/ford_fulkerson.zig` | ✅ | ✅ 7/7 | 1 | BFS 增广路径（Edmonds-Karp 口径），含容量矩阵校验与溢出保护 |
+| bipartite_check_bfs | `graphs/bipartite_check_bfs.zig` | ✅ | ✅ 7/7 | 0 | BFS 二染色，支持非连通图与自环判定 |
+
+### 7A-3~7A-6 极端用例覆盖（按规则 #3）
+
+- `bridges`：空图、非连通图、平行边、越界邻接点
+- `eulerian`：空图、奇度>2、非连通非零度图、平行边
+- `ford_fulkerson`：不可达汇点、`source==sink`、非方阵、负容量、总流溢出
+- `bipartite`：空图、奇环、自环、越界邻接、非连通分量
+
+### 7A-3~7A-6 真实错误与修复记录
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| 参考对齐（读取 Python 文件） | `sed: can't read .../graphs/ford_fulkerson.py` / `.../check_bipartite_graph_bfs.py` | 计划文档中的路径名与参考仓库实际路径不一致 | 改为使用 `/networking_flow/ford_fulkerson.py` 与 `/graphs/check_bipatrite.py` | 参考对齐完成 |
+| 算法编译（`zig test graphs/bridges.zig`） | `error: local variable is never mutated` | `var out` 未发生变更（Zig 0.15 编译约束） | 改为 `const out` | `bridges` 测试通过 |
+| 算法编译（`zig test graphs/ford_fulkerson.zig`） | `variable of type 'comptime_int' must be const or comptime` | `path_flow` 推断为 comptime_int | 显式声明 `var path_flow: i64` | `ford_fulkerson` 测试通过 |
+| 基准执行（`run_single.sh bridges`） | `RecursionError: maximum recursion depth exceeded`（Python 侧） | `find_bridges` 递归 DFS 在 `bridges_n=2700` 时触发 Python 递归深度上限 | Python/Zig 同步将 bridges workload 调整为 `n=600`（保持两侧口径一致） | `bridges` 单算法基准成功并 checksum 对齐 |
+
+### 7A-3~7A-6 单算法基准结果（2026-03-01）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| bridges | 431,066.00 | 58,017.88 | 7.43x | true |
+| eulerian_path_circuit_undirected | 11,274,673.45 | 2,861,072.35 | 3.94x | true |
+| ford_fulkerson | 6,211,542.75 | 242,718.50 | 25.59x | true |
+| bipartite_check_bfs | 1,913,665.31 | 157,560.94 | 12.15x | true |
+
+### 7A 完成累计（截至 2026-03-01）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 107 |
+| 测试总数 | 489 |
+| 可对齐并完成基准算法数 | 95 |
+| 基准 checksum 一致数 | 95 |
+
+### 全量基准快照（7A 完成后）
+
+| 指标 | 数值 |
+|---|---:|
+| 可对齐并完成基准算法数 | 95 |
+| 基准 checksum 一致数 | 95 |
+| 平均加速比（Python/Zig） | 205.81x |
+| 中位数加速比（Python/Zig） | 32.46x |
+| 几何平均加速比（Python/Zig） | 23.38x |
+
+## 第七批继续（7B）：高级数据结构（#108-#113）
+
+**日期：** 2026-03-01  
+**参考：**
+- `/root/projects/python-reference/data_structures/hashing/hash_map.py`
+- `/root/projects/python-reference/data_structures/binary_tree/segment_tree.py`
+- `/root/projects/python-reference/data_structures/binary_tree/fenwick_tree.py`
+- `/root/projects/python-reference/data_structures/binary_tree/red_black_tree.py`
+- `/root/projects/python-reference/other/lru_cache.py`
+- `/root/projects/python-reference/data_structures/linked_list/deque_doubly.py`
+
+### 7B-1~7B-6 算法落地结果
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|---|---|---|---|---:|---|
+| hash_map_open_addressing | `data_structures/hash_map_open_addressing.zig` | ✅ | ✅ 6/6 | 2 | 线性探测开放寻址，支持 tombstone 复用与扩容 |
+| segment_tree | `data_structures/segment_tree.zig` | ✅ | ✅ 6/6 | 0 | 区间最大值查询 + 单点更新 |
+| fenwick_tree | `data_structures/fenwick_tree.zig` | ✅ | ✅ 6/6 | 1 | 1-based 内部树状数组，支持 add/set/prefix/range/get |
+| red_black_tree | `data_structures/red_black_tree.zig` | ✅ | ✅ 6/6 | 1 | 插入+查询+中序遍历，含红黑性质校验 |
+| lru_cache | `data_structures/lru_cache.zig` | ✅ | ✅ 5/5 | 1 | HashMap + 双向链表哨兵实现 LRU |
+| deque | `data_structures/deque.zig` | ✅ | ✅ 5/5 | 0 | 环形缓冲双端队列，支持扩容与双端 push/pop |
+
+### 7B-1~7B-6 极端用例覆盖（按规则 #3）
+
+- `hash_map_open_addressing`：空表查询/删除、极值键（`minInt/maxInt`）、大量插入触发扩容、删除后 tombstone 复用。
+- `segment_tree`：空树查询与更新报错、单元素树、全负数区间、非法区间与越界下标。
+- `fenwick_tree`：空树行为、负数更新、越界 `prefix/add/set/get`、`left>right` 非法区间。
+- `red_black_tree`：空树、重复插入、极值键、批量插入后红黑性质保持。
+- `lru_cache`：`capacity=0`、`capacity=1`、更新已存在键、命中/未命中统计。
+- `deque`：空队列双端 pop、单元素边界、wrap-around 后扩容保序。
+
+### 7B-1~7B-6 真实错误与修复记录
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| 算法编译（`zig test data_structures/hash_map_open_addressing.zig`） | `invalid assignment operator`（`^%=`） | 误用了 Zig 不支持的按位赋值运算符 | 改为 `^=` 并保持哈希混洗逻辑不变 | 编译通过，测试通过 |
+| 算法编译（`zig test data_structures/hash_map_open_addressing.zig`） | `switch` 分支语句写法报错 | `switch` 分支中直接写条件赋值，语法不合法 | 调整为合法分支块写法 | 编译通过 |
+| 算法测试（`zig test data_structures/fenwick_tree.zig`） | 断言失败：`rangeSum` 期望值不符 | 用例期望值写错（实现返回 3，测试写成 2） | 更正测试期望为 3 | 6/6 通过 |
+| 算法编译（`zig test data_structures/lru_cache.zig`） | `unused function parameter` | `detach()` 中 `self` 未使用，触发 Zig 0.15 编译约束 | 显式 `_ = self;` | 编译通过，测试通过 |
+
+### 7B-1~7B-6 单算法基准结果（2026-03-01）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| hash_map_open_addressing | 37,702,383.33 | 7,357,571.83 | 5.12x | true |
+| segment_tree | 56,551,964.50 | 2,012,297.12 | 28.10x | true |
+| fenwick_tree | 89,595,066.60 | 810,150.10 | 110.59x | true |
+| red_black_tree | 11,607,031.00 | 15,061,714.00 | 0.77x | true |
+| lru_cache | 32,172,676.75 | 7,940,116.50 | 4.05x | true |
+| deque | 21,055,426.80 | 1,720,772.25 | 12.24x | true |
+
+### 7B 完成累计（截至 2026-03-01）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 113 |
+| 测试总数 | 523 |
+| 可对齐并完成基准算法数 | 101 |
+| 基准 checksum 一致数 | 101 |
+
+### 全量基准快照（7B 完成后）
+
+| 指标 | 数值 |
+|---|---:|
+| 可对齐并完成基准算法数 | 101 |
+| 基准 checksum 一致数 | 101 |
+| 平均加速比（Python/Zig） | 195.17x |
+| 中位数加速比（Python/Zig） | 30.05x |
+| 几何平均加速比（Python/Zig） | 22.12x |
+
+## 第七批继续（7C）：字符串进阶（#114-#116）
+
+**日期：** 2026-03-01  
+**参考：**
+- `/root/projects/python-reference/strings/aho_corasick.py`
+- `/root/projects/python-reference/data_compression/run_length_encoding.py`
+- `suffix_array`：按计划路径 `strings/suffix_array.py` 在参考仓库不存在，采用标准 doubling + Kasai 方案并在 Python/Zig 基准侧保持同口径实现
+
+### 7C-1~7C-3 算法落地结果
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|---|---|---|---|---:|---|
+| aho_corasick | `strings/aho_corasick.zig` | ✅ | ✅ 5/5 | 0 | Trie + fail links 多模式匹配，输出 `(pattern_index, position)` |
+| suffix_array | `strings/suffix_array.zig` | ✅ | ✅ 6/6 | 1 | O(n log² n) doubling 构建 + Kasai LCP |
+| run_length_encoding | `strings/run_length_encoding.zig` | ✅ | ✅ 5/5 | 0 | RLE 编码/解码，解码端含非法 run 与长度溢出防御 |
+
+### 7C-1~7C-3 极端用例覆盖（按规则 #3）
+
+- `aho_corasick`：空文本、空模式、无匹配、重叠匹配（`a/aa/aaa`）、长重复输入。
+- `suffix_array`：空串、单字符、全相同字符、非法 SA 输入（长度/索引）、长重复文本。
+- `run_length_encoding`：空输入、单 run 超长输入、非法零长度 run、编码解码 round-trip 校验。
+
+### 7C-1~7C-3 真实错误与修复记录
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| 参考对齐（查找 Python 文件） | 计划中的 `strings/suffix_array.py` 在参考仓库不存在 | 计划文档与当前 Python 参考仓库文件集不一致 | 采用标准后缀数组 doubling + Kasai LCP，并在 `python_bench_all.py` 与 `zig_bench_all.zig` 同步实现同口径 workload | 基准可对齐，checksum 对齐 |
+| 算法测试（`zig test strings/suffix_array.zig`） | `lcpArray` 非法输入分支触发内存泄漏（GPA leak） | `lcp` 分配后在错误返回路径未释放 | 增加 `errdefer allocator.free(lcp)` | 泄漏消失，6/6 测试通过 |
+
+### 7C-1~7C-3 单算法基准结果（2026-03-01）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| aho_corasick | 27,711,621.90 | 2,569,236.35 | 10.79x | true |
+| suffix_array | 102,683,232.67 | 15,192,196.33 | 6.76x | true |
+| run_length_encoding | 6,984,159.70 | 638,332.72 | 10.94x | true |
+
+### 7C 完成累计（截至 2026-03-01）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 116 |
+| 测试总数 | 539 |
+| 可对齐并完成基准算法数 | 104 |
+| 基准 checksum 一致数 | 104 |
+
+### 全量基准快照（7C 完成后）
+
+| 指标 | 数值 |
+|---|---:|
+| 可对齐并完成基准算法数 | 104 |
+| 基准 checksum 一致数 | 104 |
+| 平均加速比（Python/Zig） | 189.82x |
+| 中位数加速比（Python/Zig） | 28.04x |
+| 几何平均加速比（Python/Zig） | 21.57x |
+
+## 第七批继续（7D）：greedy + conversions + maths（#117-#124）
+
+**日期：** 2026-03-01  
+**参考：**
+- `/root/projects/python-reference/other/activity_selection.py`
+- `/root/projects/python-reference/data_compression/huffman.py`
+- `/root/projects/python-reference/scheduling/job_sequencing_with_deadline.py`
+- `/root/projects/python-reference/conversions/roman_numerals.py`
+- `/root/projects/python-reference/conversions/temperature_conversions.py`
+- `/root/projects/python-reference/ciphers/deterministic_miller_rabin.py`
+- `/root/projects/python-reference/maths/matrix_exponentiation.py`
+
+### 7D-1~7D-8 算法落地结果
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|---|---|---|---|---:|---|
+| activity_selection | `greedy_methods/activity_selection.zig` | ✅ | ✅ 6/6 | 0 | 按 finish 有序输入做贪心选择，返回活动索引 |
+| huffman_coding | `greedy_methods/huffman_coding.zig` | ✅ | ✅ 6/6 | 0 | 最小堆构树 + 编码/解码，支持 round-trip 校验 |
+| job_sequencing_with_deadline | `greedy_methods/job_sequencing_with_deadline.zig` | ✅ | ✅ 4/4 | 0 | 利润降序 + 倒序找槽位，返回 `count/profit/slots` |
+| roman_to_integer | `conversions/roman_to_integer.zig` | ✅ | ✅ 4/4 | 0 | 支持减法对校验 + canonical 形式校验 |
+| integer_to_roman | `conversions/integer_to_roman.zig` | ✅ | ✅ 3/3 | 0 | 1..3999 有界罗马数字转换 |
+| temperature_conversion | `conversions/temperature_conversion.zig` | ✅ | ✅ 5/5 | 0 | C/F/K/R 通用转换，低于绝对零度报错 |
+| miller_rabin | `maths/miller_rabin.zig` | ✅ | ✅ 4/4 | 0 | 64-bit 确定性底数组，`u128` 模乘防溢出 |
+| matrix_exponentiation | `maths/matrix_exponentiation.zig` | ✅ | ✅ 5/5 | 0 | 方阵二分幂，支持 `power=0` 单位矩阵 |
+
+### 7D-1~7D-8 极端用例覆盖（按规则 #3）
+
+- `activity_selection`：空输入、单活动、长度不一致、finish 未排序、长链高密度输入。
+- `huffman_coding`：空文本、单一字符、未知字符编码、非法 bit 解码、偏斜频率长输入 round-trip。
+- `job_sequencing_with_deadline`：空作业、全零 deadline、非正利润跳过、大量同 deadline 竞争。
+- `roman_to_integer`：空串、非法字符、非法格式（`IIII`/`IIV`/`IL` 等）、边界 `I` 与 `MMMCMXCIX`。
+- `integer_to_roman`：下界/上界、越界值（0 与 4000）。
+- `temperature_conversion`：绝对零度边界、低于绝对零度拒绝、同单位转换、极高温度输入。
+- `miller_rabin`：0/1/2/3 边界、Carmichael 数、与 trial division 小范围对拍、`u64` 上界附近值。
+- `matrix_exponentiation`：`exp=0`、`exp=1`、Fibonacci 转移矩阵、非法维度、大指数对角阵。
+
+### 7D-1~7D-8 真实错误与修复记录
+
+本批次在算法实现与测试阶段未出现编译错误、运行时 panic、内存泄漏或 checksum 不一致；`zig test` 与 `zig build test` 一次通过。
+
+### 7D-1~7D-8 单算法基准结果（2026-03-01）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| activity_selection | 9,102,112.01 | 561,969.03 | 16.20x | true |
+| huffman_coding | 19,825,418.70 | 600,301.35 | 33.03x | true |
+| job_sequencing_with_deadline | 321,560,228.13 | 9,832,578.87 | 32.70x | true |
+| roman_to_integer | 37,674,777.83 | 1,205,263.82 | 31.26x | true |
+| integer_to_roman | 22,831,945.86 | 388,005,967.31 | 0.06x | true |
+| temperature_conversion | 15,479,087.08 | 95,833.48 | 161.52x | true |
+| miller_rabin | 60,037,762.92 | 9,781,811.92 | 6.14x | true |
+| matrix_exponentiation | 1,431,733.93 | 38,915.47 | 36.79x | true |
+
+### 7D 完成累计（截至 2026-03-01）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 124 |
+| 测试总数 | 576 |
+| 可对齐并完成基准算法数 | 112 |
+| 基准 checksum 一致数 | 112 |
+
+### 全量基准快照（7D 完成后）
+
+| 指标 | 数值 |
+|---|---:|
+| 可对齐并完成基准算法数 | 112 |
+| 基准 checksum 一致数 | 112 |
+| 平均加速比（Python/Zig） | 179.09x |
+| 中位数加速比（Python/Zig） | 29.08x |
+| 几何平均加速比（Python/Zig） | 20.87x |
+
+## 第七批继续（7E）：dynamic_programming 补充（#125-#128）
+
+**日期：** 2026-03-01  
+**参考：**
+- `/root/projects/python-reference/dynamic_programming/sum_of_subset.py`（计划中的 `subset_sum.py` 在本地参考目录不存在）
+- `egg_drop`：计划中的 `egg_drop.py` 在本地参考目录不存在，按经典鸡蛋掉落 DP 语义实现并与 Python/Zig 基准同口径对齐
+- `/root/projects/python-reference/dynamic_programming/longest_palindromic_subsequence.py`
+- `/root/projects/python-reference/dynamic_programming/max_product_subarray.py`
+
+### 7E-1~7E-4 算法落地结果
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|---|---|---|---|---:|---|
+| subset_sum | `dynamic_programming/subset_sum.zig` | ✅ | ✅ 6/6 | 0 | 非负输入 DP 子集和判定，负输入显式报错 |
+| egg_drop_problem | `dynamic_programming/egg_drop_problem.zig` | ✅ | ✅ 5/5 | 0 | moves-based DP（`dp[e] = dp[e] + dp[e-1] + 1`），容量封顶防溢出 |
+| longest_palindromic_subsequence | `dynamic_programming/longest_palindromic_subsequence.zig` | ✅ | ✅ 5/5 | 1 | O(n²) 二维 DP 求 LPS 长度 |
+| max_product_subarray | `dynamic_programming/max_product_subarray.zig` | ✅ | ✅ 5/5 | 1 | 维护最大/最小前缀乘积，连乘溢出返回 `error.Overflow` |
+
+### 7E-1~7E-4 极端用例覆盖（按规则 #3）
+
+- `subset_sum`：空数组、`target=0`、大目标不可达、重复值、负 target/负元素输入。
+- `egg_drop_problem`：`floors=0`、`eggs=1`、`eggs=0` 错误分支、高蛋数低楼层、`floors=1000`。
+- `longest_palindromic_subsequence`：空串、单字符、无重复字符、长重复字符（1024 长度）。
+- `max_product_subarray`：空输入、全负数、多零分段、单元素、溢出场景（`maxInt * 2`）。
+
+### 7E-1~7E-4 真实错误与修复记录
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| 参考对齐（文件定位） | 本地参考目录无 `subset_sum.py`、`egg_drop.py` | 计划文档命名与当前本地 Python 参考镜像不一致 | `subset_sum` 对齐到 `sum_of_subset.py`；`egg_drop` 采用经典 DP 口径并在 Python/Zig benchmark 两侧同步实现 | 语义对齐完成，后续 checksum 一致 |
+| 算法测试（`zig test dynamic_programming/longest_palindromic_subsequence.zig`） | 断言失败：期望 9，实际 7 | 测试用例期望值错误（`racecarar` 的 LPS 为 7） | 将断言修正为 7 | 5/5 通过 |
+| 算法测试（`zig test dynamic_programming/max_product_subarray.zig`） | 断言失败：期望 24，实际 12 | 测试期望误判（`[-2,-3,-4]` 最大连续乘积为 12） | 将断言修正为 12 | 5/5 通过 |
+| 基准执行（`run_single.sh max_product_subarray`） | Zig 侧报错 `error: Overflow` | workload 输入幅值过大导致长连乘溢出（实现按设计返回错误） | Python/Zig 同步调整 workload：低幅值 `[-3,3]` + 每 8 位插入 `0` 打断连乘链 | 单算法基准成功，checksum 对齐 |
+
+### 7E-1~7E-4 单算法基准结果（2026-03-01）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| subset_sum | 49,071,373.62 | 1,569,849.12 | 31.26x | true |
+| egg_drop_problem | 2,670,857.21 | 2,920,583.31 | 0.91x | true |
+| longest_palindromic_subsequence | 74,988,854.92 | 2,653,790.40 | 28.26x | true |
+| max_product_subarray | 31,951,857.85 | 307,602.15 | 103.87x | true |
+
+### 7E 完成累计（截至 2026-03-01）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 128 |
+| 测试总数 | 597 |
+| 可对齐并完成基准算法数 | 116 |
+| 基准 checksum 一致数 | 116 |
+
+### 全量基准快照（7E 完成后）
+
+| 指标 | 数值 |
+|---|---:|
+| 可对齐并完成基准算法数 | 116 |
+| 基准 checksum 一致数 | 116 |
+| 平均加速比（Python/Zig） | 174.34x |
+| 中位数加速比（Python/Zig） | 29.15x |
+| 几何平均加速比（Python/Zig） | 20.73x |
+
+## 第七批继续（7F）：ciphers + hashing（#129-#130）
+
+**日期：** 2026-03-01  
+**参考：**
+- `/root/projects/python-reference/ciphers/caesar_cipher.py`
+- `/root/projects/python-reference/hashes/sha256.py`
+
+### 7F-1~7F-2 算法落地结果
+
+| 算法 | 文件 | 编译 | 测试 | 人工修改 | 备注 |
+|---|---|---|---|---:|---|
+| caesar_cipher | `ciphers/caesar_cipher.zig` | ✅ | ✅ 5/5 | 0 | 支持默认/自定义字母表，加解密口径与 Python 参考一致，非字母表字符原样保留 |
+| sha256 | `hashing/sha256.zig` | ✅ | ✅ 3/3 | 1 | 纯 Zig 教学实现（消息扩展 + 64 轮压缩），输出字节摘要与十六进制摘要 |
+
+### 7F-1~7F-2 极端用例覆盖（按规则 #3）
+
+- `caesar_cipher`：空输入、超大正/负 key（`maxInt/minInt`）、非字母表字符保留、空字母表/重复字符字母表报错。
+- `sha256`：空消息、经典向量（`abc` / `hello world`）、填充边界长度（55/56/64 字节）、超长输入（1,000,000 个 `a`）。
+
+### 7F-1~7F-2 真实错误与修复记录
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| 算法编译（`zig test hashing/sha256.zig`） | `type 'u5' cannot represent integer value '32'` | 手写循环右移函数中使用了不合法的位宽转换 | `rotr` 改为 `std.math.rotr(u32, x, shift)` | `sha256` 编译通过，3/3 测试通过 |
+| 单算法基准（`run_single.sh caesar_cipher`） | 首次写入榜单时 checksum 为 `false` | Python workload 文本做了 `.strip()`，与 Zig 侧输入不一致 | 去掉 Python 侧 `.strip()` 并重跑单算法基准 | `caesar_cipher` checksum 恢复为 `true` |
+
+### 7F-1~7F-2 单算法基准结果（2026-03-01）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| caesar_cipher | 124,930,977.60 | 2,676,382.30 | 46.68x | true |
+| sha256 | 856,734,677.50 | 1,695,399.80 | 505.33x | true |
+
+### 7F 完成累计（截至 2026-03-01）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 130 |
+| 测试总数 | 605 |
+| 可对齐并完成基准算法数 | 118 |
+| 基准 checksum 一致数 | 118 |
+
+### 全量基准快照（7F 完成后）
+
+| 指标 | 数值 |
+|---|---:|
+| 可对齐并完成基准算法数 | 118 |
+| 基准 checksum 一致数 | 118 |
+| 平均加速比（Python/Zig） | 176.06x |
+| 中位数加速比（Python/Zig） | 30.15x |
+| 几何平均加速比（Python/Zig） | 21.44x |
+
+## 基准覆盖扩展（8A）：补齐 backtracking + data_structures 的 12 项对齐基准
+
+**日期：** 2026-03-01  
+**改动文件：**
+- `benchmarks/python_vs_zig/python_bench_all.py`
+- `benchmarks/python_vs_zig/zig_bench_all.zig`
+
+### 8A-1~8A-12 基准接入结果
+
+| 算法 | 分类 | 接入状态 | 备注 |
+|---|---|---|---|
+| stack | data_structures | ✅ | 70,000 规模 push/pop/peek 混合 workload |
+| queue | data_structures | ✅ | 70,000 规模 enqueue/dequeue/rotate 混合 workload |
+| singly_linked_list | data_structures | ✅ | 24,000 规模插删查 + 反转 + 清空 |
+| doubly_linked_list | data_structures | ✅ | 24,000 规模头尾插删 + 定点读写 + 反转 |
+| binary_search_tree | data_structures | ✅ | 20,000 构建 + 12,000 查询 + 4,000 删除 |
+| min_heap | data_structures | ✅ | 20,000 建堆 + 8,000 push + 全量 pop |
+| permutations | backtracking | ✅ | 8 元素全排列 |
+| combinations | backtracking | ✅ | C(16,8) 组合生成 |
+| subsets | backtracking | ✅ | 14 元素幂集生成 |
+| generate_parentheses | backtracking | ✅ | `n=9` 生成 |
+| n_queens | backtracking | ✅ | `n=10` 计数口径 |
+| sudoku_solver | backtracking | ✅ | 可解 + 不可解双样例校验 |
+
+### 8A-1~8A-12 极端场景覆盖（按规则 #3）
+
+- `stack/queue`：大输入规模（70,000）下混合操作，覆盖频繁 push-pop / enqueue-dequeue 切换。
+- `singly_linked_list/doubly_linked_list`：高频插删、反转、边界访问与清空过程，覆盖结构状态反复变化。
+- `binary_search_tree`：大规模构建后执行命中/未命中查询和批量删除，覆盖深树与多操作链路。
+- `min_heap`：建堆后执行额外 push 与完全弹空，覆盖堆序维护全过程。
+- `permutations/combinations/subsets`：组合爆炸型搜索空间下校验结果累计稳定性。
+- `generate_parentheses/n_queens`：高复杂度回溯参数（`n=9`/`n=10`）验证结果与性能稳定性。
+- `sudoku_solver`：同时使用可解与不可解盘面，验证成功与失败分支。
+
+### 8A-1~8A-12 真实错误与修复记录
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| 单算法基准（`bash benchmarks/python_vs_zig/run_single.sh binary_search_tree`） | Python 侧抛出 `RecursionError: maximum recursion depth exceeded` | 基准辅助 BST 的 `inorder` 使用递归遍历；在深树极端形态下触发 Python 递归深度上限 | 将 `benchmarks/python_vs_zig/python_bench_all.py` 中 `Bst.inorder` 与 `Bst.remove` 改为迭代实现，移除递归栈依赖 | 重新执行 `run_single.sh binary_search_tree` 通过，并完成其余 7 项增量基准；12 项 checksum 全部一致 |
+
+### 8A-1~8A-12 单算法基准结果（2026-03-01）
+
+| 算法 | Python avg ns | Zig avg ns | Speedup (Python/Zig) | Checksum |
+|---|---:|---:|---:|---|
+| stack | 26,019,131.20 | 837,979.90 | 31.05x | true |
+| queue | 26,867,769.30 | 2,506,867.70 | 10.72x | true |
+| singly_linked_list | 3,486,085,551.62 | 321,865,124.50 | 10.83x | true |
+| doubly_linked_list | 44,595,180.25 | 2,976,412.38 | 14.98x | true |
+| binary_search_tree | 13,078,691,011.83 | 2,588,278,654.67 | 5.05x | true |
+| min_heap | 16,324,257.25 | 2,551,215.75 | 6.40x | true |
+| permutations | 88,044,560.33 | 4,296,994.67 | 20.49x | true |
+| combinations | 18,537,177.00 | 2,179,764.17 | 8.50x | true |
+| subsets | 29,807,246.00 | 1,836,343.33 | 16.23x | true |
+| generate_parentheses | 5,970,059.08 | 556,881.67 | 10.72x | true |
+| n_queens | 14,498,618.78 | 3,446,449.67 | 4.21x | true |
+| sudoku_solver | 4,706,181.53 | 41,966.07 | 112.14x | true |
+
+### 8A 完成累计（截至 2026-03-01）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 130 |
+| 测试总数 | 605 |
+| 可对齐并完成基准算法数 | 130 |
+| 基准 checksum 一致数 | 130 |
+
+### 全量基准快照（8A 完成后）
+
+| 指标 | 数值 |
+|---|---:|
+| 可对齐并完成基准算法数 | 130 |
+| 基准 checksum 一致数 | 130 |
+| 平均加速比（Python/Zig） | 161.74x |
+| 中位数加速比（Python/Zig） | 26.91x |
+| 几何平均加速比（Python/Zig） | 20.49x |
+
+## QA 加固（8B）：边界审查 + fuzz 探索 + 全量回归
+
+**日期：** 2026-03-01
+
+### 8B-1 防御性编程审查结果（第七批范围）
+
+| 审查维度 | 覆盖范围 | 结论 |
+|---|---|---|
+| 边界输入处理 | 第七批新增算法（7A~7F，30 个） | 关键边界（空输入、越界、非法参数、不可解分支）均有显式处理与测试覆盖 |
+| 运行时安全 | 图/树/回溯/DP 重点文件 | 未发现新的可复现 panic、越界读写或未处理错误分支 |
+| 资源管理 | 分配器相关路径（含回溯/字符串/数据结构） | 未发现新增泄漏路径；后续由全量回归验证 |
+
+### 8B-2 fuzz 测试探索（3 个核心算法）
+
+| 算法 | 文件 | fuzz 属性 | 结果 |
+|---|---|---|---|
+| run_length_encoding | `strings/run_length_encoding.zig` | `decode(encode(x)) == x`（任意字节输入） | ✅ 通过（`1 fuzz tests found`） |
+| caesar_cipher | `ciphers/caesar_cipher.zig` | `decrypt(encrypt(x,key),key) == x`（任意输入 + 派生 key） | ✅ 通过（`1 fuzz tests found`） |
+| subset_sum | `dynamic_programming/subset_sum.zig` | 小规模输入下 DP 结果与暴力枚举一致 | ✅ 通过（`1 fuzz tests found`） |
+
+### 8B-3 全量回归（含泄漏检查）
+
+| 命令 | 结果 | 结论 |
+|---|---|---|
+| `zig build test` | ✅ 通过 | 第七批 + 既有算法全量回归通过，未出现新的编译/运行时失败 |
+
+### 8B 真实错误与修复记录
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| fuzz 验证（批量命令） | `for ...; zig test ...` 方式触发 `AccessDenied`（标准库子编译无法读取） | 命令包装方式触发了当前执行沙箱限制 | 改为逐条直接执行 `zig test <file>` | 3 个 fuzz 文件均通过，并被识别为 fuzz 测试 |
+
+### 8B 完成累计（截至 2026-03-01）
+
+| 指标 | 数值 |
+|---|---:|
+| 算法总数 | 130 |
+| 测试总数 | 608 |
+| 可对齐并完成基准算法数 | 130 |
+| 基准 checksum 一致数 | 130 |
