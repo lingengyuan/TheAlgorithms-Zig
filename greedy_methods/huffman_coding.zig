@@ -10,7 +10,7 @@ pub const HuffmanCode = struct {
     code: []u8,
 };
 
-pub const HuffmanError = error{ UnknownSymbol, InvalidBit, InvalidEncoding };
+pub const HuffmanError = error{ UnknownSymbol, InvalidBit, InvalidEncoding, Overflow };
 
 const Node = struct {
     freq: u64,
@@ -112,6 +112,9 @@ fn buildTree(allocator: Allocator, text: []const u8) !?*Node {
 
     var heap = MinHeap.init(allocator);
     defer heap.deinit();
+    errdefer {
+        for (heap.items.items) |node| freeTree(allocator, node);
+    }
 
     for (freq, 0..) |f, i| {
         if (f == 0) continue;
@@ -124,6 +127,7 @@ fn buildTree(allocator: Allocator, text: []const u8) !?*Node {
             .left = null,
             .right = null,
         };
+        errdefer freeTree(allocator, node);
         try heap.push(node);
     }
 
@@ -133,10 +137,15 @@ fn buildTree(allocator: Allocator, text: []const u8) !?*Node {
     while (heap.items.items.len > 1) {
         const left = heap.pop().?;
         const right = heap.pop().?;
+        errdefer freeTree(allocator, left);
+        errdefer freeTree(allocator, right);
 
         const parent = try allocator.create(Node);
+        errdefer freeTree(allocator, parent);
+        const merged_freq = @addWithOverflow(left.freq, right.freq);
+        if (merged_freq[1] != 0) return HuffmanError.Overflow;
         parent.* = .{
-            .freq = left.freq + right.freq,
+            .freq = merged_freq[0],
             .symbol = null,
             .min_symbol = @min(left.min_symbol, right.min_symbol),
             .left = left,
@@ -159,6 +168,7 @@ fn collectCodes(
     if (root.symbol) |symbol| {
         const code_len: usize = if (depth == 0) 1 else depth;
         const code = try allocator.alloc(u8, code_len);
+        errdefer allocator.free(code);
         if (depth == 0) {
             code[0] = '0';
         } else {
@@ -227,7 +237,9 @@ pub fn encodeText(
     var total_bits: usize = 0;
     for (text) |ch| {
         const code = lookup[ch] orelse return HuffmanError.UnknownSymbol;
-        total_bits += code.len;
+        const with_overflow = @addWithOverflow(total_bits, code.len);
+        if (with_overflow[1] != 0) return HuffmanError.Overflow;
+        total_bits = with_overflow[0];
     }
 
     const out = try allocator.alloc(u8, total_bits);
@@ -321,6 +333,24 @@ pub fn decodeBits(
     return try out.toOwnedSlice(allocator);
 }
 
+fn buildCodesAllocFailImpl(allocator: Allocator, text: []const u8) !void {
+    const codes = try buildHuffmanCodes(allocator, text);
+    defer freeHuffmanCodes(allocator, codes);
+}
+
+fn roundTripAllocFailImpl(allocator: Allocator, text: []const u8) !void {
+    const codes = try buildHuffmanCodes(allocator, text);
+    defer freeHuffmanCodes(allocator, codes);
+
+    const encoded = try encodeText(allocator, text, codes);
+    defer allocator.free(encoded);
+
+    const decoded = try decodeBits(allocator, encoded, codes);
+    defer allocator.free(decoded);
+
+    try testing.expectEqualSlices(u8, text, decoded);
+}
+
 test "huffman coding: round trip" {
     const alloc = testing.allocator;
     const text = "beep boop beer!";
@@ -402,4 +432,12 @@ test "huffman coding: extreme skew distribution" {
     defer alloc.free(decoded);
 
     try testing.expectEqualStrings(&buffer, decoded);
+}
+
+test "huffman coding: allocation failures are cleaned up for code build" {
+    try testing.checkAllAllocationFailures(testing.allocator, buildCodesAllocFailImpl, .{"beep boop beer!"});
+}
+
+test "huffman coding: allocation failures are cleaned up for round trip" {
+    try testing.checkAllAllocationFailures(testing.allocator, roundTripAllocFailImpl, .{"mississippi river"});
 }

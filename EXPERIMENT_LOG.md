@@ -1518,3 +1518,31 @@ FAIL: test "kmp: not found"
 | `zig test graphs/ford_fulkerson.zig` | ✅ |
 | `zig test strings/suffix_array.zig` | ✅ |
 | `zig build test` | ✅ |
+
+## 8B 补充复核（R2）：溢出语义与分配失败清理
+
+**日期：** 2026-03-01  
+**范围：** `data_structures/fenwick_tree.zig`、`data_structures/segment_tree.zig`、`greedy_methods/huffman_coding.zig`
+
+### 8B-R2 发现与修复
+
+| 算法 | 发现 | 根因 | 修复 | 验证 |
+|---|---|---|---|---|
+| Fenwick Tree | 更新与区间求和使用 `+%`/直接减法，溢出会静默回绕 | 未定义与 Python 大整数口径的差异，极端值下语义不稳定 | `init/add/set/prefixSum/rangeSum` 全链路改为 checked 算术并返回 `error.Overflow`；新增溢出测试 | `zig test data_structures/fenwick_tree.zig` 7/7 通过 |
+| Segment Tree | `size = 4 * n` 在超大 `n` 下可能溢出并错误分配 | 容量计算未做 `usize` 溢出检查 | `init` 增加 `@mulWithOverflow` 检查，溢出返回 `error.Overflow`；新增超大长度测试 | `zig test data_structures/segment_tree.zig` 7/7 通过 |
+| Huffman Coding | `checkAllAllocationFailures` 报 `MemoryLeakDetected` | 生成码表时 `alloc(code)` 成功后 `out.append` 失败路径未释放 `code` | `collectCodes` 增加局部 `errdefer allocator.free(code)`；保留并通过分配失败注入测试 | `zig test greedy_methods/huffman_coding.zig` 8/8 通过 |
+
+### 8B-R2 真实错误与修复记录（命令执行层）
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| `zig test greedy_methods/huffman_coding.zig`（分配失败注入） | `MemoryLeakDetected`（泄漏定位到 `collectCodes` 的 `alloc` 路径） | `allocator.alloc` 后 `out.append` 抛错时缺少释放 | 为 `code` 分配增加 `errdefer allocator.free(code)` | 分配失败注入测试通过，泄漏消失 |
+
+### 8B-R2 回归结果
+
+| 命令 | 结果 |
+|---|---|
+| `zig test data_structures/fenwick_tree.zig` | ✅ |
+| `zig test data_structures/segment_tree.zig` | ✅ |
+| `zig test greedy_methods/huffman_coding.zig` | ✅ |
+| `zig build test` | ✅ |

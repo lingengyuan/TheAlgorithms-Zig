@@ -14,7 +14,11 @@ pub const SegmentTree = struct {
 
     pub fn init(allocator: Allocator, values: []const i64) !Self {
         const n = values.len;
-        const size = if (n == 0) @as(usize, 0) else 4 * n;
+        const size = if (n == 0) @as(usize, 0) else blk: {
+            const mul = @mulWithOverflow(n, @as(usize, 4));
+            if (mul[1] != 0) return error.Overflow;
+            break :blk mul[0];
+        };
         const tree = try allocator.alloc(i64, size);
         if (size > 0) @memset(tree, 0);
 
@@ -140,4 +144,11 @@ test "segment tree: all negative values" {
     try testing.expectEqual(@as(i64, -4), try st.query(0, 3));
     try st.update(2, -2);
     try testing.expectEqual(@as(i64, -2), try st.query(1, 3));
+}
+
+test "segment tree: oversize input length reports overflow" {
+    const huge_len = @divTrunc(std.math.maxInt(usize), @as(usize, 4)) + 1;
+    const fake_ptr: [*]const i64 = @ptrFromInt(@alignOf(i64));
+    const fake_values = fake_ptr[0..huge_len];
+    try testing.expectError(error.Overflow, SegmentTree.init(testing.allocator, fake_values));
 }

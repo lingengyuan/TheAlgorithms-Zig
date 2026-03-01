@@ -13,7 +13,9 @@ pub const FenwickTree = struct {
     tree: []i64, // 1-based internal indexing, length n + 1
 
     pub fn init(allocator: Allocator, size: usize) !Self {
-        const tree = try allocator.alloc(i64, size + 1);
+        const with_overflow = @addWithOverflow(size, @as(usize, 1));
+        if (with_overflow[1] != 0) return error.Overflow;
+        const tree = try allocator.alloc(i64, with_overflow[0]);
         @memset(tree, 0);
         return .{
             .allocator = allocator,
@@ -43,13 +45,17 @@ pub const FenwickTree = struct {
         if (index >= self.n) return error.IndexOutOfBounds;
         var i = index + 1;
         while (i <= self.n) : (i += lowbit(i)) {
-            self.tree[i] +%= delta;
+            const sum = @addWithOverflow(self.tree[i], delta);
+            if (sum[1] != 0) return error.Overflow;
+            self.tree[i] = sum[0];
         }
     }
 
     pub fn set(self: *Self, index: usize, value: i64) !void {
         const cur = try self.get(index);
-        try self.add(index, value - cur);
+        const delta = @subWithOverflow(value, cur);
+        if (delta[1] != 0) return error.Overflow;
+        try self.add(index, delta[0]);
     }
 
     pub fn prefixSum(self: *const Self, right: usize) !i64 {
@@ -58,7 +64,9 @@ pub const FenwickTree = struct {
         var sum: i64 = 0;
         var i = right;
         while (i > 0) : (i -= lowbit(i)) {
-            sum +%= self.tree[i];
+            const next = @addWithOverflow(sum, self.tree[i]);
+            if (next[1] != 0) return error.Overflow;
+            sum = next[0];
         }
         return sum;
     }
@@ -67,7 +75,9 @@ pub const FenwickTree = struct {
         if (left > right or right > self.n) return error.InvalidRange;
         const r = try self.prefixSum(right);
         const l = try self.prefixSum(left);
-        return r - l;
+        const diff = @subWithOverflow(r, l);
+        if (diff[1] != 0) return error.Overflow;
+        return diff[0];
     }
 
     pub fn get(self: *const Self, index: usize) !i64 {
@@ -138,4 +148,12 @@ test "fenwick tree: supports negative values" {
     try testing.expectEqual(@as(i64, 1), try fw.prefixSum(4));
     try fw.add(2, 4);
     try testing.expectEqual(@as(i64, 3), try fw.rangeSum(1, 3));
+}
+
+test "fenwick tree: overflow is reported" {
+    var fw = try FenwickTree.init(testing.allocator, 1);
+    defer fw.deinit();
+
+    try fw.add(0, std.math.maxInt(i64));
+    try testing.expectError(error.Overflow, fw.add(0, 1));
 }
