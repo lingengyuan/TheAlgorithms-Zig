@@ -29,12 +29,16 @@ pub fn powerMod(base: u64, exponent: u64, modulus: u64) !u64 {
     var exp = exponent;
     while (exp > 0) {
         if (exp & 1 == 1) {
-            result = result * b % modulus;
+            result = mulMod(result, b, modulus);
         }
-        b = b * b % modulus;
+        b = mulMod(b, b, modulus);
         exp >>= 1;
     }
     return result;
+}
+
+fn mulMod(a: u64, b: u64, modulus: u64) u64 {
+    return @intCast((@as(u128, a) * @as(u128, b)) % @as(u128, modulus));
 }
 
 test "power: basic cases" {
@@ -59,4 +63,12 @@ test "power mod: basic cases" {
 
 test "power mod: invalid modulus" {
     try testing.expectError(error.InvalidModulus, powerMod(7, 13, 0));
+}
+
+test "power mod: large multiplicands avoid intermediate overflow" {
+    const base: u64 = std.math.maxInt(u64) - 3;
+    const modulus: u64 = std.math.maxInt(u64) - 58;
+    const reduced = base % modulus;
+    const expected: u64 = @intCast((@as(u128, reduced) * @as(u128, reduced)) % @as(u128, modulus));
+    try testing.expectEqual(expected, try powerMod(base, 2, modulus));
 }

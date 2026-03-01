@@ -49,7 +49,7 @@ caesar_cipher,ciphers,124930977.60,2676382.30,46.68,true
 heap_sort,sorts,101331120.00,2254299.50,44.95,true
 sieve_of_eratosthenes,maths,48841094.50,1105621.17,44.18,true
 naive_string_search,strings,18220820.37,412583.37,44.16,true
-factorial,maths,10120.16,241.41,41.92,true
+factorial,maths,10007.83,231.84,43.17,true
 shell_sort,sorts,71638242.25,1814142.00,39.49,true
 exponential_search,searches,4009109.00,105369.75,38.05,true
 matrix_exponentiation,maths,1431733.93,38915.47,36.79,true

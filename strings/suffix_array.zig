@@ -11,7 +11,7 @@ const SortCtx = struct {
     n: usize,
 
     fn secondRank(self: @This(), idx: usize) i64 {
-        if (idx + self.k < self.n) return self.rank[idx + self.k];
+        if (self.k < self.n - idx) return self.rank[idx + self.k];
         return -1;
     }
 
@@ -30,6 +30,9 @@ const SortCtx = struct {
 pub fn suffixArray(allocator: Allocator, text: []const u8) ![]usize {
     const n = text.len;
     if (n == 0) return try allocator.alloc(usize, 0);
+    if (@sizeOf(usize) > @sizeOf(i64) and n > @as(usize, @intCast(std.math.maxInt(i64)))) {
+        return error.Overflow;
+    }
 
     const sa = try allocator.alloc(usize, n);
     errdefer allocator.free(sa);
@@ -44,7 +47,7 @@ pub fn suffixArray(allocator: Allocator, text: []const u8) ![]usize {
     }
 
     var k: usize = 1;
-    while (k < n) : (k *= 2) {
+    while (k < n) {
         const ctx = SortCtx{
             .rank = rank,
             .k = k,
@@ -57,8 +60,8 @@ pub fn suffixArray(allocator: Allocator, text: []const u8) ![]usize {
             const prev = sa[i - 1];
             const cur = sa[i];
 
-            const prev_second: i64 = if (prev + k < n) rank[prev + k] else -1;
-            const cur_second: i64 = if (cur + k < n) rank[cur + k] else -1;
+            const prev_second: i64 = if (k < n - prev) rank[prev + k] else -1;
+            const cur_second: i64 = if (k < n - cur) rank[cur + k] else -1;
 
             const different = rank[prev] != rank[cur] or prev_second != cur_second;
             tmp[cur] = tmp[prev] + if (different) @as(i64, 1) else @as(i64, 0);
@@ -67,6 +70,8 @@ pub fn suffixArray(allocator: Allocator, text: []const u8) ![]usize {
         for (0..n) |i| rank[i] = tmp[i];
 
         if (rank[sa[n - 1]] == @as(i64, @intCast(n - 1))) break;
+        if (k > n / 2) break; // Next doubling would not change bucket width usefully and may overflow.
+        k *= 2;
     }
 
     return sa;
@@ -161,4 +166,21 @@ test "suffix array: extreme repeated text" {
     // In identical-character text, lexicographic order is by suffix length.
     try testing.expectEqual(@as(usize, buf.len - 1), sa[0]);
     try testing.expectEqual(@as(usize, 0), sa[sa.len - 1]);
+}
+
+test "suffix array: length overflow is rejected" {
+    const max_rank_len: usize = comptime blk: {
+        if (@sizeOf(usize) > @sizeOf(i64)) {
+            break :blk @as(usize, @intCast(std.math.maxInt(i64)));
+        }
+        break :blk std.math.maxInt(usize);
+    };
+    if (max_rank_len == std.math.maxInt(usize)) return;
+
+    const next = @addWithOverflow(max_rank_len, @as(usize, 1));
+    try testing.expect(next[1] == 0);
+
+    const fake_ptr: [*]const u8 = @ptrFromInt(@alignOf(u8));
+    const fake_text = fake_ptr[0..next[0]];
+    try testing.expectError(error.Overflow, suffixArray(testing.allocator, fake_text));
 }

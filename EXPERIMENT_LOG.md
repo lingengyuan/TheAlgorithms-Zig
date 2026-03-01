@@ -1716,3 +1716,37 @@ FAIL: test "kmp: not found"
 | `zig test matrix/rotate_matrix.zig` | ✅ |
 | `zig test strings/reverse_words.zig` | ✅ |
 | `zig build test` | ✅ |
+
+## 8B 补充复核（R9）：转换/DP/数学与后缀数组边界鲁棒性
+
+**日期：** 2026-03-01  
+**范围：** `conversions/binary_to_decimal.zig`、`strings/suffix_array.zig`、`dynamic_programming/coin_change.zig`、`maths/power.zig`、`maths/factorial.zig`、`benchmarks/python_vs_zig/zig_bench_all.zig`
+
+### 8B-R9 发现与修复
+
+| 算法/模块 | 发现 | 根因 | 修复 | 验证 |
+|---|---|---|---|---|
+| binary_to_decimal | 不处理首尾空白，且在超大二进制输入上会触发有符号溢出 | 直接 `result = result * 2 + bit`，无 trim/溢出边界 | 增加 ASCII 空白 `trim`；使用 `u64` 幅值 + checked 乘加；显式返回 `ConversionError.Overflow`；补 `i64` 边界与溢出用例 | `zig test conversions/binary_to_decimal.zig` 4/4 通过 |
+| suffix_array | `idx + k` 与 `k *= 2` 在极端长度下存在溢出风险 | 边界判断/倍增迭代使用直接加倍和相加 | 改为差值判断（`k < n - idx`）避免加法溢出；加倍前做 `k > n/2` 截断；超大长度返回 `error.Overflow`；补极端长度测试 | `zig test strings/suffix_array.zig` 7/7 通过 |
+| coin_change | 组合数累加在高组合量输入下会发生 `u64` 溢出 panic | `dp[idx] += dp[prev]` 未做 checked 加法 | 引入 `CoinChangeError.Overflow`；DP 累加改 checked；补可复现组合爆炸用例（65 个面值 1，目标 64） | `zig test dynamic_programming/coin_change.zig` 6/6 通过 |
+| powerMod | 大整数模幂中间乘法可能溢出（即使最终 `% modulus`） | 直接 `u64 * u64 % m` | 引入 `mulMod`，使用 `u128` 中间乘法再取模；补大乘数回归测试 | `zig test maths/power.zig` 5/5 通过 |
+| factorial | `n > 20` 时 `u64` 溢出导致 panic | 直接连乘未做 checked 运算 | API 改为显式返回 `FactorialError.Overflow`；补溢出测试（`factorial(21)`） | `zig test maths/factorial.zig` 4/4 通过 |
+| benchmark harness | `factorial` API 改为 error union 后，基准聚合函数需适配 | `runFactorialMany` 仍按非错误返回调用 | 将 `runFactorialMany` 改为 `!u64` 并 `try factorial(...)` | `zig build test` 通过（主工程） |
+
+### 8B-R9 真实错误与修复记录（命令执行层）
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| `zig test benchmarks/python_vs_zig/zig_bench_all.zig` | `import of file outside module path` 大量报错 | 该入口以 `zig test <file>` 直接运行时，`../../` 跨目录导入被 Zig 模块路径规则拦截（非算法逻辑错误） | 改用项目标准验证口径 `zig build test`（并保留 benchmark 脚本路径进行后续专门回归） | 主工程回归通过，算法修复不受影响 |
+
+### 8B-R9 回归结果
+
+| 命令 | 结果 |
+|---|---|
+| `zig test conversions/binary_to_decimal.zig` | ✅ |
+| `zig test strings/suffix_array.zig` | ✅ |
+| `zig test dynamic_programming/coin_change.zig` | ✅ |
+| `zig test maths/power.zig` | ✅ |
+| `zig test maths/factorial.zig` | ✅ |
+| `bash benchmarks/python_vs_zig/run_single.sh factorial` | ✅（并同步更新 leaderboard/summary/csv） |
+| `zig build test` | ✅ |

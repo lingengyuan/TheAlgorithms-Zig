@@ -453,9 +453,9 @@ fn runFibonacciMany(inputs: []const u32) u64 {
     return sum;
 }
 
-fn runFactorialMany(inputs: []const u32) u64 {
+fn runFactorialMany(inputs: []const u32) !u64 {
     var sum: u64 = 0;
-    for (inputs) |n| sum +%= factorial_mod.factorial(n);
+    for (inputs) |n| sum +%= try factorial_mod.factorial(n);
     return sum;
 }
 

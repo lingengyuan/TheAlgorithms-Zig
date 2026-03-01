@@ -52,7 +52,7 @@
 | 48 | heap_sort | sorts | 101331120.00 | 2254299.50 | 44.95x | true |
 | 49 | sieve_of_eratosthenes | maths | 48841094.50 | 1105621.17 | 44.18x | true |
 | 50 | naive_string_search | strings | 18220820.37 | 412583.37 | 44.16x | true |
-| 51 | factorial | maths | 10120.16 | 241.41 | 41.92x | true |
+| 51 | factorial | maths | 10007.83 | 231.84 | 43.17x | true |
 | 52 | shell_sort | sorts | 71638242.25 | 1814142.00 | 39.49x | true |
 | 53 | exponential_search | searches | 4009109.00 | 105369.75 | 38.05x | true |
 | 54 | matrix_exponentiation | maths | 1431733.93 | 38915.47 | 36.79x | true |
