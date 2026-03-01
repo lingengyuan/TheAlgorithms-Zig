@@ -37,17 +37,21 @@ pub const Deque = struct {
     }
 
     pub fn pushFront(self: *Self, value: i64) !void {
-        try self.ensureCapacity();
+        const needed = @addWithOverflow(self.len_, @as(usize, 1));
+        if (needed[1] != 0) return error.Overflow;
+        try self.ensureCapacity(needed[0]);
         self.head = (self.head + self.buffer.len - 1) % self.buffer.len;
         self.buffer[self.head] = value;
-        self.len_ += 1;
+        self.len_ = needed[0];
     }
 
     pub fn pushBack(self: *Self, value: i64) !void {
-        try self.ensureCapacity();
+        const needed = @addWithOverflow(self.len_, @as(usize, 1));
+        if (needed[1] != 0) return error.Overflow;
+        try self.ensureCapacity(needed[0]);
         const idx = self.index(self.len_);
         self.buffer[idx] = value;
-        self.len_ += 1;
+        self.len_ = needed[0];
     }
 
     pub fn popFront(self: *Self) ?i64 {
@@ -80,10 +84,15 @@ pub const Deque = struct {
         return (self.head + offset) % self.buffer.len;
     }
 
-    fn ensureCapacity(self: *Self) !void {
-        if (self.len_ < self.buffer.len) return;
+    fn ensureCapacity(self: *Self, min_capacity: usize) !void {
+        if (self.buffer.len >= min_capacity) return;
 
-        const new_cap = self.buffer.len * 2;
+        var new_cap = self.buffer.len;
+        while (new_cap < min_capacity) {
+            const doubled = @mulWithOverflow(new_cap, @as(usize, 2));
+            if (doubled[1] != 0) return error.Overflow;
+            new_cap = doubled[0];
+        }
         const new_buffer = try self.allocator.alloc(i64, new_cap);
 
         for (0..self.len_) |i| {
@@ -166,4 +175,24 @@ test "deque: empty pops return null" {
 
     try testing.expectEqual(@as(?i64, null), dq.popFront());
     try testing.expectEqual(@as(?i64, null), dq.popBack());
+}
+
+test "deque: push overflow is reported" {
+    var dq = try Deque.init(testing.allocator);
+    defer dq.deinit();
+
+    dq.len_ = std.math.maxInt(usize);
+    try testing.expectError(error.Overflow, dq.pushBack(1));
+}
+
+test "deque: growth doubling overflow is reported" {
+    var dq = try Deque.init(testing.allocator);
+    const original = dq.buffer;
+    defer dq.allocator.free(original);
+
+    const fake_ptr: [*]i64 = @ptrFromInt(@alignOf(i64));
+    dq.buffer = fake_ptr[0 .. std.math.maxInt(usize) - 1];
+    dq.head = 0;
+    dq.len_ = dq.buffer.len;
+    try testing.expectError(error.Overflow, dq.pushBack(1));
 }

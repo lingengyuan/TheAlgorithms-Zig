@@ -4,6 +4,8 @@
 const std = @import("std");
 const testing = std.testing;
 
+pub const LcsError = error{Overflow};
+
 pub const LcsResult = struct {
     length: usize,
     sequence: []u8,
@@ -15,10 +17,14 @@ pub fn longestCommonSubsequence(
     allocator: std.mem.Allocator,
     a: []const u8,
     b: []const u8,
-) !LcsResult {
-    const rows = a.len + 1;
-    const cols = b.len + 1;
-    const table = try allocator.alloc(usize, rows * cols);
+) (LcsError || std.mem.Allocator.Error)!LcsResult {
+    const rows = @addWithOverflow(a.len, @as(usize, 1));
+    if (rows[1] != 0) return LcsError.Overflow;
+    const cols = @addWithOverflow(b.len, @as(usize, 1));
+    if (cols[1] != 0) return LcsError.Overflow;
+    const cell_count = @mulWithOverflow(rows[0], cols[0]);
+    if (cell_count[1] != 0) return LcsError.Overflow;
+    const table = try allocator.alloc(usize, cell_count[0]);
     defer allocator.free(table);
     @memset(table, 0);
 
@@ -26,10 +32,10 @@ pub fn longestCommonSubsequence(
     while (i <= a.len) : (i += 1) {
         var j: usize = 1;
         while (j <= b.len) : (j += 1) {
-            const idx = i * cols + j;
-            const up = (i - 1) * cols + j;
-            const left = i * cols + (j - 1);
-            const diag = (i - 1) * cols + (j - 1);
+            const idx = i * cols[0] + j;
+            const up = (i - 1) * cols[0] + j;
+            const left = i * cols[0] + (j - 1);
+            const diag = (i - 1) * cols[0] + (j - 1);
 
             if (a[i - 1] == b[j - 1]) {
                 table[idx] = table[diag] + 1;
@@ -39,7 +45,7 @@ pub fn longestCommonSubsequence(
         }
     }
 
-    const length = table[a.len * cols + b.len];
+    const length = table[a.len * cols[0] + b.len];
     const sequence = try allocator.alloc(u8, length);
 
     var back_i = a.len;
@@ -53,8 +59,8 @@ pub fn longestCommonSubsequence(
             back_i -= 1;
             back_j -= 1;
         } else {
-            const up = table[(back_i - 1) * cols + back_j];
-            const left = table[back_i * cols + (back_j - 1)];
+            const up = table[(back_i - 1) * cols[0] + back_j];
+            const left = table[back_i * cols[0] + (back_j - 1)];
             if (up >= left) {
                 back_i -= 1;
             } else {
@@ -73,7 +79,7 @@ pub fn longestCommonSubsequenceLength(
     allocator: std.mem.Allocator,
     a: []const u8,
     b: []const u8,
-) !usize {
+) (LcsError || std.mem.Allocator.Error)!usize {
     const result = try longestCommonSubsequence(allocator, a, b);
     defer allocator.free(result.sequence);
     return result.length;
@@ -125,4 +131,10 @@ test "lcs: python doc example" {
     defer alloc.free(result.sequence);
     try testing.expectEqual(@as(usize, 6), result.length);
     try testing.expectEqualStrings("gaming", result.sequence);
+}
+
+test "lcs: oversize dimensions return overflow" {
+    const fake_ptr: [*]const u8 = @ptrFromInt(@alignOf(u8));
+    const fake = fake_ptr[0..std.math.maxInt(usize)];
+    try testing.expectError(LcsError.Overflow, longestCommonSubsequenceLength(testing.allocator, fake, "x"));
 }

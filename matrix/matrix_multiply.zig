@@ -4,7 +4,7 @@
 const std = @import("std");
 const testing = std.testing;
 
-pub const MatrixError = error{DimensionMismatch};
+pub const MatrixError = error{ DimensionMismatch, InvalidMatrixSize, Overflow };
 
 /// Multiplies matrix A (m×k) by matrix B (k×n), returns C (m×n).
 /// Matrices are flat row-major slices. Caller owns result.
@@ -18,14 +18,25 @@ pub fn matMul(
     b_cols: usize,
 ) (MatrixError || std.mem.Allocator.Error)![]i64 {
     if (a_cols != b_rows) return MatrixError.DimensionMismatch;
-    _ = a.len;
-    _ = b.len;
-    const c = try allocator.alloc(i64, a_rows * b_cols);
+    const a_count = @mulWithOverflow(a_rows, a_cols);
+    if (a_count[1] != 0) return MatrixError.Overflow;
+    const b_count = @mulWithOverflow(b_rows, b_cols);
+    if (b_count[1] != 0) return MatrixError.Overflow;
+    const c_count = @mulWithOverflow(a_rows, b_cols);
+    if (c_count[1] != 0) return MatrixError.Overflow;
+    if (a.len != a_count[0] or b.len != b_count[0]) return MatrixError.InvalidMatrixSize;
+
+    const c = try allocator.alloc(i64, c_count[0]);
+    errdefer allocator.free(c);
     @memset(c, 0);
     for (0..a_rows) |i| {
         for (0..b_cols) |j| {
             for (0..a_cols) |k| {
-                c[i * b_cols + j] += a[i * a_cols + k] * b[k * b_cols + j];
+                const mul = @mulWithOverflow(a[i * a_cols + k], b[k * b_cols + j]);
+                if (mul[1] != 0) return MatrixError.Overflow;
+                const sum = @addWithOverflow(c[i * b_cols + j], mul[0]);
+                if (sum[1] != 0) return MatrixError.Overflow;
+                c[i * b_cols + j] = sum[0];
             }
         }
     }
@@ -55,4 +66,18 @@ test "matrix multiply: dimension mismatch" {
     const a = [_]i64{ 1, 2, 3, 4 };
     const b = [_]i64{ 1, 2, 3 };
     try testing.expectError(MatrixError.DimensionMismatch, matMul(alloc, &a, 2, 2, &b, 3, 1));
+}
+
+test "matrix multiply: invalid flattened size" {
+    const alloc = testing.allocator;
+    const a = [_]i64{ 1, 2, 3 };
+    const b = [_]i64{ 1, 2, 3, 4 };
+    try testing.expectError(MatrixError.InvalidMatrixSize, matMul(alloc, &a, 2, 2, &b, 2, 2));
+}
+
+test "matrix multiply: overflow is reported" {
+    const alloc = testing.allocator;
+    const a = [_]i64{std.math.maxInt(i64)};
+    const b = [_]i64{2};
+    try testing.expectError(MatrixError.Overflow, matMul(alloc, &a, 1, 1, &b, 1, 1));
 }

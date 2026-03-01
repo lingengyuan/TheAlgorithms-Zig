@@ -4,10 +4,12 @@
 const std = @import("std");
 const testing = std.testing;
 
+pub const ZError = error{Overflow};
+
 /// Computes the Z-array for s. z[i] = length of the longest substring starting
 /// at s[i] that is also a prefix of s. z[0] is undefined (set to 0).
 /// Caller owns the returned slice. Time complexity: O(n)
-pub fn zFunction(allocator: std.mem.Allocator, s: []const u8) ![]usize {
+pub fn zFunction(allocator: std.mem.Allocator, s: []const u8) (ZError || std.mem.Allocator.Error)![]usize {
     const n = s.len;
     const z = try allocator.alloc(usize, n);
     @memset(z, 0);
@@ -35,7 +37,11 @@ pub fn zSearch(allocator: std.mem.Allocator, text: []const u8, pattern: []const 
         return try allocator.alloc(usize, 0);
     }
     // Concatenate pattern + sentinel + text
-    const combined = try allocator.alloc(u8, pattern.len + 1 + text.len);
+    const with_sentinel = @addWithOverflow(pattern.len, @as(usize, 1));
+    if (with_sentinel[1] != 0) return ZError.Overflow;
+    const combined_len = @addWithOverflow(with_sentinel[0], text.len);
+    if (combined_len[1] != 0) return ZError.Overflow;
+    const combined = try allocator.alloc(u8, combined_len[0]);
     defer allocator.free(combined);
     @memcpy(combined[0..pattern.len], pattern);
     combined[pattern.len] = 0; // sentinel (must not appear in alphabet)
@@ -47,7 +53,7 @@ pub fn zSearch(allocator: std.mem.Allocator, text: []const u8, pattern: []const 
     var result = std.ArrayListUnmanaged(usize){};
     defer result.deinit(allocator);
 
-    const offset = pattern.len + 1;
+    const offset = with_sentinel[0];
     for (offset..combined.len) |i| {
         if (z[i] == pattern.len) {
             try result.append(allocator, i - offset);
@@ -89,4 +95,10 @@ test "z search: empty pattern" {
     const r = try zSearch(alloc, "hello", "");
     defer alloc.free(r);
     try testing.expectEqual(@as(usize, 0), r.len);
+}
+
+test "z search: oversize combined length returns overflow" {
+    const fake_ptr: [*]const u8 = @ptrFromInt(@alignOf(u8));
+    const fake_text = fake_ptr[0..std.math.maxInt(usize)];
+    try testing.expectError(ZError.Overflow, zSearch(testing.allocator, fake_text, "a"));
 }

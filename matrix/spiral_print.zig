@@ -4,10 +4,21 @@
 const std = @import("std");
 const testing = std.testing;
 
+pub const SpiralError = error{ InvalidMatrixSize, Overflow };
+
 /// Collects matrix elements in clockwise spiral order.
 /// `mat` is flat row-major with `rows`×`cols` dimensions. Caller owns result.
-pub fn spiralOrder(allocator: std.mem.Allocator, mat: []const i64, rows: usize, cols: usize) ![]i64 {
-    const out = try allocator.alloc(i64, rows * cols);
+pub fn spiralOrder(
+    allocator: std.mem.Allocator,
+    mat: []const i64,
+    rows: usize,
+    cols: usize,
+) (SpiralError || std.mem.Allocator.Error)![]i64 {
+    const elem_count = @mulWithOverflow(rows, cols);
+    if (elem_count[1] != 0) return SpiralError.Overflow;
+    if (mat.len != elem_count[0]) return SpiralError.InvalidMatrixSize;
+
+    const out = try allocator.alloc(i64, elem_count[0]);
     var top: usize = 0;
     var bottom: usize = rows;
     var left: usize = 0;
@@ -81,4 +92,16 @@ test "spiral: 1xN row" {
     const s = try spiralOrder(alloc, &mat, 1, 4);
     defer alloc.free(s);
     try testing.expectEqualSlices(i64, &[_]i64{ 1, 2, 3, 4 }, s);
+}
+
+test "spiral: invalid matrix size" {
+    const alloc = testing.allocator;
+    const mat = [_]i64{ 1, 2, 3 };
+    try testing.expectError(SpiralError.InvalidMatrixSize, spiralOrder(alloc, &mat, 2, 2));
+}
+
+test "spiral: oversize dimensions return overflow" {
+    const alloc = testing.allocator;
+    const tiny = [_]i64{0};
+    try testing.expectError(SpiralError.Overflow, spiralOrder(alloc, &tiny, std.math.maxInt(usize), 2));
 }

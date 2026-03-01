@@ -26,7 +26,7 @@ pub const OpenAddressHashMap = struct {
     deleted: usize,
 
     pub fn init(allocator: Allocator, initial_capacity: usize) !Self {
-        const cap = normalizeCapacity(initial_capacity);
+        const cap = try normalizeCapacity(initial_capacity);
         const buckets = try allocator.alloc(Bucket, cap);
         @memset(buckets, Bucket{});
         return .{
@@ -52,7 +52,9 @@ pub const OpenAddressHashMap = struct {
 
     pub fn put(self: *Self, key: i64, value: i64) !void {
         if (self.shouldGrow()) {
-            try self.resize(self.buckets.len * 2);
+            const doubled = @mulWithOverflow(self.buckets.len, @as(usize, 2));
+            if (doubled[1] != 0) return error.Overflow;
+            try self.resize(doubled[0]);
         }
 
         const index = self.findInsertIndex(key);
@@ -84,11 +86,15 @@ pub const OpenAddressHashMap = struct {
         return true;
     }
 
-    fn normalizeCapacity(capacity: usize) usize {
+    fn normalizeCapacity(capacity: usize) !usize {
         var cap = if (capacity < 8) @as(usize, 8) else capacity;
         if ((cap & (cap - 1)) != 0) {
             var p: usize = 1;
-            while (p < cap) p <<= 1;
+            while (p < cap) {
+                const doubled = @mulWithOverflow(p, @as(usize, 2));
+                if (doubled[1] != 0) return error.Overflow;
+                p = doubled[0];
+            }
             cap = p;
         }
         return cap;
@@ -96,8 +102,16 @@ pub const OpenAddressHashMap = struct {
 
     fn shouldGrow(self: *const Self) bool {
         // Grow by occupied + tombstones to keep probe chains short.
-        const used = self.len + self.deleted + 1;
-        return used * 100 >= self.buckets.len * 70;
+        const used_plus_deleted = @addWithOverflow(self.len, self.deleted);
+        if (used_plus_deleted[1] != 0) return true;
+        const used = @addWithOverflow(used_plus_deleted[0], @as(usize, 1));
+        if (used[1] != 0) return true;
+
+        const lhs = @mulWithOverflow(used[0], @as(usize, 100));
+        if (lhs[1] != 0) return true;
+        const rhs = @mulWithOverflow(self.buckets.len, @as(usize, 70));
+        if (rhs[1] != 0) return true;
+        return lhs[0] >= rhs[0];
     }
 
     fn findInsertIndex(self: *const Self, key: i64) usize {
@@ -141,7 +155,7 @@ pub const OpenAddressHashMap = struct {
     }
 
     fn resize(self: *Self, new_capacity: usize) !void {
-        const new_cap = normalizeCapacity(new_capacity);
+        const new_cap = try normalizeCapacity(new_capacity);
         const old_buckets = self.buckets;
 
         self.buckets = try self.allocator.alloc(Bucket, new_cap);
@@ -254,4 +268,8 @@ test "hash map open addressing: empty map lookups" {
     try testing.expectEqual(@as(?i64, null), map.get(42));
     try testing.expect(!map.remove(42));
     try testing.expectEqual(@as(usize, 0), map.count());
+}
+
+test "hash map open addressing: oversize capacity returns overflow" {
+    try testing.expectError(error.Overflow, OpenAddressHashMap.init(testing.allocator, std.math.maxInt(usize)));
 }

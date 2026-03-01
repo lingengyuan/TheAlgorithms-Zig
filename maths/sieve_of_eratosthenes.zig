@@ -2,30 +2,38 @@
 //! Reference: https://github.com/TheAlgorithms/Python/blob/master/maths/sieve_of_eratosthenes.py
 
 const std = @import("std");
-const math = std.math;
 const testing = std.testing;
+
+pub const SieveError = error{Overflow};
 
 /// Returns all prime numbers up to and including `limit`.
 /// Caller owns the returned slice.
 /// Time complexity: O(n log log n), Space complexity: O(n)
-pub fn primeSieve(allocator: std.mem.Allocator, limit: usize) ![]u64 {
+pub fn primeSieve(allocator: std.mem.Allocator, limit: usize) (SieveError || std.mem.Allocator.Error)![]u64 {
     if (limit < 2) {
         return try allocator.alloc(u64, 0);
     }
 
     // Create sieve
-    const sieve = try allocator.alloc(bool, limit + 1);
+    const with_one = @addWithOverflow(limit, @as(usize, 1));
+    if (with_one[1] != 0) return SieveError.Overflow;
+    const sieve = try allocator.alloc(bool, with_one[0]);
     defer allocator.free(sieve);
     @memset(sieve, true);
     sieve[0] = false;
     sieve[1] = false;
 
     var i: usize = 2;
-    while (i * i <= limit) : (i += 1) {
+    while (i <= limit / i) : (i += 1) {
         if (sieve[i]) {
-            var j: usize = i * i;
-            while (j <= limit) : (j += i) {
+            const start = @mulWithOverflow(i, i);
+            if (start[1] != 0) return SieveError.Overflow;
+            var j: usize = start[0];
+            while (j <= limit) {
                 sieve[j] = false;
+                const next = @addWithOverflow(j, i);
+                if (next[1] != 0) break;
+                j = next[0];
             }
         }
     }
@@ -81,4 +89,8 @@ test "sieve: limit 0 returns empty" {
     const primes = try primeSieve(alloc, 0);
     defer alloc.free(primes);
     try testing.expectEqual(@as(usize, 0), primes.len);
+}
+
+test "sieve: oversize limit returns overflow" {
+    try testing.expectError(SieveError.Overflow, primeSieve(testing.allocator, std.math.maxInt(usize)));
 }

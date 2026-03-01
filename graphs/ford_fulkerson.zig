@@ -17,6 +17,8 @@ pub fn fordFulkersonMaxFlow(
     sink: usize,
 ) !i64 {
     const n = capacity.len;
+    const elem_count = @mulWithOverflow(n, n);
+    if (elem_count[1] != 0) return error.Overflow;
     if (source >= n or sink >= n) return error.InvalidNode;
     if (source == sink) return 0;
 
@@ -27,7 +29,7 @@ pub fn fordFulkersonMaxFlow(
         }
     }
 
-    const residual = try allocator.alloc(i64, n * n);
+    const residual = try allocator.alloc(i64, elem_count[0]);
     defer allocator.free(residual);
     for (capacity, 0..) |row, i| {
         @memcpy(residual[i * n .. (i + 1) * n], row);
@@ -178,4 +180,11 @@ test "ford fulkerson: overflow-prone total flow returns error" {
     };
 
     try testing.expectError(error.Overflow, fordFulkersonMaxFlow(alloc, &capacity, 0, 3));
+}
+
+test "ford fulkerson: oversize matrix dimensions return overflow" {
+    const fake_ptr: [*][]const i64 = @ptrFromInt(@alignOf([]const i64));
+    const huge_n = @divTrunc(std.math.maxInt(usize), @as(usize, 2)) + 1;
+    const fake_capacity = fake_ptr[0..huge_n];
+    try testing.expectError(error.Overflow, fordFulkersonMaxFlow(testing.allocator, fake_capacity, 0, 1));
 }

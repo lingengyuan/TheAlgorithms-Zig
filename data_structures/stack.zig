@@ -54,7 +54,9 @@ pub fn Stack(comptime T: type) type {
 
         pub fn push(self: *Self, value: T) !void {
             if (self.len >= self.limit) return error.StackOverflow;
-            try self.ensureCapacity(self.len + 1);
+            const needed = @addWithOverflow(self.len, @as(usize, 1));
+            if (needed[1] != 0) return error.Overflow;
+            try self.ensureCapacity(needed[0]);
             self.data[self.len] = value;
             self.len += 1;
         }
@@ -81,7 +83,11 @@ pub fn Stack(comptime T: type) type {
         fn ensureCapacity(self: *Self, min_capacity: usize) !void {
             if (self.capacity >= min_capacity) return;
 
-            var new_capacity: usize = if (self.capacity == 0) 4 else self.capacity * 2;
+            var new_capacity: usize = if (self.capacity == 0) 4 else blk: {
+                const doubled = @mulWithOverflow(self.capacity, @as(usize, 2));
+                if (doubled[1] != 0) return error.Overflow;
+                break :blk doubled[0];
+            };
             if (new_capacity < min_capacity) new_capacity = min_capacity;
 
             const new_data = try self.allocator.alloc(T, new_capacity);
@@ -155,4 +161,26 @@ test "stack: underflow and overflow" {
     try testing.expectError(error.StackOverflow, stack.push(20));
     try testing.expectEqual(@as(i32, 10), try stack.peekOrError());
     try testing.expectEqual(@as(i32, 10), try stack.popOrError());
+}
+
+test "stack: max length is guarded as stack overflow" {
+    var stack = Stack(i32).init(testing.allocator);
+    defer stack.deinit();
+
+    stack.len = std.math.maxInt(usize);
+    try testing.expectError(error.StackOverflow, stack.push(1));
+}
+
+test "stack: growth doubling overflow is reported" {
+    var stack = Stack(i32).init(testing.allocator);
+    defer {
+        // Keep deinit safe after synthetic overflow-state setup.
+        stack.capacity = 0;
+        stack.data = &[_]i32{};
+        stack.deinit();
+    }
+
+    stack.capacity = std.math.maxInt(usize) - 1;
+    stack.len = stack.capacity;
+    try testing.expectError(error.Overflow, stack.push(1));
 }

@@ -1601,3 +1601,64 @@ FAIL: test "kmp: not found"
 | `zig test dynamic_programming/longest_palindromic_subsequence.zig` | ✅ |
 | `zig test dynamic_programming/palindrome_partitioning.zig` | ✅ |
 | `zig build test` | ✅ |
+
+## 8B 补充复核（R5）：剩余高风险容量计算与容器扩容边界
+
+**日期：** 2026-03-01  
+**范围：** `dynamic_programming/knapsack.zig`、`dynamic_programming/longest_common_subsequence.zig`、`dynamic_programming/edit_distance.zig`、`matrix/matrix_transpose.zig`、`matrix/spiral_print.zig`、`matrix/matrix_multiply.zig`、`data_structures/queue.zig`、`data_structures/stack.zig`、`graphs/ford_fulkerson.zig`
+
+### 8B-R5 发现与修复
+
+| 算法/模块 | 发现 | 根因 | 修复 | 验证 |
+|---|---|---|---|---|
+| knapsack / LCS / edit_distance | 二维 DP 表容量使用乘法，极端输入存在 `usize` 溢出风险 | `(n+1)*(m+1)` 或 `rows*cols` 分配前未做 checked 乘法 | 统一增加 `@addWithOverflow` + `@mulWithOverflow` 检查，溢出返回显式错误；补极端长度测试 | 3 个文件定向测试均通过 |
+| matrix_transpose / spiral_print | 未校验扁平输入长度与 `rows*cols` 一致性，且容量乘法未防溢出 | 默认信任调用方输入形状 | 新增 `InvalidMatrixSize` 与容量溢出检查；补非法尺寸和溢出测试 | 2 个文件定向测试均通过 |
+| matrix_multiply | 未校验输入扁平长度，乘加未做 checked 溢出 | 默认信任输入尺寸，且直接 `*`/`+` | 新增 `InvalidMatrixSize/Overflow` 路径，乘加改 checked；补非法尺寸与溢出测试 | 定向测试通过 |
+| queue / stack | 扩容倍增和 `len+1` 存在溢出边界 | `capacity*2` 与 `len+1` 未做 checked 运算 | 在 `enqueue/push` 与 `ensureCapacity` 引入 checked 运算并返回 `error.Overflow`；补极端状态测试 | 定向测试通过 |
+| ford_fulkerson | `n*n` 残量矩阵容量未做 checked 乘法 | 容量分配直接 `n*n` | 增加 `@mulWithOverflow`；并补超大 `n` 溢出测试（在遍历矩阵前返回） | 定向测试通过 |
+
+### 8B-R5 真实错误与修复记录（命令执行层）
+
+| 阶段 | 报错/现象 | 根因 | 修复 | 结果 |
+|---|---|---|---|---|
+| `zig test matrix/matrix_multiply.zig` | `matrix multiply: overflow is reported` 用例触发 leak 报告 | `matMul` 分配输出后在中途溢出返回，缺少失败路径释放 | 新增 `errdefer allocator.free(c)` | 重跑该文件通过且无泄漏 |
+| `zig test data_structures/stack.zig` | `push overflow is reported` 预期与实际不一致（实际先命中 `StackOverflow`） | `push` 先执行容量上限语义检查，先于算术路径 | 修正测试为验证“最大长度命中 `StackOverflow`”语义；保留扩容溢出测试覆盖 | 重跑该文件通过 |
+
+### 8B-R5 回归结果
+
+| 命令 | 结果 |
+|---|---|
+| `zig test dynamic_programming/knapsack.zig` | ✅ |
+| `zig test dynamic_programming/longest_common_subsequence.zig` | ✅ |
+| `zig test dynamic_programming/edit_distance.zig` | ✅ |
+| `zig test matrix/matrix_transpose.zig` | ✅ |
+| `zig test matrix/spiral_print.zig` | ✅ |
+| `zig test matrix/matrix_multiply.zig` | ✅ |
+| `zig test data_structures/queue.zig` | ✅ |
+| `zig test data_structures/stack.zig` | ✅ |
+| `zig test graphs/ford_fulkerson.zig` | ✅ |
+| `zig build test` | ✅ |
+
+## 8B 补充复核（R6）：哈希/双端队列/字符串拼接与筛法边界加固
+
+**日期：** 2026-03-01  
+**范围：** `data_structures/hash_map_open_addressing.zig`、`data_structures/deque.zig`、`strings/z_function.zig`、`maths/sieve_of_eratosthenes.zig`
+
+### 8B-R6 发现与修复
+
+| 算法/模块 | 发现 | 根因 | 修复 | 验证 |
+|---|---|---|---|---|
+| hash_map_open_addressing | 容量归一化/扩容与负载率计算存在乘法溢出风险 | `cap*2`、`used*100`、`len*70` 未做 checked 运算 | `normalizeCapacity`、扩容分支和负载率判断统一加入 checked 运算；极端容量返回 `error.Overflow` | `zig test data_structures/hash_map_open_addressing.zig` 7/7 通过 |
+| deque | `len+1` 与扩容倍增存在溢出风险 | `len_ += 1`、`buffer.len * 2` 未做 checked 运算 | `pushFront/pushBack` 与 `ensureCapacity` 引入 checked 运算，异常返回 `error.Overflow`；补极端状态测试 | `zig test data_structures/deque.zig` 7/7 通过 |
+| z_function | `pattern + sentinel + text` 拼接长度存在溢出风险 | 合并长度直接加法分配 | `zSearch` 增加 checked 长度计算，溢出返回 `error.Overflow`；补极端长度测试 | `zig test strings/z_function.zig` 5/5 通过 |
+| sieve_of_eratosthenes | `limit+1` 分配与 `i*i` 条件在极端值下存在溢出风险 | 分配与循环边界未做 checked 处理 | `limit+1` 改 checked；循环条件改为 `i <= limit / i`，并对步进加法做保护；补极端 limit 测试 | `zig test maths/sieve_of_eratosthenes.zig` 6/6 通过 |
+
+### 8B-R6 回归结果
+
+| 命令 | 结果 |
+|---|---|
+| `zig test data_structures/hash_map_open_addressing.zig` | ✅ |
+| `zig test data_structures/deque.zig` | ✅ |
+| `zig test strings/z_function.zig` | ✅ |
+| `zig test maths/sieve_of_eratosthenes.zig` | ✅ |
+| `zig build test` | ✅ |

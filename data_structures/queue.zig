@@ -43,7 +43,9 @@ pub fn Queue(comptime T: type) type {
         }
 
         pub fn enqueue(self: *Self, value: T) !void {
-            try self.ensureCapacity(self.len + 1);
+            const needed = @addWithOverflow(self.len, @as(usize, 1));
+            if (needed[1] != 0) return error.Overflow;
+            try self.ensureCapacity(needed[0]);
             self.data[self.tail] = value;
             self.tail = (self.tail + 1) % self.capacity;
             self.len += 1;
@@ -85,7 +87,11 @@ pub fn Queue(comptime T: type) type {
         fn ensureCapacity(self: *Self, min_capacity: usize) !void {
             if (self.capacity >= min_capacity) return;
 
-            var new_capacity: usize = if (self.capacity == 0) 4 else self.capacity * 2;
+            var new_capacity: usize = if (self.capacity == 0) 4 else blk: {
+                const doubled = @mulWithOverflow(self.capacity, @as(usize, 2));
+                if (doubled[1] != 0) return error.Overflow;
+                break :blk doubled[0];
+            };
             if (new_capacity < min_capacity) new_capacity = min_capacity;
 
             const new_data = try self.allocator.alloc(T, new_capacity);
@@ -174,4 +180,28 @@ test "queue: python-style api" {
     try queue.rotate(1);
     try testing.expectEqual(@as(i32, 20), try queue.getFront());
     try testing.expectEqual(@as(i32, 20), try queue.get());
+}
+
+test "queue: enqueue overflow is reported" {
+    var queue = Queue(i32).init(testing.allocator);
+    defer queue.deinit();
+
+    queue.len = std.math.maxInt(usize);
+    try testing.expectError(error.Overflow, queue.enqueue(1));
+}
+
+test "queue: growth doubling overflow is reported" {
+    var queue = Queue(i32).init(testing.allocator);
+    defer {
+        // Keep deinit safe after synthetic overflow-state setup.
+        queue.capacity = 0;
+        queue.data = &[_]i32{};
+        queue.deinit();
+    }
+
+    queue.capacity = std.math.maxInt(usize) - 1;
+    queue.len = queue.capacity;
+    queue.head = 0;
+    queue.tail = 0;
+    try testing.expectError(error.Overflow, queue.enqueue(1));
 }
