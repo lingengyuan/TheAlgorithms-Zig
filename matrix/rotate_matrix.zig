@@ -7,6 +7,11 @@ const testing = std.testing;
 
 /// Rotates a square n×n matrix 90° clockwise in-place (flat row-major).
 pub fn rotate90(mat: []i64, n: usize) void {
+    if (n <= 1) return;
+    const elem_count = @mulWithOverflow(n, n);
+    if (elem_count[1] != 0) return;
+    if (mat.len != elem_count[0]) return;
+
     // Step 1: transpose
     for (0..n) |r| {
         for (r + 1..n) |c| {
@@ -56,4 +61,16 @@ test "rotate 90: twice is 180" {
     rotate90(&mat, 3);
     rotate90(&mat, 3);
     try std.testing.expectEqualSlices(i64, &[_]i64{ 9, 8, 7, 6, 5, 4, 3, 2, 1 }, &mat);
+}
+
+test "rotate 90: n=0 is no-op" {
+    var mat = [_]i64{ 1, 2, 3, 4 };
+    rotate90(&mat, 0);
+    try std.testing.expectEqualSlices(i64, &[_]i64{ 1, 2, 3, 4 }, &mat);
+}
+
+test "rotate 90: invalid flattened size is no-op" {
+    var mat = [_]i64{ 1, 2, 3 };
+    rotate90(&mat, 2);
+    try std.testing.expectEqualSlices(i64, &[_]i64{ 1, 2, 3 }, &mat);
 }

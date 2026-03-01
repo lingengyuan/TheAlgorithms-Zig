@@ -1696,3 +1696,23 @@ FAIL: test "kmp: not found"
 | `zig test strings/levenshtein_distance.zig` | ✅ |
 | `zig test matrix/pascal_triangle.zig` | ✅ |
 | `zig build test` | ✅ |
+
+## 8B 补充复核（R8）：语义契约细化（矩阵旋转与词序反转）
+
+**日期：** 2026-03-01  
+**范围：** `matrix/rotate_matrix.zig`、`strings/reverse_words.zig`
+
+### 8B-R8 发现与修复
+
+| 算法 | 发现 | 根因 | 修复 | 验证 |
+|---|---|---|---|---|
+| rotate_matrix | `n=0` 或输入尺寸不匹配时存在下溢/越界风险（`n-1`、索引访问） | 默认假设 `mat.len == n*n` 且 `n>=1` | 保持 API 不变，增加前置保护：`n<=1` 直接返回、`n*n` checked 校验、尺寸不匹配直接 no-op；补 `n=0` 与非法尺寸测试 | `zig test matrix/rotate_matrix.zig` 6/6 通过 |
+| reverse_words | 仅按空格拆词，无法覆盖 tab/newline 等空白；与 Python `split()` 语义不一致 | 使用 `splitScalar(' ')` | 改为 `tokenizeAny(" \\t\\n\\r\\x0b\\x0c")`，统一按任意空白分词并折叠；补混合空白测试 | `zig test strings/reverse_words.zig` 5/5 通过 |
+
+### 8B-R8 回归结果
+
+| 命令 | 结果 |
+|---|---|
+| `zig test matrix/rotate_matrix.zig` | ✅ |
+| `zig test strings/reverse_words.zig` | ✅ |
+| `zig build test` | ✅ |

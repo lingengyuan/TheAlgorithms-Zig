@@ -7,13 +7,13 @@ const testing = std.testing;
 /// Reverses the order of words in a sentence. Extra whitespace between words is collapsed.
 /// Caller owns the returned slice.
 pub fn reverseWords(allocator: std.mem.Allocator, sentence: []const u8) ![]u8 {
-    // Split into words (skip whitespace)
+    // Split into words on any ASCII whitespace and skip empty tokens.
     var words = std.ArrayListUnmanaged([]const u8){};
     defer words.deinit(allocator);
 
-    var it = std.mem.splitScalar(u8, sentence, ' ');
+    var it = std.mem.tokenizeAny(u8, sentence, " \t\n\r\x0b\x0c");
     while (it.next()) |w| {
-        if (w.len > 0) try words.append(allocator, w);
+        try words.append(allocator, w);
     }
 
     if (words.items.len == 0) {
@@ -67,4 +67,11 @@ test "reverse words: empty" {
     const s = try reverseWords(alloc, "");
     defer alloc.free(s);
     try testing.expectEqual(@as(usize, 0), s.len);
+}
+
+test "reverse words: mixed whitespace separators" {
+    const alloc = testing.allocator;
+    const s = try reverseWords(alloc, "I\tlove\nPython\r\nZig");
+    defer alloc.free(s);
+    try testing.expectEqualStrings("Zig Python love I", s);
 }
