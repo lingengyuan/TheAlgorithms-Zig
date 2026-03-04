@@ -371,6 +371,9 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Enigma Machine 2 | [`ciphers/enigma_machine2.zig`](ciphers/enigma_machine2.zig) | O(n · 26) |
 | Diffie-Hellman Key Exchange | [`ciphers/diffie_hellman.zig`](ciphers/diffie_hellman.zig) | O(log exp) per pow |
 
+Note:
+- `ciphers/diffie_hellman.zig` currently uses toy safe-prime groups (keeping group-id API shape) instead of RFC3526 huge primes, because this repository phase focuses on algorithm behavior validation under Zig `u128` without adding a big-integer dependency.
+
 ### Hashing (1)
 
 | Algorithm | File | Complexity |
@@ -851,6 +854,9 @@ MIT
 | Trifid 密码 | [`ciphers/trifid_cipher.zig`](ciphers/trifid_cipher.zig) | O(n) |
 | Enigma 机器 2 | [`ciphers/enigma_machine2.zig`](ciphers/enigma_machine2.zig) | O(n · 26) |
 | Diffie-Hellman 密钥交换 | [`ciphers/diffie_hellman.zig`](ciphers/diffie_hellman.zig) | 每次幂运算 O(log exp) |
+
+说明：
+- `ciphers/diffie_hellman.zig` 当前采用 toy-safe 质数组（保留 group id 入口形态），未直接落 RFC3526 超大素数，原因是本阶段优先在不引入大整数依赖的前提下完成算法行为验证。
 
 ### 哈希 (1)
 

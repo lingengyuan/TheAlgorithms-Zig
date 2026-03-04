@@ -31,6 +31,7 @@ Result:
 - 6/6 implementations completed and registered in `build.zig`.
 - All files include normal + boundary + extreme-case tests.
 - Python-reference behavior aligned for covered input domains.
+- Documented deviation: `diffie_hellman.zig` uses toy safe-prime groups (group-id compatible) instead of RFC3526 huge-prime groups, because current phase avoids introducing big-integer dependencies while preserving key-exchange algorithm flow.
 
 Verification:
 - `zig test ciphers/fractionated_morse_cipher.zig` ✅
