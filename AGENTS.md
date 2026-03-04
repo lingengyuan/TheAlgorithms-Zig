@@ -44,20 +44,10 @@
 - Approved Phase 4 substitutions: `manacher -> is_pangram`, `roman_to_integer -> binary_to_hexadecimal` (accepted as schedule/scope tradeoff).
 - Treat undocumented scope changes, contradictory batch stats, or mismatched summary numbers as defects that must be fixed before sync/release.
 
-## Performance Benchmark Rules (Mandatory)
-- Every newly added Zig algorithm that has a Python reference module must include a Python-vs-Zig performance comparison before merge.
-- For each new algorithm, keep workload parity:
-  - use equivalent input generation strategy in Python and Zig
-  - use equivalent iteration count and warm-up behavior
-  - include checksum/output guard to prevent dead-code elimination and to validate comparable results
-- During incremental development, single-algorithm comparison is required first:
-  - add/update a focused benchmark case for that algorithm
-  - record the result into `benchmarks/python_vs_zig` artifacts
-  - prefer `bash benchmarks/python_vs_zig/run_single.sh <algorithm_name>` for incremental updates (it upserts into full CSVs and rebuilds leaderboard outputs)
-- Experimental integrity is mandatory: any real errors encountered during implementation/testing/benchmarking (compile errors, runtime panics, checksum mismatches, overflow/data-range issues, benchmark harness failures) must be truthfully logged in `EXPERIMENT_LOG.md` in the same batch section; do not report only final success.
+## Python Consistency Rules (Mandatory)
+- Python reference project for behavior and expected results: `https://github.com/TheAlgorithms/Python`.
+- Do not add Python-vs-Zig performance comparison code or records to this repository.
+- For each Zig algorithm that has a Python reference module, prioritize functional consistency with the Python implementation (same algorithmic outcome under equivalent input domain).
+- Test expectations must align with Python reference behavior. If Zig introduces intentional API differences, keep output semantics equivalent and document the difference clearly in code comments/tests.
+- Experimental integrity is mandatory: any real errors encountered during implementation/testing (compile errors, runtime panics, overflow/data-range issues, logic mismatches) must be truthfully logged in `EXPERIMENT_LOG.md` in the same batch section.
   - each recorded issue must include: failing step/command, error symptom, root cause, fix applied, and post-fix verification result
-- For benchmark artifact maintenance after adding/updating an algorithm:
-  - update benchmark harness inputs/cases in `benchmarks/python_vs_zig/python_bench_all.py` and `benchmarks/python_vs_zig/zig_bench_all.zig`
-  - regenerate outputs via `bash benchmarks/python_vs_zig/run_all.sh` for release/regression, or via `run_single.sh` for daily incremental additions
-  - keep `leaderboard_all.md`, `leaderboard_all.csv`, `category_speedup_chart.csv`, and `summary_all.md` in sync
-- If an algorithm cannot be fairly aligned with a single-call Python counterpart (for example stateful data structures or traversal-order-sensitive backtracking), document the reason and the chosen benchmark protocol in `README.md` and `EXPERIMENT_LOG.md` before merge.

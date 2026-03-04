@@ -263,47 +263,6 @@ Each algorithm file is self-contained: implementation + tests in one file. To ad
 4. Register the file in `build.zig`'s `test_files` array
 5. Run `zig build test` to verify
 
-## Python vs Zig Benchmark (Alignable Set)
-
-As of **March 1, 2026**, this repository includes a one-click benchmark that compares Python and Zig implementations on a shared workload.
-
-- Benchmark scope: **130 alignable algorithms** out of 130 total
-- Current data-structure subset included in benchmark harness: `stack`, `queue`, `singly_linked_list`, `doubly_linked_list`, `binary_search_tree`, `min_heap`, `max_heap`, `priority_queue`, `trie`, `disjoint_set`, `avl_tree`, `hash_map_open_addressing`, `segment_tree`, `fenwick_tree`, `red_black_tree`, `lru_cache`, `deque`
-- Current backtracking subset included in benchmark harness: `permutations`, `combinations`, `subsets`, `generate_parentheses`, `n_queens`, `sudoku_solver`
-- Environment used for the latest numbers:
-  - Zig `0.15.2`
-  - Python `3.12.3`
-  - CPU: `Intel(R) Xeon(R) Platinum 8255C`, 2 vCPU
-
-Summary from the latest run:
-
-| Metric | Value |
-|---|---:|
-| Alignable algorithms benchmarked | 130 |
-| Checksum match count | 130 |
-| Mean speedup (Python/Zig) | 161.74x |
-| Median speedup (Python/Zig) | 26.91x |
-| Geometric mean speedup (Python/Zig) | 20.49x |
-
-Run everything with one command:
-
-```bash
-bash benchmarks/python_vs_zig/run_all.sh
-```
-
-Run a single algorithm and merge it into full benchmark artifacts:
-
-```bash
-bash benchmarks/python_vs_zig/run_single.sh dijkstra
-```
-
-Generated outputs:
-
-- Full leaderboard (Markdown): [`benchmarks/python_vs_zig/leaderboard_all.md`](benchmarks/python_vs_zig/leaderboard_all.md)
-- Full leaderboard (CSV): [`benchmarks/python_vs_zig/leaderboard_all.csv`](benchmarks/python_vs_zig/leaderboard_all.csv)
-- Category chart data (CSV): [`benchmarks/python_vs_zig/category_speedup_chart.csv`](benchmarks/python_vs_zig/category_speedup_chart.csv)
-- Run summary (Markdown): [`benchmarks/python_vs_zig/summary_all.md`](benchmarks/python_vs_zig/summary_all.md)
-
 ## Vibe Coding Experiment
 
 This project doubles as a research experiment on AI-assisted development. Every algorithm records:
@@ -592,47 +551,6 @@ TheAlgorithms-Zig/
 3. 在文件末尾添加 `test` 块
 4. 在 `build.zig` 的 `test_files` 数组中注册该文件
 5. 运行 `zig build test` 验证
-
-## Python vs Zig 性能对比（可对齐集合）
-
-截至 **2026 年 3 月 1 日**，仓库已提供一键脚本，对 Python 与 Zig 在同一工作负载下做性能对比。
-
-- 对比范围：130 个算法中的 **130 个可对齐算法**
-- 当前已纳入基准的数据结构子集：`stack`、`queue`、`singly_linked_list`、`doubly_linked_list`、`binary_search_tree`、`min_heap`、`max_heap`、`priority_queue`、`trie`、`disjoint_set`、`avl_tree`、`hash_map_open_addressing`、`segment_tree`、`fenwick_tree`、`red_black_tree`、`lru_cache`、`deque`
-- 当前已纳入基准的回溯算法子集：`permutations`、`combinations`、`subsets`、`generate_parentheses`、`n_queens`、`sudoku_solver`
-- 本轮数据环境：
-  - Zig `0.15.2`
-  - Python `3.12.3`
-  - CPU：`Intel(R) Xeon(R) Platinum 8255C`，2 vCPU
-
-最新一轮汇总：
-
-| 指标 | 数值 |
-|---|---:|
-| 已对齐并完成基准的算法数 | 130 |
-| checksum 一致算法数 | 130 |
-| 平均加速比（Python/Zig） | 161.74x |
-| 中位数加速比（Python/Zig） | 26.91x |
-| 几何平均加速比（Python/Zig） | 20.49x |
-
-一键运行：
-
-```bash
-bash benchmarks/python_vs_zig/run_all.sh
-```
-
-单算法增量运行并合并进总数据：
-
-```bash
-bash benchmarks/python_vs_zig/run_single.sh dijkstra
-```
-
-输出文件：
-
-- 完整总榜（Markdown）：[`benchmarks/python_vs_zig/leaderboard_all.md`](benchmarks/python_vs_zig/leaderboard_all.md)
-- 完整总榜（CSV）：[`benchmarks/python_vs_zig/leaderboard_all.csv`](benchmarks/python_vs_zig/leaderboard_all.csv)
-- 分类图表数据（CSV）：[`benchmarks/python_vs_zig/category_speedup_chart.csv`](benchmarks/python_vs_zig/category_speedup_chart.csv)
-- 运行摘要（Markdown）：[`benchmarks/python_vs_zig/summary_all.md`](benchmarks/python_vs_zig/summary_all.md)
 
 ## Vibe Coding 实验
 
