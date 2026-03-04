@@ -319,7 +319,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Integer to Roman | [`conversions/integer_to_roman.zig`](conversions/integer_to_roman.zig) | O(1) bounded range |
 | Temperature Conversion | [`conversions/temperature_conversion.zig`](conversions/temperature_conversion.zig) | O(1) |
 
-### Ciphers (41)
+### Ciphers (47)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -364,6 +364,12 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Bifid Cipher | [`ciphers/bifid.zig`](ciphers/bifid.zig) | O(n) |
 | Playfair Cipher | [`ciphers/playfair_cipher.zig`](ciphers/playfair_cipher.zig) | O(n) |
 | Caesar Chi-Squared Decryption | [`ciphers/decrypt_caesar_with_chi_squared.zig`](ciphers/decrypt_caesar_with_chi_squared.zig) | O(26 · n²) |
+| Fractionated Morse Cipher | [`ciphers/fractionated_morse_cipher.zig`](ciphers/fractionated_morse_cipher.zig) | O(n) |
+| Hill Cipher | [`ciphers/hill_cipher.zig`](ciphers/hill_cipher.zig) | O(n) |
+| Shuffled Shift Cipher | [`ciphers/shuffled_shift_cipher.zig`](ciphers/shuffled_shift_cipher.zig) | O(n · m) |
+| Trifid Cipher | [`ciphers/trifid_cipher.zig`](ciphers/trifid_cipher.zig) | O(n) |
+| Enigma Machine 2 | [`ciphers/enigma_machine2.zig`](ciphers/enigma_machine2.zig) | O(n · 26) |
+| Diffie-Hellman Key Exchange | [`ciphers/diffie_hellman.zig`](ciphers/diffie_hellman.zig) | O(log exp) per pow |
 
 ### Hashing (1)
 
@@ -441,7 +447,7 @@ TheAlgorithms-Zig/
 ├── graphs/                  # 34 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 7 number base conversions
-├── ciphers/                 # 41 cipher algorithms
+├── ciphers/                 # 47 cipher algorithms
 ├── hashing/                 # 1 hashing algorithm
 ├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
@@ -794,7 +800,7 @@ MIT
 | 整数转罗马数字 | [`conversions/integer_to_roman.zig`](conversions/integer_to_roman.zig) | O(1)（有界区间） |
 | 温度单位转换 | [`conversions/temperature_conversion.zig`](conversions/temperature_conversion.zig) | O(1) |
 
-### 密码学 (41)
+### 密码学 (47)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -839,6 +845,12 @@ MIT
 | Bifid 密码 | [`ciphers/bifid.zig`](ciphers/bifid.zig) | O(n) |
 | Playfair 密码 | [`ciphers/playfair_cipher.zig`](ciphers/playfair_cipher.zig) | O(n) |
 | 凯撒卡方解密 | [`ciphers/decrypt_caesar_with_chi_squared.zig`](ciphers/decrypt_caesar_with_chi_squared.zig) | O(26 · n²) |
+| 分式摩尔斯密码 | [`ciphers/fractionated_morse_cipher.zig`](ciphers/fractionated_morse_cipher.zig) | O(n) |
+| Hill 密码 | [`ciphers/hill_cipher.zig`](ciphers/hill_cipher.zig) | O(n) |
+| Shuffled Shift 密码 | [`ciphers/shuffled_shift_cipher.zig`](ciphers/shuffled_shift_cipher.zig) | O(n · m) |
+| Trifid 密码 | [`ciphers/trifid_cipher.zig`](ciphers/trifid_cipher.zig) | O(n) |
+| Enigma 机器 2 | [`ciphers/enigma_machine2.zig`](ciphers/enigma_machine2.zig) | O(n · 26) |
+| Diffie-Hellman 密钥交换 | [`ciphers/diffie_hellman.zig`](ciphers/diffie_hellman.zig) | 每次幂运算 O(log exp) |
 
 ### 哈希 (1)
 
@@ -916,7 +928,7 @@ TheAlgorithms-Zig/
 ├── graphs/                  # 34 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 7 个进制转换
-├── ciphers/                 # 41 个密码学算法
+├── ciphers/                 # 47 个密码学算法
 ├── hashing/                 # 1 个哈希算法
 ├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法

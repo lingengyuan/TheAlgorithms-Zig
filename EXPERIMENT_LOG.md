@@ -17,6 +17,61 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch E - Wave 6 (2026-03-04)
+
+Scope:
+- `ciphers/fractionated_morse_cipher.zig`
+- `ciphers/hill_cipher.zig`
+- `ciphers/shuffled_shift_cipher.zig`
+- `ciphers/trifid_cipher.zig`
+- `ciphers/enigma_machine2.zig`
+- `ciphers/diffie_hellman.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test ciphers/fractionated_morse_cipher.zig` ✅
+- `zig test ciphers/hill_cipher.zig` ✅
+- `zig test ciphers/shuffled_shift_cipher.zig` ✅
+- `zig test ciphers/trifid_cipher.zig` ✅
+- `zig test ciphers/enigma_machine2.zig` ✅
+- `zig test ciphers/diffie_hellman.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig fmt ciphers/diffie_hellman.zig ...`
+  - Symptom: parse error (`expected 'an identifier', found 'pub'`).
+  - Root cause: local variable name used Zig keyword.
+  - Fix applied: renamed to `public_key`.
+  - Post-fix verification: `zig test ciphers/diffie_hellman.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/fractionated_morse_cipher.zig`
+  - Symptom: compile error on invalid slice dereference and allocator leak reports in tests.
+  - Root cause: attempted to return trimmed borrowed slice incorrectly and forgot to deinit one dynamic array before return.
+  - Fix applied: return allocator-owned duplicate of trimmed output and add proper `defer out.deinit(...)`.
+  - Post-fix verification: `zig test ciphers/fractionated_morse_cipher.zig` passed without leaks.
+- Failing step/command:
+  - `zig test ciphers/hill_cipher.zig`
+  - Symptom: compile error `invalid left-hand side to assignment`.
+  - Root cause: nested `for` shorthand assignment form not accepted by Zig parser.
+  - Fix applied: expanded to explicit nested block loops.
+  - Post-fix verification: `zig test ciphers/hill_cipher.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/shuffled_shift_cipher.zig`
+  - Symptom: Python sample ciphertext mismatch and memory leak in test.
+  - Root cause: used wrong alphabet order (`A..Z+a..z`), while Python `ascii_letters` is `a..z+A..Z`; and nested allocation in assertion path was not freed.
+  - Fix applied: corrected character-set ordering and split encrypt/decrypt test with explicit free.
+  - Post-fix verification: `zig test ciphers/shuffled_shift_cipher.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/diffie_hellman.zig`
+  - Symptom: intermittent `InvalidPublicKey` during extreme handshake loop.
+  - Root cause: toy-group arithmetic can generate degenerate public keys under strict NIST-style validation with small primes.
+  - Fix applied: in initializer, regenerate private key until produced public key passes validation.
+  - Post-fix verification: stress handshake test passed consistently.
+
 ## Phase 5 Batch E - Wave 5 (2026-03-04)
 
 Scope:

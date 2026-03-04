@@ -289,6 +289,12 @@ pub fn build(b: *std.Build) void {
         "ciphers/bifid.zig",
         "ciphers/playfair_cipher.zig",
         "ciphers/decrypt_caesar_with_chi_squared.zig",
+        "ciphers/fractionated_morse_cipher.zig",
+        "ciphers/hill_cipher.zig",
+        "ciphers/shuffled_shift_cipher.zig",
+        "ciphers/trifid_cipher.zig",
+        "ciphers/enigma_machine2.zig",
+        "ciphers/diffie_hellman.zig",
         // Hashing
         "hashing/sha256.zig",
         // Greedy Methods
