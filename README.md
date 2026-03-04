@@ -168,7 +168,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Kth Lexicographic Permutation | [`maths/kth_lexicographic_permutation.zig`](maths/kth_lexicographic_permutation.zig) | O(n²) |
 | Largest of Very Large Numbers (Log Compare) | [`maths/largest_of_very_large_numbers.zig`](maths/largest_of_very_large_numbers.zig) | O(1) |
 
-### Data Structures (17)
+### Data Structures (41)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -189,6 +189,30 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Red-Black Tree | [`data_structures/red_black_tree.zig`](data_structures/red_black_tree.zig) | O(log n) insert/search |
 | LRU Cache | [`data_structures/lru_cache.zig`](data_structures/lru_cache.zig) | O(1) avg get/put |
 | Deque (Ring Buffer) | [`data_structures/deque.zig`](data_structures/deque.zig) | O(1) amortized push/pop both ends |
+| Sparse Table (RMQ) | [`data_structures/sparse_table.zig`](data_structures/sparse_table.zig) | Build O(n log n), Query O(1) |
+| Bloom Filter | [`data_structures/bloom_filter.zig`](data_structures/bloom_filter.zig) | O(k) add/contains, k=2 |
+| Circular Linked List | [`data_structures/circular_linked_list.zig`](data_structures/circular_linked_list.zig) | O(1) head/tail, O(n) indexed ops |
+| Circular Queue (Fixed Capacity) | [`data_structures/circular_queue.zig`](data_structures/circular_queue.zig) | O(1) enqueue/dequeue |
+| Queue by Two Stacks | [`data_structures/queue_by_two_stacks.zig`](data_structures/queue_by_two_stacks.zig) | Amortized O(1) put/get |
+| Stack Using Two Queues | [`data_structures/stack_using_two_queues.zig`](data_structures/stack_using_two_queues.zig) | Push O(n), Pop O(1) |
+| Treap | [`data_structures/treap.zig`](data_structures/treap.zig) | O(log n) avg insert/search/delete |
+| Skip List | [`data_structures/skip_list.zig`](data_structures/skip_list.zig) | O(log n) avg insert/search/delete |
+| Linked Queue | [`data_structures/linked_queue.zig`](data_structures/linked_queue.zig) | O(1) put/get |
+| Queue by List | [`data_structures/queue_by_list.zig`](data_structures/queue_by_list.zig) | Put O(1), Get O(n) |
+| Queue on Pseudo Stack | [`data_structures/queue_on_pseudo_stack.zig`](data_structures/queue_on_pseudo_stack.zig) | Put O(1), Get/Front O(n) |
+| Circular Queue (Linked List) | [`data_structures/circular_queue_linked_list.zig`](data_structures/circular_queue_linked_list.zig) | O(1) enqueue/dequeue |
+| Priority Queue Using List | [`data_structures/priority_queue_using_list.zig`](data_structures/priority_queue_using_list.zig) | Fixed: O(1) dequeue, Element: O(n) dequeue |
+| Stack With Singly Linked List | [`data_structures/stack_with_singly_linked_list.zig`](data_structures/stack_with_singly_linked_list.zig) | O(1) push/pop |
+| Stack With Doubly Linked List | [`data_structures/stack_with_doubly_linked_list.zig`](data_structures/stack_with_doubly_linked_list.zig) | O(1) push/pop |
+| Deque Doubly (Linked) | [`data_structures/deque_doubly.zig`](data_structures/deque_doubly.zig) | O(1) add/remove both ends |
+| Linked List From Sequence | [`data_structures/linked_list_from_sequence.zig`](data_structures/linked_list_from_sequence.zig) | O(n) |
+| Middle Element Of Linked List | [`data_structures/middle_element_of_linked_list.zig`](data_structures/middle_element_of_linked_list.zig) | O(n) |
+| Linked List Print Reverse | [`data_structures/linked_list_print_reverse.zig`](data_structures/linked_list_print_reverse.zig) | O(n) |
+| Linked List Swap Nodes | [`data_structures/linked_list_swap_nodes.zig`](data_structures/linked_list_swap_nodes.zig) | O(n) |
+| Linked List Merge Two Lists | [`data_structures/linked_list_merge_two_lists.zig`](data_structures/linked_list_merge_two_lists.zig) | O((n+m) log(n+m)) |
+| Linked List Rotate To Right | [`data_structures/linked_list_rotate_to_right.zig`](data_structures/linked_list_rotate_to_right.zig) | O(n) |
+| Linked List Palindrome | [`data_structures/linked_list_palindrome.zig`](data_structures/linked_list_palindrome.zig) | O(n) |
+| Linked List Has Loop | [`data_structures/linked_list_has_loop.zig`](data_structures/linked_list_has_loop.zig) | O(n) |
 
 ### Dynamic Programming (17)
 
@@ -445,9 +469,9 @@ TheAlgorithms-Zig/
 ├── sorts/                   # 50 sorting algorithms
 ├── searches/                # 6 search algorithms
 ├── maths/                   # 81 math algorithms
-├── data_structures/         # 17 data structure implementations
+├── data_structures/         # 41 data structure implementations
 ├── dynamic_programming/     # 17 dynamic programming algorithms
-├── graphs/                  # 34 graph algorithms
+├── graphs/                  # 46 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 7 number base conversions
 ├── ciphers/                 # 47 cipher algorithms
@@ -664,7 +688,7 @@ MIT
 | 第 k 个字典序排列 | [`maths/kth_lexicographic_permutation.zig`](maths/kth_lexicographic_permutation.zig) | O(n²) |
 | 超大幂比较（对数法） | [`maths/largest_of_very_large_numbers.zig`](maths/largest_of_very_large_numbers.zig) | O(1) |
 
-### 数据结构 (17)
+### 数据结构 (41)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -685,6 +709,30 @@ MIT
 | 红黑树 | [`data_structures/red_black_tree.zig`](data_structures/red_black_tree.zig) | 插入/查找 O(log n) |
 | LRU 缓存 | [`data_structures/lru_cache.zig`](data_structures/lru_cache.zig) | get/put 平均 O(1) |
 | 双端队列（环形缓冲） | [`data_structures/deque.zig`](data_structures/deque.zig) | 两端 push/pop 均摊 O(1) |
+| 稀疏表（RMQ） | [`data_structures/sparse_table.zig`](data_structures/sparse_table.zig) | 构建 O(n log n)，查询 O(1) |
+| 布隆过滤器 | [`data_structures/bloom_filter.zig`](data_structures/bloom_filter.zig) | add/contains 为 O(k)，k=2 |
+| 循环链表 | [`data_structures/circular_linked_list.zig`](data_structures/circular_linked_list.zig) | 头尾操作 O(1)，按索引 O(n) |
+| 循环队列（定长） | [`data_structures/circular_queue.zig`](data_structures/circular_queue.zig) | enqueue/dequeue O(1) |
+| 双栈实现队列 | [`data_structures/queue_by_two_stacks.zig`](data_structures/queue_by_two_stacks.zig) | put/get 均摊 O(1) |
+| 双队列实现栈 | [`data_structures/stack_using_two_queues.zig`](data_structures/stack_using_two_queues.zig) | push O(n)，pop O(1) |
+| Treap（树堆） | [`data_structures/treap.zig`](data_structures/treap.zig) | 插入/查找/删除平均 O(log n) |
+| 跳表 | [`data_structures/skip_list.zig`](data_structures/skip_list.zig) | 插入/查找/删除平均 O(log n) |
+| 链式队列 | [`data_structures/linked_queue.zig`](data_structures/linked_queue.zig) | put/get O(1) |
+| 列表实现队列 | [`data_structures/queue_by_list.zig`](data_structures/queue_by_list.zig) | put O(1)，get O(n) |
+| 伪栈实现队列 | [`data_structures/queue_on_pseudo_stack.zig`](data_structures/queue_on_pseudo_stack.zig) | put O(1)，get/front O(n) |
+| 循环队列（链表） | [`data_structures/circular_queue_linked_list.zig`](data_structures/circular_queue_linked_list.zig) | enqueue/dequeue O(1) |
+| 列表实现优先队列 | [`data_structures/priority_queue_using_list.zig`](data_structures/priority_queue_using_list.zig) | 固定优先级出队 O(1)，元素优先级出队 O(n) |
+| 单链表实现栈 | [`data_structures/stack_with_singly_linked_list.zig`](data_structures/stack_with_singly_linked_list.zig) | push/pop O(1) |
+| 双链表实现栈 | [`data_structures/stack_with_doubly_linked_list.zig`](data_structures/stack_with_doubly_linked_list.zig) | push/pop O(1) |
+| 双向链表双端队列 | [`data_structures/deque_doubly.zig`](data_structures/deque_doubly.zig) | 两端 add/remove O(1) |
+| 序列构建链表 | [`data_structures/linked_list_from_sequence.zig`](data_structures/linked_list_from_sequence.zig) | O(n) |
+| 链表中间元素 | [`data_structures/middle_element_of_linked_list.zig`](data_structures/middle_element_of_linked_list.zig) | O(n) |
+| 链表逆序输出 | [`data_structures/linked_list_print_reverse.zig`](data_structures/linked_list_print_reverse.zig) | O(n) |
+| 链表节点交换 | [`data_structures/linked_list_swap_nodes.zig`](data_structures/linked_list_swap_nodes.zig) | O(n) |
+| 合并两个有序链表 | [`data_structures/linked_list_merge_two_lists.zig`](data_structures/linked_list_merge_two_lists.zig) | O((n+m) log(n+m)) |
+| 链表右旋 | [`data_structures/linked_list_rotate_to_right.zig`](data_structures/linked_list_rotate_to_right.zig) | O(n) |
+| 链表回文判断 | [`data_structures/linked_list_palindrome.zig`](data_structures/linked_list_palindrome.zig) | O(n) |
+| 链表环检测 | [`data_structures/linked_list_has_loop.zig`](data_structures/linked_list_has_loop.zig) | O(n) |
 
 ### 动态规划 (17)
 
@@ -708,7 +756,7 @@ MIT
 | 最长回文子序列 | [`dynamic_programming/longest_palindromic_subsequence.zig`](dynamic_programming/longest_palindromic_subsequence.zig) | O(n²) |
 | 最大乘积子数组 | [`dynamic_programming/max_product_subarray.zig`](dynamic_programming/max_product_subarray.zig) | O(n) |
 
-### 图算法 (34)
+### 图算法 (46)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -929,9 +977,9 @@ TheAlgorithms-Zig/
 ├── sorts/                   # 50 种排序算法
 ├── searches/                # 6 种查找算法
 ├── maths/                   # 81 种数学算法
-├── data_structures/         # 17 种数据结构实现
+├── data_structures/         # 41 种数据结构实现
 ├── dynamic_programming/     # 17 个动态规划算法
-├── graphs/                  # 34 个图算法
+├── graphs/                  # 46 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 7 个进制转换
 ├── ciphers/                 # 47 个密码学算法

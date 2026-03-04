@@ -17,6 +17,137 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch F - Wave 3 (2026-03-04)
+
+Scope:
+- `data_structures/linked_list_from_sequence.zig`
+- `data_structures/middle_element_of_linked_list.zig`
+- `data_structures/linked_list_print_reverse.zig`
+- `data_structures/linked_list_swap_nodes.zig`
+- `data_structures/linked_list_merge_two_lists.zig`
+- `data_structures/linked_list_rotate_to_right.zig`
+- `data_structures/linked_list_palindrome.zig`
+- `data_structures/linked_list_has_loop.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/linked_list_from_sequence.zig` ✅
+- `zig test data_structures/middle_element_of_linked_list.zig` ✅
+- `zig test data_structures/linked_list_print_reverse.zig` ✅
+- `zig test data_structures/linked_list_swap_nodes.zig` ✅
+- `zig test data_structures/linked_list_merge_two_lists.zig` ✅
+- `zig test data_structures/linked_list_rotate_to_right.zig` ✅
+- `zig test data_structures/linked_list_palindrome.zig` ✅
+- `zig test data_structures/linked_list_has_loop.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/linked_list_merge_two_lists.zig`
+  - Symptom: compile error (`local variable is never mutated`).
+  - Root cause: temporary array binding was declared `var` though only its contents are mutated.
+  - Fix applied: changed binding from `var` to `const`.
+  - Post-fix verification: `zig test data_structures/linked_list_merge_two_lists.zig` passed.
+- Failing step/command:
+  - `zig test data_structures/linked_list_palindrome.zig`
+  - Symptom: tests passed but allocator leak detector reported leaked nodes.
+  - Root cause: `isPalindrome` split list and reversed half without restoring pointers, so `deinit` could not reach detached nodes.
+  - Fix applied: after comparison, reverse second half back and reattach to restore original list topology.
+  - Post-fix verification: `zig test data_structures/linked_list_palindrome.zig` passed without leak reports.
+
+## Phase 5 Batch F - Wave 2 (2026-03-04)
+
+Scope:
+- `data_structures/linked_queue.zig`
+- `data_structures/queue_by_list.zig`
+- `data_structures/queue_on_pseudo_stack.zig`
+- `data_structures/circular_queue_linked_list.zig`
+- `data_structures/priority_queue_using_list.zig`
+- `data_structures/stack_with_singly_linked_list.zig`
+- `data_structures/stack_with_doubly_linked_list.zig`
+- `data_structures/deque_doubly.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/linked_queue.zig` ✅
+- `zig test data_structures/queue_by_list.zig` ✅
+- `zig test data_structures/queue_on_pseudo_stack.zig` ✅
+- `zig test data_structures/circular_queue_linked_list.zig` ✅
+- `zig test data_structures/priority_queue_using_list.zig` ✅
+- `zig test data_structures/stack_with_singly_linked_list.zig` ✅
+- `zig test data_structures/stack_with_doubly_linked_list.zig` ✅
+- `zig test data_structures/deque_doubly.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/queue_by_list.zig`
+  - Symptom: compile error (`pointless discard of local variable`).
+  - Root cause: extreme-case test updated a mutable local and then explicitly discarded it, which Zig treats as invalid.
+  - Fix applied: removed unnecessary mutable local and consumed values directly in assertions/operations.
+  - Post-fix verification: `zig test data_structures/queue_by_list.zig` passed.
+- Failing step/command:
+  - `zig test data_structures/circular_queue_linked_list.zig`
+  - Symptom: compile error (`local constant shadows declaration of 'first'`).
+  - Root cause: initializer local variable `first` conflicted with method name `first`.
+  - Fix applied: renamed local to `first_node`.
+  - Post-fix verification: `zig test data_structures/circular_queue_linked_list.zig` passed.
+
+## Phase 5 Batch F - Wave 1 (2026-03-04)
+
+Scope:
+- `data_structures/sparse_table.zig`
+- `data_structures/bloom_filter.zig`
+- `data_structures/circular_linked_list.zig`
+- `data_structures/circular_queue.zig`
+- `data_structures/queue_by_two_stacks.zig`
+- `data_structures/stack_using_two_queues.zig`
+- `data_structures/treap.zig`
+- `data_structures/skip_list.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/sparse_table.zig` ✅
+- `zig test data_structures/bloom_filter.zig` ✅
+- `zig test data_structures/circular_linked_list.zig` ✅
+- `zig test data_structures/circular_queue.zig` ✅
+- `zig test data_structures/queue_by_two_stacks.zig` ✅
+- `zig test data_structures/stack_using_two_queues.zig` ✅
+- `zig test data_structures/treap.zig` ✅
+- `zig test data_structures/skip_list.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/sparse_table.zig`
+  - Symptom: range query test failed from incorrect right-half index in RMQ lookup.
+  - Root cause: used `right_bound - width + 1` with unsigned arithmetic order that could underflow.
+  - Fix applied: switched to safe form `(right_bound + 1) - width` for the second interval start.
+  - Post-fix verification: sparse-table query samples and random/extreme checks passed.
+- Failing step/command:
+  - `zig test data_structures/sparse_table.zig`
+  - Symptom: panic in extreme test from `r + 1` overflow when building validation slice bound.
+  - Root cause: boundary case `r == maxInt(usize)` can overflow on exclusive upper-bound math in synthetic stress loop.
+  - Fix applied: replaced slice-based min check with index-controlled `while (idx <= r)` iteration.
+  - Post-fix verification: extreme-case test passed consistently.
+- Failing step/command:
+  - `zig test data_structures/queue_by_two_stacks.zig`
+  - Symptom: compile error (`local variable is never mutated`) treated as build failure.
+  - Root cause: temporary variable declared `var` though immutable.
+  - Fix applied: changed declaration to `const`.
+  - Post-fix verification: full queue-by-two-stacks test suite passed.
+
 ## Phase 5 Batch E - Wave 6 (2026-03-04)
 
 Scope:
