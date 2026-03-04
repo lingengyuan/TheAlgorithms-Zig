@@ -212,7 +212,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Longest Palindromic Subsequence | [`dynamic_programming/longest_palindromic_subsequence.zig`](dynamic_programming/longest_palindromic_subsequence.zig) | O(n²) |
 | Maximum Product Subarray | [`dynamic_programming/max_product_subarray.zig`](dynamic_programming/max_product_subarray.zig) | O(n) |
 
-### Graphs (30)
+### Graphs (46)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -246,6 +246,22 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Bidirectional Dijkstra | [`graphs/bidirectional_dijkstra.zig`](graphs/bidirectional_dijkstra.zig) | O(V² + E) |
 | Greedy Best-First Search | [`graphs/greedy_best_first.zig`](graphs/greedy_best_first.zig) | O(V²) |
 | Dinic Max Flow | [`graphs/dinic_max_flow.zig`](graphs/dinic_max_flow.zig) | O(V²·E) |
+| Bidirectional Search | [`graphs/bidirectional_search.zig`](graphs/bidirectional_search.zig) | O(V + E) |
+| Minimum Path Sum | [`graphs/minimum_path_sum.zig`](graphs/minimum_path_sum.zig) | O(rows·cols) |
+| Deep Clone Graph | [`graphs/deep_clone_graph.zig`](graphs/deep_clone_graph.zig) | O(V + E) |
+| Dijkstra (Matrix) | [`graphs/dijkstra_matrix.zig`](graphs/dijkstra_matrix.zig) | O(V²) |
+| Breadth-First Search (Queue/Deque Variant) | [`graphs/breadth_first_search_2.zig`](graphs/breadth_first_search_2.zig) | O(V + E) |
+| Depth-First Search (Iterative Variant) | [`graphs/depth_first_search_2.zig`](graphs/depth_first_search_2.zig) | O(V + E) |
+| Dijkstra (Matrix Float Variant) | [`graphs/dijkstra_2.zig`](graphs/dijkstra_2.zig) | O(V²) |
+| Dijkstra (Alternate Matrix Variant) | [`graphs/dijkstra_alternate.zig`](graphs/dijkstra_alternate.zig) | O(V²) |
+| Greedy Minimum Vertex Cover (Approx.) | [`graphs/greedy_min_vertex_cover.zig`](graphs/greedy_min_vertex_cover.zig) | O(V² + V·E) |
+| Matching Minimum Vertex Cover (Approx.) | [`graphs/matching_min_vertex_cover.zig`](graphs/matching_min_vertex_cover.zig) | O(V³) worst |
+| Karger Minimum Cut | [`graphs/karger_min_cut.zig`](graphs/karger_min_cut.zig) | O(trials·V·E) |
+| Random Graph Generator | [`graphs/random_graph_generator.zig`](graphs/random_graph_generator.zig) | O(V²) |
+| Markov Chain Transition Simulation | [`graphs/markov_chain.zig`](graphs/markov_chain.zig) | O(steps·N) |
+| Kahn Longest Distance in DAG | [`graphs/kahn_longest_distance.zig`](graphs/kahn_longest_distance.zig) | O(V + E) |
+| Graph Adjacency List Data Structure | [`graphs/graph_adjacency_list.zig`](graphs/graph_adjacency_list.zig) | O(1) avg edge insert/query, O(deg) removal |
+| Graph Adjacency Matrix Data Structure | [`graphs/graph_adjacency_matrix.zig`](graphs/graph_adjacency_matrix.zig) | O(1) edge query/update, O(V²) vertex resize |
 
 ### Greedy Methods (7)
 
@@ -382,7 +398,7 @@ TheAlgorithms-Zig/
 ├── maths/                   # 81 math algorithms
 ├── data_structures/         # 17 data structure implementations
 ├── dynamic_programming/     # 17 dynamic programming algorithms
-├── graphs/                  # 30 graph algorithms
+├── graphs/                  # 34 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 7 number base conversions
 ├── ciphers/                 # 1 cipher algorithm
@@ -643,7 +659,7 @@ MIT
 | 最长回文子序列 | [`dynamic_programming/longest_palindromic_subsequence.zig`](dynamic_programming/longest_palindromic_subsequence.zig) | O(n²) |
 | 最大乘积子数组 | [`dynamic_programming/max_product_subarray.zig`](dynamic_programming/max_product_subarray.zig) | O(n) |
 
-### 图算法 (30)
+### 图算法 (34)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -677,6 +693,10 @@ MIT
 | 双向 Dijkstra | [`graphs/bidirectional_dijkstra.zig`](graphs/bidirectional_dijkstra.zig) | O(V² + E) |
 | 贪心最佳优先搜索 | [`graphs/greedy_best_first.zig`](graphs/greedy_best_first.zig) | O(V²) |
 | Dinic 最大流 | [`graphs/dinic_max_flow.zig`](graphs/dinic_max_flow.zig) | O(V²·E) |
+| 双向搜索 | [`graphs/bidirectional_search.zig`](graphs/bidirectional_search.zig) | O(V + E) |
+| 最小路径和 | [`graphs/minimum_path_sum.zig`](graphs/minimum_path_sum.zig) | O(rows·cols) |
+| 图深拷贝 | [`graphs/deep_clone_graph.zig`](graphs/deep_clone_graph.zig) | O(V + E) |
+| Dijkstra（邻接矩阵） | [`graphs/dijkstra_matrix.zig`](graphs/dijkstra_matrix.zig) | O(V²) |
 
 ### 贪心算法 (7)
 
@@ -813,7 +833,7 @@ TheAlgorithms-Zig/
 ├── maths/                   # 81 种数学算法
 ├── data_structures/         # 17 种数据结构实现
 ├── dynamic_programming/     # 17 个动态规划算法
-├── graphs/                  # 30 个图算法
+├── graphs/                  # 34 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 7 个进制转换
 ├── ciphers/                 # 1 个密码学算法

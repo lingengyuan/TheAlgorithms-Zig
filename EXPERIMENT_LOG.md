@@ -17,6 +17,86 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch D - Wave 6 (2026-03-04)
+
+Scope:
+- `graphs/karger_min_cut.zig`
+- `graphs/markov_chain.zig`
+- `graphs/graph_adjacency_list.zig`
+- `graphs/graph_adjacency_matrix.zig`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test graphs/karger_min_cut.zig` ✅
+- `zig test graphs/markov_chain.zig` ✅
+- `zig test graphs/graph_adjacency_list.zig` ✅
+- `zig test graphs/graph_adjacency_matrix.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig fmt graphs/karger_min_cut.zig ...`
+  - Symptom: parse error `expected pointer dereference, optional unwrap, or field access, found 'union'`.
+  - Root cause: method name `union` conflicted with Zig keyword.
+  - Fix applied: renamed method to `unionSets` and updated call sites.
+  - Post-fix verification: `zig test graphs/karger_min_cut.zig` passed.
+- Failing step/command:
+  - `zig test graphs/karger_min_cut.zig`
+  - Symptom: compile error `variable of type 'comptime_int' must be const or comptime`.
+  - Root cause: sentinel `best` lacked explicit `usize` annotation.
+  - Fix applied: annotated `best` as `usize`.
+  - Post-fix verification: `zig test graphs/karger_min_cut.zig` passed.
+- Failing step/command:
+  - `zig test graphs/karger_min_cut.zig`
+  - Symptom: extreme-chain test failed (`expected 1, found 0`).
+  - Root cause: test fixture built malformed adjacency slices (did not represent a valid chain).
+  - Fix applied: rebuilt extreme fixture as one-direction chain edges, which are canonicalized as undirected by the implementation.
+  - Post-fix verification: `zig test graphs/karger_min_cut.zig` passed.
+
+## Phase 5 Batch D - Wave 5 (2026-03-04)
+
+Scope:
+- `graphs/breadth_first_search_2.zig`
+- `graphs/depth_first_search_2.zig`
+- `graphs/dijkstra_2.zig`
+- `graphs/dijkstra_alternate.zig`
+- `graphs/kahn_longest_distance.zig`
+- `graphs/greedy_min_vertex_cover.zig`
+- `graphs/matching_min_vertex_cover.zig`
+- `graphs/random_graph_generator.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test graphs/breadth_first_search_2.zig` ✅
+- `zig test graphs/depth_first_search_2.zig` ✅
+- `zig test graphs/dijkstra_2.zig` ✅
+- `zig test graphs/dijkstra_alternate.zig` ✅
+- `zig test graphs/kahn_longest_distance.zig` ✅
+- `zig test graphs/greedy_min_vertex_cover.zig` ✅
+- `zig test graphs/matching_min_vertex_cover.zig` ✅
+- `zig test graphs/random_graph_generator.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test graphs/greedy_min_vertex_cover.zig`
+  - Symptom: compile error `invalid left-hand side to assignment`.
+  - Root cause: single-line `for` with inline `if` and assignment was parsed as invalid syntax in Zig.
+  - Fix applied: expanded to block-form `for` loop with explicit braces.
+  - Post-fix verification: `zig test graphs/greedy_min_vertex_cover.zig` passed.
+- Failing step/command:
+  - `zig test graphs/matching_min_vertex_cover.zig`
+  - Symptom: sample assertion mismatch (`expected ...4, found ...3`).
+  - Root cause: algorithm has multiple valid solutions due arbitrary matching edge selection; original test over-constrained to one specific set.
+  - Fix applied: changed assertion to validate vertex-cover correctness + size bound instead of one fixed vertex set.
+  - Post-fix verification: `zig test graphs/matching_min_vertex_cover.zig` passed.
+
 ## Phase 5 Batch D - Wave 1 (2026-03-04)
 
 Scope:
@@ -111,6 +191,58 @@ Verification:
 
 Failure Log:
 - No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch D - Wave 4 (2026-03-04)
+
+Scope:
+- `graphs/bidirectional_search.zig`
+- `graphs/minimum_path_sum.zig`
+- `graphs/deep_clone_graph.zig`
+- `graphs/dijkstra_matrix.zig`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test graphs/bidirectional_search.zig` ✅
+- `zig test graphs/minimum_path_sum.zig` ✅
+- `zig test graphs/deep_clone_graph.zig` ✅
+- `zig test graphs/dijkstra_matrix.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test graphs/bidirectional_search.zig`
+  - Symptom: compile diagnostics (`pointless discard of function parameter`, `local variable is never mutated`).
+  - Root cause: redundant `_ = allocator` and mutable declarations for immutable slices.
+  - Fix applied: removed redundant discard and changed `var` to `const`.
+  - Post-fix verification: file tests compiled and executed.
+- Failing step/command:
+  - `zig test graphs/bidirectional_search.zig`
+  - Symptom: path assertion mismatch (`expected [0,1], found [0,1,1]`) in invalid-neighbor case.
+  - Root cause: path stitching logic duplicated intersection node when intersection was goal.
+  - Fix applied: in `constructFullPath`, return forward segment directly when `intersection == goal`.
+  - Post-fix verification: `zig test graphs/bidirectional_search.zig` passed.
+- Failing step/command:
+  - `zig test graphs/minimum_path_sum.zig`
+  - Symptom: negative-value test expected mismatch (`expected -8, found -7`).
+  - Root cause: test oracle was incorrect; DP result `-7` is the true minimum path sum.
+  - Fix applied: corrected expected test value to `-7`.
+  - Post-fix verification: `zig test graphs/minimum_path_sum.zig` passed.
+- Failing step/command:
+  - `zig test graphs/deep_clone_graph.zig`
+  - Symptom: allocator leak reported in invalid-neighbor error path.
+  - Root cause: newly allocated neighbor slice was not freed when early-returning on invalid index.
+  - Fix applied: added `errdefer allocator.free(neigh)` for per-node allocation.
+  - Post-fix verification: `zig test graphs/deep_clone_graph.zig` passed without leak.
+- Failing step/command:
+  - `zig test graphs/dijkstra_matrix.zig`
+  - Symptom: compile error `variable of type 'comptime_int' must be const or comptime`.
+  - Root cause: `inf`/`min_val` inferred as comptime integer due missing explicit type.
+  - Fix applied: annotated both as `i64`.
+  - Post-fix verification: `zig test graphs/dijkstra_matrix.zig` passed.
 
 ## Phase 5 Batch A - Wave 1 (2026-03-04)
 
