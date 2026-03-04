@@ -281,6 +281,14 @@ pub fn build(b: *std.Build) void {
         "ciphers/mixed_keyword_cypher.zig",
         "ciphers/simple_keyword_cypher.zig",
         "ciphers/simple_substitution_cipher.zig",
+        "ciphers/rabin_miller.zig",
+        "ciphers/rsa_key_generator.zig",
+        "ciphers/rsa_cipher.zig",
+        "ciphers/elgamal_key_generator.zig",
+        "ciphers/transposition_cipher_encrypt_decrypt_file.zig",
+        "ciphers/bifid.zig",
+        "ciphers/playfair_cipher.zig",
+        "ciphers/decrypt_caesar_with_chi_squared.zig",
         // Hashing
         "hashing/sha256.zig",
         // Greedy Methods

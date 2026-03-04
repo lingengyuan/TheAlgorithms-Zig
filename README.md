@@ -319,7 +319,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Integer to Roman | [`conversions/integer_to_roman.zig`](conversions/integer_to_roman.zig) | O(1) bounded range |
 | Temperature Conversion | [`conversions/temperature_conversion.zig`](conversions/temperature_conversion.zig) | O(1) |
 
-### Ciphers (33)
+### Ciphers (41)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -356,6 +356,14 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Mixed Keyword Cipher | [`ciphers/mixed_keyword_cypher.zig`](ciphers/mixed_keyword_cypher.zig) | O(n) |
 | Simple Keyword Cipher | [`ciphers/simple_keyword_cypher.zig`](ciphers/simple_keyword_cypher.zig) | O(n) |
 | Simple Substitution Cipher | [`ciphers/simple_substitution_cipher.zig`](ciphers/simple_substitution_cipher.zig) | O(n) |
+| Rabin-Miller Primality Test | [`ciphers/rabin_miller.zig`](ciphers/rabin_miller.zig) | O(k · log³ n) |
+| RSA Key Generator | [`ciphers/rsa_key_generator.zig`](ciphers/rsa_key_generator.zig) | probabilistic |
+| RSA Cipher | [`ciphers/rsa_cipher.zig`](ciphers/rsa_cipher.zig) | O(blocks · log exp) |
+| ElGamal Key Generator | [`ciphers/elgamal_key_generator.zig`](ciphers/elgamal_key_generator.zig) | probabilistic |
+| Transposition File Wrapper | [`ciphers/transposition_cipher_encrypt_decrypt_file.zig`](ciphers/transposition_cipher_encrypt_decrypt_file.zig) | O(n) |
+| Bifid Cipher | [`ciphers/bifid.zig`](ciphers/bifid.zig) | O(n) |
+| Playfair Cipher | [`ciphers/playfair_cipher.zig`](ciphers/playfair_cipher.zig) | O(n) |
+| Caesar Chi-Squared Decryption | [`ciphers/decrypt_caesar_with_chi_squared.zig`](ciphers/decrypt_caesar_with_chi_squared.zig) | O(26 · n²) |
 
 ### Hashing (1)
 
@@ -433,7 +441,7 @@ TheAlgorithms-Zig/
 ├── graphs/                  # 34 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 7 number base conversions
-├── ciphers/                 # 33 cipher algorithms
+├── ciphers/                 # 41 cipher algorithms
 ├── hashing/                 # 1 hashing algorithm
 ├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
@@ -786,7 +794,7 @@ MIT
 | 整数转罗马数字 | [`conversions/integer_to_roman.zig`](conversions/integer_to_roman.zig) | O(1)（有界区间） |
 | 温度单位转换 | [`conversions/temperature_conversion.zig`](conversions/temperature_conversion.zig) | O(1) |
 
-### 密码学 (33)
+### 密码学 (41)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -823,6 +831,14 @@ MIT
 | 混合关键词密码 | [`ciphers/mixed_keyword_cypher.zig`](ciphers/mixed_keyword_cypher.zig) | O(n) |
 | 简单关键词密码 | [`ciphers/simple_keyword_cypher.zig`](ciphers/simple_keyword_cypher.zig) | O(n) |
 | 简单替换密码 | [`ciphers/simple_substitution_cipher.zig`](ciphers/simple_substitution_cipher.zig) | O(n) |
+| Rabin-Miller 素性测试 | [`ciphers/rabin_miller.zig`](ciphers/rabin_miller.zig) | O(k · log³ n) |
+| RSA 密钥生成 | [`ciphers/rsa_key_generator.zig`](ciphers/rsa_key_generator.zig) | 概率型 |
+| RSA 加解密 | [`ciphers/rsa_cipher.zig`](ciphers/rsa_cipher.zig) | O(块数 · log 指数) |
+| ElGamal 密钥生成 | [`ciphers/elgamal_key_generator.zig`](ciphers/elgamal_key_generator.zig) | 概率型 |
+| 置换密码文件封装 | [`ciphers/transposition_cipher_encrypt_decrypt_file.zig`](ciphers/transposition_cipher_encrypt_decrypt_file.zig) | O(n) |
+| Bifid 密码 | [`ciphers/bifid.zig`](ciphers/bifid.zig) | O(n) |
+| Playfair 密码 | [`ciphers/playfair_cipher.zig`](ciphers/playfair_cipher.zig) | O(n) |
+| 凯撒卡方解密 | [`ciphers/decrypt_caesar_with_chi_squared.zig`](ciphers/decrypt_caesar_with_chi_squared.zig) | O(26 · n²) |
 
 ### 哈希 (1)
 
@@ -900,7 +916,7 @@ TheAlgorithms-Zig/
 ├── graphs/                  # 34 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 7 个进制转换
-├── ciphers/                 # 33 个密码学算法
+├── ciphers/                 # 41 个密码学算法
 ├── hashing/                 # 1 个哈希算法
 ├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法

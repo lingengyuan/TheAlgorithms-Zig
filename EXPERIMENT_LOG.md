@@ -17,6 +17,53 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch E - Wave 5 (2026-03-04)
+
+Scope:
+- `ciphers/rabin_miller.zig`
+- `ciphers/rsa_key_generator.zig`
+- `ciphers/rsa_cipher.zig`
+- `ciphers/elgamal_key_generator.zig`
+- `ciphers/transposition_cipher_encrypt_decrypt_file.zig`
+- `ciphers/bifid.zig`
+- `ciphers/playfair_cipher.zig`
+- `ciphers/decrypt_caesar_with_chi_squared.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test ciphers/rabin_miller.zig` ✅
+- `zig test ciphers/rsa_key_generator.zig` ✅
+- `zig test ciphers/rsa_cipher.zig` ✅
+- `zig test ciphers/elgamal_key_generator.zig` ✅
+- `zig test ciphers/transposition_cipher_encrypt_decrypt_file.zig` ✅
+- `zig test ciphers/bifid.zig` ✅
+- `zig test ciphers/playfair_cipher.zig` ✅
+- `zig test ciphers/decrypt_caesar_with_chi_squared.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig fmt ciphers/rsa_cipher.zig ...`
+  - Symptom: parse error (`expected 'an identifier', found 'pub'`).
+  - Root cause: test variable used reserved keyword `pub`.
+  - Fix applied: renamed test variables to `pub_key` / `priv_key`.
+  - Post-fix verification: `zig test ciphers/rsa_cipher.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/rabin_miller.zig`
+  - Symptom: compile error on shift-width typing (`expected type 'u6', found 'u8'`).
+  - Root cause: runtime shift operand for `u64` bounds was not cast to required shift-width type.
+  - Fix applied: cast shift counts to `u6` in keysize-bound calculations.
+  - Post-fix verification: `zig test ciphers/rabin_miller.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/playfair_cipher.zig`
+  - Symptom: `prepareInput(\"balloon\")` expected mismatch in test case.
+  - Root cause: expected string in test did not reflect duplicate-splitting behavior for both `LL` and `OO`.
+  - Fix applied: corrected expected test output to Python-aligned prepared text.
+  - Post-fix verification: `zig test ciphers/playfair_cipher.zig` passed.
+
 ## Phase 5 Batch E - Wave 4 (2026-03-04)
 
 Scope:
