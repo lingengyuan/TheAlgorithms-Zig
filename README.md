@@ -319,7 +319,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Integer to Roman | [`conversions/integer_to_roman.zig`](conversions/integer_to_roman.zig) | O(1) bounded range |
 | Temperature Conversion | [`conversions/temperature_conversion.zig`](conversions/temperature_conversion.zig) | O(1) |
 
-### Ciphers (25)
+### Ciphers (33)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -348,6 +348,14 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Permutation Cipher | [`ciphers/permutation_cipher.zig`](ciphers/permutation_cipher.zig) | O(n) |
 | Mono Alphabetic Cipher | [`ciphers/mono_alphabetic_ciphers.zig`](ciphers/mono_alphabetic_ciphers.zig) | O(n) |
 | Brute Force Caesar Cipher | [`ciphers/brute_force_caesar_cipher.zig`](ciphers/brute_force_caesar_cipher.zig) | O(26 · n) |
+| Cryptomath Modular Inverse | [`ciphers/cryptomath_module.zig`](ciphers/cryptomath_module.zig) | O(log m) |
+| Diffie Primitive Root Search | [`ciphers/diffie.zig`](ciphers/diffie.zig) | O(m² log m) |
+| Deterministic Miller-Rabin | [`ciphers/deterministic_miller_rabin.zig`](ciphers/deterministic_miller_rabin.zig) | O(k · log³ n) |
+| RSA Factorization (d,e,n) | [`ciphers/rsa_factorization.zig`](ciphers/rsa_factorization.zig) | randomized |
+| Porta Cipher | [`ciphers/porta_cipher.zig`](ciphers/porta_cipher.zig) | O(n) |
+| Mixed Keyword Cipher | [`ciphers/mixed_keyword_cypher.zig`](ciphers/mixed_keyword_cypher.zig) | O(n) |
+| Simple Keyword Cipher | [`ciphers/simple_keyword_cypher.zig`](ciphers/simple_keyword_cypher.zig) | O(n) |
+| Simple Substitution Cipher | [`ciphers/simple_substitution_cipher.zig`](ciphers/simple_substitution_cipher.zig) | O(n) |
 
 ### Hashing (1)
 
@@ -425,7 +433,7 @@ TheAlgorithms-Zig/
 ├── graphs/                  # 34 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 7 number base conversions
-├── ciphers/                 # 25 cipher algorithms
+├── ciphers/                 # 33 cipher algorithms
 ├── hashing/                 # 1 hashing algorithm
 ├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
@@ -778,7 +786,7 @@ MIT
 | 整数转罗马数字 | [`conversions/integer_to_roman.zig`](conversions/integer_to_roman.zig) | O(1)（有界区间） |
 | 温度单位转换 | [`conversions/temperature_conversion.zig`](conversions/temperature_conversion.zig) | O(1) |
 
-### 密码学 (25)
+### 密码学 (33)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -807,6 +815,14 @@ MIT
 | 置换密码 | [`ciphers/permutation_cipher.zig`](ciphers/permutation_cipher.zig) | O(n) |
 | 单表代换密码 | [`ciphers/mono_alphabetic_ciphers.zig`](ciphers/mono_alphabetic_ciphers.zig) | O(n) |
 | 凯撒暴力解密 | [`ciphers/brute_force_caesar_cipher.zig`](ciphers/brute_force_caesar_cipher.zig) | O(26 · n) |
+| Cryptomath 模逆计算 | [`ciphers/cryptomath_module.zig`](ciphers/cryptomath_module.zig) | O(log m) |
+| Diffie 原根搜索 | [`ciphers/diffie.zig`](ciphers/diffie.zig) | O(m² log m) |
+| 确定性 Miller-Rabin | [`ciphers/deterministic_miller_rabin.zig`](ciphers/deterministic_miller_rabin.zig) | O(k · log³ n) |
+| RSA 因子分解（d,e,n） | [`ciphers/rsa_factorization.zig`](ciphers/rsa_factorization.zig) | 随机化 |
+| Porta 密码 | [`ciphers/porta_cipher.zig`](ciphers/porta_cipher.zig) | O(n) |
+| 混合关键词密码 | [`ciphers/mixed_keyword_cypher.zig`](ciphers/mixed_keyword_cypher.zig) | O(n) |
+| 简单关键词密码 | [`ciphers/simple_keyword_cypher.zig`](ciphers/simple_keyword_cypher.zig) | O(n) |
+| 简单替换密码 | [`ciphers/simple_substitution_cipher.zig`](ciphers/simple_substitution_cipher.zig) | O(n) |
 
 ### 哈希 (1)
 
@@ -884,7 +900,7 @@ TheAlgorithms-Zig/
 ├── graphs/                  # 34 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 7 个进制转换
-├── ciphers/                 # 25 个密码学算法
+├── ciphers/                 # 33 个密码学算法
 ├── hashing/                 # 1 个哈希算法
 ├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法

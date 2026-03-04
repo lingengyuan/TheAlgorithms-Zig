@@ -17,6 +17,53 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch E - Wave 4 (2026-03-04)
+
+Scope:
+- `ciphers/cryptomath_module.zig`
+- `ciphers/diffie.zig`
+- `ciphers/deterministic_miller_rabin.zig`
+- `ciphers/rsa_factorization.zig`
+- `ciphers/porta_cipher.zig`
+- `ciphers/mixed_keyword_cypher.zig`
+- `ciphers/simple_keyword_cypher.zig`
+- `ciphers/simple_substitution_cipher.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test ciphers/cryptomath_module.zig` ✅
+- `zig test ciphers/diffie.zig` ✅
+- `zig test ciphers/deterministic_miller_rabin.zig` ✅
+- `zig test ciphers/rsa_factorization.zig` ✅
+- `zig test ciphers/porta_cipher.zig` ✅
+- `zig test ciphers/mixed_keyword_cypher.zig` ✅
+- `zig test ciphers/simple_keyword_cypher.zig` ✅
+- `zig test ciphers/simple_substitution_cipher.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test ciphers/cryptomath_module.zig`
+  - Symptom: compile error `name shadows primitive 'u1'`.
+  - Root cause: extended-Euclid local variable names (`u1/u2/u3`) conflicted with Zig primitive type names.
+  - Fix applied: renamed state variables to non-primitive identifiers (`s1/s2/s3`, `t1/t2/t3`).
+  - Post-fix verification: `zig test ciphers/cryptomath_module.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/deterministic_miller_rabin.zig`
+  - Symptom: compile error on shift amount type (`expected type 'u7', found 'u32'`).
+  - Root cause: left-shift in exponent assembly used uncast runtime loop counter.
+  - Fix applied: cast shift operand to `u7` for Zig's shift-width requirement.
+  - Post-fix verification: `zig test ciphers/deterministic_miller_rabin.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/mixed_keyword_cypher.zig`
+  - Symptom: test mismatch in mapping-basics assertion.
+  - Root cause: test expected values did not match the vertical-column mapping order defined by Python reference.
+  - Fix applied: corrected assertions to the actual Python-order mapping outputs.
+  - Post-fix verification: `zig test ciphers/mixed_keyword_cypher.zig` passed.
+
 ## Phase 5 Batch E - Wave 3 (2026-03-04)
 
 Scope:
