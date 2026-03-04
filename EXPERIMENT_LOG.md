@@ -17,6 +17,96 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch F - Wave 5 (2026-03-04)
+
+Scope:
+- `data_structures/floyds_cycle_detection.zig`
+- `data_structures/reverse_k_group.zig`
+- `data_structures/dijkstras_two_stack_algorithm.zig`
+- `data_structures/lexicographical_numbers.zig`
+- `data_structures/equilibrium_index_in_array.zig`
+- `data_structures/pairs_with_given_sum.zig`
+- `data_structures/prefix_sum.zig`
+- `data_structures/rotate_array.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/floyds_cycle_detection.zig` ✅
+- `zig test data_structures/reverse_k_group.zig` ✅
+- `zig test data_structures/dijkstras_two_stack_algorithm.zig` ✅
+- `zig test data_structures/lexicographical_numbers.zig` ✅
+- `zig test data_structures/equilibrium_index_in_array.zig` ✅
+- `zig test data_structures/pairs_with_given_sum.zig` ✅
+- `zig test data_structures/prefix_sum.zig` ✅
+- `zig test data_structures/rotate_array.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/reverse_k_group.zig`
+  - Symptom: test memory leak report and one extreme-case assertion mismatch.
+  - Root cause: test reused owned-slice variable without freeing previous allocation; and expected last element ignored full-group reversal behavior when `n % k == 0`.
+  - Fix applied: split test assertions into scoped allocations with proper free; corrected expected last element for fully reversed final group.
+  - Post-fix verification: `zig test data_structures/reverse_k_group.zig` passed with no leaks.
+- Failing step/command:
+  - `zig test data_structures/dijkstras_two_stack_algorithm.zig`
+  - Symptom: compile error (`pointless discard of function parameter`).
+  - Root cause: allocator parameter was explicitly discarded and also used later.
+  - Fix applied: removed redundant discard statement.
+  - Post-fix verification: `zig test data_structures/dijkstras_two_stack_algorithm.zig` passed.
+- Failing step/command:
+  - `zig test data_structures/equilibrium_index_in_array.zig` and `zig test data_structures/pairs_with_given_sum.zig`
+  - Symptom: compile errors (`local variable is never mutated`).
+  - Root cause: immutable test buffers declared as `var`.
+  - Fix applied: changed bindings to `const`.
+  - Post-fix verification: both file tests passed.
+- Failing step/command:
+  - `zig test data_structures/rotate_array.zig`
+  - Symptom: compile error on signed remainder operator usage.
+  - Root cause: used `%` with signed integers, which requires explicit `@mod`/`@rem` in Zig.
+  - Fix applied: replaced modulo normalization with `@mod`.
+  - Post-fix verification: `zig test data_structures/rotate_array.zig` passed.
+
+## Phase 5 Batch F - Wave 4 (2026-03-04)
+
+Scope:
+- `data_structures/balanced_parentheses.zig`
+- `data_structures/next_greater_element.zig`
+- `data_structures/largest_rectangle_histogram.zig`
+- `data_structures/stock_span_problem.zig`
+- `data_structures/postfix_evaluation.zig`
+- `data_structures/prefix_evaluation.zig`
+- `data_structures/infix_to_postfix_conversion.zig`
+- `data_structures/infix_to_prefix_conversion.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/balanced_parentheses.zig` ✅
+- `zig test data_structures/next_greater_element.zig` ✅
+- `zig test data_structures/largest_rectangle_histogram.zig` ✅
+- `zig test data_structures/stock_span_problem.zig` ✅
+- `zig test data_structures/postfix_evaluation.zig` ✅
+- `zig test data_structures/prefix_evaluation.zig` ✅
+- `zig test data_structures/infix_to_postfix_conversion.zig` ✅
+- `zig test data_structures/infix_to_prefix_conversion.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/largest_rectangle_histogram.zig`
+  - Symptom: compile error (`local variable is never mutated`).
+  - Root cause: test fixture buffer was declared `var` while only contents were mutated.
+  - Fix applied: changed buffer binding to `const`.
+  - Post-fix verification: `zig test data_structures/largest_rectangle_histogram.zig` passed.
+
 ## Phase 5 Batch F - Wave 3 (2026-03-04)
 
 Scope:

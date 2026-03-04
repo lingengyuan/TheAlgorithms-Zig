@@ -168,7 +168,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Kth Lexicographic Permutation | [`maths/kth_lexicographic_permutation.zig`](maths/kth_lexicographic_permutation.zig) | O(n²) |
 | Largest of Very Large Numbers (Log Compare) | [`maths/largest_of_very_large_numbers.zig`](maths/largest_of_very_large_numbers.zig) | O(1) |
 
-### Data Structures (41)
+### Data Structures (57)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -213,6 +213,22 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Linked List Rotate To Right | [`data_structures/linked_list_rotate_to_right.zig`](data_structures/linked_list_rotate_to_right.zig) | O(n) |
 | Linked List Palindrome | [`data_structures/linked_list_palindrome.zig`](data_structures/linked_list_palindrome.zig) | O(n) |
 | Linked List Has Loop | [`data_structures/linked_list_has_loop.zig`](data_structures/linked_list_has_loop.zig) | O(n) |
+| Balanced Parentheses | [`data_structures/balanced_parentheses.zig`](data_structures/balanced_parentheses.zig) | O(n) |
+| Next Greater Element | [`data_structures/next_greater_element.zig`](data_structures/next_greater_element.zig) | O(n) |
+| Largest Rectangle Histogram | [`data_structures/largest_rectangle_histogram.zig`](data_structures/largest_rectangle_histogram.zig) | O(n) |
+| Stock Span Problem | [`data_structures/stock_span_problem.zig`](data_structures/stock_span_problem.zig) | O(n) |
+| Postfix Evaluation | [`data_structures/postfix_evaluation.zig`](data_structures/postfix_evaluation.zig) | O(n) |
+| Prefix Evaluation | [`data_structures/prefix_evaluation.zig`](data_structures/prefix_evaluation.zig) | O(n) |
+| Infix To Postfix Conversion | [`data_structures/infix_to_postfix_conversion.zig`](data_structures/infix_to_postfix_conversion.zig) | O(n) |
+| Infix To Prefix Conversion | [`data_structures/infix_to_prefix_conversion.zig`](data_structures/infix_to_prefix_conversion.zig) | O(n) |
+| Floyd's Cycle Detection | [`data_structures/floyds_cycle_detection.zig`](data_structures/floyds_cycle_detection.zig) | O(n) |
+| Reverse K Group | [`data_structures/reverse_k_group.zig`](data_structures/reverse_k_group.zig) | O(n) |
+| Dijkstra's Two-Stack Algorithm | [`data_structures/dijkstras_two_stack_algorithm.zig`](data_structures/dijkstras_two_stack_algorithm.zig) | O(n) |
+| Lexicographical Numbers | [`data_structures/lexicographical_numbers.zig`](data_structures/lexicographical_numbers.zig) | O(n) |
+| Equilibrium Index In Array | [`data_structures/equilibrium_index_in_array.zig`](data_structures/equilibrium_index_in_array.zig) | O(n) |
+| Pairs With Given Sum | [`data_structures/pairs_with_given_sum.zig`](data_structures/pairs_with_given_sum.zig) | O(n) |
+| Prefix Sum | [`data_structures/prefix_sum.zig`](data_structures/prefix_sum.zig) | Build O(n), Query O(1) |
+| Rotate Array | [`data_structures/rotate_array.zig`](data_structures/rotate_array.zig) | O(n) |
 
 ### Dynamic Programming (17)
 
@@ -469,7 +485,7 @@ TheAlgorithms-Zig/
 ├── sorts/                   # 50 sorting algorithms
 ├── searches/                # 6 search algorithms
 ├── maths/                   # 81 math algorithms
-├── data_structures/         # 41 data structure implementations
+├── data_structures/         # 57 data structure implementations
 ├── dynamic_programming/     # 17 dynamic programming algorithms
 ├── graphs/                  # 46 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
@@ -688,7 +704,7 @@ MIT
 | 第 k 个字典序排列 | [`maths/kth_lexicographic_permutation.zig`](maths/kth_lexicographic_permutation.zig) | O(n²) |
 | 超大幂比较（对数法） | [`maths/largest_of_very_large_numbers.zig`](maths/largest_of_very_large_numbers.zig) | O(1) |
 
-### 数据结构 (41)
+### 数据结构 (57)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -733,6 +749,22 @@ MIT
 | 链表右旋 | [`data_structures/linked_list_rotate_to_right.zig`](data_structures/linked_list_rotate_to_right.zig) | O(n) |
 | 链表回文判断 | [`data_structures/linked_list_palindrome.zig`](data_structures/linked_list_palindrome.zig) | O(n) |
 | 链表环检测 | [`data_structures/linked_list_has_loop.zig`](data_structures/linked_list_has_loop.zig) | O(n) |
+| 括号平衡检查 | [`data_structures/balanced_parentheses.zig`](data_structures/balanced_parentheses.zig) | O(n) |
+| 下一个更大元素 | [`data_structures/next_greater_element.zig`](data_structures/next_greater_element.zig) | O(n) |
+| 柱状图最大矩形 | [`data_structures/largest_rectangle_histogram.zig`](data_structures/largest_rectangle_histogram.zig) | O(n) |
+| 股票跨度问题 | [`data_structures/stock_span_problem.zig`](data_structures/stock_span_problem.zig) | O(n) |
+| 后缀表达式求值 | [`data_structures/postfix_evaluation.zig`](data_structures/postfix_evaluation.zig) | O(n) |
+| 前缀表达式求值 | [`data_structures/prefix_evaluation.zig`](data_structures/prefix_evaluation.zig) | O(n) |
+| 中缀转后缀 | [`data_structures/infix_to_postfix_conversion.zig`](data_structures/infix_to_postfix_conversion.zig) | O(n) |
+| 中缀转前缀 | [`data_structures/infix_to_prefix_conversion.zig`](data_structures/infix_to_prefix_conversion.zig) | O(n) |
+| Floyd 判圈算法 | [`data_structures/floyds_cycle_detection.zig`](data_structures/floyds_cycle_detection.zig) | O(n) |
+| K 组链表反转 | [`data_structures/reverse_k_group.zig`](data_structures/reverse_k_group.zig) | O(n) |
+| Dijkstra 双栈求值 | [`data_structures/dijkstras_two_stack_algorithm.zig`](data_structures/dijkstras_two_stack_algorithm.zig) | O(n) |
+| 字典序数字生成 | [`data_structures/lexicographical_numbers.zig`](data_structures/lexicographical_numbers.zig) | O(n) |
+| 数组平衡下标 | [`data_structures/equilibrium_index_in_array.zig`](data_structures/equilibrium_index_in_array.zig) | O(n) |
+| 指定和配对计数 | [`data_structures/pairs_with_given_sum.zig`](data_structures/pairs_with_given_sum.zig) | O(n) |
+| 前缀和 | [`data_structures/prefix_sum.zig`](data_structures/prefix_sum.zig) | 构建 O(n)，查询 O(1) |
+| 数组旋转 | [`data_structures/rotate_array.zig`](data_structures/rotate_array.zig) | O(n) |
 
 ### 动态规划 (17)
 
@@ -977,7 +1009,7 @@ TheAlgorithms-Zig/
 ├── sorts/                   # 50 种排序算法
 ├── searches/                # 6 种查找算法
 ├── maths/                   # 81 种数学算法
-├── data_structures/         # 41 种数据结构实现
+├── data_structures/         # 57 种数据结构实现
 ├── dynamic_programming/     # 17 个动态规划算法
 ├── graphs/                  # 46 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
