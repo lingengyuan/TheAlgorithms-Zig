@@ -269,6 +269,11 @@ pub fn build(b: *std.Build) void {
         "dynamic_programming/egg_drop_problem.zig",
         "dynamic_programming/longest_palindromic_subsequence.zig",
         "dynamic_programming/max_product_subarray.zig",
+        "dynamic_programming/combination_sum_iv.zig",
+        "dynamic_programming/min_steps_to_one.zig",
+        "dynamic_programming/minimum_cost_path.zig",
+        "dynamic_programming/minimum_tickets_cost.zig",
+        "dynamic_programming/regex_match.zig",
         // Graphs
         "graphs/bfs.zig",
         "graphs/dfs.zig",

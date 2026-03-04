@@ -274,7 +274,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Quadratic Probing Hash Table | [`data_structures/quadratic_probing.zig`](data_structures/quadratic_probing.zig) | Average O(1) insert/query |
 | Radix Tree | [`data_structures/radix_tree.zig`](data_structures/radix_tree.zig) | O(L) per operation |
 
-### Dynamic Programming (17)
+### Dynamic Programming (22)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -295,6 +295,11 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Egg Drop Problem | [`dynamic_programming/egg_drop_problem.zig`](dynamic_programming/egg_drop_problem.zig) | O(eggs × answer) |
 | Longest Palindromic Subsequence | [`dynamic_programming/longest_palindromic_subsequence.zig`](dynamic_programming/longest_palindromic_subsequence.zig) | O(n²) |
 | Maximum Product Subarray | [`dynamic_programming/max_product_subarray.zig`](dynamic_programming/max_product_subarray.zig) | O(n) |
+| Combination Sum IV (Ordered Combinations) | [`dynamic_programming/combination_sum_iv.zig`](dynamic_programming/combination_sum_iv.zig) | O(target × n) |
+| Minimum Steps to One | [`dynamic_programming/min_steps_to_one.zig`](dynamic_programming/min_steps_to_one.zig) | O(n) |
+| Minimum Cost Path (Grid) | [`dynamic_programming/minimum_cost_path.zig`](dynamic_programming/minimum_cost_path.zig) | O(rows × cols) |
+| Minimum Tickets Cost | [`dynamic_programming/minimum_tickets_cost.zig`](dynamic_programming/minimum_tickets_cost.zig) | O(365) |
+| Regex Match (`.` and `*`) | [`dynamic_programming/regex_match.zig`](dynamic_programming/regex_match.zig) | O(m × n) |
 
 ### Graphs (46)
 
@@ -530,7 +535,7 @@ TheAlgorithms-Zig/
 ├── searches/                # 6 search algorithms
 ├── maths/                   # 81 math algorithms
 ├── data_structures/         # 73 data structure implementations
-├── dynamic_programming/     # 17 dynamic programming algorithms
+├── dynamic_programming/     # 22 dynamic programming algorithms
 ├── graphs/                  # 46 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 7 number base conversions
@@ -854,7 +859,7 @@ MIT
 | 哈希表（二次探测） | [`data_structures/quadratic_probing.zig`](data_structures/quadratic_probing.zig) | 平均 O(1) 插入/查询 |
 | Radix 树（压缩前缀树） | [`data_structures/radix_tree.zig`](data_structures/radix_tree.zig) | 每次操作 O(L) |
 
-### 动态规划 (17)
+### 动态规划 (22)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -875,6 +880,11 @@ MIT
 | 鸡蛋掉落问题 | [`dynamic_programming/egg_drop_problem.zig`](dynamic_programming/egg_drop_problem.zig) | O(eggs × answer) |
 | 最长回文子序列 | [`dynamic_programming/longest_palindromic_subsequence.zig`](dynamic_programming/longest_palindromic_subsequence.zig) | O(n²) |
 | 最大乘积子数组 | [`dynamic_programming/max_product_subarray.zig`](dynamic_programming/max_product_subarray.zig) | O(n) |
+| 组合总和 IV（有序方案数） | [`dynamic_programming/combination_sum_iv.zig`](dynamic_programming/combination_sum_iv.zig) | O(target × n) |
+| 到 1 的最少步数 | [`dynamic_programming/min_steps_to_one.zig`](dynamic_programming/min_steps_to_one.zig) | O(n) |
+| 最小路径代价（网格） | [`dynamic_programming/minimum_cost_path.zig`](dynamic_programming/minimum_cost_path.zig) | O(rows × cols) |
+| 最低票价 | [`dynamic_programming/minimum_tickets_cost.zig`](dynamic_programming/minimum_tickets_cost.zig) | O(365) |
+| 正则匹配（`.` 与 `*`） | [`dynamic_programming/regex_match.zig`](dynamic_programming/regex_match.zig) | O(m × n) |
 
 ### 图算法 (46)
 
@@ -1098,7 +1108,7 @@ TheAlgorithms-Zig/
 ├── searches/                # 6 种查找算法
 ├── maths/                   # 81 种数学算法
 ├── data_structures/         # 73 种数据结构实现
-├── dynamic_programming/     # 17 个动态规划算法
+├── dynamic_programming/     # 22 个动态规划算法
 ├── graphs/                  # 46 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 7 个进制转换

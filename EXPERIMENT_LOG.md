@@ -17,6 +17,36 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch G - Wave 1 (2026-03-04)
+
+Scope:
+- `dynamic_programming/combination_sum_iv.zig`
+- `dynamic_programming/min_steps_to_one.zig`
+- `dynamic_programming/minimum_cost_path.zig`
+- `dynamic_programming/minimum_tickets_cost.zig`
+- `dynamic_programming/regex_match.zig`
+
+Result:
+- 5/5 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test dynamic_programming/combination_sum_iv.zig` ✅
+- `zig test dynamic_programming/min_steps_to_one.zig` ✅
+- `zig test dynamic_programming/minimum_cost_path.zig` ✅
+- `zig test dynamic_programming/minimum_tickets_cost.zig` ✅
+- `zig test dynamic_programming/regex_match.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test dynamic_programming/minimum_tickets_cost.zig`
+  - Symptom: compile error (`pointer capture of non pointer type '[365]i32'`).
+  - Root cause: attempted pointer capture iteration directly on array value instead of array pointer.
+  - Fix applied: changed loop from `for (days, 1..) |*slot, day|` to `for (&days, 1..) |*slot, day|`.
+  - Post-fix verification: file-level test passed, and full `zig build test` passed.
+
 ## Phase 5 Batch F - Wave 12 (2026-03-04)
 
 Scope:
