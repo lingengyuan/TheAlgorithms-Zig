@@ -17,6 +17,300 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch F - Wave 12 (2026-03-04)
+
+Scope:
+- `data_structures/hash_table.zig`
+- `data_structures/hash_table_with_linked_list.zig`
+- `data_structures/quadratic_probing.zig`
+- `data_structures/radix_tree.zig`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/hash_table.zig` ✅
+- `zig test data_structures/hash_table_with_linked_list.zig` ✅
+- `zig test data_structures/quadratic_probing.zig` ✅
+- `zig test data_structures/radix_tree.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/hash_table.zig`
+  - Symptom: compile error (`unable to resolve inferred error set`).
+  - Root cause: recursive call path (`insertData -> rehashing -> insertData`) required explicit error set.
+  - Fix applied: marked recursive functions with explicit `anyerror!void`.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test data_structures/quadratic_probing.zig`
+  - Symptom: compile error (`unable to resolve inferred error set`).
+  - Root cause: same recursive error-set inference issue as above.
+  - Fix applied: marked recursive functions with explicit `anyerror!void`.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test data_structures/hash_table_with_linked_list.zig`
+  - Symptom: compile errors (`invalid left-hand side to assignment` and recursive error-set inference).
+  - Root cause: one-line `for`/`if` assignment syntax issue and recursive error-set cycle.
+  - Fix applied: converted loop to block form and marked recursive functions with explicit `anyerror!void`.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test data_structures/radix_tree.zig`
+  - Symptom: runtime segmentation fault in insert split path.
+  - Root cause: used `m.matching` slice after mutating/freing original incoming prefix memory.
+  - Fix applied: duplicated `matching` bytes before prefix mutation and used the owned copy for split-node creation.
+  - Post-fix verification: file-level test and full `zig build test` passed.
+
+## Phase 5 Batch F - Wave 11 (2026-03-04)
+
+Scope:
+- `data_structures/alternate_disjoint_set.zig`
+- `data_structures/doubly_linked_list_two.zig`
+- `data_structures/heap.zig`
+- `data_structures/heap_generic.zig`
+- `data_structures/skew_heap.zig`
+- `data_structures/randomized_heap.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/alternate_disjoint_set.zig` ✅
+- `zig test data_structures/doubly_linked_list_two.zig` ✅
+- `zig test data_structures/heap.zig` ✅
+- `zig test data_structures/heap_generic.zig` ✅
+- `zig test data_structures/skew_heap.zig` ✅
+- `zig test data_structures/randomized_heap.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/alternate_disjoint_set.zig`
+  - Symptom: compile error (`local variable is never mutated`).
+  - Root cause: test allocation binding declared as `var` while not reassigned.
+  - Fix applied: changed binding to `const`.
+  - Post-fix verification: file-level test and full `zig build test` passed.
+
+## Phase 5 Batch F - Wave 10 (2026-03-04)
+
+Scope:
+- `data_structures/lowest_common_ancestor.zig`
+- `data_structures/wavelet_tree.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- Both files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/lowest_common_ancestor.zig` ✅
+- `zig test data_structures/wavelet_tree.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/lowest_common_ancestor.zig`
+  - Symptom: compile error (`local variable is never mutated`).
+  - Root cause: several test variables were declared `var` even though only pointee contents were mutated.
+  - Fix applied: changed those bindings to `const` while preserving mutable slices.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test data_structures/wavelet_tree.zig`
+  - Symptom: compile error (`@intCast must have a known result type`).
+  - Root cause: cast in range-mapping path lacked explicit destination type.
+  - Fix applied: added explicit `isize` cast in that expression.
+  - Post-fix verification: file-level test and full `zig build test` passed.
+
+## Phase 5 Batch F - Wave 9 (2026-03-04)
+
+Scope:
+- `data_structures/distribute_coins.zig`
+- `data_structures/maximum_sum_bst.zig`
+- `data_structures/inorder_tree_traversal_2022.zig`
+- `data_structures/binary_search_tree_recursive.zig`
+- `data_structures/maximum_fenwick_tree.zig`
+- `data_structures/non_recursive_segment_tree.zig`
+- `data_structures/lazy_segment_tree.zig`
+- `data_structures/segment_tree_other.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/distribute_coins.zig` ✅
+- `zig test data_structures/maximum_sum_bst.zig` ✅
+- `zig test data_structures/inorder_tree_traversal_2022.zig` ✅
+- `zig test data_structures/binary_search_tree_recursive.zig` ✅
+- `zig test data_structures/maximum_fenwick_tree.zig` ✅
+- `zig test data_structures/non_recursive_segment_tree.zig` ✅
+- `zig test data_structures/lazy_segment_tree.zig` ✅
+- `zig test data_structures/segment_tree_other.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/distribute_coins.zig`
+  - Symptom: compile error on mixed `i64` and `u64` in move accumulation.
+  - Root cause: `@abs(i64)` returns unsigned type, then added directly to signed accumulator.
+  - Fix applied: explicitly cast absolute values back to `i64` before summation.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test data_structures/binary_search_tree_recursive.zig`
+  - Symptom: compile error on `%` with signed integer.
+  - Root cause: Zig requires `@mod`/`@rem` for signed modulo.
+  - Fix applied: replaced `%` with `@mod`.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test data_structures/maximum_fenwick_tree.zig`
+  - Symptom: runtime panic (integer overflow) during query path.
+  - Root cause: brittle index boundary expression underflowed on left-edge cases.
+  - Fix applied: simplified query loop to signed-boundary logic (`r >= l`) with direct branch on `getPrev`.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test data_structures/non_recursive_segment_tree.zig`
+  - Symptom: compile error `pointless discard of capture`.
+  - Root cause: redundant `_ = i` in loop where `i` was already used.
+  - Fix applied: removed unnecessary discard line.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test data_structures/segment_tree_other.zig`
+  - Symptom: one assertion failed in max-query test case.
+  - Root cause: expected value was incorrect after point update (`queryRange(3,4)` should be `4` not `5`).
+  - Fix applied: corrected test expectation.
+  - Post-fix verification: file-level test and full `zig build test` passed.
+
+## Phase 5 Batch F - Wave 8 (2026-03-04)
+
+Scope:
+- `data_structures/binary_tree_traversals.zig`
+- `data_structures/diff_views_of_binary_tree.zig`
+- `data_structures/merge_two_binary_trees.zig`
+- `data_structures/number_of_possible_binary_trees.zig`
+- `data_structures/serialize_deserialize_binary_tree.zig`
+- `data_structures/is_sorted.zig`
+- `data_structures/mirror_binary_tree.zig`
+- `data_structures/flatten_binarytree_to_linkedlist.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/binary_tree_traversals.zig` ✅
+- `zig test data_structures/diff_views_of_binary_tree.zig` ✅
+- `zig test data_structures/merge_two_binary_trees.zig` ✅
+- `zig test data_structures/number_of_possible_binary_trees.zig` ✅
+- `zig test data_structures/serialize_deserialize_binary_tree.zig` ✅
+- `zig test data_structures/is_sorted.zig` ✅
+- `zig test data_structures/mirror_binary_tree.zig` ✅
+- `zig test data_structures/flatten_binarytree_to_linkedlist.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/number_of_possible_binary_trees.zig`
+  - Symptom: extreme-case monotonicity assertion failed.
+  - Root cause: test incorrectly required strict growth from `n=0` to `n=1`, but `Catalan(0) = Catalan(1) = 1`.
+  - Fix applied: changed strict-growth assertion range from `n > 0` to `n > 1`.
+  - Post-fix verification: file-level test and full `zig build test` both passed.
+
+## Phase 5 Batch F - Wave 7 (2026-03-04)
+
+Scope:
+- `data_structures/basic_binary_tree.zig`
+- `data_structures/binary_tree_mirror.zig`
+- `data_structures/binary_tree_node_sum.zig`
+- `data_structures/binary_tree_path_sum.zig`
+- `data_structures/floor_and_ceiling.zig`
+- `data_structures/is_sum_tree.zig`
+- `data_structures/symmetric_tree.zig`
+- `data_structures/diameter_of_binary_tree.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/basic_binary_tree.zig` ✅
+- `zig test data_structures/binary_tree_mirror.zig` ✅
+- `zig test data_structures/binary_tree_node_sum.zig` ✅
+- `zig test data_structures/binary_tree_path_sum.zig` ✅
+- `zig test data_structures/floor_and_ceiling.zig` ✅
+- `zig test data_structures/is_sum_tree.zig` ✅
+- `zig test data_structures/symmetric_tree.zig` ✅
+- `zig test data_structures/diameter_of_binary_tree.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/is_sum_tree.zig`
+  - Symptom: extreme-case assertion failed on generated perfect tree.
+  - Root cause: test built nodes using `parent = left_child_value + right_child_value`, which does not satisfy Sum Tree definition (`parent = left_subtree_sum + right_subtree_sum`) for upper levels.
+  - Fix applied: changed generator to track subtree sums bottom-up and assign parent data from child subtree sums.
+  - Post-fix verification: `zig test data_structures/is_sum_tree.zig` passed.
+
+## Phase 5 Batch F - Wave 6 (2026-03-04)
+
+Scope:
+- `data_structures/monotonic_array.zig`
+- `data_structures/kth_largest_element.zig`
+- `data_structures/median_two_array.zig`
+- `data_structures/index_2d_array_in_1d.zig`
+- `data_structures/find_triplets_with_0_sum.zig`
+- `data_structures/permutations.zig`
+- `data_structures/product_sum.zig`
+- `data_structures/double_ended_queue.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test data_structures/monotonic_array.zig` ✅
+- `zig test data_structures/kth_largest_element.zig` ✅
+- `zig test data_structures/median_two_array.zig` ✅
+- `zig test data_structures/index_2d_array_in_1d.zig` ✅
+- `zig test data_structures/find_triplets_with_0_sum.zig` ✅
+- `zig test data_structures/permutations.zig` ✅
+- `zig test data_structures/product_sum.zig` ✅
+- `zig test data_structures/double_ended_queue.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_structures/median_two_array.zig`
+  - Symptom: compile error from mixed integer/float expression in extreme-case expectation.
+  - Root cause: attempted `n - 0.5` where `n` is `usize`.
+  - Fix applied: changed assertion to `@floatFromInt(n) - 0.5`.
+  - Post-fix verification: `zig test data_structures/median_two_array.zig` passed.
+- Failing step/command:
+  - `zig test data_structures/find_triplets_with_0_sum.zig` and `zig test data_structures/permutations.zig`
+  - Symptom: compile error (`std.ArrayList(...).init` not available).
+  - Root cause: code used managed `ArrayList` API incompatible with repository’s Zig 0.15.2 style.
+  - Fix applied: migrated to `std.ArrayListUnmanaged` with allocator-explicit `append`, `deinit`, and `toOwnedSlice`.
+  - Post-fix verification: both file tests passed.
+- Failing step/command:
+  - `zig test data_structures/find_triplets_with_0_sum.zig`
+  - Symptom: compile error calling `toOwnedSlice` without allocator argument.
+  - Root cause: one short-array return path was not updated during `ArrayListUnmanaged` migration.
+  - Fix applied: passed allocator in that return path (`toOwnedSlice(allocator)`).
+  - Post-fix verification: `zig test data_structures/find_triplets_with_0_sum.zig` passed.
+- Failing step/command:
+  - `zig test data_structures/kth_largest_element.zig`
+  - Symptom: extreme-case test was effectively stuck due pathological pivot behavior on ordered input.
+  - Root cause: deterministic last-element pivot + sorted stress data triggered near worst-case quickselect path.
+  - Fix applied: kept test size and correctness checks, but shuffled stress input deterministically before assertions.
+  - Post-fix verification: `zig test data_structures/kth_largest_element.zig` passed.
+
 ## Phase 5 Batch F - Wave 5 (2026-03-04)
 
 Scope:

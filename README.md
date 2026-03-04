@@ -168,7 +168,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Kth Lexicographic Permutation | [`maths/kth_lexicographic_permutation.zig`](maths/kth_lexicographic_permutation.zig) | O(n²) |
 | Largest of Very Large Numbers (Log Compare) | [`maths/largest_of_very_large_numbers.zig`](maths/largest_of_very_large_numbers.zig) | O(1) |
 
-### Data Structures (57)
+### Data Structures (101)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -229,6 +229,50 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Pairs With Given Sum | [`data_structures/pairs_with_given_sum.zig`](data_structures/pairs_with_given_sum.zig) | O(n) |
 | Prefix Sum | [`data_structures/prefix_sum.zig`](data_structures/prefix_sum.zig) | Build O(n), Query O(1) |
 | Rotate Array | [`data_structures/rotate_array.zig`](data_structures/rotate_array.zig) | O(n) |
+| Monotonic Array Check | [`data_structures/monotonic_array.zig`](data_structures/monotonic_array.zig) | O(n) |
+| Kth Largest Element | [`data_structures/kth_largest_element.zig`](data_structures/kth_largest_element.zig) | Average O(n) |
+| Median of Two Arrays | [`data_structures/median_two_array.zig`](data_structures/median_two_array.zig) | O((n+m) log(n+m)) |
+| Index 2D Array In 1D | [`data_structures/index_2d_array_in_1d.zig`](data_structures/index_2d_array_in_1d.zig) | O(rows) |
+| Find Triplets With 0 Sum | [`data_structures/find_triplets_with_0_sum.zig`](data_structures/find_triplets_with_0_sum.zig) | O(n^3) / O(n^2) hashing |
+| Permutations (Array Variants) | [`data_structures/permutations.zig`](data_structures/permutations.zig) | O(n! · n) |
+| Product Sum (Nested Arrays) | [`data_structures/product_sum.zig`](data_structures/product_sum.zig) | O(n) |
+| Double Ended Queue (Linked Nodes) | [`data_structures/double_ended_queue.zig`](data_structures/double_ended_queue.zig) | O(1) append/pop both ends |
+| Basic Binary Tree Utilities | [`data_structures/basic_binary_tree.zig`](data_structures/basic_binary_tree.zig) | O(n) traversal/metrics |
+| Binary Tree Mirror (Dictionary Form) | [`data_structures/binary_tree_mirror.zig`](data_structures/binary_tree_mirror.zig) | O(n) |
+| Binary Tree Node Sum | [`data_structures/binary_tree_node_sum.zig`](data_structures/binary_tree_node_sum.zig) | O(n) |
+| Binary Tree Path Sum | [`data_structures/binary_tree_path_sum.zig`](data_structures/binary_tree_path_sum.zig) | O(n²) worst |
+| BST Floor And Ceiling | [`data_structures/floor_and_ceiling.zig`](data_structures/floor_and_ceiling.zig) | O(h) |
+| Sum Tree Check | [`data_structures/is_sum_tree.zig`](data_structures/is_sum_tree.zig) | O(n) |
+| Symmetric Tree Check | [`data_structures/symmetric_tree.zig`](data_structures/symmetric_tree.zig) | O(n) |
+| Diameter Of Binary Tree (Node-Centered) | [`data_structures/diameter_of_binary_tree.zig`](data_structures/diameter_of_binary_tree.zig) | O(n) |
+| Binary Tree Traversals | [`data_structures/binary_tree_traversals.zig`](data_structures/binary_tree_traversals.zig) | O(n) typical; zigzag O(n²) worst |
+| Different Views Of Binary Tree | [`data_structures/diff_views_of_binary_tree.zig`](data_structures/diff_views_of_binary_tree.zig) | O(n log n) |
+| Merge Two Binary Trees | [`data_structures/merge_two_binary_trees.zig`](data_structures/merge_two_binary_trees.zig) | O(n) |
+| Number Of Possible Binary Trees | [`data_structures/number_of_possible_binary_trees.zig`](data_structures/number_of_possible_binary_trees.zig) | O(n) |
+| Serialize/Deserialize Binary Tree | [`data_structures/serialize_deserialize_binary_tree.zig`](data_structures/serialize_deserialize_binary_tree.zig) | O(n) |
+| Is Sorted (Local BST Rule) | [`data_structures/is_sorted.zig`](data_structures/is_sorted.zig) | O(n) |
+| Mirror Binary Tree | [`data_structures/mirror_binary_tree.zig`](data_structures/mirror_binary_tree.zig) | O(n) |
+| Flatten Binary Tree To Linked List | [`data_structures/flatten_binarytree_to_linkedlist.zig`](data_structures/flatten_binarytree_to_linkedlist.zig) | O(n) |
+| Distribute Coins In Binary Tree | [`data_structures/distribute_coins.zig`](data_structures/distribute_coins.zig) | O(n) |
+| Maximum Sum BST In Binary Tree | [`data_structures/maximum_sum_bst.zig`](data_structures/maximum_sum_bst.zig) | O(n) |
+| Inorder Tree Traversal 2022 | [`data_structures/inorder_tree_traversal_2022.zig`](data_structures/inorder_tree_traversal_2022.zig) | Insert O(h), traversal O(n) |
+| Binary Search Tree (Recursive) | [`data_structures/binary_search_tree_recursive.zig`](data_structures/binary_search_tree_recursive.zig) | O(h) search/insert/remove |
+| Maximum Fenwick Tree | [`data_structures/maximum_fenwick_tree.zig`](data_structures/maximum_fenwick_tree.zig) | O(log² n) update/query |
+| Non-Recursive Segment Tree | [`data_structures/non_recursive_segment_tree.zig`](data_structures/non_recursive_segment_tree.zig) | O(log n) update/query |
+| Lazy Segment Tree (Range Assign + Max) | [`data_structures/lazy_segment_tree.zig`](data_structures/lazy_segment_tree.zig) | O(log n) update/query |
+| Segment Tree (Recursive Node Form) | [`data_structures/segment_tree_other.zig`](data_structures/segment_tree_other.zig) | O(log n) update/query |
+| Lowest Common Ancestor (Binary Lifting) | [`data_structures/lowest_common_ancestor.zig`](data_structures/lowest_common_ancestor.zig) | Preprocess O(n log n), query O(log n) |
+| Wavelet Tree | [`data_structures/wavelet_tree.zig`](data_structures/wavelet_tree.zig) | Build O(n log sigma), query O(log sigma) |
+| Alternate Disjoint Set | [`data_structures/alternate_disjoint_set.zig`](data_structures/alternate_disjoint_set.zig) | Amortized O(alpha(n)) |
+| Doubly Linked List (Double Ended Variant) | [`data_structures/doubly_linked_list_two.zig`](data_structures/doubly_linked_list_two.zig) | O(1) head/tail ops, O(n) search |
+| Heap (Max Heap) | [`data_structures/heap.zig`](data_structures/heap.zig) | Build O(n), push/pop O(log n) |
+| Heap (Generic Item+Score) | [`data_structures/heap_generic.zig`](data_structures/heap_generic.zig) | O(log n) insert/update/delete |
+| Skew Heap | [`data_structures/skew_heap.zig`](data_structures/skew_heap.zig) | Amortized O(log n) |
+| Randomized Meldable Heap | [`data_structures/randomized_heap.zig`](data_structures/randomized_heap.zig) | Expected O(log n) |
+| Hash Table (Linear Probing) | [`data_structures/hash_table.zig`](data_structures/hash_table.zig) | Average O(1) insert/query |
+| Hash Table (Linked-List Buckets) | [`data_structures/hash_table_with_linked_list.zig`](data_structures/hash_table_with_linked_list.zig) | Average O(1) insert/query |
+| Quadratic Probing Hash Table | [`data_structures/quadratic_probing.zig`](data_structures/quadratic_probing.zig) | Average O(1) insert/query |
+| Radix Tree | [`data_structures/radix_tree.zig`](data_structures/radix_tree.zig) | O(L) per operation |
 
 ### Dynamic Programming (17)
 
@@ -485,7 +529,7 @@ TheAlgorithms-Zig/
 ├── sorts/                   # 50 sorting algorithms
 ├── searches/                # 6 search algorithms
 ├── maths/                   # 81 math algorithms
-├── data_structures/         # 57 data structure implementations
+├── data_structures/         # 73 data structure implementations
 ├── dynamic_programming/     # 17 dynamic programming algorithms
 ├── graphs/                  # 46 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
@@ -704,7 +748,7 @@ MIT
 | 第 k 个字典序排列 | [`maths/kth_lexicographic_permutation.zig`](maths/kth_lexicographic_permutation.zig) | O(n²) |
 | 超大幂比较（对数法） | [`maths/largest_of_very_large_numbers.zig`](maths/largest_of_very_large_numbers.zig) | O(1) |
 
-### 数据结构 (57)
+### 数据结构 (101)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -765,6 +809,50 @@ MIT
 | 指定和配对计数 | [`data_structures/pairs_with_given_sum.zig`](data_structures/pairs_with_given_sum.zig) | O(n) |
 | 前缀和 | [`data_structures/prefix_sum.zig`](data_structures/prefix_sum.zig) | 构建 O(n)，查询 O(1) |
 | 数组旋转 | [`data_structures/rotate_array.zig`](data_structures/rotate_array.zig) | O(n) |
+| 单调数组检查 | [`data_structures/monotonic_array.zig`](data_structures/monotonic_array.zig) | O(n) |
+| 第 k 大元素 | [`data_structures/kth_largest_element.zig`](data_structures/kth_largest_element.zig) | 平均 O(n) |
+| 两数组中位数 | [`data_structures/median_two_array.zig`](data_structures/median_two_array.zig) | O((n+m) log(n+m)) |
+| 二维数组一维索引 | [`data_structures/index_2d_array_in_1d.zig`](data_structures/index_2d_array_in_1d.zig) | O(rows) |
+| 零和三元组 | [`data_structures/find_triplets_with_0_sum.zig`](data_structures/find_triplets_with_0_sum.zig) | O(n^3) / 哈希 O(n^2) |
+| 全排列（数组版本） | [`data_structures/permutations.zig`](data_structures/permutations.zig) | O(n! · n) |
+| 嵌套数组乘积和 | [`data_structures/product_sum.zig`](data_structures/product_sum.zig) | O(n) |
+| 双端队列（双向链表节点） | [`data_structures/double_ended_queue.zig`](data_structures/double_ended_queue.zig) | 两端 append/pop O(1) |
+| 基础二叉树工具集 | [`data_structures/basic_binary_tree.zig`](data_structures/basic_binary_tree.zig) | 遍历/度量 O(n) |
+| 二叉树镜像（字典表示） | [`data_structures/binary_tree_mirror.zig`](data_structures/binary_tree_mirror.zig) | O(n) |
+| 二叉树节点求和 | [`data_structures/binary_tree_node_sum.zig`](data_structures/binary_tree_node_sum.zig) | O(n) |
+| 二叉树路径和计数 | [`data_structures/binary_tree_path_sum.zig`](data_structures/binary_tree_path_sum.zig) | 最坏 O(n²) |
+| BST Floor / Ceiling | [`data_structures/floor_and_ceiling.zig`](data_structures/floor_and_ceiling.zig) | O(h) |
+| Sum Tree 判定 | [`data_structures/is_sum_tree.zig`](data_structures/is_sum_tree.zig) | O(n) |
+| 对称二叉树判定 | [`data_structures/symmetric_tree.zig`](data_structures/symmetric_tree.zig) | O(n) |
+| 二叉树直径（节点中心定义） | [`data_structures/diameter_of_binary_tree.zig`](data_structures/diameter_of_binary_tree.zig) | O(n) |
+| 二叉树遍历集合 | [`data_structures/binary_tree_traversals.zig`](data_structures/binary_tree_traversals.zig) | 常规 O(n)，zigzag 最坏 O(n²) |
+| 二叉树多视图（左/右/上/下） | [`data_structures/diff_views_of_binary_tree.zig`](data_structures/diff_views_of_binary_tree.zig) | O(n log n) |
+| 合并两棵二叉树 | [`data_structures/merge_two_binary_trees.zig`](data_structures/merge_two_binary_trees.zig) | O(n) |
+| 二叉树数量（Catalan/总数） | [`data_structures/number_of_possible_binary_trees.zig`](data_structures/number_of_possible_binary_trees.zig) | O(n) |
+| 二叉树序列化/反序列化 | [`data_structures/serialize_deserialize_binary_tree.zig`](data_structures/serialize_deserialize_binary_tree.zig) | O(n) |
+| 有序性检查（局部 BST 规则） | [`data_structures/is_sorted.zig`](data_structures/is_sorted.zig) | O(n) |
+| 二叉树镜像 | [`data_structures/mirror_binary_tree.zig`](data_structures/mirror_binary_tree.zig) | O(n) |
+| 二叉树拍平为链表 | [`data_structures/flatten_binarytree_to_linkedlist.zig`](data_structures/flatten_binarytree_to_linkedlist.zig) | O(n) |
+| 二叉树硬币分配 | [`data_structures/distribute_coins.zig`](data_structures/distribute_coins.zig) | O(n) |
+| 二叉树中 BST 子树最大和 | [`data_structures/maximum_sum_bst.zig`](data_structures/maximum_sum_bst.zig) | O(n) |
+| 中序遍历（2022 版本） | [`data_structures/inorder_tree_traversal_2022.zig`](data_structures/inorder_tree_traversal_2022.zig) | 插入 O(h)，遍历 O(n) |
+| 二叉搜索树（递归实现） | [`data_structures/binary_search_tree_recursive.zig`](data_structures/binary_search_tree_recursive.zig) | 搜索/插入/删除 O(h) |
+| 最大值 Fenwick 树 | [`data_structures/maximum_fenwick_tree.zig`](data_structures/maximum_fenwick_tree.zig) | 更新/查询 O(log² n) |
+| 非递归线段树 | [`data_structures/non_recursive_segment_tree.zig`](data_structures/non_recursive_segment_tree.zig) | 更新/查询 O(log n) |
+| 懒标记线段树（区间赋值+最大值） | [`data_structures/lazy_segment_tree.zig`](data_structures/lazy_segment_tree.zig) | 更新/查询 O(log n) |
+| 线段树（递归节点实现） | [`data_structures/segment_tree_other.zig`](data_structures/segment_tree_other.zig) | 更新/查询 O(log n) |
+| 最近公共祖先（倍增法） | [`data_structures/lowest_common_ancestor.zig`](data_structures/lowest_common_ancestor.zig) | 预处理 O(n log n)，查询 O(log n) |
+| Wavelet 树 | [`data_structures/wavelet_tree.zig`](data_structures/wavelet_tree.zig) | 构建 O(n log sigma)，查询 O(log sigma) |
+| 并查集（替代实现） | [`data_structures/alternate_disjoint_set.zig`](data_structures/alternate_disjoint_set.zig) | 均摊 O(alpha(n)) |
+| 双向链表（双端版本） | [`data_structures/doubly_linked_list_two.zig`](data_structures/doubly_linked_list_two.zig) | 头尾 O(1)，查找 O(n) |
+| 堆（最大堆） | [`data_structures/heap.zig`](data_structures/heap.zig) | 构建 O(n)，插入/弹出 O(log n) |
+| 堆（通用 item+score） | [`data_structures/heap_generic.zig`](data_structures/heap_generic.zig) | 插入/更新/删除 O(log n) |
+| 斜堆 | [`data_structures/skew_heap.zig`](data_structures/skew_heap.zig) | 均摊 O(log n) |
+| 随机可并堆 | [`data_structures/randomized_heap.zig`](data_structures/randomized_heap.zig) | 期望 O(log n) |
+| 哈希表（线性探测） | [`data_structures/hash_table.zig`](data_structures/hash_table.zig) | 平均 O(1) 插入/查询 |
+| 哈希表（链表桶） | [`data_structures/hash_table_with_linked_list.zig`](data_structures/hash_table_with_linked_list.zig) | 平均 O(1) 插入/查询 |
+| 哈希表（二次探测） | [`data_structures/quadratic_probing.zig`](data_structures/quadratic_probing.zig) | 平均 O(1) 插入/查询 |
+| Radix 树（压缩前缀树） | [`data_structures/radix_tree.zig`](data_structures/radix_tree.zig) | 每次操作 O(L) |
 
 ### 动态规划 (17)
 
@@ -1009,7 +1097,7 @@ TheAlgorithms-Zig/
 ├── sorts/                   # 50 种排序算法
 ├── searches/                # 6 种查找算法
 ├── maths/                   # 81 种数学算法
-├── data_structures/         # 57 种数据结构实现
+├── data_structures/         # 73 种数据结构实现
 ├── dynamic_programming/     # 17 个动态规划算法
 ├── graphs/                  # 46 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
