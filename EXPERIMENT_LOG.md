@@ -17,6 +17,118 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch E - Wave 3 (2026-03-04)
+
+Scope:
+- `ciphers/beaufort_cipher.zig`
+- `ciphers/gronsfeld_cipher.zig`
+- `ciphers/vernam_cipher.zig`
+- `ciphers/running_key_cipher.zig`
+- `ciphers/onepad_cipher.zig`
+- `ciphers/permutation_cipher.zig`
+- `ciphers/mono_alphabetic_ciphers.zig`
+- `ciphers/brute_force_caesar_cipher.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test ciphers/beaufort_cipher.zig` ✅
+- `zig test ciphers/gronsfeld_cipher.zig` ✅
+- `zig test ciphers/vernam_cipher.zig` ✅
+- `zig test ciphers/running_key_cipher.zig` ✅
+- `zig test ciphers/onepad_cipher.zig` ✅
+- `zig test ciphers/permutation_cipher.zig` ✅
+- `zig test ciphers/mono_alphabetic_ciphers.zig` ✅
+- `zig test ciphers/brute_force_caesar_cipher.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test ciphers/running_key_cipher.zig`
+  - Symptom: sample test failed with `InvalidCharacter`.
+  - Root cause: implementation over-restricted key/plaintext to letters only, but Python reference accepts non-space symbols in key stream.
+  - Fix applied: changed normalization to only remove spaces and uppercase characters, preserving Python behavior.
+  - Post-fix verification: `zig test ciphers/running_key_cipher.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/permutation_cipher.zig`
+  - Symptom: compile error `root source file struct 'std' has no member named 'BoundedArray'`.
+  - Root cause: used unavailable std API for current Zig toolchain (`0.15.2`).
+  - Fix applied: replaced with allocator-backed boolean marker array for key-validation checks.
+  - Post-fix verification: `zig test ciphers/permutation_cipher.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/mono_alphabetic_ciphers.zig`
+  - Symptom: Python sample mismatch (`expected \"Pcssi Bidsm\", found \"Itssg Vgksr\"`).
+  - Root cause: encrypt/decrypt mapping direction was reversed from Python implementation.
+  - Fix applied: reworked translation to use Python-equivalent `chars_a/chars_b` mapping direction.
+  - Post-fix verification: `zig test ciphers/mono_alphabetic_ciphers.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/permutation_cipher.zig`
+  - Symptom: space-handling test failed with `InvalidBlockSize`.
+  - Root cause: test fixture length was not divisible by permutation block size.
+  - Fix applied: replaced fixture with block-aligned message while preserving space-case coverage.
+  - Post-fix verification: `zig test ciphers/permutation_cipher.zig` passed.
+
+## Phase 5 Batch E - Wave 2 (2026-03-04)
+
+Scope:
+- `ciphers/affine_cipher.zig`
+- `ciphers/baconian_cipher.zig`
+- `ciphers/base16.zig`
+- `ciphers/base32.zig`
+- `ciphers/base85.zig`
+- `ciphers/morse_code.zig`
+- `ciphers/polybius.zig`
+- `ciphers/autokey.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test ciphers/affine_cipher.zig` ✅
+- `zig test ciphers/baconian_cipher.zig` ✅
+- `zig test ciphers/base16.zig` ✅
+- `zig test ciphers/base32.zig` ✅
+- `zig test ciphers/base85.zig` ✅
+- `zig test ciphers/morse_code.zig` ✅
+- `zig test ciphers/polybius.zig` ✅
+- `zig test ciphers/autokey.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test ciphers/affine_cipher.zig`
+  - Symptom: compile error around absolute-value/gcd type mismatch.
+  - Root cause: `@abs` usage inferred an incompatible integer type for gcd operands.
+  - Fix applied: replaced with explicit signed absolute-value handling and consistent integer typing.
+  - Post-fix verification: `zig test ciphers/affine_cipher.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/base16.zig`
+  - Symptom: compile error for non-existent formatter helper.
+  - Root cause: attempted to use unavailable `std.fmt.fmtSliceHexUpper`.
+  - Fix applied: implemented manual uppercase hex encoding path.
+  - Post-fix verification: `zig test ciphers/base16.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/base16.zig`
+  - Symptom: invalid-input test assertion mismatch.
+  - Root cause: test fixture used an unsuitable invalid-case string.
+  - Fix applied: corrected test input to an even-length invalid-hex sample that targets alphabet validation.
+  - Post-fix verification: `zig test ciphers/base16.zig` passed.
+- Failing step/command:
+  - `zig test ciphers/base32.zig` and `zig test ciphers/base85.zig`
+  - Symptom: compile error from comptime integer literal participation in bit operations.
+  - Root cause: untyped literals in bit-accumulation code triggered comptime-only constraints.
+  - Fix applied: added explicit typed literals (`@as(u8, 1)`, etc.) in bit paths.
+  - Post-fix verification: both file tests passed.
+- Failing step/command:
+  - `zig test ciphers/autokey.zig`
+  - Symptom: compile error from incorrect `std.ascii.lowerString` call shape.
+  - Root cause: function requires explicit output buffer argument.
+  - Fix applied: updated test to pass destination buffer correctly.
+  - Post-fix verification: `zig test ciphers/autokey.zig` passed.
+
 ## Phase 5 Batch E - Wave 1 (2026-03-04)
 
 Scope:

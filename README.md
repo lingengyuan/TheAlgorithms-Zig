@@ -319,7 +319,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Integer to Roman | [`conversions/integer_to_roman.zig`](conversions/integer_to_roman.zig) | O(1) bounded range |
 | Temperature Conversion | [`conversions/temperature_conversion.zig`](conversions/temperature_conversion.zig) | O(1) |
 
-### Ciphers (9)
+### Ciphers (25)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -332,6 +332,22 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Base64 Cipher | [`ciphers/base64_cipher.zig`](ciphers/base64_cipher.zig) | O(n) |
 | Transposition Cipher (Route) | [`ciphers/transposition_cipher.zig`](ciphers/transposition_cipher.zig) | O(n) |
 | A1Z26 Letter-Number Cipher | [`ciphers/a1z26.zig`](ciphers/a1z26.zig) | O(n) |
+| Affine Cipher | [`ciphers/affine_cipher.zig`](ciphers/affine_cipher.zig) | O(n · m) |
+| Baconian Cipher | [`ciphers/baconian_cipher.zig`](ciphers/baconian_cipher.zig) | O(n) |
+| Base16 Encoding/Decoding | [`ciphers/base16.zig`](ciphers/base16.zig) | O(n) |
+| Base32 Encoding/Decoding | [`ciphers/base32.zig`](ciphers/base32.zig) | O(n) |
+| Base85 Encoding/Decoding | [`ciphers/base85.zig`](ciphers/base85.zig) | O(n) |
+| Morse Code Cipher | [`ciphers/morse_code.zig`](ciphers/morse_code.zig) | O(n · table) |
+| Polybius Square Cipher | [`ciphers/polybius.zig`](ciphers/polybius.zig) | O(n) |
+| Autokey Cipher | [`ciphers/autokey.zig`](ciphers/autokey.zig) | O(n) |
+| Beaufort Cipher | [`ciphers/beaufort_cipher.zig`](ciphers/beaufort_cipher.zig) | O(n) |
+| Gronsfeld Cipher | [`ciphers/gronsfeld_cipher.zig`](ciphers/gronsfeld_cipher.zig) | O(n) |
+| Vernam Cipher | [`ciphers/vernam_cipher.zig`](ciphers/vernam_cipher.zig) | O(n) |
+| Running Key Cipher | [`ciphers/running_key_cipher.zig`](ciphers/running_key_cipher.zig) | O(n) |
+| Onepad Cipher | [`ciphers/onepad_cipher.zig`](ciphers/onepad_cipher.zig) | O(n) |
+| Permutation Cipher | [`ciphers/permutation_cipher.zig`](ciphers/permutation_cipher.zig) | O(n) |
+| Mono Alphabetic Cipher | [`ciphers/mono_alphabetic_ciphers.zig`](ciphers/mono_alphabetic_ciphers.zig) | O(n) |
+| Brute Force Caesar Cipher | [`ciphers/brute_force_caesar_cipher.zig`](ciphers/brute_force_caesar_cipher.zig) | O(26 · n) |
 
 ### Hashing (1)
 
@@ -409,7 +425,7 @@ TheAlgorithms-Zig/
 ├── graphs/                  # 34 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 7 number base conversions
-├── ciphers/                 # 1 cipher algorithm
+├── ciphers/                 # 25 cipher algorithms
 ├── hashing/                 # 1 hashing algorithm
 ├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
@@ -762,11 +778,35 @@ MIT
 | 整数转罗马数字 | [`conversions/integer_to_roman.zig`](conversions/integer_to_roman.zig) | O(1)（有界区间） |
 | 温度单位转换 | [`conversions/temperature_conversion.zig`](conversions/temperature_conversion.zig) | O(1) |
 
-### 密码学 (1)
+### 密码学 (25)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
 | 凯撒密码 | [`ciphers/caesar_cipher.zig`](ciphers/caesar_cipher.zig) | O(n · m) |
+| ROT13 / 凯撒移位 | [`ciphers/rot13.zig`](ciphers/rot13.zig) | O(n) |
+| Atbash 密码 | [`ciphers/atbash.zig`](ciphers/atbash.zig) | O(n) |
+| 维吉尼亚密码 | [`ciphers/vigenere_cipher.zig`](ciphers/vigenere_cipher.zig) | O(n) |
+| 栅栏密码 | [`ciphers/rail_fence_cipher.zig`](ciphers/rail_fence_cipher.zig) | O(n) |
+| XOR 密码 | [`ciphers/xor_cipher.zig`](ciphers/xor_cipher.zig) | O(n) |
+| Base64 编解码 | [`ciphers/base64_cipher.zig`](ciphers/base64_cipher.zig) | O(n) |
+| 列换位密码（Route） | [`ciphers/transposition_cipher.zig`](ciphers/transposition_cipher.zig) | O(n) |
+| A1Z26 字母数字密码 | [`ciphers/a1z26.zig`](ciphers/a1z26.zig) | O(n) |
+| 仿射密码 | [`ciphers/affine_cipher.zig`](ciphers/affine_cipher.zig) | O(n · m) |
+| Baconian 密码 | [`ciphers/baconian_cipher.zig`](ciphers/baconian_cipher.zig) | O(n) |
+| Base16 编解码 | [`ciphers/base16.zig`](ciphers/base16.zig) | O(n) |
+| Base32 编解码 | [`ciphers/base32.zig`](ciphers/base32.zig) | O(n) |
+| Base85 编解码 | [`ciphers/base85.zig`](ciphers/base85.zig) | O(n) |
+| 摩尔斯密码 | [`ciphers/morse_code.zig`](ciphers/morse_code.zig) | O(n · table) |
+| 波利比奥斯方阵密码 | [`ciphers/polybius.zig`](ciphers/polybius.zig) | O(n) |
+| 自动密钥密码 | [`ciphers/autokey.zig`](ciphers/autokey.zig) | O(n) |
+| Beaufort 密码 | [`ciphers/beaufort_cipher.zig`](ciphers/beaufort_cipher.zig) | O(n) |
+| Gronsfeld 密码 | [`ciphers/gronsfeld_cipher.zig`](ciphers/gronsfeld_cipher.zig) | O(n) |
+| Vernam 密码 | [`ciphers/vernam_cipher.zig`](ciphers/vernam_cipher.zig) | O(n) |
+| Running Key 密码 | [`ciphers/running_key_cipher.zig`](ciphers/running_key_cipher.zig) | O(n) |
+| Onepad 密码 | [`ciphers/onepad_cipher.zig`](ciphers/onepad_cipher.zig) | O(n) |
+| 置换密码 | [`ciphers/permutation_cipher.zig`](ciphers/permutation_cipher.zig) | O(n) |
+| 单表代换密码 | [`ciphers/mono_alphabetic_ciphers.zig`](ciphers/mono_alphabetic_ciphers.zig) | O(n) |
+| 凯撒暴力解密 | [`ciphers/brute_force_caesar_cipher.zig`](ciphers/brute_force_caesar_cipher.zig) | O(26 · n) |
 
 ### 哈希 (1)
 
@@ -844,7 +884,7 @@ TheAlgorithms-Zig/
 ├── graphs/                  # 34 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 7 个进制转换
-├── ciphers/                 # 1 个密码学算法
+├── ciphers/                 # 25 个密码学算法
 ├── hashing/                 # 1 个哈希算法
 ├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法
