@@ -249,6 +249,14 @@ pub fn build(b: *std.Build) void {
         "conversions/temperature_conversion.zig",
         // Ciphers
         "ciphers/caesar_cipher.zig",
+        "ciphers/rot13.zig",
+        "ciphers/atbash.zig",
+        "ciphers/vigenere_cipher.zig",
+        "ciphers/rail_fence_cipher.zig",
+        "ciphers/xor_cipher.zig",
+        "ciphers/base64_cipher.zig",
+        "ciphers/transposition_cipher.zig",
+        "ciphers/a1z26.zig",
         // Hashing
         "hashing/sha256.zig",
         // Greedy Methods

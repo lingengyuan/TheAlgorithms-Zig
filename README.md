@@ -319,11 +319,19 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Integer to Roman | [`conversions/integer_to_roman.zig`](conversions/integer_to_roman.zig) | O(1) bounded range |
 | Temperature Conversion | [`conversions/temperature_conversion.zig`](conversions/temperature_conversion.zig) | O(1) |
 
-### Ciphers (1)
+### Ciphers (9)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
 | Caesar Cipher | [`ciphers/caesar_cipher.zig`](ciphers/caesar_cipher.zig) | O(n · m) |
+| ROT13 / Caesar Shift | [`ciphers/rot13.zig`](ciphers/rot13.zig) | O(n) |
+| Atbash Cipher | [`ciphers/atbash.zig`](ciphers/atbash.zig) | O(n) |
+| Vigenere Cipher | [`ciphers/vigenere_cipher.zig`](ciphers/vigenere_cipher.zig) | O(n) |
+| Rail Fence Cipher | [`ciphers/rail_fence_cipher.zig`](ciphers/rail_fence_cipher.zig) | O(n) |
+| XOR Cipher | [`ciphers/xor_cipher.zig`](ciphers/xor_cipher.zig) | O(n) |
+| Base64 Cipher | [`ciphers/base64_cipher.zig`](ciphers/base64_cipher.zig) | O(n) |
+| Transposition Cipher (Route) | [`ciphers/transposition_cipher.zig`](ciphers/transposition_cipher.zig) | O(n) |
+| A1Z26 Letter-Number Cipher | [`ciphers/a1z26.zig`](ciphers/a1z26.zig) | O(n) |
 
 ### Hashing (1)
 

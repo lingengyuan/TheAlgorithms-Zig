@@ -17,6 +17,36 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch E - Wave 1 (2026-03-04)
+
+Scope:
+- `ciphers/rot13.zig`
+- `ciphers/atbash.zig`
+- `ciphers/vigenere_cipher.zig`
+- `ciphers/rail_fence_cipher.zig`
+- `ciphers/xor_cipher.zig`
+- `ciphers/base64_cipher.zig`
+- `ciphers/transposition_cipher.zig`
+- `ciphers/a1z26.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test ciphers/rot13.zig` ✅
+- `zig test ciphers/atbash.zig` ✅
+- `zig test ciphers/vigenere_cipher.zig` ✅
+- `zig test ciphers/rail_fence_cipher.zig` ✅
+- `zig test ciphers/xor_cipher.zig` ✅
+- `zig test ciphers/base64_cipher.zig` ✅
+- `zig test ciphers/transposition_cipher.zig` ✅
+- `zig test ciphers/a1z26.zig` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
 ## Phase 5 Batch D - Wave 6 (2026-03-04)
 
 Scope:
