@@ -44,7 +44,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Jump Search | [`searches/jump_search.zig`](searches/jump_search.zig) | O(√n) |
 | Ternary Search | [`searches/ternary_search.zig`](searches/ternary_search.zig) | O(log₃ n) |
 
-### Math (16)
+### Math (81)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -64,6 +64,71 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Integer Square Root | [`maths/integer_square_root.zig`](maths/integer_square_root.zig) | O(log n) |
 | Miller-Rabin Primality Test | [`maths/miller_rabin.zig`](maths/miller_rabin.zig) | O(k · log³ n), k=7 |
 | Matrix Exponentiation | [`maths/matrix_exponentiation.zig`](maths/matrix_exponentiation.zig) | O(n³ log p) |
+| Perfect Number Check | [`maths/perfect_number.zig`](maths/perfect_number.zig) | O(n) |
+| Aliquot Sum | [`maths/aliquot_sum.zig`](maths/aliquot_sum.zig) | O(n) |
+| Fermat Little Theorem (Mod Division) | [`maths/fermat_little_theorem.zig`](maths/fermat_little_theorem.zig) | O(log p) |
+| Segmented Sieve | [`maths/segmented_sieve.zig`](maths/segmented_sieve.zig) | O(n log log n) |
+| Odd Sieve | [`maths/odd_sieve.zig`](maths/odd_sieve.zig) | O(n log log n) |
+| Twin Prime | [`maths/twin_prime.zig`](maths/twin_prime.zig) | O(√n) |
+| Lucas Series | [`maths/lucas_series.zig`](maths/lucas_series.zig) | O(n) |
+| Josephus Problem | [`maths/josephus_problem.zig`](maths/josephus_problem.zig) | O(n) |
+| Sum of Digits | [`maths/sum_of_digits.zig`](maths/sum_of_digits.zig) | O(d) |
+| Number of Digits | [`maths/number_of_digits.zig`](maths/number_of_digits.zig) | O(d) |
+| Integer Palindrome Check | [`maths/is_int_palindrome.zig`](maths/is_int_palindrome.zig) | O(d) |
+| Perfect Square | [`maths/perfect_square.zig`](maths/perfect_square.zig) | O(log n) |
+| Perfect Cube | [`maths/perfect_cube.zig`](maths/perfect_cube.zig) | O(log n) |
+| Quadratic Roots (Complex) | [`maths/quadratic_equations_complex_numbers.zig`](maths/quadratic_equations_complex_numbers.zig) | O(1) |
+| Decimal to Fraction | [`maths/decimal_to_fraction.zig`](maths/decimal_to_fraction.zig) | O(d) |
+| Armstrong Numbers | [`maths/armstrong_numbers.zig`](maths/armstrong_numbers.zig) | O(d) |
+| Automorphic Number | [`maths/automorphic_number.zig`](maths/automorphic_number.zig) | O(d) |
+| Catalan Number | [`maths/catalan_number.zig`](maths/catalan_number.zig) | O(n) |
+| Happy Number | [`maths/happy_number.zig`](maths/happy_number.zig) | O(k) |
+| Hexagonal Number | [`maths/hexagonal_number.zig`](maths/hexagonal_number.zig) | O(1) |
+| Pronic Number | [`maths/pronic_number.zig`](maths/pronic_number.zig) | O(log n) |
+| Proth Number | [`maths/proth_number.zig`](maths/proth_number.zig) | O(n) |
+| Triangular Numbers | [`maths/triangular_numbers.zig`](maths/triangular_numbers.zig) | O(1) |
+| Hamming Numbers | [`maths/hamming_numbers.zig`](maths/hamming_numbers.zig) | O(n) |
+| Polygonal Numbers | [`maths/polygonal_numbers.zig`](maths/polygonal_numbers.zig) | O(1) |
+| Average Mean | [`maths/average_mean.zig`](maths/average_mean.zig) | O(n) |
+| Average Median | [`maths/average_median.zig`](maths/average_median.zig) | O(n log n) |
+| Average Mode | [`maths/average_mode.zig`](maths/average_mode.zig) | O(n) |
+| Find Max | [`maths/find_max.zig`](maths/find_max.zig) | O(n) |
+| Find Min | [`maths/find_min.zig`](maths/find_min.zig) | O(n) |
+| Factors of a Number | [`maths/factors.zig`](maths/factors.zig) | O(sqrt(n)) |
+| Geometric Mean | [`maths/geometric_mean.zig`](maths/geometric_mean.zig) | O(n) |
+| Line Length (Arc Approximation) | [`maths/line_length.zig`](maths/line_length.zig) | O(steps) |
+| Euclidean Distance | [`maths/euclidean_distance.zig`](maths/euclidean_distance.zig) | O(n) |
+| Manhattan Distance | [`maths/manhattan_distance.zig`](maths/manhattan_distance.zig) | O(n) |
+| Absolute Value Utilities | [`maths/abs.zig`](maths/abs.zig) | O(n) |
+| Average Absolute Deviation | [`maths/average_absolute_deviation.zig`](maths/average_absolute_deviation.zig) | O(n) |
+| Chebyshev Distance | [`maths/chebyshev_distance.zig`](maths/chebyshev_distance.zig) | O(n) |
+| Minkowski Distance | [`maths/minkowski_distance.zig`](maths/minkowski_distance.zig) | O(n) |
+| Jaccard Similarity | [`maths/jaccard_similarity.zig`](maths/jaccard_similarity.zig) | O(n + m) |
+| Decimal Isolate | [`maths/decimal_isolate.zig`](maths/decimal_isolate.zig) | O(1) |
+| Floor Function | [`maths/floor.zig`](maths/floor.zig) | O(1) |
+| Ceiling Function | [`maths/ceil.zig`](maths/ceil.zig) | O(1) |
+| Signum Function | [`maths/signum.zig`](maths/signum.zig) | O(1) |
+| Remove Digit for Maximum | [`maths/remove_digit.zig`](maths/remove_digit.zig) | O(d²) |
+| Addition Without Arithmetic | [`maths/addition_without_arithmetic.zig`](maths/addition_without_arithmetic.zig) | O(1) |
+| Arc Length | [`maths/arc_length.zig`](maths/arc_length.zig) | O(1) |
+| Check Polygon Existence | [`maths/check_polygon.zig`](maths/check_polygon.zig) | O(n log n) |
+| Combinations (nCk) | [`maths/combinations.zig`](maths/combinations.zig) | O(k) |
+| Double Factorial | [`maths/double_factorial.zig`](maths/double_factorial.zig) | O(n) |
+| Pythagoras 3D Distance | [`maths/pythagoras.zig`](maths/pythagoras.zig) | O(1) |
+| Sum of Arithmetic Series | [`maths/sum_of_arithmetic_series.zig`](maths/sum_of_arithmetic_series.zig) | O(1) |
+| Sum of Geometric Progression | [`maths/sum_of_geometric_progression.zig`](maths/sum_of_geometric_progression.zig) | O(log n) |
+| Sum of Harmonic Progression | [`maths/sum_of_harmonic_series.zig`](maths/sum_of_harmonic_series.zig) | O(n) |
+| Sylvester Sequence | [`maths/sylvester_sequence.zig`](maths/sylvester_sequence.zig) | O(n) |
+| Two Sum (Hash Map) | [`maths/two_sum.zig`](maths/two_sum.zig) | O(n) |
+| Two Pointer Two-Sum | [`maths/two_pointer.zig`](maths/two_pointer.zig) | O(n) |
+| Three Sum | [`maths/three_sum.zig`](maths/three_sum.zig) | O(n²) |
+| Triplet Sum | [`maths/triplet_sum.zig`](maths/triplet_sum.zig) | O(n²) |
+| Sumset | [`maths/sumset.zig`](maths/sumset.zig) | O(n·m) |
+| Max Sum Sliding Window | [`maths/max_sum_sliding_window.zig`](maths/max_sum_sliding_window.zig) | O(n) |
+| Sock Merchant | [`maths/sock_merchant.zig`](maths/sock_merchant.zig) | O(n) |
+| Polynomial Evaluation | [`maths/polynomial_evaluation.zig`](maths/polynomial_evaluation.zig) | O(n) |
+| Kth Lexicographic Permutation | [`maths/kth_lexicographic_permutation.zig`](maths/kth_lexicographic_permutation.zig) | O(n²) |
+| Largest of Very Large Numbers (Log Compare) | [`maths/largest_of_very_large_numbers.zig`](maths/largest_of_very_large_numbers.zig) | O(1) |
 
 ### Data Structures (17)
 
@@ -237,7 +302,7 @@ TheAlgorithms-Zig/
 ├── build.zig.zon            # Package manifest
 ├── sorts/                   # 12 sorting algorithms
 ├── searches/                # 6 search algorithms
-├── maths/                   # 16 math algorithms
+├── maths/                   # 81 math algorithms
 ├── data_structures/         # 17 data structure implementations
 ├── dynamic_programming/     # 17 dynamic programming algorithms
 ├── graphs/                  # 16 graph algorithms
@@ -333,7 +398,7 @@ MIT
 | 跳跃查找 | [`searches/jump_search.zig`](searches/jump_search.zig) | O(√n) |
 | 三分查找 | [`searches/ternary_search.zig`](searches/ternary_search.zig) | O(log₃ n) |
 
-### 数学 (16)
+### 数学 (81)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -353,6 +418,71 @@ MIT
 | 整数平方根 | [`maths/integer_square_root.zig`](maths/integer_square_root.zig) | O(log n) |
 | Miller-Rabin 素性测试 | [`maths/miller_rabin.zig`](maths/miller_rabin.zig) | O(k · log³ n)，k=7 |
 | 矩阵快速幂 | [`maths/matrix_exponentiation.zig`](maths/matrix_exponentiation.zig) | O(n³ log p) |
+| 完全数判定 | [`maths/perfect_number.zig`](maths/perfect_number.zig) | O(n) |
+| Aliquot Sum（真因子和） | [`maths/aliquot_sum.zig`](maths/aliquot_sum.zig) | O(n) |
+| 费马小定理（模除法） | [`maths/fermat_little_theorem.zig`](maths/fermat_little_theorem.zig) | O(log p) |
+| 分段筛法 | [`maths/segmented_sieve.zig`](maths/segmented_sieve.zig) | O(n log log n) |
+| 奇数筛法 | [`maths/odd_sieve.zig`](maths/odd_sieve.zig) | O(n log log n) |
+| 孪生素数 | [`maths/twin_prime.zig`](maths/twin_prime.zig) | O(√n) |
+| Lucas 数列 | [`maths/lucas_series.zig`](maths/lucas_series.zig) | O(n) |
+| 约瑟夫问题 | [`maths/josephus_problem.zig`](maths/josephus_problem.zig) | O(n) |
+| 各位数字之和 | [`maths/sum_of_digits.zig`](maths/sum_of_digits.zig) | O(d) |
+| 数字位数统计 | [`maths/number_of_digits.zig`](maths/number_of_digits.zig) | O(d) |
+| 整数回文判断 | [`maths/is_int_palindrome.zig`](maths/is_int_palindrome.zig) | O(d) |
+| 完全平方数判断 | [`maths/perfect_square.zig`](maths/perfect_square.zig) | O(log n) |
+| 完全立方数判断 | [`maths/perfect_cube.zig`](maths/perfect_cube.zig) | O(log n) |
+| 一元二次方程复数根 | [`maths/quadratic_equations_complex_numbers.zig`](maths/quadratic_equations_complex_numbers.zig) | O(1) |
+| 小数转分数 | [`maths/decimal_to_fraction.zig`](maths/decimal_to_fraction.zig) | O(d) |
+| 阿姆斯特朗数（自幂数） | [`maths/armstrong_numbers.zig`](maths/armstrong_numbers.zig) | O(d) |
+| 自守数判断 | [`maths/automorphic_number.zig`](maths/automorphic_number.zig) | O(d) |
+| Catalan 数（递推） | [`maths/catalan_number.zig`](maths/catalan_number.zig) | O(n) |
+| 快乐数判断 | [`maths/happy_number.zig`](maths/happy_number.zig) | O(k) |
+| 六边形数 | [`maths/hexagonal_number.zig`](maths/hexagonal_number.zig) | O(1) |
+| Pronic 数判断 | [`maths/pronic_number.zig`](maths/pronic_number.zig) | O(log n) |
+| Proth 数 | [`maths/proth_number.zig`](maths/proth_number.zig) | O(n) |
+| 三角数 | [`maths/triangular_numbers.zig`](maths/triangular_numbers.zig) | O(1) |
+| Hamming 数列 | [`maths/hamming_numbers.zig`](maths/hamming_numbers.zig) | O(n) |
+| 多边形数 | [`maths/polygonal_numbers.zig`](maths/polygonal_numbers.zig) | O(1) |
+| 算术平均值 | [`maths/average_mean.zig`](maths/average_mean.zig) | O(n) |
+| 中位数 | [`maths/average_median.zig`](maths/average_median.zig) | O(n log n) |
+| 众数 | [`maths/average_mode.zig`](maths/average_mode.zig) | O(n) |
+| 最大值查找 | [`maths/find_max.zig`](maths/find_max.zig) | O(n) |
+| 最小值查找 | [`maths/find_min.zig`](maths/find_min.zig) | O(n) |
+| 因子分解（全部因子） | [`maths/factors.zig`](maths/factors.zig) | O(sqrt(n)) |
+| 几何平均值 | [`maths/geometric_mean.zig`](maths/geometric_mean.zig) | O(n) |
+| 曲线弧长近似 | [`maths/line_length.zig`](maths/line_length.zig) | O(steps) |
+| 欧氏距离 | [`maths/euclidean_distance.zig`](maths/euclidean_distance.zig) | O(n) |
+| 曼哈顿距离 | [`maths/manhattan_distance.zig`](maths/manhattan_distance.zig) | O(n) |
+| 绝对值工具集 | [`maths/abs.zig`](maths/abs.zig) | O(n) |
+| 平均绝对偏差 | [`maths/average_absolute_deviation.zig`](maths/average_absolute_deviation.zig) | O(n) |
+| 切比雪夫距离 | [`maths/chebyshev_distance.zig`](maths/chebyshev_distance.zig) | O(n) |
+| Minkowski 距离 | [`maths/minkowski_distance.zig`](maths/minkowski_distance.zig) | O(n) |
+| Jaccard 相似度 | [`maths/jaccard_similarity.zig`](maths/jaccard_similarity.zig) | O(n + m) |
+| 小数部分提取 | [`maths/decimal_isolate.zig`](maths/decimal_isolate.zig) | O(1) |
+| 向下取整 | [`maths/floor.zig`](maths/floor.zig) | O(1) |
+| 向上取整 | [`maths/ceil.zig`](maths/ceil.zig) | O(1) |
+| 符号函数 | [`maths/signum.zig`](maths/signum.zig) | O(1) |
+| 删一位取最大值 | [`maths/remove_digit.zig`](maths/remove_digit.zig) | O(d²) |
+| 位运算加法（无算术运算符） | [`maths/addition_without_arithmetic.zig`](maths/addition_without_arithmetic.zig) | O(1) |
+| 弧长计算 | [`maths/arc_length.zig`](maths/arc_length.zig) | O(1) |
+| 多边形可构成性检查 | [`maths/check_polygon.zig`](maths/check_polygon.zig) | O(n log n) |
+| 组合数（nCk） | [`maths/combinations.zig`](maths/combinations.zig) | O(k) |
+| 双阶乘 | [`maths/double_factorial.zig`](maths/double_factorial.zig) | O(n) |
+| 勾股定理三维距离 | [`maths/pythagoras.zig`](maths/pythagoras.zig) | O(1) |
+| 等差数列求和 | [`maths/sum_of_arithmetic_series.zig`](maths/sum_of_arithmetic_series.zig) | O(1) |
+| 等比数列求和 | [`maths/sum_of_geometric_progression.zig`](maths/sum_of_geometric_progression.zig) | O(log n) |
+| 调和级数求和 | [`maths/sum_of_harmonic_series.zig`](maths/sum_of_harmonic_series.zig) | O(n) |
+| Sylvester 数列 | [`maths/sylvester_sequence.zig`](maths/sylvester_sequence.zig) | O(n) |
+| 两数之和（哈希法） | [`maths/two_sum.zig`](maths/two_sum.zig) | O(n) |
+| 双指针两数之和 | [`maths/two_pointer.zig`](maths/two_pointer.zig) | O(n) |
+| 三数之和 | [`maths/three_sum.zig`](maths/three_sum.zig) | O(n²) |
+| 三元组求和 | [`maths/triplet_sum.zig`](maths/triplet_sum.zig) | O(n²) |
+| Sumset（集合和） | [`maths/sumset.zig`](maths/sumset.zig) | O(n·m) |
+| 滑动窗口最大和 | [`maths/max_sum_sliding_window.zig`](maths/max_sum_sliding_window.zig) | O(n) |
+| Sock Merchant（袜子配对） | [`maths/sock_merchant.zig`](maths/sock_merchant.zig) | O(n) |
+| 多项式求值 | [`maths/polynomial_evaluation.zig`](maths/polynomial_evaluation.zig) | O(n) |
+| 第 k 个字典序排列 | [`maths/kth_lexicographic_permutation.zig`](maths/kth_lexicographic_permutation.zig) | O(n²) |
+| 超大幂比较（对数法） | [`maths/largest_of_very_large_numbers.zig`](maths/largest_of_very_large_numbers.zig) | O(1) |
 
 ### 数据结构 (17)
 
@@ -526,7 +656,7 @@ TheAlgorithms-Zig/
 ├── build.zig.zon            # 包清单
 ├── sorts/                   # 12 种排序算法
 ├── searches/                # 6 种查找算法
-├── maths/                   # 16 种数学算法
+├── maths/                   # 81 种数学算法
 ├── data_structures/         # 17 种数据结构实现
 ├── dynamic_programming/     # 17 个动态规划算法
 ├── graphs/                  # 16 个图算法
