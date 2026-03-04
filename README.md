@@ -274,7 +274,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Quadratic Probing Hash Table | [`data_structures/quadratic_probing.zig`](data_structures/quadratic_probing.zig) | Average O(1) insert/query |
 | Radix Tree | [`data_structures/radix_tree.zig`](data_structures/radix_tree.zig) | O(L) per operation |
 
-### Dynamic Programming (22)
+### Dynamic Programming (42)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -300,6 +300,26 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Minimum Cost Path (Grid) | [`dynamic_programming/minimum_cost_path.zig`](dynamic_programming/minimum_cost_path.zig) | O(rows × cols) |
 | Minimum Tickets Cost | [`dynamic_programming/minimum_tickets_cost.zig`](dynamic_programming/minimum_tickets_cost.zig) | O(365) |
 | Regex Match (`.` and `*`) | [`dynamic_programming/regex_match.zig`](dynamic_programming/regex_match.zig) | O(m × n) |
+| Integer Partition Count | [`dynamic_programming/integer_partition.zig`](dynamic_programming/integer_partition.zig) | O(n²) |
+| Tribonacci Sequence | [`dynamic_programming/tribonacci.zig`](dynamic_programming/tribonacci.zig) | O(n) |
+| Maximum Non-Adjacent Sum | [`dynamic_programming/max_non_adjacent_sum.zig`](dynamic_programming/max_non_adjacent_sum.zig) | O(n) |
+| Minimum Partition Difference | [`dynamic_programming/minimum_partition.zig`](dynamic_programming/minimum_partition.zig) | O(n × total_sum) |
+| Minimum Squares To Represent A Number | [`dynamic_programming/minimum_squares_to_represent_a_number.zig`](dynamic_programming/minimum_squares_to_represent_a_number.zig) | O(n × sqrt(n)) |
+| Longest Common Substring | [`dynamic_programming/longest_common_substring.zig`](dynamic_programming/longest_common_substring.zig) | O(m × n) |
+| Largest Divisible Subset | [`dynamic_programming/largest_divisible_subset.zig`](dynamic_programming/largest_divisible_subset.zig) | O(n²) |
+| Optimal Binary Search Tree (Cost) | [`dynamic_programming/optimal_binary_search_tree.zig`](dynamic_programming/optimal_binary_search_tree.zig) | O(n²) |
+| Range Sum Query (Prefix Sum) | [`dynamic_programming/range_sum_query.zig`](dynamic_programming/range_sum_query.zig) | O(n + q) |
+| Minimum Size Subarray Sum | [`dynamic_programming/minimum_size_subarray_sum.zig`](dynamic_programming/minimum_size_subarray_sum.zig) | O(n) |
+| Abbreviation DP | [`dynamic_programming/abbreviation.zig`](dynamic_programming/abbreviation.zig) | O(n × m) |
+| Matrix Chain Order (Cost + Split Tables) | [`dynamic_programming/matrix_chain_order.zig`](dynamic_programming/matrix_chain_order.zig) | O(n³) |
+| Min Distance Up-Bottom (Top-Down Edit Distance) | [`dynamic_programming/min_distance_up_bottom.zig`](dynamic_programming/min_distance_up_bottom.zig) | O(m × n) |
+| Trapped Rainwater | [`dynamic_programming/trapped_water.zig`](dynamic_programming/trapped_water.zig) | O(n) |
+| Iterating Through Submasks | [`dynamic_programming/iterating_through_submasks.zig`](dynamic_programming/iterating_through_submasks.zig) | O(2^k) |
+| Fast Fibonacci (Doubling) | [`dynamic_programming/fast_fibonacci.zig`](dynamic_programming/fast_fibonacci.zig) | O(log n) |
+| Fizz Buzz | [`dynamic_programming/fizz_buzz.zig`](dynamic_programming/fizz_buzz.zig) | O(iterations) |
+| LIS Iterative (Sequence, O(n²)) | [`dynamic_programming/longest_increasing_subsequence_iterative.zig`](dynamic_programming/longest_increasing_subsequence_iterative.zig) | O(n²) |
+| LIS Length (O(n log n)) | [`dynamic_programming/longest_increasing_subsequence_o_nlogn.zig`](dynamic_programming/longest_increasing_subsequence_o_nlogn.zig) | O(n log n) |
+| Assignment Using Bitmask | [`dynamic_programming/bitmask.zig`](dynamic_programming/bitmask.zig) | O(2^P · T · avg_deg) |
 
 ### Graphs (46)
 
@@ -535,7 +555,7 @@ TheAlgorithms-Zig/
 ├── searches/                # 6 search algorithms
 ├── maths/                   # 81 math algorithms
 ├── data_structures/         # 73 data structure implementations
-├── dynamic_programming/     # 22 dynamic programming algorithms
+├── dynamic_programming/     # 42 dynamic programming algorithms
 ├── graphs/                  # 46 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 7 number base conversions
@@ -859,7 +879,7 @@ MIT
 | 哈希表（二次探测） | [`data_structures/quadratic_probing.zig`](data_structures/quadratic_probing.zig) | 平均 O(1) 插入/查询 |
 | Radix 树（压缩前缀树） | [`data_structures/radix_tree.zig`](data_structures/radix_tree.zig) | 每次操作 O(L) |
 
-### 动态规划 (22)
+### 动态规划 (42)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -885,6 +905,26 @@ MIT
 | 最小路径代价（网格） | [`dynamic_programming/minimum_cost_path.zig`](dynamic_programming/minimum_cost_path.zig) | O(rows × cols) |
 | 最低票价 | [`dynamic_programming/minimum_tickets_cost.zig`](dynamic_programming/minimum_tickets_cost.zig) | O(365) |
 | 正则匹配（`.` 与 `*`） | [`dynamic_programming/regex_match.zig`](dynamic_programming/regex_match.zig) | O(m × n) |
+| 整数拆分计数 | [`dynamic_programming/integer_partition.zig`](dynamic_programming/integer_partition.zig) | O(n²) |
+| Tribonacci 数列 | [`dynamic_programming/tribonacci.zig`](dynamic_programming/tribonacci.zig) | O(n) |
+| 最大非相邻子序列和 | [`dynamic_programming/max_non_adjacent_sum.zig`](dynamic_programming/max_non_adjacent_sum.zig) | O(n) |
+| 最小划分差值 | [`dynamic_programming/minimum_partition.zig`](dynamic_programming/minimum_partition.zig) | O(n × total_sum) |
+| 表示为平方数和的最少项数 | [`dynamic_programming/minimum_squares_to_represent_a_number.zig`](dynamic_programming/minimum_squares_to_represent_a_number.zig) | O(n × sqrt(n)) |
+| 最长公共子串 | [`dynamic_programming/longest_common_substring.zig`](dynamic_programming/longest_common_substring.zig) | O(m × n) |
+| 最大可整除子集 | [`dynamic_programming/largest_divisible_subset.zig`](dynamic_programming/largest_divisible_subset.zig) | O(n²) |
+| 最优二叉搜索树（代价） | [`dynamic_programming/optimal_binary_search_tree.zig`](dynamic_programming/optimal_binary_search_tree.zig) | O(n²) |
+| 区间和查询（前缀和） | [`dynamic_programming/range_sum_query.zig`](dynamic_programming/range_sum_query.zig) | O(n + q) |
+| 最短满足和子数组长度 | [`dynamic_programming/minimum_size_subarray_sum.zig`](dynamic_programming/minimum_size_subarray_sum.zig) | O(n) |
+| 字符串缩写匹配 DP | [`dynamic_programming/abbreviation.zig`](dynamic_programming/abbreviation.zig) | O(n × m) |
+| 矩阵链次序（代价+切分表） | [`dynamic_programming/matrix_chain_order.zig`](dynamic_programming/matrix_chain_order.zig) | O(n³) |
+| 编辑距离上自顶向下版 | [`dynamic_programming/min_distance_up_bottom.zig`](dynamic_programming/min_distance_up_bottom.zig) | O(m × n) |
+| 接雨水 | [`dynamic_programming/trapped_water.zig`](dynamic_programming/trapped_water.zig) | O(n) |
+| 子掩码遍历 | [`dynamic_programming/iterating_through_submasks.zig`](dynamic_programming/iterating_through_submasks.zig) | O(2^k) |
+| 快速斐波那契（倍增法） | [`dynamic_programming/fast_fibonacci.zig`](dynamic_programming/fast_fibonacci.zig) | O(log n) |
+| Fizz Buzz | [`dynamic_programming/fizz_buzz.zig`](dynamic_programming/fizz_buzz.zig) | O(iterations) |
+| 最长递增子序列迭代版（序列，O(n²)） | [`dynamic_programming/longest_increasing_subsequence_iterative.zig`](dynamic_programming/longest_increasing_subsequence_iterative.zig) | O(n²) |
+| 最长递增子序列长度（O(n log n)） | [`dynamic_programming/longest_increasing_subsequence_o_nlogn.zig`](dynamic_programming/longest_increasing_subsequence_o_nlogn.zig) | O(n log n) |
+| Bitmask 任务分配计数 | [`dynamic_programming/bitmask.zig`](dynamic_programming/bitmask.zig) | O(2^P · T · avg_deg) |
 
 ### 图算法 (46)
 
@@ -1108,7 +1148,7 @@ TheAlgorithms-Zig/
 ├── searches/                # 6 种查找算法
 ├── maths/                   # 81 种数学算法
 ├── data_structures/         # 73 种数据结构实现
-├── dynamic_programming/     # 22 个动态规划算法
+├── dynamic_programming/     # 42 个动态规划算法
 ├── graphs/                  # 46 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 7 个进制转换

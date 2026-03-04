@@ -17,6 +17,163 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch G - Wave 5 (2026-03-04)
+
+Scope:
+- `dynamic_programming/fast_fibonacci.zig`
+- `dynamic_programming/fizz_buzz.zig`
+- `dynamic_programming/longest_increasing_subsequence_iterative.zig`
+- `dynamic_programming/longest_increasing_subsequence_o_nlogn.zig`
+- `dynamic_programming/bitmask.zig`
+
+Result:
+- 5/5 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch G target reached (`dynamic_programming` now 42 files in `build.zig`).
+
+Verification:
+- `zig test dynamic_programming/fast_fibonacci.zig` ✅
+- `zig test dynamic_programming/fizz_buzz.zig` ✅
+- `zig test dynamic_programming/longest_increasing_subsequence_iterative.zig` ✅
+- `zig test dynamic_programming/longest_increasing_subsequence_o_nlogn.zig` ✅
+- `zig test dynamic_programming/bitmask.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test dynamic_programming/fast_fibonacci.zig`
+  - Symptom: expected-value test failed at `n=186` due overflow raised by implementation.
+  - Root cause: fast-doubling pair computation requires representing `F(n+1)`; `F(187)` exceeds `u128`, so `n=186` is outside this representation domain.
+  - Fix applied: adjusted boundary tests to accept up to `n=185` and assert overflow from `n>=186`.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test dynamic_programming/fizz_buzz.zig`
+  - Symptom: compile error on error-set mismatch from `std.fmt.bufPrint` (`error.NoSpaceLeft`).
+  - Root cause: function error union did not include `NoSpaceLeft` although buffer is statically sufficient.
+  - Fix applied: replaced `try` with `catch unreachable` for bounded formatting into fixed buffer.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test dynamic_programming/longest_increasing_subsequence_o_nlogn.zig`
+  - Symptom: compile error for signed integer division operator.
+  - Root cause: Zig requires explicit signed-division builtin for `isize`.
+  - Fix applied: replaced `/ 2` with `@divTrunc(left + right, 2)` in binary-search helper.
+  - Post-fix verification: file-level test passed, and full `zig build test` passed.
+
+## Phase 5 Batch G - Wave 4 (2026-03-04)
+
+Scope:
+- `dynamic_programming/abbreviation.zig`
+- `dynamic_programming/matrix_chain_order.zig`
+- `dynamic_programming/min_distance_up_bottom.zig`
+- `dynamic_programming/trapped_water.zig`
+- `dynamic_programming/iterating_through_submasks.zig`
+
+Result:
+- 5/5 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test dynamic_programming/abbreviation.zig` ✅
+- `zig test dynamic_programming/matrix_chain_order.zig` ✅
+- `zig test dynamic_programming/min_distance_up_bottom.zig` ✅
+- `zig test dynamic_programming/trapped_water.zig` ✅
+- `zig test dynamic_programming/iterating_through_submasks.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test dynamic_programming/abbreviation.zig`
+  - Symptom: one assertion failed in uppercase-handling test.
+  - Root cause: test expectation was incorrect (`"AbCd" -> "AC"` is actually transformable).
+  - Fix applied: replaced failing case with non-transformable uppercase case (`"ABCD" -> "AC"`).
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test dynamic_programming/iterating_through_submasks.zig`
+  - Symptom: compile error (`ArrayList(...).init` unavailable in this Zig stdlib API shape).
+  - Root cause: used allocator-aware `ArrayList` initializer not supported by current toolchain layout.
+  - Fix applied: switched to `std.ArrayListUnmanaged(u64)` with explicit allocator in append/owned-slice operations.
+  - Post-fix verification: file-level test passed, and full `zig build test` passed.
+
+## Phase 5 Batch G - Wave 3 (2026-03-04)
+
+Scope:
+- `dynamic_programming/longest_common_substring.zig`
+- `dynamic_programming/largest_divisible_subset.zig`
+- `dynamic_programming/optimal_binary_search_tree.zig`
+- `dynamic_programming/range_sum_query.zig`
+- `dynamic_programming/minimum_size_subarray_sum.zig`
+
+Result:
+- 5/5 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test dynamic_programming/longest_common_substring.zig` ✅
+- `zig test dynamic_programming/largest_divisible_subset.zig` ✅
+- `zig test dynamic_programming/optimal_binary_search_tree.zig` ✅
+- `zig test dynamic_programming/range_sum_query.zig` ✅
+- `zig test dynamic_programming/minimum_size_subarray_sum.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test dynamic_programming/largest_divisible_subset.zig`
+  - Symptom: compile errors (`local variable is never mutated`) in test bindings.
+  - Root cause: test slices bound with `var` though never reassigned.
+  - Fix applied: changed those bindings from `var` to `const`.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test dynamic_programming/range_sum_query.zig`
+  - Symptom: compile errors (`local variable is never mutated`) and then memory leak reports on error-path tests.
+  - Root cause: test bindings used `var` unnecessarily; function allocated result buffer before validating query bounds, then returned error without freeing.
+  - Fix applied: changed test bindings to `const`; moved query validation before result allocation.
+  - Post-fix verification: file-level test passed with no leak reports.
+- Failing step/command:
+  - `zig test dynamic_programming/minimum_size_subarray_sum.zig`
+  - Symptom: overflow test failed (`expected error.Overflow, found 1`).
+  - Root cause: test data hit early success path before any overflowing accumulation.
+  - Fix applied: replaced overflow test input with values that force addition overflow prior to meeting target.
+  - Post-fix verification: file-level test passed, and full `zig build test` passed.
+
+## Phase 5 Batch G - Wave 2 (2026-03-04)
+
+Scope:
+- `dynamic_programming/integer_partition.zig`
+- `dynamic_programming/tribonacci.zig`
+- `dynamic_programming/max_non_adjacent_sum.zig`
+- `dynamic_programming/minimum_partition.zig`
+- `dynamic_programming/minimum_squares_to_represent_a_number.zig`
+
+Result:
+- 5/5 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test dynamic_programming/integer_partition.zig` ✅
+- `zig test dynamic_programming/tribonacci.zig` ✅
+- `zig test dynamic_programming/max_non_adjacent_sum.zig` ✅
+- `zig test dynamic_programming/minimum_partition.zig` ✅
+- `zig test dynamic_programming/minimum_squares_to_represent_a_number.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test dynamic_programming/max_non_adjacent_sum.zig`
+  - Symptom: assertion failed (`expected 10, found 11`) in boundary-case test.
+  - Root cause: expected value was wrong for input `[2, 1, 4, 9, 2]` (optimal non-adjacent sum is `2 + 9 = 11`).
+  - Fix applied: corrected expected value from `10` to `11`.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test dynamic_programming/minimum_squares_to_represent_a_number.zig`
+  - Symptom: compile error (`variable of type 'comptime_int' must be const or comptime`).
+  - Root cause: mutable variable `best` lacked explicit runtime numeric type.
+  - Fix applied: changed declaration to `var best: u32 = std.math.maxInt(u32);`.
+  - Post-fix verification: file-level test passed, and full `zig build test` passed.
+
 ## Phase 5 Batch G - Wave 1 (2026-03-04)
 
 Scope:
