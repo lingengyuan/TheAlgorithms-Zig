@@ -263,7 +263,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 |-----------|------|-----------|
 | SHA-256 | [`hashing/sha256.zig`](hashing/sha256.zig) | O(n) |
 
-### Strings (13)
+### Strings (38)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -280,6 +280,31 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Aho-Corasick | [`strings/aho_corasick.zig`](strings/aho_corasick.zig) | O(text + matches) query |
 | Suffix Array | [`strings/suffix_array.zig`](strings/suffix_array.zig) | O(n log² n) build |
 | Run-Length Encoding | [`strings/run_length_encoding.zig`](strings/run_length_encoding.zig) | O(n) encode/decode |
+| Camel Case to Snake Case | [`strings/camel_case_to_snake_case.zig`](strings/camel_case_to_snake_case.zig) | O(n) |
+| Palindrome Rearrangement Check | [`strings/can_string_be_rearranged_as_palindrome.zig`](strings/can_string_be_rearranged_as_palindrome.zig) | O(n) |
+| Capitalize | [`strings/capitalize.zig`](strings/capitalize.zig) | O(n) |
+| Count Vowels | [`strings/count_vowels.zig`](strings/count_vowels.zig) | O(n) |
+| Contains Unique Characters | [`strings/is_contains_unique_chars.zig`](strings/is_contains_unique_chars.zig) | O(n) |
+| Is Isogram | [`strings/is_isogram.zig`](strings/is_isogram.zig) | O(n) |
+| Join Strings | [`strings/join.zig`](strings/join.zig) | O(total_len) |
+| Lowercase ASCII | [`strings/lower.zig`](strings/lower.zig) | O(n) |
+| Split String | [`strings/split.zig`](strings/split.zig) | O(n) |
+| Uppercase ASCII | [`strings/upper.zig`](strings/upper.zig) | O(n) |
+| Alternative String Arrange | [`strings/alternative_string_arrange.zig`](strings/alternative_string_arrange.zig) | O(n + m) |
+| Boyer-Moore Search | [`strings/boyer_moore_search.zig`](strings/boyer_moore_search.zig) | O(n·m) worst |
+| Bitap String Match | [`strings/bitap_string_match.zig`](strings/bitap_string_match.zig) | O(n) core |
+| Prefix Function | [`strings/prefix_function.zig`](strings/prefix_function.zig) | O(n) |
+| Remove Duplicate Words | [`strings/remove_duplicate.zig`](strings/remove_duplicate.zig) | O(k log k + n) |
+| Reverse Letters | [`strings/reverse_letters.zig`](strings/reverse_letters.zig) | O(n) |
+| Snake Case to Camel/Pascal Case | [`strings/snake_case_to_camel_pascal_case.zig`](strings/snake_case_to_camel_pascal_case.zig) | O(n) |
+| Strip | [`strings/strip.zig`](strings/strip.zig) | O(n) |
+| Title Case | [`strings/title.zig`](strings/title.zig) | O(n) |
+| Word Occurrence | [`strings/word_occurrence.zig`](strings/word_occurrence.zig) | O(n) |
+| Pig Latin | [`strings/pig_latin.zig`](strings/pig_latin.zig) | O(n) |
+| Wildcard Pattern Matching | [`strings/wildcard_pattern_matching.zig`](strings/wildcard_pattern_matching.zig) | O(n × m) |
+| Top K Frequent Words | [`strings/top_k_frequent_words.zig`](strings/top_k_frequent_words.zig) | O(n + u log u) |
+| Manacher | [`strings/manacher.zig`](strings/manacher.zig) | O(n) |
+| Min Cost String Conversion | [`strings/min_cost_string_conversion.zig`](strings/min_cost_string_conversion.zig) | O(m × n) |
 
 ## Quick Start
 
@@ -310,7 +335,7 @@ TheAlgorithms-Zig/
 ├── conversions/             # 7 number base conversions
 ├── ciphers/                 # 1 cipher algorithm
 ├── hashing/                 # 1 hashing algorithm
-├── strings/                 # 13 string algorithms
+├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
 ├── matrix/                  # 5 matrix algorithms
 └── backtracking/            # 6 backtracking algorithms
@@ -617,7 +642,7 @@ MIT
 |------|------|--------|
 | SHA-256 | [`hashing/sha256.zig`](hashing/sha256.zig) | O(n) |
 
-### 字符串 (13)
+### 字符串 (38)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -634,6 +659,31 @@ MIT
 | Aho-Corasick 多模式匹配 | [`strings/aho_corasick.zig`](strings/aho_corasick.zig) | 查询 O(text + matches) |
 | 后缀数组 | [`strings/suffix_array.zig`](strings/suffix_array.zig) | 构建 O(n log² n) |
 | 游程编码（RLE） | [`strings/run_length_encoding.zig`](strings/run_length_encoding.zig) | 编码/解码 O(n) |
+| 驼峰转下划线 | [`strings/camel_case_to_snake_case.zig`](strings/camel_case_to_snake_case.zig) | O(n) |
+| 回文重排可行性检查 | [`strings/can_string_be_rearranged_as_palindrome.zig`](strings/can_string_be_rearranged_as_palindrome.zig) | O(n) |
+| 首字母大写 | [`strings/capitalize.zig`](strings/capitalize.zig) | O(n) |
+| 统计元音数量 | [`strings/count_vowels.zig`](strings/count_vowels.zig) | O(n) |
+| 唯一字符检查 | [`strings/is_contains_unique_chars.zig`](strings/is_contains_unique_chars.zig) | O(n) |
+| 同构词（Isogram）检查 | [`strings/is_isogram.zig`](strings/is_isogram.zig) | O(n) |
+| 字符串连接 | [`strings/join.zig`](strings/join.zig) | O(total_len) |
+| 转小写（ASCII） | [`strings/lower.zig`](strings/lower.zig) | O(n) |
+| 字符串分割 | [`strings/split.zig`](strings/split.zig) | O(n) |
+| 转大写（ASCII） | [`strings/upper.zig`](strings/upper.zig) | O(n) |
+| 交替合并字符串 | [`strings/alternative_string_arrange.zig`](strings/alternative_string_arrange.zig) | O(n + m) |
+| Boyer-Moore 搜索 | [`strings/boyer_moore_search.zig`](strings/boyer_moore_search.zig) | 最坏 O(n·m) |
+| Bitap 字符串匹配 | [`strings/bitap_string_match.zig`](strings/bitap_string_match.zig) | 核心 O(n) |
+| 前缀函数 | [`strings/prefix_function.zig`](strings/prefix_function.zig) | O(n) |
+| 去重单词 | [`strings/remove_duplicate.zig`](strings/remove_duplicate.zig) | O(k log k + n) |
+| 反转长单词字母 | [`strings/reverse_letters.zig`](strings/reverse_letters.zig) | O(n) |
+| 下划线转驼峰/帕斯卡 | [`strings/snake_case_to_camel_pascal_case.zig`](strings/snake_case_to_camel_pascal_case.zig) | O(n) |
+| 裁剪首尾字符 | [`strings/strip.zig`](strings/strip.zig) | O(n) |
+| 标题大小写转换 | [`strings/title.zig`](strings/title.zig) | O(n) |
+| 单词出现次数统计 | [`strings/word_occurrence.zig`](strings/word_occurrence.zig) | O(n) |
+| 猪拉丁文转换 | [`strings/pig_latin.zig`](strings/pig_latin.zig) | O(n) |
+| 通配模式匹配（. 和 *） | [`strings/wildcard_pattern_matching.zig`](strings/wildcard_pattern_matching.zig) | O(n × m) |
+| Top K 高频词 | [`strings/top_k_frequent_words.zig`](strings/top_k_frequent_words.zig) | O(n + u log u) |
+| Manacher 最长回文子串 | [`strings/manacher.zig`](strings/manacher.zig) | O(n) |
+| 最小代价字符串转换 | [`strings/min_cost_string_conversion.zig`](strings/min_cost_string_conversion.zig) | O(m × n) |
 
 ## 快速开始
 
@@ -664,7 +714,7 @@ TheAlgorithms-Zig/
 ├── conversions/             # 7 个进制转换
 ├── ciphers/                 # 1 个密码学算法
 ├── hashing/                 # 1 个哈希算法
-├── strings/                 # 13 个字符串算法
+├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法
 ├── matrix/                  # 5 个矩阵算法
 └── backtracking/            # 6 个回溯算法

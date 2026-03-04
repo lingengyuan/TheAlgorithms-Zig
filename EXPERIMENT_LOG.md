@@ -42,6 +42,111 @@ Verification:
 Failure Log:
 - No implementation/test failures encountered in this wave.
 
+## Phase 5 Batch B - Wave 3 (2026-03-04)
+
+Scope:
+- `strings/pig_latin.zig`
+- `strings/wildcard_pattern_matching.zig`
+- `strings/top_k_frequent_words.zig`
+- `strings/manacher.zig`
+- `strings/min_cost_string_conversion.zig`
+
+Result:
+- 5/5 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test strings/pig_latin.zig` ✅
+- `zig test strings/wildcard_pattern_matching.zig` ✅
+- `zig test strings/top_k_frequent_words.zig` ✅
+- `zig test strings/manacher.zig` ✅
+- `zig test strings/min_cost_string_conversion.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch B - Wave 2 (2026-03-04)
+
+Scope:
+- `strings/alternative_string_arrange.zig`
+- `strings/boyer_moore_search.zig`
+- `strings/bitap_string_match.zig`
+- `strings/prefix_function.zig`
+- `strings/remove_duplicate.zig`
+- `strings/reverse_letters.zig`
+- `strings/snake_case_to_camel_pascal_case.zig`
+- `strings/strip.zig`
+- `strings/title.zig`
+- `strings/word_occurrence.zig`
+
+Result:
+- 10/10 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test strings/alternative_string_arrange.zig` ✅
+- `zig test strings/boyer_moore_search.zig` ✅
+- `zig test strings/bitap_string_match.zig` ✅
+- `zig test strings/prefix_function.zig` ✅
+- `zig test strings/remove_duplicate.zig` ✅
+- `zig test strings/reverse_letters.zig` ✅
+- `zig test strings/snake_case_to_camel_pascal_case.zig` ✅
+- `zig test strings/strip.zig` ✅
+- `zig test strings/title.zig` ✅
+- `zig test strings/word_occurrence.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test strings/alternative_string_arrange.zig` (first run in batch loop)
+  - Symptom: build failed with `manifest_create AccessDenied` when creating Zig cache.
+  - Root cause: default cache location was not writable in current sandbox context.
+  - Fix applied: set `ZIG_GLOBAL_CACHE_DIR=/tmp/zig-global-cache` and `ZIG_LOCAL_CACHE_DIR=/tmp/zig-local-cache` before running Zig test commands.
+  - Post-fix verification: full wave file tests and `zig build test` passed.
+- Failing step/command:
+  - `zig test strings/word_occurrence.zig`
+  - Symptom: test assertion mismatch (`expected 5, found 6`) for count of `"e"`.
+  - Root cause: expected value in test did not match Python sample sentence frequency.
+  - Fix applied: corrected expected count of `"e"` from `5` to `6`.
+  - Post-fix verification: `zig test strings/word_occurrence.zig` passed.
+
+## Phase 5 Batch B - Wave 1 (2026-03-04)
+
+Scope:
+- `strings/camel_case_to_snake_case.zig`
+- `strings/can_string_be_rearranged_as_palindrome.zig`
+- `strings/capitalize.zig`
+- `strings/count_vowels.zig`
+- `strings/is_contains_unique_chars.zig`
+- `strings/is_isogram.zig`
+- `strings/join.zig`
+- `strings/lower.zig`
+- `strings/split.zig`
+- `strings/upper.zig`
+
+Result:
+- 10/10 implementations completed and registered in `build.zig`.
+- Tests cover normal + boundary + extreme scenarios and align to Python behavior in covered domain.
+
+Verification:
+- `zig test strings/camel_case_to_snake_case.zig` ✅
+- `zig test strings/can_string_be_rearranged_as_palindrome.zig` ✅
+- `zig test strings/capitalize.zig` ✅
+- `zig test strings/count_vowels.zig` ✅
+- `zig test strings/is_contains_unique_chars.zig` ✅
+- `zig test strings/is_isogram.zig` ✅
+- `zig test strings/join.zig` ✅
+- `zig test strings/lower.zig` ✅
+- `zig test strings/split.zig` ✅
+- `zig test strings/upper.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
 ## Phase 5 Batch A - Wave 2 (2026-03-04)
 
 Scope:
