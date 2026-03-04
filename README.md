@@ -16,7 +16,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 
 ## Algorithm Catalog
 
-### Sorting (12)
+### Sorting (50)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -32,6 +32,44 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Gnome Sort | [`sorts/gnome_sort.zig`](sorts/gnome_sort.zig) | O(n²) |
 | Cocktail Shaker Sort | [`sorts/cocktail_shaker_sort.zig`](sorts/cocktail_shaker_sort.zig) | O(n²) |
 | Counting Sort | [`sorts/counting_sort.zig`](sorts/counting_sort.zig) | O(n + k) |
+| Binary Insertion Sort | [`sorts/binary_insertion_sort.zig`](sorts/binary_insertion_sort.zig) | O(n²) |
+| Bogo Sort | [`sorts/bogo_sort.zig`](sorts/bogo_sort.zig) | Expected O((n+1)!) |
+| Comb Sort | [`sorts/comb_sort.zig`](sorts/comb_sort.zig) | O(n²) worst |
+| Cycle Sort | [`sorts/cycle_sort.zig`](sorts/cycle_sort.zig) | O(n²) |
+| Double Sort | [`sorts/double_sort.zig`](sorts/double_sort.zig) | O(n²) |
+| Odd-Even Sort | [`sorts/odd_even_sort.zig`](sorts/odd_even_sort.zig) | O(n²) |
+| Pancake Sort | [`sorts/pancake_sort.zig`](sorts/pancake_sort.zig) | O(n²) |
+| Recursive Insertion Sort | [`sorts/recursive_insertion_sort.zig`](sorts/recursive_insertion_sort.zig) | O(n²) |
+| Stooge Sort | [`sorts/stooge_sort.zig`](sorts/stooge_sort.zig) | O(n^2.7095) |
+| Wiggle Sort | [`sorts/wiggle_sort.zig`](sorts/wiggle_sort.zig) | O(n) |
+| Bead Sort | [`sorts/bead_sort.zig`](sorts/bead_sort.zig) | O(n²) |
+| Cyclic Sort | [`sorts/cyclic_sort.zig`](sorts/cyclic_sort.zig) | O(n) |
+| Exchange Sort | [`sorts/exchange_sort.zig`](sorts/exchange_sort.zig) | O(n²) |
+| Iterative Merge Sort | [`sorts/iterative_merge_sort.zig`](sorts/iterative_merge_sort.zig) | O(n log n) |
+| Pigeon Sort | [`sorts/pigeon_sort.zig`](sorts/pigeon_sort.zig) | O(n + range) |
+| Pigeonhole Sort | [`sorts/pigeonhole_sort.zig`](sorts/pigeonhole_sort.zig) | O(n + range) |
+| Quick Sort (3-way Partition) | [`sorts/quick_sort_3_partition.zig`](sorts/quick_sort_3_partition.zig) | O(n log n) avg |
+| Recursive Quick Sort | [`sorts/recursive_quick_sort.zig`](sorts/recursive_quick_sort.zig) | O(n log n) avg |
+| Shrink Shell Sort | [`sorts/shrink_shell_sort.zig`](sorts/shrink_shell_sort.zig) | Sub-quadratic avg |
+| Stalin Sort | [`sorts/stalin_sort.zig`](sorts/stalin_sort.zig) | O(n) |
+| Bitonic Sort | [`sorts/bitonic_sort.zig`](sorts/bitonic_sort.zig) | O(n log² n) |
+| Circle Sort | [`sorts/circle_sort.zig`](sorts/circle_sort.zig) | O(n log n) avg |
+| Dutch National Flag Sort | [`sorts/dutch_national_flag_sort.zig`](sorts/dutch_national_flag_sort.zig) | O(n) |
+| Odd-Even Transposition Sort | [`sorts/odd_even_transposition_single_threaded.zig`](sorts/odd_even_transposition_single_threaded.zig) | O(n²) |
+| Recursive Merge Sort Array | [`sorts/recursive_mergesort_array.zig`](sorts/recursive_mergesort_array.zig) | O(n log n) |
+| SlowSort | [`sorts/slowsort.zig`](sorts/slowsort.zig) | Super-polynomial |
+| Strand Sort | [`sorts/strand_sort.zig`](sorts/strand_sort.zig) | O(n²) avg |
+| Tree Sort | [`sorts/tree_sort.zig`](sorts/tree_sort.zig) | O(n log n) avg |
+| Unknown Sort | [`sorts/unknown_sort.zig`](sorts/unknown_sort.zig) | O(n²) |
+| Merge-Insertion Sort | [`sorts/merge_insertion_sort.zig`](sorts/merge_insertion_sort.zig) | O(n log n) |
+| External Sort (In-Memory Blocks) | [`sorts/external_sort.zig`](sorts/external_sort.zig) | O(n log b + n·b) |
+| IntroSort | [`sorts/intro_sort.zig`](sorts/intro_sort.zig) | O(n log n) |
+| MSD Radix Sort | [`sorts/msd_radix_sort.zig`](sorts/msd_radix_sort.zig) | O(w·n) |
+| Natural Sort | [`sorts/natural_sort.zig`](sorts/natural_sort.zig) | O(n log n · m) |
+| Odd-Even Transposition Sort (Parallel Model) | [`sorts/odd_even_transposition_parallel.zig`](sorts/odd_even_transposition_parallel.zig) | O(n²) |
+| Patience Sort | [`sorts/patience_sort.zig`](sorts/patience_sort.zig) | O(n log n) |
+| Tim Sort (Educational Variant) | [`sorts/tim_sort.zig`](sorts/tim_sort.zig) | O(n log n) |
+| Topological Sort | [`sorts/topological_sort.zig`](sorts/topological_sort.zig) | O(V + E) |
 
 ### Searching (6)
 
@@ -174,7 +212,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Longest Palindromic Subsequence | [`dynamic_programming/longest_palindromic_subsequence.zig`](dynamic_programming/longest_palindromic_subsequence.zig) | O(n²) |
 | Maximum Product Subarray | [`dynamic_programming/max_product_subarray.zig`](dynamic_programming/max_product_subarray.zig) | O(n) |
 
-### Graphs (16)
+### Graphs (30)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -194,6 +232,20 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Connected Components | [`graphs/connected_components.zig`](graphs/connected_components.zig) | O(V + E) |
 | Kruskal MST | [`graphs/kruskal.zig`](graphs/kruskal.zig) | O(E log E) |
 | Prim MST | [`graphs/prim.zig`](graphs/prim.zig) | O(V² + E) |
+| Articulation Points | [`graphs/articulation_points.zig`](graphs/articulation_points.zig) | O(V + E) |
+| Kosaraju SCC | [`graphs/kosaraju_scc.zig`](graphs/kosaraju_scc.zig) | O(V + E) |
+| Kahn Topological Sort | [`graphs/kahn_topological_sort.zig`](graphs/kahn_topological_sort.zig) | O(V + E) |
+| BFS Shortest Path | [`graphs/breadth_first_search_shortest_path.zig`](graphs/breadth_first_search_shortest_path.zig) | O(V + E) |
+| Boruvka MST | [`graphs/boruvka_mst.zig`](graphs/boruvka_mst.zig) | O(E log V) |
+| 0-1 BFS Shortest Path | [`graphs/zero_one_bfs_shortest_path.zig`](graphs/zero_one_bfs_shortest_path.zig) | O(V + E) |
+| Bidirectional BFS Path | [`graphs/bidirectional_breadth_first_search.zig`](graphs/bidirectional_breadth_first_search.zig) | O(V + E) |
+| Dijkstra on Binary Grid | [`graphs/dijkstra_binary_grid.zig`](graphs/dijkstra_binary_grid.zig) | O((R·C)²) |
+| Even Tree | [`graphs/even_tree.zig`](graphs/even_tree.zig) | O(V + E) |
+| Gale-Shapley Stable Matching | [`graphs/gale_shapley_stable_matching.zig`](graphs/gale_shapley_stable_matching.zig) | O(n²) |
+| PageRank (Iterative) | [`graphs/page_rank.zig`](graphs/page_rank.zig) | O(iterations·(V + E)) |
+| Bidirectional Dijkstra | [`graphs/bidirectional_dijkstra.zig`](graphs/bidirectional_dijkstra.zig) | O(V² + E) |
+| Greedy Best-First Search | [`graphs/greedy_best_first.zig`](graphs/greedy_best_first.zig) | O(V²) |
+| Dinic Max Flow | [`graphs/dinic_max_flow.zig`](graphs/dinic_max_flow.zig) | O(V²·E) |
 
 ### Greedy Methods (7)
 
@@ -325,12 +377,12 @@ zig test sorts/bubble_sort.zig
 TheAlgorithms-Zig/
 ├── build.zig                # Build script — registers all test files
 ├── build.zig.zon            # Package manifest
-├── sorts/                   # 12 sorting algorithms
+├── sorts/                   # 50 sorting algorithms
 ├── searches/                # 6 search algorithms
 ├── maths/                   # 81 math algorithms
 ├── data_structures/         # 17 data structure implementations
 ├── dynamic_programming/     # 17 dynamic programming algorithms
-├── graphs/                  # 16 graph algorithms
+├── graphs/                  # 30 graph algorithms
 ├── bit_manipulation/        # 6 bit manipulation algorithms
 ├── conversions/             # 7 number base conversions
 ├── ciphers/                 # 1 cipher algorithm
@@ -395,7 +447,7 @@ MIT
 
 ## 算法目录
 
-### 排序 (12)
+### 排序 (50)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -411,6 +463,44 @@ MIT
 | 侏儒排序 | [`sorts/gnome_sort.zig`](sorts/gnome_sort.zig) | O(n²) |
 | 鸡尾酒排序 | [`sorts/cocktail_shaker_sort.zig`](sorts/cocktail_shaker_sort.zig) | O(n²) |
 | 计数排序 | [`sorts/counting_sort.zig`](sorts/counting_sort.zig) | O(n + k) |
+| 二分插入排序 | [`sorts/binary_insertion_sort.zig`](sorts/binary_insertion_sort.zig) | O(n²) |
+| Bogo 排序 | [`sorts/bogo_sort.zig`](sorts/bogo_sort.zig) | 期望 O((n+1)!) |
+| 梳排序 | [`sorts/comb_sort.zig`](sorts/comb_sort.zig) | 最坏 O(n²) |
+| 循环排序 | [`sorts/cycle_sort.zig`](sorts/cycle_sort.zig) | O(n²) |
+| 双向冒泡排序 | [`sorts/double_sort.zig`](sorts/double_sort.zig) | O(n²) |
+| 奇偶排序 | [`sorts/odd_even_sort.zig`](sorts/odd_even_sort.zig) | O(n²) |
+| 煎饼排序 | [`sorts/pancake_sort.zig`](sorts/pancake_sort.zig) | O(n²) |
+| 递归插入排序 | [`sorts/recursive_insertion_sort.zig`](sorts/recursive_insertion_sort.zig) | O(n²) |
+| Stooge 排序 | [`sorts/stooge_sort.zig`](sorts/stooge_sort.zig) | O(n^2.7095) |
+| 摆动排序 | [`sorts/wiggle_sort.zig`](sorts/wiggle_sort.zig) | O(n) |
+| 珠排序 | [`sorts/bead_sort.zig`](sorts/bead_sort.zig) | O(n²) |
+| 循环置换排序 | [`sorts/cyclic_sort.zig`](sorts/cyclic_sort.zig) | O(n) |
+| 交换排序 | [`sorts/exchange_sort.zig`](sorts/exchange_sort.zig) | O(n²) |
+| 迭代归并排序 | [`sorts/iterative_merge_sort.zig`](sorts/iterative_merge_sort.zig) | O(n log n) |
+| 鸽巢排序（Pigeon） | [`sorts/pigeon_sort.zig`](sorts/pigeon_sort.zig) | O(n + range) |
+| 鸽巢排序（Pigeonhole） | [`sorts/pigeonhole_sort.zig`](sorts/pigeonhole_sort.zig) | O(n + range) |
+| 三路快排 | [`sorts/quick_sort_3_partition.zig`](sorts/quick_sort_3_partition.zig) | 平均 O(n log n) |
+| 递归快速排序 | [`sorts/recursive_quick_sort.zig`](sorts/recursive_quick_sort.zig) | 平均 O(n log n) |
+| 收缩增量希尔排序 | [`sorts/shrink_shell_sort.zig`](sorts/shrink_shell_sort.zig) | 平均亚二次 |
+| 斯大林排序 | [`sorts/stalin_sort.zig`](sorts/stalin_sort.zig) | O(n) |
+| 双调排序 | [`sorts/bitonic_sort.zig`](sorts/bitonic_sort.zig) | O(n log² n) |
+| 圈排序 | [`sorts/circle_sort.zig`](sorts/circle_sort.zig) | 平均 O(n log n) |
+| 荷兰国旗排序 | [`sorts/dutch_national_flag_sort.zig`](sorts/dutch_national_flag_sort.zig) | O(n) |
+| 奇偶换位排序 | [`sorts/odd_even_transposition_single_threaded.zig`](sorts/odd_even_transposition_single_threaded.zig) | O(n²) |
+| 递归归并数组排序 | [`sorts/recursive_mergesort_array.zig`](sorts/recursive_mergesort_array.zig) | O(n log n) |
+| SlowSort | [`sorts/slowsort.zig`](sorts/slowsort.zig) | 超多项式 |
+| Strand 排序 | [`sorts/strand_sort.zig`](sorts/strand_sort.zig) | 平均 O(n²) |
+| 树排序 | [`sorts/tree_sort.zig`](sorts/tree_sort.zig) | 平均 O(n log n) |
+| Unknown 排序 | [`sorts/unknown_sort.zig`](sorts/unknown_sort.zig) | O(n²) |
+| 归并-插入排序 | [`sorts/merge_insertion_sort.zig`](sorts/merge_insertion_sort.zig) | O(n log n) |
+| 外部排序（内存分块版） | [`sorts/external_sort.zig`](sorts/external_sort.zig) | O(n log b + n·b) |
+| IntroSort | [`sorts/intro_sort.zig`](sorts/intro_sort.zig) | O(n log n) |
+| MSD 基数排序 | [`sorts/msd_radix_sort.zig`](sorts/msd_radix_sort.zig) | O(w·n) |
+| 自然排序 | [`sorts/natural_sort.zig`](sorts/natural_sort.zig) | O(n log n · m) |
+| 奇偶换位排序（并行模型） | [`sorts/odd_even_transposition_parallel.zig`](sorts/odd_even_transposition_parallel.zig) | O(n²) |
+| Patience 排序 | [`sorts/patience_sort.zig`](sorts/patience_sort.zig) | O(n log n) |
+| Tim 排序（教学变体） | [`sorts/tim_sort.zig`](sorts/tim_sort.zig) | O(n log n) |
+| 拓扑排序 | [`sorts/topological_sort.zig`](sorts/topological_sort.zig) | O(V + E) |
 
 ### 查找 (6)
 
@@ -553,7 +643,7 @@ MIT
 | 最长回文子序列 | [`dynamic_programming/longest_palindromic_subsequence.zig`](dynamic_programming/longest_palindromic_subsequence.zig) | O(n²) |
 | 最大乘积子数组 | [`dynamic_programming/max_product_subarray.zig`](dynamic_programming/max_product_subarray.zig) | O(n) |
 
-### 图算法 (16)
+### 图算法 (30)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -573,6 +663,20 @@ MIT
 | 连通分量计数 | [`graphs/connected_components.zig`](graphs/connected_components.zig) | O(V + E) |
 | Kruskal 最小生成树 | [`graphs/kruskal.zig`](graphs/kruskal.zig) | O(E log E) |
 | Prim 最小生成树 | [`graphs/prim.zig`](graphs/prim.zig) | O(V² + E) |
+| 割点检测 | [`graphs/articulation_points.zig`](graphs/articulation_points.zig) | O(V + E) |
+| Kosaraju 强连通分量 | [`graphs/kosaraju_scc.zig`](graphs/kosaraju_scc.zig) | O(V + E) |
+| Kahn 拓扑排序 | [`graphs/kahn_topological_sort.zig`](graphs/kahn_topological_sort.zig) | O(V + E) |
+| BFS 最短路径 | [`graphs/breadth_first_search_shortest_path.zig`](graphs/breadth_first_search_shortest_path.zig) | O(V + E) |
+| Boruvka 最小生成树 | [`graphs/boruvka_mst.zig`](graphs/boruvka_mst.zig) | O(E log V) |
+| 0-1 BFS 最短路径 | [`graphs/zero_one_bfs_shortest_path.zig`](graphs/zero_one_bfs_shortest_path.zig) | O(V + E) |
+| 双向 BFS 路径搜索 | [`graphs/bidirectional_breadth_first_search.zig`](graphs/bidirectional_breadth_first_search.zig) | O(V + E) |
+| 二值网格 Dijkstra | [`graphs/dijkstra_binary_grid.zig`](graphs/dijkstra_binary_grid.zig) | O((R·C)²) |
+| Even Tree（偶数森林最大切边） | [`graphs/even_tree.zig`](graphs/even_tree.zig) | O(V + E) |
+| Gale-Shapley 稳定匹配 | [`graphs/gale_shapley_stable_matching.zig`](graphs/gale_shapley_stable_matching.zig) | O(n²) |
+| PageRank（迭代版） | [`graphs/page_rank.zig`](graphs/page_rank.zig) | O(iterations·(V + E)) |
+| 双向 Dijkstra | [`graphs/bidirectional_dijkstra.zig`](graphs/bidirectional_dijkstra.zig) | O(V² + E) |
+| 贪心最佳优先搜索 | [`graphs/greedy_best_first.zig`](graphs/greedy_best_first.zig) | O(V²) |
+| Dinic 最大流 | [`graphs/dinic_max_flow.zig`](graphs/dinic_max_flow.zig) | O(V²·E) |
 
 ### 贪心算法 (7)
 
@@ -704,12 +808,12 @@ zig test sorts/bubble_sort.zig
 TheAlgorithms-Zig/
 ├── build.zig                # 构建脚本 — 注册所有测试文件
 ├── build.zig.zon            # 包清单
-├── sorts/                   # 12 种排序算法
+├── sorts/                   # 50 种排序算法
 ├── searches/                # 6 种查找算法
 ├── maths/                   # 81 种数学算法
 ├── data_structures/         # 17 种数据结构实现
 ├── dynamic_programming/     # 17 个动态规划算法
-├── graphs/                  # 16 个图算法
+├── graphs/                  # 30 个图算法
 ├── bit_manipulation/        # 6 个位运算算法
 ├── conversions/             # 7 个进制转换
 ├── ciphers/                 # 1 个密码学算法

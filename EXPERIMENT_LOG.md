@@ -17,6 +17,101 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch D - Wave 1 (2026-03-04)
+
+Scope:
+- `graphs/articulation_points.zig`
+- `graphs/kosaraju_scc.zig`
+- `graphs/kahn_topological_sort.zig`
+- `graphs/breadth_first_search_shortest_path.zig`
+- `graphs/boruvka_mst.zig`
+- `graphs/zero_one_bfs_shortest_path.zig`
+- `graphs/bidirectional_breadth_first_search.zig`
+- `graphs/dijkstra_binary_grid.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test graphs/articulation_points.zig` ✅
+- `zig test graphs/kosaraju_scc.zig` ✅
+- `zig test graphs/kahn_topological_sort.zig` ✅
+- `zig test graphs/breadth_first_search_shortest_path.zig` ✅
+- `zig test graphs/boruvka_mst.zig` ✅
+- `zig test graphs/zero_one_bfs_shortest_path.zig` ✅
+- `zig test graphs/bidirectional_breadth_first_search.zig` ✅
+- `zig test graphs/dijkstra_binary_grid.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig fmt graphs/boruvka_mst.zig ...`
+  - Symptom: parse error `expected pointer dereference, optional unwrap, or field access, found 'union'`.
+  - Root cause: method name `union` conflicted with Zig keyword.
+  - Fix applied: renamed method to `unionSets` and updated call sites.
+  - Post-fix verification: `zig test graphs/boruvka_mst.zig` passed.
+- Failing step/command:
+  - `zig fmt graphs/dijkstra_binary_grid.zig ...`
+  - Symptom: parse error `expected 'an identifier', found 'unreachable'`.
+  - Root cause: local test variable used Zig keyword `unreachable`.
+  - Fix applied: renamed variable to `unreachable_grid`.
+  - Post-fix verification: `zig test graphs/dijkstra_binary_grid.zig` passed.
+- Failing step/command:
+  - `zig test graphs/dijkstra_binary_grid.zig`
+  - Symptom: compile error `variable of type 'comptime_int' must be const or comptime`.
+  - Root cause: `current_best` inferred as comptime integer due missing explicit type.
+  - Fix applied: added explicit `usize` type for sentinel and runtime variable.
+  - Post-fix verification: `zig test graphs/dijkstra_binary_grid.zig` passed.
+
+## Phase 5 Batch D - Wave 2 (2026-03-04)
+
+Scope:
+- `graphs/even_tree.zig`
+- `graphs/gale_shapley_stable_matching.zig`
+- `graphs/page_rank.zig`
+- `graphs/bidirectional_dijkstra.zig`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test graphs/even_tree.zig` ✅
+- `zig test graphs/gale_shapley_stable_matching.zig` ✅
+- `zig test graphs/page_rank.zig` ✅
+- `zig test graphs/bidirectional_dijkstra.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test graphs/bidirectional_dijkstra.zig`
+  - Symptom: compile error `variable of type 'comptime_int' must be const or comptime`.
+  - Root cause: `inf`/`shortest` sentinel lacked explicit `i64` annotation and was inferred as comptime integer.
+  - Fix applied: annotated `inf` and `shortest` as `i64`.
+  - Post-fix verification: `zig test graphs/bidirectional_dijkstra.zig` passed.
+
+## Phase 5 Batch D - Wave 3 (2026-03-04)
+
+Scope:
+- `graphs/greedy_best_first.zig`
+- `graphs/dinic_max_flow.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test graphs/greedy_best_first.zig` ✅
+- `zig test graphs/dinic_max_flow.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
 ## Phase 5 Batch A - Wave 1 (2026-03-04)
 
 Scope:
@@ -62,6 +157,158 @@ Verification:
 - `zig test strings/top_k_frequent_words.zig` ✅
 - `zig test strings/manacher.zig` ✅
 - `zig test strings/min_cost_string_conversion.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch C - Wave 2 (2026-03-04)
+
+Scope:
+- `sorts/bead_sort.zig`
+- `sorts/cyclic_sort.zig`
+- `sorts/exchange_sort.zig`
+- `sorts/iterative_merge_sort.zig`
+- `sorts/pigeon_sort.zig`
+- `sorts/pigeonhole_sort.zig`
+- `sorts/quick_sort_3_partition.zig`
+- `sorts/recursive_quick_sort.zig`
+- `sorts/shrink_shell_sort.zig`
+- `sorts/stalin_sort.zig`
+
+Result:
+- 10/10 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test sorts/bead_sort.zig` ✅
+- `zig test sorts/cyclic_sort.zig` ✅
+- `zig test sorts/exchange_sort.zig` ✅
+- `zig test sorts/iterative_merge_sort.zig` ✅
+- `zig test sorts/pigeon_sort.zig` ✅
+- `zig test sorts/pigeonhole_sort.zig` ✅
+- `zig test sorts/quick_sort_3_partition.zig` ✅
+- `zig test sorts/recursive_quick_sort.zig` ✅
+- `zig test sorts/shrink_shell_sort.zig` ✅
+- `zig test sorts/stalin_sort.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test sorts/pigeon_sort.zig`
+  - Symptom: compile error `expected type 'error{RangeTooLarge}', found 'error{OutOfMemory}'`.
+  - Root cause: function error set did not include allocator error from `allocator.alloc`.
+  - Fix applied: expanded `PigeonSortError` to include `std.mem.Allocator.Error`.
+  - Post-fix verification: `zig test sorts/pigeon_sort.zig` passed.
+
+## Phase 5 Batch C - Wave 4 (2026-03-04)
+
+Scope:
+- `sorts/external_sort.zig`
+- `sorts/intro_sort.zig`
+- `sorts/msd_radix_sort.zig`
+- `sorts/natural_sort.zig`
+- `sorts/odd_even_transposition_parallel.zig`
+- `sorts/patience_sort.zig`
+- `sorts/tim_sort.zig`
+- `sorts/topological_sort.zig`
+
+Result:
+- 8/8 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test sorts/external_sort.zig` ✅
+- `zig test sorts/intro_sort.zig` ✅
+- `zig test sorts/msd_radix_sort.zig` ✅
+- `zig test sorts/natural_sort.zig` ✅
+- `zig test sorts/odd_even_transposition_parallel.zig` ✅
+- `zig test sorts/patience_sort.zig` ✅
+- `zig test sorts/tim_sort.zig` ✅
+- `zig test sorts/topological_sort.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test sorts/odd_even_transposition_parallel.zig`
+  - Symptom: compile error `operator < not allowed for type 'bool'`.
+  - Root cause: generic comparator used direct `<`, but Zig bool type does not support ordering operators.
+  - Fix applied: added type-aware `lessThan` helper converting bool to integer order for comparison.
+  - Post-fix verification: `zig test sorts/odd_even_transposition_parallel.zig` passed.
+- Failing step/command:
+  - `zig test sorts/intro_sort.zig`
+  - Symptom: compile error `local variable is never mutated`.
+  - Root cause: loop-range boundary `start` declared as mutable variable though never reassigned.
+  - Fix applied: changed declaration from `var` to `const`.
+  - Post-fix verification: `zig test sorts/intro_sort.zig` passed.
+
+## Phase 5 Batch C - Wave 3 (2026-03-04)
+
+Scope:
+- `sorts/bitonic_sort.zig`
+- `sorts/circle_sort.zig`
+- `sorts/dutch_national_flag_sort.zig`
+- `sorts/odd_even_transposition_single_threaded.zig`
+- `sorts/recursive_mergesort_array.zig`
+- `sorts/slowsort.zig`
+- `sorts/strand_sort.zig`
+- `sorts/tree_sort.zig`
+- `sorts/unknown_sort.zig`
+- `sorts/merge_insertion_sort.zig`
+
+Result:
+- 10/10 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test sorts/bitonic_sort.zig` ✅
+- `zig test sorts/circle_sort.zig` ✅
+- `zig test sorts/dutch_national_flag_sort.zig` ✅
+- `zig test sorts/odd_even_transposition_single_threaded.zig` ✅
+- `zig test sorts/recursive_mergesort_array.zig` ✅
+- `zig test sorts/slowsort.zig` ✅
+- `zig test sorts/strand_sort.zig` ✅
+- `zig test sorts/tree_sort.zig` ✅
+- `zig test sorts/unknown_sort.zig` ✅
+- `zig test sorts/merge_insertion_sort.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch C - Wave 1 (2026-03-04)
+
+Scope:
+- `sorts/binary_insertion_sort.zig`
+- `sorts/bogo_sort.zig`
+- `sorts/comb_sort.zig`
+- `sorts/cycle_sort.zig`
+- `sorts/double_sort.zig`
+- `sorts/odd_even_sort.zig`
+- `sorts/pancake_sort.zig`
+- `sorts/recursive_insertion_sort.zig`
+- `sorts/stooge_sort.zig`
+- `sorts/wiggle_sort.zig`
+
+Result:
+- 10/10 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+
+Verification:
+- `zig test sorts/binary_insertion_sort.zig` ✅
+- `zig test sorts/bogo_sort.zig` ✅
+- `zig test sorts/comb_sort.zig` ✅
+- `zig test sorts/cycle_sort.zig` ✅
+- `zig test sorts/double_sort.zig` ✅
+- `zig test sorts/odd_even_sort.zig` ✅
+- `zig test sorts/pancake_sort.zig` ✅
+- `zig test sorts/recursive_insertion_sort.zig` ✅
+- `zig test sorts/stooge_sort.zig` ✅
+- `zig test sorts/wiggle_sort.zig` ✅
 - `zig build test` ✅
 
 Failure Log:
