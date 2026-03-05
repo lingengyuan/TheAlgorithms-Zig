@@ -463,6 +463,12 @@ pub fn build(b: *std.Build) void {
         "electronics/apparent_power.zig",
         "electronics/real_and_reactive_power.zig",
         "electronics/wheatstone_bridge.zig",
+        "electronics/builtin_voltage.zig",
+        "electronics/carrier_concentration.zig",
+        "electronics/circular_convolution.zig",
+        "electronics/coulombs_law.zig",
+        "electronics/ic_555_timer.zig",
+        "electronics/resistor_color_code.zig",
         // Financial
         "financial/interest.zig",
         "financial/present_value.zig",

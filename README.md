@@ -552,7 +552,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Reynolds Number | [`physics/reynolds_number.zig`](physics/reynolds_number.zig) | O(1) |
 | Shear Stress | [`physics/shear_stress.zig`](physics/shear_stress.zig) | O(1) |
 
-### Electronics (13)
+### Electronics (19)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -569,6 +569,12 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Apparent Power (AC Phasors) | [`electronics/apparent_power.zig`](electronics/apparent_power.zig) | O(1) |
 | Real and Reactive Power | [`electronics/real_and_reactive_power.zig`](electronics/real_and_reactive_power.zig) | O(1) |
 | Wheatstone Bridge Solver | [`electronics/wheatstone_bridge.zig`](electronics/wheatstone_bridge.zig) | O(1) |
+| Builtin Voltage (PN Junction) | [`electronics/builtin_voltage.zig`](electronics/builtin_voltage.zig) | O(1) |
+| Carrier Concentration Solver | [`electronics/carrier_concentration.zig`](electronics/carrier_concentration.zig) | O(1) |
+| Circular Convolution | [`electronics/circular_convolution.zig`](electronics/circular_convolution.zig) | O(n²) |
+| Coulomb's Law Solver | [`electronics/coulombs_law.zig`](electronics/coulombs_law.zig) | O(1) |
+| IC 555 Timer (Astable) | [`electronics/ic_555_timer.zig`](electronics/ic_555_timer.zig) | O(1) |
+| Resistor Color Code Calculator | [`electronics/resistor_color_code.zig`](electronics/resistor_color_code.zig) | O(bands) |
 
 ### Financial (7)
 
@@ -730,7 +736,7 @@ TheAlgorithms-Zig/
 ├── divide_and_conquer/      # 11 divide-and-conquer algorithms
 ├── linear_algebra/          # 11 linear algebra algorithms
 ├── physics/                 # 14 physics algorithms
-├── electronics/             # 13 electronics algorithms
+├── electronics/             # 19 electronics algorithms
 ├── financial/               # 7 financial algorithms
 ├── scheduling/              # 8 scheduling algorithms
 ├── ciphers/                 # 47 cipher algorithms
@@ -1319,7 +1325,7 @@ MIT
 | 雷诺数 | [`physics/reynolds_number.zig`](physics/reynolds_number.zig) | O(1) |
 | 剪应力 | [`physics/shear_stress.zig`](physics/shear_stress.zig) | O(1) |
 
-### 电子学 (13)
+### 电子学 (19)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1336,6 +1342,12 @@ MIT
 | 视在功率（交流相量） | [`electronics/apparent_power.zig`](electronics/apparent_power.zig) | O(1) |
 | 有功与无功功率 | [`electronics/real_and_reactive_power.zig`](electronics/real_and_reactive_power.zig) | O(1) |
 | 惠斯通电桥求解 | [`electronics/wheatstone_bridge.zig`](electronics/wheatstone_bridge.zig) | O(1) |
+| 内建电势（PN 结） | [`electronics/builtin_voltage.zig`](electronics/builtin_voltage.zig) | O(1) |
+| 载流子浓度求解 | [`electronics/carrier_concentration.zig`](electronics/carrier_concentration.zig) | O(1) |
+| 循环卷积 | [`electronics/circular_convolution.zig`](electronics/circular_convolution.zig) | O(n²) |
+| 库仑定律求解 | [`electronics/coulombs_law.zig`](electronics/coulombs_law.zig) | O(1) |
+| 555 定时器（无稳态） | [`electronics/ic_555_timer.zig`](electronics/ic_555_timer.zig) | O(1) |
+| 电阻色环编码计算 | [`electronics/resistor_color_code.zig`](electronics/resistor_color_code.zig) | O(bands) |
 
 ### 金融 (7)
 
@@ -1497,7 +1509,7 @@ TheAlgorithms-Zig/
 ├── divide_and_conquer/      # 11 个分治算法
 ├── linear_algebra/          # 11 个线性代数算法
 ├── physics/                 # 14 个物理算法
-├── electronics/             # 13 个电子学算法
+├── electronics/             # 19 个电子学算法
 ├── financial/               # 7 个金融算法
 ├── scheduling/              # 8 个调度算法
 ├── ciphers/                 # 47 个密码学算法

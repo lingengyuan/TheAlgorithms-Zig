@@ -17,6 +17,44 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch I - Wave 8 (2026-03-05)
+
+Scope:
+- `electronics/builtin_voltage.zig`
+- `electronics/carrier_concentration.zig`
+- `electronics/circular_convolution.zig`
+- `electronics/coulombs_law.zig`
+- `electronics/ic_555_timer.zig`
+- `electronics/resistor_color_code.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch I category progress after this wave:
+  - `physics`: 14
+  - `electronics`: 19
+  - `financial`: 7
+  - `scheduling`: 8
+- Total registered algorithms in `build.zig`: 581.
+
+Verification:
+- `zig test electronics/builtin_voltage.zig` ✅
+- `zig test electronics/carrier_concentration.zig` ✅
+- `zig test electronics/circular_convolution.zig` ✅
+- `zig test electronics/coulombs_law.zig` ✅
+- `zig test electronics/ic_555_timer.zig` ✅
+- `zig test electronics/resistor_color_code.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test electronics/resistor_color_code.zig`
+  - Symptom: compile error about incompatible error sets: `error.NoSpaceLeft` not in destination error set.
+  - Root cause: helper `formatPythonLikeNumber` used `std.fmt.bufPrint` with `try`, propagating `error.NoSpaceLeft` into `calculateResistance`, while function signatures only declared domain errors.
+  - Fix applied: made `formatPythonLikeNumber` non-fallible with bounded-buffer `bufPrint(... ) catch unreachable` and widened `calculateResistance` return type to `(std.mem.Allocator.Error || ResistorColorCodeError)![]u8` for allocator failures.
+  - Post-fix verification: `zig test electronics/resistor_color_code.zig` passed and full `zig build test` passed.
+
 ## Phase 5 Batch I - Wave 7 (2026-03-05)
 
 Scope:
