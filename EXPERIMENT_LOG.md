@@ -17,6 +17,152 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch H - Wave 15 (2026-03-05)
+
+Scope:
+- `bit_manipulation/binary_count_setbits.zig`
+- `bit_manipulation/count_1s_brian_kernighan_method.zig`
+- `bit_manipulation/count_number_of_one_bits.zig`
+- `bit_manipulation/largest_pow_of_two_le_num.zig`
+- `conversions/rectangular_to_polar.zig`
+- `conversions/prefix_conversions_string.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 21
+  - `bit_manipulation`: 27
+  - `conversions`: 27
+  - `boolean_algebra`: 12
+  - `divide_and_conquer`: 11
+  - `linear_algebra`: 11
+
+Verification:
+- `zig test bit_manipulation/binary_count_setbits.zig` ✅
+- `zig test bit_manipulation/count_1s_brian_kernighan_method.zig` ✅
+- `zig test bit_manipulation/count_number_of_one_bits.zig` ✅
+- `zig test bit_manipulation/largest_pow_of_two_le_num.zig` ✅
+- `zig test conversions/rectangular_to_polar.zig` ✅
+- `zig test conversions/prefix_conversions_string.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch H - Wave 14 (2026-03-05)
+
+Scope:
+- `backtracking/n_queens_math.zig`
+- `bit_manipulation/binary_coded_decimal.zig`
+- `bit_manipulation/excess_3_code.zig`
+- `conversions/volume_conversions.zig`
+- `conversions/energy_conversions.zig`
+- `conversions/molecular_chemistry.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 21
+  - `bit_manipulation`: 23
+  - `conversions`: 25
+  - `boolean_algebra`: 12
+  - `divide_and_conquer`: 11
+  - `linear_algebra`: 11
+
+Verification:
+- `zig test backtracking/n_queens_math.zig` ✅
+- `zig test bit_manipulation/binary_coded_decimal.zig` ✅
+- `zig test bit_manipulation/excess_3_code.zig` ✅
+- `zig test conversions/volume_conversions.zig` ✅
+- `zig test conversions/energy_conversions.zig` ✅
+- `zig test conversions/molecular_chemistry.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch H - Wave 13 (2026-03-05)
+
+Scope:
+- `backtracking/generate_parentheses_iterative.zig`
+- `backtracking/word_ladder.zig`
+- `bit_manipulation/binary_twos_complement.zig`
+- `bit_manipulation/single_bit_manipulation_operations.zig`
+- `conversions/time_conversions.zig`
+- `conversions/pressure_conversions.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 20
+  - `bit_manipulation`: 21
+  - `conversions`: 22
+  - `boolean_algebra`: 12
+  - `divide_and_conquer`: 11
+  - `linear_algebra`: 11
+
+Verification:
+- `zig test backtracking/generate_parentheses_iterative.zig` ✅
+- `zig test backtracking/word_ladder.zig` ✅
+- `zig test bit_manipulation/binary_twos_complement.zig` ✅
+- `zig test bit_manipulation/single_bit_manipulation_operations.zig` ✅
+- `zig test conversions/time_conversions.zig` ✅
+- `zig test conversions/pressure_conversions.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test backtracking/word_ladder.zig`
+  - Symptom: extreme no-path test failed (`expected 0, found 11`).
+  - Root cause: the test dataset intended to be disconnected accidentally contained a valid bridge path between begin/end components.
+  - Fix applied: replaced the extreme-case word set with two strictly disconnected components while keeping `end_word` present.
+  - Post-fix verification: file-level test passed and full `zig build test` passed.
+
+## Phase 5 Batch H - Wave 12 (2026-03-05)
+
+Scope:
+- `backtracking/knight_tour.zig`
+- `bit_manipulation/binary_xor_operator.zig`
+- `bit_manipulation/binary_shifts.zig`
+- `conversions/length_conversion.zig`
+- `conversions/speed_conversions.zig`
+- `boolean_algebra/quine_mc_cluskey.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 18
+  - `bit_manipulation`: 19
+  - `conversions`: 20
+  - `boolean_algebra`: 12
+  - `divide_and_conquer`: 11
+  - `linear_algebra`: 11
+
+Verification:
+- `zig test backtracking/knight_tour.zig` ✅
+- `zig test bit_manipulation/binary_xor_operator.zig` ✅
+- `zig test bit_manipulation/binary_shifts.zig` ✅
+- `zig test conversions/length_conversion.zig` ✅
+- `zig test conversions/speed_conversions.zig` ✅
+- `zig test boolean_algebra/quine_mc_cluskey.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test bit_manipulation/binary_shifts.zig`
+  - Symptom: logical right shift case mismatch (`17 >> 2` expected `0b100`, got `0b001`).
+  - Root cause: right-shift output used truncated-width bit index instead of original-width bit index while extracting leading bits.
+  - Fix applied: changed bit-index computation from `out_width - 1 - i` to `width - 1 - i`.
+  - Post-fix verification: file-level test passed and full `zig build test` passed.
+
 ## Phase 5 Batch H - Wave 11 (2026-03-05)
 
 Scope:
