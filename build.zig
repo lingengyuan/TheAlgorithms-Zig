@@ -358,6 +358,7 @@ pub fn build(b: *std.Build) void {
         "bit_manipulation/binary_count_trailing_zeros.zig",
         "bit_manipulation/bitwise_addition_recursive.zig",
         "bit_manipulation/binary_and_operator.zig",
+        "bit_manipulation/binary_or_operator.zig",
         // Conversions
         "conversions/decimal_to_binary.zig",
         "conversions/binary_to_decimal.zig",
@@ -376,6 +377,7 @@ pub fn build(b: *std.Build) void {
         "conversions/decimal_to_any.zig",
         "conversions/ipv4_conversion.zig",
         "conversions/hex_to_bin.zig",
+        "conversions/prefix_conversions.zig",
         // Boolean Algebra
         "boolean_algebra/and_gate.zig",
         "boolean_algebra/or_gate.zig",
@@ -387,6 +389,7 @@ pub fn build(b: *std.Build) void {
         "boolean_algebra/imply_gate.zig",
         "boolean_algebra/nimply_gate.zig",
         "boolean_algebra/multiplexer.zig",
+        "boolean_algebra/karnaugh_map_simplification.zig",
         // Divide and Conquer
         "divide_and_conquer/max_subarray.zig",
         "divide_and_conquer/peak.zig",
@@ -398,6 +401,7 @@ pub fn build(b: *std.Build) void {
         "divide_and_conquer/heaps_algorithm.zig",
         "divide_and_conquer/heaps_algorithm_iterative.zig",
         "divide_and_conquer/closest_pair_of_points.zig",
+        "divide_and_conquer/convex_hull.zig",
         // Linear Algebra
         "linear_algebra/gaussian_elimination.zig",
         "linear_algebra/lu_decomposition.zig",
@@ -409,6 +413,7 @@ pub fn build(b: *std.Build) void {
         "linear_algebra/schur_complement.zig",
         "linear_algebra/transformations_2d.zig",
         "linear_algebra/gaussian_elimination_pivoting.zig",
+        "linear_algebra/conjugate_gradient.zig",
         // Ciphers
         "ciphers/caesar_cipher.zig",
         "ciphers/rot13.zig",
@@ -490,6 +495,7 @@ pub fn build(b: *std.Build) void {
         "backtracking/all_subsequences.zig",
         "backtracking/match_word_pattern.zig",
         "backtracking/minimax.zig",
+        "backtracking/coloring.zig",
         // Strings
         "strings/palindrome.zig",
         "strings/reverse_words.zig",

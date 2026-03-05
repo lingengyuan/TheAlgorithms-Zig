@@ -17,6 +17,57 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch H - Wave 11 (2026-03-05)
+
+Scope:
+- `backtracking/coloring.zig`
+- `bit_manipulation/binary_or_operator.zig`
+- `conversions/prefix_conversions.zig`
+- `boolean_algebra/karnaugh_map_simplification.zig`
+- `divide_and_conquer/convex_hull.zig`
+- `linear_algebra/conjugate_gradient.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 17
+  - `bit_manipulation`: 17
+  - `conversions`: 18
+  - `boolean_algebra`: 11
+  - `divide_and_conquer`: 11
+  - `linear_algebra`: 11
+
+Verification:
+- `zig test backtracking/coloring.zig` ✅
+- `zig test bit_manipulation/binary_or_operator.zig` ✅
+- `zig test conversions/prefix_conversions.zig` ✅
+- `zig test boolean_algebra/karnaugh_map_simplification.zig` ✅
+- `zig test divide_and_conquer/convex_hull.zig` ✅
+- `zig test linear_algebra/conjugate_gradient.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig fmt ... linear_algebra/conjugate_gradient.zig`
+  - Symptom: parse error (`expected 'an identifier', found 'error'`).
+  - Root cause: used reserved keyword `error` as local variable name.
+  - Fix applied: renamed local variable to `err_value`.
+  - Post-fix verification: `zig fmt` and file-level test passed.
+- Failing step/command:
+  - `zig test backtracking/coloring.zig`
+  - Symptom: compile errors (`function parameter shadows declaration of 'color'`, and `local variable is never mutated`).
+  - Root cause: parameter name collided with function name; allocator slice binding unnecessarily mutable.
+  - Fix applied: renamed parameter to `target_color`; changed binding to `const`.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test linear_algebra/conjugate_gradient.zig`
+  - Symptom: runtime failures with `SingularDirection` on converged cases.
+  - Root cause: denominator guard triggered after residual had effectively converged to zero.
+  - Fix applied: added residual-based early-return checks (`rr <= tol^2` and `rr_new <= tol^2`) before reporting singular direction.
+  - Post-fix verification: file-level tests passed and full `zig build test` passed.
+
 ## Phase 5 Batch H - Wave 10 (2026-03-05)
 
 Scope:
