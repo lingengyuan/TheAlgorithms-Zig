@@ -17,6 +17,191 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch I - Wave 5 (2026-03-05)
+
+Scope:
+- `physics/mass_energy_equivalence.zig`
+- `physics/ideal_gas_law.zig`
+- `electronics/electric_conductivity.zig`
+- `electronics/charging_capacitor.zig`
+- `financial/equated_monthly_installments.zig`
+- `scheduling/job_sequence_with_deadline.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch I category progress after this wave:
+  - `physics`: 10
+  - `electronics`: 9
+  - `financial`: 5
+  - `scheduling`: 6
+- Total registered algorithms in `build.zig`: 563.
+
+Verification:
+- `zig test physics/mass_energy_equivalence.zig` ✅
+- `zig test physics/ideal_gas_law.zig` ✅
+- `zig test electronics/electric_conductivity.zig` ✅
+- `zig test electronics/charging_capacitor.zig` ✅
+- `zig test financial/equated_monthly_installments.zig` ✅
+- `zig test scheduling/job_sequence_with_deadline.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch I - Wave 4 (2026-03-05)
+
+Scope:
+- `physics/period_of_pendulum.zig`
+- `physics/speed_of_sound.zig`
+- `electronics/ind_reactance.zig`
+- `electronics/resonant_frequency.zig`
+- `financial/simple_moving_average.zig`
+- `scheduling/non_preemptive_shortest_job_first.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch I category progress after this wave:
+  - `physics`: 8
+  - `electronics`: 7
+  - `financial`: 4
+  - `scheduling`: 5
+- Total registered algorithms in `build.zig`: 557.
+
+Verification:
+- `zig test physics/period_of_pendulum.zig` ✅
+- `zig test physics/speed_of_sound.zig` ✅
+- `zig test electronics/ind_reactance.zig` ✅
+- `zig test electronics/resonant_frequency.zig` ✅
+- `zig test financial/simple_moving_average.zig` ✅
+- `zig test scheduling/non_preemptive_shortest_job_first.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test financial/simple_moving_average.zig`
+  - Symptom: compile error `struct 'array_list.Aligned(f64,null)' has no member named 'init'`.
+  - Root cause: stress test used outdated `std.ArrayList(f64).init(...)` API pattern incompatible with current Zig 0.15 stdlib in this repository.
+  - Fix applied: replaced `ArrayList` usage with direct allocator-backed fixed-size slice (`alloc.alloc(f64, 2000)` + `@memset`).
+  - Post-fix verification: file-level test passed and full `zig build test` passed.
+
+## Phase 5 Batch I - Wave 3 (2026-03-05)
+
+Scope:
+- `physics/centripetal_force.zig`
+- `physics/newtons_law_of_gravitation.zig`
+- `electronics/capacitor_equivalence.zig`
+- `electronics/electrical_impedance.zig`
+- `financial/price_plus_tax.zig`
+- `scheduling/highest_response_ratio_next.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch I category progress after this wave:
+  - `physics`: 6
+  - `electronics`: 5
+  - `financial`: 3
+  - `scheduling`: 4
+- Total registered algorithms in `build.zig`: 551.
+
+Verification:
+- `zig test physics/centripetal_force.zig` ✅
+- `zig test physics/newtons_law_of_gravitation.zig` ✅
+- `zig test electronics/capacitor_equivalence.zig` ✅
+- `zig test electronics/electrical_impedance.zig` ✅
+- `zig test financial/price_plus_tax.zig` ✅
+- `zig test scheduling/highest_response_ratio_next.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test scheduling/highest_response_ratio_next.zig`
+  - Symptom: compile failure: `pointless discard of function parameter`.
+  - Root cause: `process_name` parameter was discarded (`_ = process_name`) in `calculateTurnAroundTime` and then still used for length validation.
+  - Fix applied: removed the discard in `calculateTurnAroundTime`; retained discard only in `calculateWaitingTime` where it is intentionally unused.
+  - Post-fix verification: file-level test passed and full `zig build test` passed.
+
+## Phase 5 Batch I - Wave 2 (2026-03-05)
+
+Scope:
+- `physics/newtons_second_law_of_motion.zig`
+- `physics/escape_velocity.zig`
+- `electronics/electric_power.zig`
+- `electronics/resistor_equivalence.zig`
+- `financial/present_value.zig`
+- `scheduling/first_come_first_served.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch I category progress after this wave:
+  - `physics`: 4
+  - `electronics`: 3
+  - `financial`: 2
+  - `scheduling`: 3
+- Total registered algorithms in `build.zig`: 545.
+
+Verification:
+- `zig test physics/newtons_second_law_of_motion.zig` ✅
+- `zig test physics/escape_velocity.zig` ✅
+- `zig test electronics/electric_power.zig` ✅
+- `zig test electronics/resistor_equivalence.zig` ✅
+- `zig test financial/present_value.zig` ✅
+- `zig test scheduling/first_come_first_served.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test scheduling/first_come_first_served.zig`
+  - Symptom: runtime panic `integer overflow` in boundary test with empty input.
+  - Root cause: function iterated `for (1..duration_times.len)` without empty-length guard, causing invalid `1..0` range in debug checks.
+  - Fix applied: added early return for `duration_times.len == 0` immediately after allocation/initialization.
+  - Post-fix verification: file-level test passed; full `zig build test` passed.
+
+## Phase 5 Batch I - Wave 1 (2026-03-05)
+
+Scope:
+- `physics/kinetic_energy.zig`
+- `physics/potential_energy.zig`
+- `electronics/ohms_law.zig`
+- `financial/interest.zig`
+- `scheduling/round_robin.zig`
+- `scheduling/shortest_job_first.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- New category progress after this wave:
+  - `physics`: 2
+  - `electronics`: 1
+  - `financial`: 1
+  - `scheduling`: 2
+- Total registered algorithms in `build.zig`: 539.
+
+Verification:
+- `zig test physics/kinetic_energy.zig` ✅
+- `zig test physics/potential_energy.zig` ✅
+- `zig test electronics/ohms_law.zig` ✅
+- `zig test financial/interest.zig` ✅
+- `zig test scheduling/round_robin.zig` ✅
+- `zig test scheduling/shortest_job_first.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test scheduling/shortest_job_first.zig`
+  - Symptom: test pass status was followed by GPA leak reports and non-zero exit.
+  - Root cause: `calculateWaitingTime` allocated `waiting_time` before validating `arrival_time`/`burst_time`; invalid-input early returns leaked the allocation.
+  - Fix applied: moved input validation ahead of `waiting_time` allocation and kept allocation only after validation passes.
+  - Post-fix verification: `zig test scheduling/shortest_job_first.zig` passed cleanly; full `zig build test` passed.
+
 ## Phase 5 Batch H - Wave 15 (2026-03-05)
 
 Scope:

@@ -533,6 +533,56 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Gaussian Elimination (Pivoting) | [`linear_algebra/gaussian_elimination_pivoting.zig`](linear_algebra/gaussian_elimination_pivoting.zig) | O(n³) |
 | Conjugate Gradient Method | [`linear_algebra/conjugate_gradient.zig`](linear_algebra/conjugate_gradient.zig) | O(iterations · n²) |
 
+### Physics (10)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Kinetic Energy | [`physics/kinetic_energy.zig`](physics/kinetic_energy.zig) | O(1) |
+| Potential Energy | [`physics/potential_energy.zig`](physics/potential_energy.zig) | O(1) |
+| Newton's Second Law of Motion | [`physics/newtons_second_law_of_motion.zig`](physics/newtons_second_law_of_motion.zig) | O(1) |
+| Escape Velocity | [`physics/escape_velocity.zig`](physics/escape_velocity.zig) | O(1) |
+| Centripetal Force | [`physics/centripetal_force.zig`](physics/centripetal_force.zig) | O(1) |
+| Newton's Law of Gravitation | [`physics/newtons_law_of_gravitation.zig`](physics/newtons_law_of_gravitation.zig) | O(1) |
+| Period of Pendulum | [`physics/period_of_pendulum.zig`](physics/period_of_pendulum.zig) | O(1) |
+| Speed of Sound in a Fluid | [`physics/speed_of_sound.zig`](physics/speed_of_sound.zig) | O(1) |
+| Mass-Energy Equivalence | [`physics/mass_energy_equivalence.zig`](physics/mass_energy_equivalence.zig) | O(1) |
+| Ideal Gas Law Utilities | [`physics/ideal_gas_law.zig`](physics/ideal_gas_law.zig) | O(1) |
+
+### Electronics (9)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Ohm's Law | [`electronics/ohms_law.zig`](electronics/ohms_law.zig) | O(1) |
+| Electric Power | [`electronics/electric_power.zig`](electronics/electric_power.zig) | O(1) |
+| Resistor Equivalence (Series/Parallel) | [`electronics/resistor_equivalence.zig`](electronics/resistor_equivalence.zig) | O(n) |
+| Capacitor Equivalence (Parallel/Series) | [`electronics/capacitor_equivalence.zig`](electronics/capacitor_equivalence.zig) | O(n) |
+| Electrical Impedance | [`electronics/electrical_impedance.zig`](electronics/electrical_impedance.zig) | O(1) |
+| Inductive Reactance | [`electronics/ind_reactance.zig`](electronics/ind_reactance.zig) | O(1) |
+| Resonant Frequency (LC Circuit) | [`electronics/resonant_frequency.zig`](electronics/resonant_frequency.zig) | O(1) |
+| Electric Conductivity | [`electronics/electric_conductivity.zig`](electronics/electric_conductivity.zig) | O(1) |
+| Charging Capacitor (RC) | [`electronics/charging_capacitor.zig`](electronics/charging_capacitor.zig) | O(1) |
+
+### Financial (5)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Interest Calculations | [`financial/interest.zig`](financial/interest.zig) | O(1) |
+| Present Value | [`financial/present_value.zig`](financial/present_value.zig) | O(n) |
+| Price Plus Tax | [`financial/price_plus_tax.zig`](financial/price_plus_tax.zig) | O(1) |
+| Simple Moving Average | [`financial/simple_moving_average.zig`](financial/simple_moving_average.zig) | O(n · window_size) |
+| Equated Monthly Installments | [`financial/equated_monthly_installments.zig`](financial/equated_monthly_installments.zig) | O(1) |
+
+### Scheduling (6)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Round Robin Scheduling | [`scheduling/round_robin.zig`](scheduling/round_robin.zig) | O(total_quanta · n) |
+| Shortest Job First (Preemptive) | [`scheduling/shortest_job_first.zig`](scheduling/shortest_job_first.zig) | O(T · n) |
+| First Come First Served | [`scheduling/first_come_first_served.zig`](scheduling/first_come_first_served.zig) | O(n) |
+| Highest Response Ratio Next | [`scheduling/highest_response_ratio_next.zig`](scheduling/highest_response_ratio_next.zig) | O(n²) |
+| Non-Preemptive Shortest Job First | [`scheduling/non_preemptive_shortest_job_first.zig`](scheduling/non_preemptive_shortest_job_first.zig) | O(n²) |
+| Job Sequence With Deadline | [`scheduling/job_sequence_with_deadline.zig`](scheduling/job_sequence_with_deadline.zig) | O(n²) |
+
 ### Ciphers (47)
 
 | Algorithm | File | Complexity |
@@ -667,6 +717,10 @@ TheAlgorithms-Zig/
 ├── boolean_algebra/         # 12 boolean algebra algorithms
 ├── divide_and_conquer/      # 11 divide-and-conquer algorithms
 ├── linear_algebra/          # 11 linear algebra algorithms
+├── physics/                 # 10 physics algorithms
+├── electronics/             # 9 electronics algorithms
+├── financial/               # 5 financial algorithms
+├── scheduling/              # 6 scheduling algorithms
 ├── ciphers/                 # 47 cipher algorithms
 ├── hashing/                 # 1 hashing algorithm
 ├── strings/                 # 38 string algorithms
@@ -1234,6 +1288,56 @@ MIT
 | 高斯消元（部分主元） | [`linear_algebra/gaussian_elimination_pivoting.zig`](linear_algebra/gaussian_elimination_pivoting.zig) | O(n³) |
 | 共轭梯度法 | [`linear_algebra/conjugate_gradient.zig`](linear_algebra/conjugate_gradient.zig) | O(iterations · n²) |
 
+### 物理 (10)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 动能 | [`physics/kinetic_energy.zig`](physics/kinetic_energy.zig) | O(1) |
+| 势能 | [`physics/potential_energy.zig`](physics/potential_energy.zig) | O(1) |
+| 牛顿第二定律 | [`physics/newtons_second_law_of_motion.zig`](physics/newtons_second_law_of_motion.zig) | O(1) |
+| 逃逸速度 | [`physics/escape_velocity.zig`](physics/escape_velocity.zig) | O(1) |
+| 向心力 | [`physics/centripetal_force.zig`](physics/centripetal_force.zig) | O(1) |
+| 万有引力定律 | [`physics/newtons_law_of_gravitation.zig`](physics/newtons_law_of_gravitation.zig) | O(1) |
+| 单摆周期 | [`physics/period_of_pendulum.zig`](physics/period_of_pendulum.zig) | O(1) |
+| 流体中的声速 | [`physics/speed_of_sound.zig`](physics/speed_of_sound.zig) | O(1) |
+| 质能等价 | [`physics/mass_energy_equivalence.zig`](physics/mass_energy_equivalence.zig) | O(1) |
+| 理想气体方程工具 | [`physics/ideal_gas_law.zig`](physics/ideal_gas_law.zig) | O(1) |
+
+### 电子学 (9)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 欧姆定律 | [`electronics/ohms_law.zig`](electronics/ohms_law.zig) | O(1) |
+| 电功率计算 | [`electronics/electric_power.zig`](electronics/electric_power.zig) | O(1) |
+| 等效电阻（串联/并联） | [`electronics/resistor_equivalence.zig`](electronics/resistor_equivalence.zig) | O(n) |
+| 等效电容（并联/串联） | [`electronics/capacitor_equivalence.zig`](electronics/capacitor_equivalence.zig) | O(n) |
+| 电阻抗计算 | [`electronics/electrical_impedance.zig`](electronics/electrical_impedance.zig) | O(1) |
+| 感抗计算 | [`electronics/ind_reactance.zig`](electronics/ind_reactance.zig) | O(1) |
+| 谐振频率（LC 电路） | [`electronics/resonant_frequency.zig`](electronics/resonant_frequency.zig) | O(1) |
+| 电导率计算 | [`electronics/electric_conductivity.zig`](electronics/electric_conductivity.zig) | O(1) |
+| 电容充电（RC） | [`electronics/charging_capacitor.zig`](electronics/charging_capacitor.zig) | O(1) |
+
+### 金融 (5)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 利息计算 | [`financial/interest.zig`](financial/interest.zig) | O(1) |
+| 现值计算 | [`financial/present_value.zig`](financial/present_value.zig) | O(n) |
+| 含税价格计算 | [`financial/price_plus_tax.zig`](financial/price_plus_tax.zig) | O(1) |
+| 简单移动平均（SMA） | [`financial/simple_moving_average.zig`](financial/simple_moving_average.zig) | O(n · window_size) |
+| 等额月供（EMI） | [`financial/equated_monthly_installments.zig`](financial/equated_monthly_installments.zig) | O(1) |
+
+### 调度 (6)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 轮转调度 | [`scheduling/round_robin.zig`](scheduling/round_robin.zig) | O(total_quanta · n) |
+| 最短作业优先（可抢占） | [`scheduling/shortest_job_first.zig`](scheduling/shortest_job_first.zig) | O(T · n) |
+| 先来先服务调度 | [`scheduling/first_come_first_served.zig`](scheduling/first_come_first_served.zig) | O(n) |
+| 最高响应比优先调度 | [`scheduling/highest_response_ratio_next.zig`](scheduling/highest_response_ratio_next.zig) | O(n²) |
+| 非抢占式最短作业优先 | [`scheduling/non_preemptive_shortest_job_first.zig`](scheduling/non_preemptive_shortest_job_first.zig) | O(n²) |
+| 截止期任务排序 | [`scheduling/job_sequence_with_deadline.zig`](scheduling/job_sequence_with_deadline.zig) | O(n²) |
+
 ### 密码学 (47)
 
 | 算法 | 文件 | 复杂度 |
@@ -1368,6 +1472,10 @@ TheAlgorithms-Zig/
 ├── boolean_algebra/         # 12 个布尔代数算法
 ├── divide_and_conquer/      # 11 个分治算法
 ├── linear_algebra/          # 11 个线性代数算法
+├── physics/                 # 10 个物理算法
+├── electronics/             # 9 个电子学算法
+├── financial/               # 5 个金融算法
+├── scheduling/              # 6 个调度算法
 ├── ciphers/                 # 47 个密码学算法
 ├── hashing/                 # 1 个哈希算法
 ├── strings/                 # 38 个字符串算法
