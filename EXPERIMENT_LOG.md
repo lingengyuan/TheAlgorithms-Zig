@@ -17,6 +17,44 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch I - Wave 9 (2026-03-05)
+
+Scope:
+- `physics/archimedes_principle_of_buoyant_force.zig`
+- `physics/doppler_frequency.zig`
+- `physics/hubble_parameter.zig`
+- `physics/malus_law.zig`
+- `physics/photoelectric_effect.zig`
+- `physics/lens_formulae.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch I category progress after this wave:
+  - `physics`: 20
+  - `electronics`: 19
+  - `financial`: 7
+  - `scheduling`: 8
+- Total registered algorithms in `build.zig`: 587.
+
+Verification:
+- `zig test physics/archimedes_principle_of_buoyant_force.zig` ✅
+- `zig test physics/doppler_frequency.zig` ✅
+- `zig test physics/hubble_parameter.zig` ✅
+- `zig test physics/malus_law.zig` ✅
+- `zig test physics/photoelectric_effect.zig` ✅
+- `zig test physics/lens_formulae.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test physics/hubble_parameter.zig`
+  - Symptom: boundary-case assertion failed (`actual 68.3` vs expected `68.30341412077037`).
+  - Root cause: expected value in the test was calculated with incorrect assumption; for `Ωr=1e-4`, `Ωm=0.3`, `ΩΛ=0.7`, `z=0`, Python formula yields exactly `H0 = 68.3`.
+  - Fix applied: corrected assertion expected value to `68.3`.
+  - Post-fix verification: `zig test physics/hubble_parameter.zig` passed and full `zig build test` passed.
+
 ## Phase 5 Batch I - Wave 8 (2026-03-05)
 
 Scope:

@@ -533,7 +533,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Gaussian Elimination (Pivoting) | [`linear_algebra/gaussian_elimination_pivoting.zig`](linear_algebra/gaussian_elimination_pivoting.zig) | O(n³) |
 | Conjugate Gradient Method | [`linear_algebra/conjugate_gradient.zig`](linear_algebra/conjugate_gradient.zig) | O(iterations · n²) |
 
-### Physics (14)
+### Physics (20)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -551,6 +551,12 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | RMS Speed of Molecule | [`physics/rms_speed_of_molecule.zig`](physics/rms_speed_of_molecule.zig) | O(1) |
 | Reynolds Number | [`physics/reynolds_number.zig`](physics/reynolds_number.zig) | O(1) |
 | Shear Stress | [`physics/shear_stress.zig`](physics/shear_stress.zig) | O(1) |
+| Archimedes Principle of Buoyant Force | [`physics/archimedes_principle_of_buoyant_force.zig`](physics/archimedes_principle_of_buoyant_force.zig) | O(1) |
+| Doppler Frequency Shift | [`physics/doppler_frequency.zig`](physics/doppler_frequency.zig) | O(1) |
+| Hubble Parameter | [`physics/hubble_parameter.zig`](physics/hubble_parameter.zig) | O(1) |
+| Malus Law | [`physics/malus_law.zig`](physics/malus_law.zig) | O(1) |
+| Photoelectric Effect | [`physics/photoelectric_effect.zig`](physics/photoelectric_effect.zig) | O(1) |
+| Lens Formulae | [`physics/lens_formulae.zig`](physics/lens_formulae.zig) | O(1) |
 
 ### Electronics (19)
 
@@ -735,7 +741,7 @@ TheAlgorithms-Zig/
 ├── boolean_algebra/         # 12 boolean algebra algorithms
 ├── divide_and_conquer/      # 11 divide-and-conquer algorithms
 ├── linear_algebra/          # 11 linear algebra algorithms
-├── physics/                 # 14 physics algorithms
+├── physics/                 # 20 physics algorithms
 ├── electronics/             # 19 electronics algorithms
 ├── financial/               # 7 financial algorithms
 ├── scheduling/              # 8 scheduling algorithms
@@ -1306,7 +1312,7 @@ MIT
 | 高斯消元（部分主元） | [`linear_algebra/gaussian_elimination_pivoting.zig`](linear_algebra/gaussian_elimination_pivoting.zig) | O(n³) |
 | 共轭梯度法 | [`linear_algebra/conjugate_gradient.zig`](linear_algebra/conjugate_gradient.zig) | O(iterations · n²) |
 
-### 物理 (14)
+### 物理 (20)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1324,6 +1330,12 @@ MIT
 | 分子均方根速率 | [`physics/rms_speed_of_molecule.zig`](physics/rms_speed_of_molecule.zig) | O(1) |
 | 雷诺数 | [`physics/reynolds_number.zig`](physics/reynolds_number.zig) | O(1) |
 | 剪应力 | [`physics/shear_stress.zig`](physics/shear_stress.zig) | O(1) |
+| 阿基米德浮力原理 | [`physics/archimedes_principle_of_buoyant_force.zig`](physics/archimedes_principle_of_buoyant_force.zig) | O(1) |
+| 多普勒频移 | [`physics/doppler_frequency.zig`](physics/doppler_frequency.zig) | O(1) |
+| 哈勃参数 | [`physics/hubble_parameter.zig`](physics/hubble_parameter.zig) | O(1) |
+| 马吕斯定律 | [`physics/malus_law.zig`](physics/malus_law.zig) | O(1) |
+| 光电效应 | [`physics/photoelectric_effect.zig`](physics/photoelectric_effect.zig) | O(1) |
+| 透镜公式 | [`physics/lens_formulae.zig`](physics/lens_formulae.zig) | O(1) |
 
 ### 电子学 (19)
 
@@ -1508,7 +1520,7 @@ TheAlgorithms-Zig/
 ├── boolean_algebra/         # 12 个布尔代数算法
 ├── divide_and_conquer/      # 11 个分治算法
 ├── linear_algebra/          # 11 个线性代数算法
-├── physics/                 # 14 个物理算法
+├── physics/                 # 20 个物理算法
 ├── electronics/             # 19 个电子学算法
 ├── financial/               # 7 个金融算法
 ├── scheduling/              # 8 个调度算法

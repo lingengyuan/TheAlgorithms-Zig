@@ -449,6 +449,12 @@ pub fn build(b: *std.Build) void {
         "physics/rms_speed_of_molecule.zig",
         "physics/reynolds_number.zig",
         "physics/shear_stress.zig",
+        "physics/archimedes_principle_of_buoyant_force.zig",
+        "physics/doppler_frequency.zig",
+        "physics/hubble_parameter.zig",
+        "physics/malus_law.zig",
+        "physics/photoelectric_effect.zig",
+        "physics/lens_formulae.zig",
         // Electronics
         "electronics/ohms_law.zig",
         "electronics/electric_power.zig",
