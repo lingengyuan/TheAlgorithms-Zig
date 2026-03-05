@@ -17,6 +17,386 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch H - Wave 10 (2026-03-05)
+
+Scope:
+- `backtracking/minimax.zig`
+- `bit_manipulation/binary_and_operator.zig`
+- `conversions/hex_to_bin.zig`
+- `boolean_algebra/multiplexer.zig`
+- `divide_and_conquer/closest_pair_of_points.zig`
+- `linear_algebra/gaussian_elimination_pivoting.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 16
+  - `bit_manipulation`: 16
+  - `conversions`: 17
+  - `boolean_algebra`: 10
+  - `divide_and_conquer`: 10
+  - `linear_algebra`: 10
+
+Verification:
+- `zig test backtracking/minimax.zig` ✅
+- `zig test bit_manipulation/binary_and_operator.zig` ✅
+- `zig test conversions/hex_to_bin.zig` ✅
+- `zig test boolean_algebra/multiplexer.zig` ✅
+- `zig test divide_and_conquer/closest_pair_of_points.zig` ✅
+- `zig test linear_algebra/gaussian_elimination_pivoting.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch H - Wave 9 (2026-03-05)
+
+Scope:
+- `backtracking/match_word_pattern.zig`
+- `bit_manipulation/bitwise_addition_recursive.zig`
+- `conversions/ipv4_conversion.zig`
+- `boolean_algebra/nimply_gate.zig`
+- `divide_and_conquer/heaps_algorithm_iterative.zig`
+- `linear_algebra/transformations_2d.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 15
+  - `bit_manipulation`: 15
+  - `conversions`: 16
+  - `boolean_algebra`: 9
+  - `divide_and_conquer`: 9
+  - `linear_algebra`: 9
+
+Verification:
+- `zig test backtracking/match_word_pattern.zig` ✅
+- `zig test bit_manipulation/bitwise_addition_recursive.zig` ✅
+- `zig test conversions/ipv4_conversion.zig` ✅
+- `zig test boolean_algebra/nimply_gate.zig` ✅
+- `zig test divide_and_conquer/heaps_algorithm_iterative.zig` ✅
+- `zig test linear_algebra/transformations_2d.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test backtracking/match_word_pattern.zig`
+  - Symptom: compile error (`pointless discard of function parameter`) on `_ = allocator`.
+  - Root cause: recursive helper signature still carried allocator parameter after map operations no longer required it.
+  - Fix applied: removed allocator parameter from helper signature and call chain.
+  - Post-fix verification: file-level test passed; full `zig build test` passed.
+
+## Phase 5 Batch H - Wave 8 (2026-03-05)
+
+Scope:
+- `backtracking/all_subsequences.zig`
+- `bit_manipulation/binary_count_trailing_zeros.zig`
+- `conversions/decimal_to_any.zig`
+- `boolean_algebra/imply_gate.zig`
+- `divide_and_conquer/heaps_algorithm.zig`
+- `linear_algebra/schur_complement.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 14
+  - `bit_manipulation`: 14
+  - `conversions`: 15
+  - `boolean_algebra`: 8
+  - `divide_and_conquer`: 8
+  - `linear_algebra`: 8
+
+Verification:
+- `zig test backtracking/all_subsequences.zig` ✅
+- `zig test bit_manipulation/binary_count_trailing_zeros.zig` ✅
+- `zig test conversions/decimal_to_any.zig` ✅
+- `zig test boolean_algebra/imply_gate.zig` ✅
+- `zig test divide_and_conquer/heaps_algorithm.zig` ✅
+- `zig test linear_algebra/schur_complement.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test backtracking/all_subsequences.zig` and `zig test conversions/decimal_to_any.zig`
+  - Symptom: compile error (`std.ArrayList(...).init` not found in Zig 0.15.2).
+  - Root cause: used managed `ArrayList` init API incompatible with repository's Zig version/pattern.
+  - Fix applied: switched to `std.ArrayListUnmanaged(...)` + explicit allocator usage (`append`, `deinit`, `toOwnedSlice`).
+  - Post-fix verification: both file-level tests passed.
+- Failing step/command:
+  - `zig test divide_and_conquer/heaps_algorithm.zig`
+  - Symptom: compile error (`toOwnedSlice` missing allocator argument) and lint error (`var` never mutated).
+  - Root cause: missed Zig 0.15.2 API signature and unnecessary mutable binding.
+  - Fix applied: updated to `toOwnedSlice(allocator)` and changed binding to `const`.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test linear_algebra/schur_complement.zig`
+  - Symptom: error-set mismatch when handling `invertMatrix` failures (`OutOfMemory` path mixed with mapped domain errors).
+  - Root cause: catch block mapped matrix errors but did not type-safely separate allocator error.
+  - Fix applied: replaced generic mapping with explicit `switch` on caught error union (`OutOfMemory` passthrough + domain error mapping).
+  - Post-fix verification: file-level test passed (including imported `matrix_inversion` tests) and full `zig build test` passed.
+
+## Phase 5 Batch H - Wave 7 (2026-03-05)
+
+Scope:
+- `backtracking/hamiltonian_cycle.zig`
+- `bit_manipulation/is_even.zig`
+- `conversions/excel_title_to_column.zig`
+- `boolean_algebra/xnor_gate.zig`
+- `divide_and_conquer/mergesort.zig`
+- `linear_algebra/power_iteration.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 13
+  - `bit_manipulation`: 13
+  - `conversions`: 14
+  - `boolean_algebra`: 7
+  - `divide_and_conquer`: 7
+  - `linear_algebra`: 7
+
+Verification:
+- `zig test backtracking/hamiltonian_cycle.zig` ✅
+- `zig test bit_manipulation/is_even.zig` ✅
+- `zig test conversions/excel_title_to_column.zig` ✅
+- `zig test boolean_algebra/xnor_gate.zig` ✅
+- `zig test divide_and_conquer/mergesort.zig` ✅
+- `zig test linear_algebra/power_iteration.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch H - Wave 6 (2026-03-05)
+
+Scope:
+- `backtracking/sum_of_subsets.zig`
+- `bit_manipulation/numbers_different_signs.zig`
+- `conversions/hexadecimal_to_decimal.zig`
+- `boolean_algebra/not_gate.zig`
+- `divide_and_conquer/max_difference_pair.zig`
+- `linear_algebra/rayleigh_quotient.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 12
+  - `bit_manipulation`: 12
+  - `conversions`: 13
+  - `boolean_algebra`: 6
+  - `divide_and_conquer`: 6
+  - `linear_algebra`: 6
+
+Verification:
+- `zig test backtracking/sum_of_subsets.zig` ✅
+- `zig test bit_manipulation/numbers_different_signs.zig` ✅
+- `zig test conversions/hexadecimal_to_decimal.zig` ✅
+- `zig test boolean_algebra/not_gate.zig` ✅
+- `zig test divide_and_conquer/max_difference_pair.zig` ✅
+- `zig test linear_algebra/rayleigh_quotient.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch H - Wave 5 (2026-03-05)
+
+Scope:
+- `backtracking/word_break.zig`
+- `bit_manipulation/swap_all_odd_and_even_bits.zig`
+- `conversions/decimal_to_octal.zig`
+- `boolean_algebra/nor_gate.zig`
+- `divide_and_conquer/inversions.zig`
+- `linear_algebra/rank_of_matrix.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 11
+  - `bit_manipulation`: 11
+  - `conversions`: 12
+  - `boolean_algebra`: 5
+  - `divide_and_conquer`: 5
+  - `linear_algebra`: 5
+
+Verification:
+- `zig test backtracking/word_break.zig` ✅
+- `zig test bit_manipulation/swap_all_odd_and_even_bits.zig` ✅
+- `zig test conversions/decimal_to_octal.zig` ✅
+- `zig test boolean_algebra/nor_gate.zig` ✅
+- `zig test divide_and_conquer/inversions.zig` ✅
+- `zig test linear_algebra/rank_of_matrix.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test bit_manipulation/swap_all_odd_and_even_bits.zig`
+  - Symptom: compile error (`expected unsigned integer type, found 'i64'`) for `@truncate(num)`.
+  - Root cause: `@truncate` in this context expects unsigned source conversion path.
+  - Fix applied: converted via bit pattern first (`@truncate(@as(u64, @bitCast(num)))`).
+  - Post-fix verification: file-level test passed, and full `zig build test` passed.
+
+## Phase 5 Batch H - Wave 4 (2026-03-05)
+
+Scope:
+- `backtracking/power_sum.zig`
+- `bit_manipulation/find_previous_power_of_two.zig`
+- `conversions/octal_to_hexadecimal.zig`
+- `boolean_algebra/nand_gate.zig`
+- `divide_and_conquer/kth_order_statistic.zig`
+- `linear_algebra/matrix_inversion.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 10
+  - `bit_manipulation`: 10
+  - `conversions`: 11
+  - `boolean_algebra`: 4
+  - `divide_and_conquer`: 4
+  - `linear_algebra`: 4
+
+Verification:
+- `zig test backtracking/power_sum.zig` ✅
+- `zig test bit_manipulation/find_previous_power_of_two.zig` ✅
+- `zig test conversions/octal_to_hexadecimal.zig` ✅
+- `zig test boolean_algebra/nand_gate.zig` ✅
+- `zig test divide_and_conquer/kth_order_statistic.zig` ✅
+- `zig test linear_algebra/matrix_inversion.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch H - Wave 3 (2026-03-05)
+
+Scope:
+- `backtracking/combination_sum.zig`
+- `bit_manipulation/index_of_rightmost_set_bit.zig`
+- `conversions/octal_to_decimal.zig`
+- `boolean_algebra/xor_gate.zig`
+- `divide_and_conquer/power.zig`
+- `linear_algebra/jacobi_iteration_method.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 9
+  - `bit_manipulation`: 9
+  - `conversions`: 10
+  - `boolean_algebra`: 3
+  - `divide_and_conquer`: 3
+  - `linear_algebra`: 3
+
+Verification:
+- `zig test backtracking/combination_sum.zig` ✅
+- `zig test bit_manipulation/index_of_rightmost_set_bit.zig` ✅
+- `zig test conversions/octal_to_decimal.zig` ✅
+- `zig test boolean_algebra/xor_gate.zig` ✅
+- `zig test divide_and_conquer/power.zig` ✅
+- `zig test linear_algebra/jacobi_iteration_method.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test linear_algebra/jacobi_iteration_method.zig`
+  - Symptom: compile error (`local variable is never mutated`) on `current` binding.
+  - Root cause: binding was declared `var` though only pointed data was mutated.
+  - Fix applied: changed `var current` to `const current`.
+  - Post-fix verification: file-level test passed, and full `zig build test` passed.
+
+## Phase 5 Batch H - Wave 2 (2026-03-05)
+
+Scope:
+- `backtracking/rat_in_maze.zig`
+- `bit_manipulation/highest_set_bit.zig`
+- `conversions/binary_to_octal.zig`
+- `boolean_algebra/or_gate.zig`
+- `divide_and_conquer/peak.zig`
+- `linear_algebra/lu_decomposition.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Category progress after this wave:
+  - `backtracking`: 8
+  - `bit_manipulation`: 8
+  - `conversions`: 9
+  - `boolean_algebra`: 2
+  - `divide_and_conquer`: 2
+  - `linear_algebra`: 2
+
+Verification:
+- `zig test backtracking/rat_in_maze.zig` ✅
+- `zig test bit_manipulation/highest_set_bit.zig` ✅
+- `zig test conversions/binary_to_octal.zig` ✅
+- `zig test boolean_algebra/or_gate.zig` ✅
+- `zig test divide_and_conquer/peak.zig` ✅
+- `zig test linear_algebra/lu_decomposition.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch H - Wave 1 (2026-03-05)
+
+Scope:
+- `backtracking/word_search.zig`
+- `bit_manipulation/gray_code_sequence.zig`
+- `conversions/octal_to_binary.zig`
+- `boolean_algebra/and_gate.zig`
+- `divide_and_conquer/max_subarray.zig`
+- `linear_algebra/gaussian_elimination.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch H started with three new category seeds:
+  - `boolean_algebra`: 1 file
+  - `divide_and_conquer`: 1 file
+  - `linear_algebra`: 1 file
+
+Verification:
+- `zig test backtracking/word_search.zig` ✅
+- `zig test bit_manipulation/gray_code_sequence.zig` ✅
+- `zig test conversions/octal_to_binary.zig` ✅
+- `zig test boolean_algebra/and_gate.zig` ✅
+- `zig test divide_and_conquer/max_subarray.zig` ✅
+- `zig test linear_algebra/gaussian_elimination.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test backtracking/word_search.zig`
+  - Symptom: compile error (`local variable is never mutated`) on `visited` binding.
+  - Root cause: allocator-returned slice binding used `var` although not reassigned.
+  - Fix applied: changed `var visited` to `const visited`.
+  - Post-fix verification: file-level test passed.
+- Failing step/command:
+  - `zig test divide_and_conquer/max_subarray.zig`
+  - Symptom: compile error (`variable of type 'comptime_int' must be const or comptime`) for `left_sum`.
+  - Root cause: mutable `var` initialized from `std.math.minInt(i64)` without explicit runtime type annotation.
+  - Fix applied: annotated `left_sum`/`right_sum` as `i64`.
+  - Post-fix verification: file-level test passed, and full `zig build test` passed.
+
 ## Phase 5 Batch G - Wave 5 (2026-03-04)
 
 Scope:

@@ -394,7 +394,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Spiral Print | [`matrix/spiral_print.zig`](matrix/spiral_print.zig) | O(m·n) |
 | Pascal's Triangle | [`matrix/pascal_triangle.zig`](matrix/pascal_triangle.zig) | O(n²) |
 
-### Backtracking (6)
+### Backtracking (16)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -404,8 +404,18 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Generate Parentheses | [`backtracking/generate_parentheses.zig`](backtracking/generate_parentheses.zig) | O(Catalan(n)) |
 | N-Queens | [`backtracking/n_queens.zig`](backtracking/n_queens.zig) | O(n!) |
 | Sudoku Solver | [`backtracking/sudoku_solver.zig`](backtracking/sudoku_solver.zig) | O(9^m) |
+| Word Search | [`backtracking/word_search.zig`](backtracking/word_search.zig) | O(rows · cols · 4^L) |
+| Rat in a Maze | [`backtracking/rat_in_maze.zig`](backtracking/rat_in_maze.zig) | worst-case exponential |
+| Combination Sum | [`backtracking/combination_sum.zig`](backtracking/combination_sum.zig) | worst-case exponential |
+| Power Sum | [`backtracking/power_sum.zig`](backtracking/power_sum.zig) | worst-case exponential |
+| Word Break (Backtracking) | [`backtracking/word_break.zig`](backtracking/word_break.zig) | worst-case exponential |
+| Sum of Subsets | [`backtracking/sum_of_subsets.zig`](backtracking/sum_of_subsets.zig) | worst-case exponential |
+| Hamiltonian Cycle | [`backtracking/hamiltonian_cycle.zig`](backtracking/hamiltonian_cycle.zig) | worst-case exponential |
+| All Subsequences | [`backtracking/all_subsequences.zig`](backtracking/all_subsequences.zig) | O(2ⁿ) |
+| Match Word Pattern | [`backtracking/match_word_pattern.zig`](backtracking/match_word_pattern.zig) | worst-case exponential |
+| Minimax | [`backtracking/minimax.zig`](backtracking/minimax.zig) | O(2^h) |
 
-### Bit Manipulation (6)
+### Bit Manipulation (16)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -415,8 +425,18 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Reverse Bits | [`bit_manipulation/reverse_bits.zig`](bit_manipulation/reverse_bits.zig) | O(1) |
 | Missing Number | [`bit_manipulation/missing_number.zig`](bit_manipulation/missing_number.zig) | O(n) |
 | Is Power of Four | [`bit_manipulation/power_of_4.zig`](bit_manipulation/power_of_4.zig) | O(1) |
+| Gray Code Sequence | [`bit_manipulation/gray_code_sequence.zig`](bit_manipulation/gray_code_sequence.zig) | O(2^n) |
+| Highest Set Bit Position | [`bit_manipulation/highest_set_bit.zig`](bit_manipulation/highest_set_bit.zig) | O(log n) |
+| Index of Rightmost Set Bit | [`bit_manipulation/index_of_rightmost_set_bit.zig`](bit_manipulation/index_of_rightmost_set_bit.zig) | O(log n) |
+| Find Previous Power of Two | [`bit_manipulation/find_previous_power_of_two.zig`](bit_manipulation/find_previous_power_of_two.zig) | O(log n) |
+| Swap Odd and Even Bits | [`bit_manipulation/swap_all_odd_and_even_bits.zig`](bit_manipulation/swap_all_odd_and_even_bits.zig) | O(1) |
+| Different Signs Check | [`bit_manipulation/numbers_different_signs.zig`](bit_manipulation/numbers_different_signs.zig) | O(1) |
+| Is Even | [`bit_manipulation/is_even.zig`](bit_manipulation/is_even.zig) | O(1) |
+| Binary Count Trailing Zeros | [`bit_manipulation/binary_count_trailing_zeros.zig`](bit_manipulation/binary_count_trailing_zeros.zig) | O(k) |
+| Bitwise Addition (Recursive) | [`bit_manipulation/bitwise_addition_recursive.zig`](bit_manipulation/bitwise_addition_recursive.zig) | O(w) |
+| Binary AND Operator | [`bit_manipulation/binary_and_operator.zig`](bit_manipulation/binary_and_operator.zig) | O(w) |
 
-### Conversions (7)
+### Conversions (17)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -427,6 +447,61 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Roman to Integer | [`conversions/roman_to_integer.zig`](conversions/roman_to_integer.zig) | O(n) |
 | Integer to Roman | [`conversions/integer_to_roman.zig`](conversions/integer_to_roman.zig) | O(1) bounded range |
 | Temperature Conversion | [`conversions/temperature_conversion.zig`](conversions/temperature_conversion.zig) | O(1) |
+| Octal to Binary | [`conversions/octal_to_binary.zig`](conversions/octal_to_binary.zig) | O(n) |
+| Binary to Octal | [`conversions/binary_to_octal.zig`](conversions/binary_to_octal.zig) | O(n) |
+| Octal to Decimal | [`conversions/octal_to_decimal.zig`](conversions/octal_to_decimal.zig) | O(n) |
+| Octal to Hexadecimal | [`conversions/octal_to_hexadecimal.zig`](conversions/octal_to_hexadecimal.zig) | O(n) |
+| Decimal to Octal | [`conversions/decimal_to_octal.zig`](conversions/decimal_to_octal.zig) | O(log n) |
+| Hexadecimal to Decimal | [`conversions/hexadecimal_to_decimal.zig`](conversions/hexadecimal_to_decimal.zig) | O(n) |
+| Excel Title to Column | [`conversions/excel_title_to_column.zig`](conversions/excel_title_to_column.zig) | O(n) |
+| Decimal to Any Base | [`conversions/decimal_to_any.zig`](conversions/decimal_to_any.zig) | O(log_base(n)) |
+| IPv4 <-> Decimal Conversion | [`conversions/ipv4_conversion.zig`](conversions/ipv4_conversion.zig) | O(n) |
+| Hex to Binary Integer | [`conversions/hex_to_bin.zig`](conversions/hex_to_bin.zig) | O(n) |
+
+### Boolean Algebra (10)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| AND Gate | [`boolean_algebra/and_gate.zig`](boolean_algebra/and_gate.zig) | O(1) / O(n) |
+| OR Gate | [`boolean_algebra/or_gate.zig`](boolean_algebra/or_gate.zig) | O(1) |
+| XOR Gate | [`boolean_algebra/xor_gate.zig`](boolean_algebra/xor_gate.zig) | O(1) |
+| NAND Gate | [`boolean_algebra/nand_gate.zig`](boolean_algebra/nand_gate.zig) | O(1) |
+| NOR Gate | [`boolean_algebra/nor_gate.zig`](boolean_algebra/nor_gate.zig) | O(1) |
+| NOT Gate | [`boolean_algebra/not_gate.zig`](boolean_algebra/not_gate.zig) | O(1) |
+| XNOR Gate | [`boolean_algebra/xnor_gate.zig`](boolean_algebra/xnor_gate.zig) | O(1) |
+| IMPLY Gate | [`boolean_algebra/imply_gate.zig`](boolean_algebra/imply_gate.zig) | O(1) / O(n) |
+| NIMPLY Gate | [`boolean_algebra/nimply_gate.zig`](boolean_algebra/nimply_gate.zig) | O(1) |
+| 2-to-1 Multiplexer | [`boolean_algebra/multiplexer.zig`](boolean_algebra/multiplexer.zig) | O(1) |
+
+### Divide and Conquer (10)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Maximum Subarray (Divide and Conquer) | [`divide_and_conquer/max_subarray.zig`](divide_and_conquer/max_subarray.zig) | O(n log n) |
+| Peak of Unimodal Array | [`divide_and_conquer/peak.zig`](divide_and_conquer/peak.zig) | O(log n) |
+| Fast Power | [`divide_and_conquer/power.zig`](divide_and_conquer/power.zig) | O(log |b|) |
+| Kth Order Statistic | [`divide_and_conquer/kth_order_statistic.zig`](divide_and_conquer/kth_order_statistic.zig) | O(n) average |
+| Inversion Count | [`divide_and_conquer/inversions.zig`](divide_and_conquer/inversions.zig) | O(n log n) |
+| Max Difference Pair | [`divide_and_conquer/max_difference_pair.zig`](divide_and_conquer/max_difference_pair.zig) | O(n log n) |
+| Merge Sort (Divide and Conquer) | [`divide_and_conquer/mergesort.zig`](divide_and_conquer/mergesort.zig) | O(n log n) |
+| Heap's Algorithm (Permutations) | [`divide_and_conquer/heaps_algorithm.zig`](divide_and_conquer/heaps_algorithm.zig) | O(n · n!) |
+| Heap's Algorithm (Iterative) | [`divide_and_conquer/heaps_algorithm_iterative.zig`](divide_and_conquer/heaps_algorithm_iterative.zig) | O(n · n!) |
+| Closest Pair of Points | [`divide_and_conquer/closest_pair_of_points.zig`](divide_and_conquer/closest_pair_of_points.zig) | O(n log n) |
+
+### Linear Algebra (10)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Gaussian Elimination | [`linear_algebra/gaussian_elimination.zig`](linear_algebra/gaussian_elimination.zig) | O(n³) |
+| LU Decomposition | [`linear_algebra/lu_decomposition.zig`](linear_algebra/lu_decomposition.zig) | O(n³) |
+| Jacobi Iteration Method | [`linear_algebra/jacobi_iteration_method.zig`](linear_algebra/jacobi_iteration_method.zig) | O(iterations · n²) |
+| Matrix Inversion | [`linear_algebra/matrix_inversion.zig`](linear_algebra/matrix_inversion.zig) | O(n³) |
+| Rank of Matrix | [`linear_algebra/rank_of_matrix.zig`](linear_algebra/rank_of_matrix.zig) | O(min(r,c)·r·c) |
+| Rayleigh Quotient | [`linear_algebra/rayleigh_quotient.zig`](linear_algebra/rayleigh_quotient.zig) | O(n²) |
+| Power Iteration | [`linear_algebra/power_iteration.zig`](linear_algebra/power_iteration.zig) | O(iterations · n²) |
+| Schur Complement | [`linear_algebra/schur_complement.zig`](linear_algebra/schur_complement.zig) | O(n³ + n²m + nm²) |
+| 2D Transformations | [`linear_algebra/transformations_2d.zig`](linear_algebra/transformations_2d.zig) | O(1) |
+| Gaussian Elimination (Pivoting) | [`linear_algebra/gaussian_elimination_pivoting.zig`](linear_algebra/gaussian_elimination_pivoting.zig) | O(n³) |
 
 ### Ciphers (47)
 
@@ -554,17 +629,20 @@ TheAlgorithms-Zig/
 ├── sorts/                   # 50 sorting algorithms
 ├── searches/                # 6 search algorithms
 ├── maths/                   # 81 math algorithms
-├── data_structures/         # 73 data structure implementations
+├── data_structures/         # 101 data structure implementations
 ├── dynamic_programming/     # 42 dynamic programming algorithms
 ├── graphs/                  # 46 graph algorithms
-├── bit_manipulation/        # 6 bit manipulation algorithms
-├── conversions/             # 7 number base conversions
+├── bit_manipulation/        # 16 bit manipulation algorithms
+├── conversions/             # 17 conversion algorithms
+├── boolean_algebra/         # 10 boolean algebra algorithms
+├── divide_and_conquer/      # 10 divide-and-conquer algorithms
+├── linear_algebra/          # 10 linear algebra algorithms
 ├── ciphers/                 # 47 cipher algorithms
 ├── hashing/                 # 1 hashing algorithm
 ├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
 ├── matrix/                  # 5 matrix algorithms
-└── backtracking/            # 6 backtracking algorithms
+└── backtracking/            # 16 backtracking algorithms
 ```
 
 ## Development
@@ -987,7 +1065,7 @@ MIT
 | 螺旋打印 | [`matrix/spiral_print.zig`](matrix/spiral_print.zig) | O(m·n) |
 | 杨辉三角 | [`matrix/pascal_triangle.zig`](matrix/pascal_triangle.zig) | O(n²) |
 
-### 回溯算法 (6)
+### 回溯算法 (16)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -997,8 +1075,18 @@ MIT
 | 生成括号 | [`backtracking/generate_parentheses.zig`](backtracking/generate_parentheses.zig) | O(Catalan(n)) |
 | N 皇后 | [`backtracking/n_queens.zig`](backtracking/n_queens.zig) | O(n!) |
 | 数独求解 | [`backtracking/sudoku_solver.zig`](backtracking/sudoku_solver.zig) | O(9^m) |
+| 单词搜索 | [`backtracking/word_search.zig`](backtracking/word_search.zig) | O(rows · cols · 4^L) |
+| 迷宫老鼠问题 | [`backtracking/rat_in_maze.zig`](backtracking/rat_in_maze.zig) | 最坏指数级 |
+| 组合总和 | [`backtracking/combination_sum.zig`](backtracking/combination_sum.zig) | 最坏指数级 |
+| 幂和问题 | [`backtracking/power_sum.zig`](backtracking/power_sum.zig) | 最坏指数级 |
+| 单词拆分（回溯） | [`backtracking/word_break.zig`](backtracking/word_break.zig) | 最坏指数级 |
+| 子集和问题 | [`backtracking/sum_of_subsets.zig`](backtracking/sum_of_subsets.zig) | 最坏指数级 |
+| 哈密顿回路 | [`backtracking/hamiltonian_cycle.zig`](backtracking/hamiltonian_cycle.zig) | 最坏指数级 |
+| 全部子序列 | [`backtracking/all_subsequences.zig`](backtracking/all_subsequences.zig) | O(2ⁿ) |
+| 单词模式匹配（回溯） | [`backtracking/match_word_pattern.zig`](backtracking/match_word_pattern.zig) | 最坏指数级 |
+| 极小化极大算法 | [`backtracking/minimax.zig`](backtracking/minimax.zig) | O(2^h) |
 
-### 位运算 (6)
+### 位运算 (16)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1008,8 +1096,18 @@ MIT
 | 位翻转 | [`bit_manipulation/reverse_bits.zig`](bit_manipulation/reverse_bits.zig) | O(1) |
 | 缺失数字 | [`bit_manipulation/missing_number.zig`](bit_manipulation/missing_number.zig) | O(n) |
 | 判断 4 的幂 | [`bit_manipulation/power_of_4.zig`](bit_manipulation/power_of_4.zig) | O(1) |
+| 格雷码序列 | [`bit_manipulation/gray_code_sequence.zig`](bit_manipulation/gray_code_sequence.zig) | O(2^n) |
+| 最高置位位置 | [`bit_manipulation/highest_set_bit.zig`](bit_manipulation/highest_set_bit.zig) | O(log n) |
+| 最右置位索引 | [`bit_manipulation/index_of_rightmost_set_bit.zig`](bit_manipulation/index_of_rightmost_set_bit.zig) | O(log n) |
+| 不超过 n 的最大 2 的幂 | [`bit_manipulation/find_previous_power_of_two.zig`](bit_manipulation/find_previous_power_of_two.zig) | O(log n) |
+| 奇偶位交换 | [`bit_manipulation/swap_all_odd_and_even_bits.zig`](bit_manipulation/swap_all_odd_and_even_bits.zig) | O(1) |
+| 异号判断 | [`bit_manipulation/numbers_different_signs.zig`](bit_manipulation/numbers_different_signs.zig) | O(1) |
+| 偶数判断 | [`bit_manipulation/is_even.zig`](bit_manipulation/is_even.zig) | O(1) |
+| 二进制末尾零计数 | [`bit_manipulation/binary_count_trailing_zeros.zig`](bit_manipulation/binary_count_trailing_zeros.zig) | O(k) |
+| 递归位运算加法 | [`bit_manipulation/bitwise_addition_recursive.zig`](bit_manipulation/bitwise_addition_recursive.zig) | O(w) |
+| 二进制 AND 运算 | [`bit_manipulation/binary_and_operator.zig`](bit_manipulation/binary_and_operator.zig) | O(w) |
 
-### 进制转换 (7)
+### 进制转换 (17)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1020,6 +1118,61 @@ MIT
 | 罗马数字转整数 | [`conversions/roman_to_integer.zig`](conversions/roman_to_integer.zig) | O(n) |
 | 整数转罗马数字 | [`conversions/integer_to_roman.zig`](conversions/integer_to_roman.zig) | O(1)（有界区间） |
 | 温度单位转换 | [`conversions/temperature_conversion.zig`](conversions/temperature_conversion.zig) | O(1) |
+| 八进制转二进制 | [`conversions/octal_to_binary.zig`](conversions/octal_to_binary.zig) | O(n) |
+| 二进制转八进制 | [`conversions/binary_to_octal.zig`](conversions/binary_to_octal.zig) | O(n) |
+| 八进制转十进制 | [`conversions/octal_to_decimal.zig`](conversions/octal_to_decimal.zig) | O(n) |
+| 八进制转十六进制 | [`conversions/octal_to_hexadecimal.zig`](conversions/octal_to_hexadecimal.zig) | O(n) |
+| 十进制转八进制 | [`conversions/decimal_to_octal.zig`](conversions/decimal_to_octal.zig) | O(log n) |
+| 十六进制转十进制 | [`conversions/hexadecimal_to_decimal.zig`](conversions/hexadecimal_to_decimal.zig) | O(n) |
+| Excel 列名转列号 | [`conversions/excel_title_to_column.zig`](conversions/excel_title_to_column.zig) | O(n) |
+| 十进制转任意进制 | [`conversions/decimal_to_any.zig`](conversions/decimal_to_any.zig) | O(log_base(n)) |
+| IPv4 与十进制互转 | [`conversions/ipv4_conversion.zig`](conversions/ipv4_conversion.zig) | O(n) |
+| 十六进制转二进制整数 | [`conversions/hex_to_bin.zig`](conversions/hex_to_bin.zig) | O(n) |
+
+### 布尔代数 (10)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| AND 门 | [`boolean_algebra/and_gate.zig`](boolean_algebra/and_gate.zig) | O(1) / O(n) |
+| OR 门 | [`boolean_algebra/or_gate.zig`](boolean_algebra/or_gate.zig) | O(1) |
+| XOR 门 | [`boolean_algebra/xor_gate.zig`](boolean_algebra/xor_gate.zig) | O(1) |
+| NAND 门 | [`boolean_algebra/nand_gate.zig`](boolean_algebra/nand_gate.zig) | O(1) |
+| NOR 门 | [`boolean_algebra/nor_gate.zig`](boolean_algebra/nor_gate.zig) | O(1) |
+| NOT 门 | [`boolean_algebra/not_gate.zig`](boolean_algebra/not_gate.zig) | O(1) |
+| XNOR 门 | [`boolean_algebra/xnor_gate.zig`](boolean_algebra/xnor_gate.zig) | O(1) |
+| IMPLY 门 | [`boolean_algebra/imply_gate.zig`](boolean_algebra/imply_gate.zig) | O(1) / O(n) |
+| NIMPLY 门 | [`boolean_algebra/nimply_gate.zig`](boolean_algebra/nimply_gate.zig) | O(1) |
+| 2选1 多路复用器 | [`boolean_algebra/multiplexer.zig`](boolean_algebra/multiplexer.zig) | O(1) |
+
+### 分治 (10)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 最大子数组（分治） | [`divide_and_conquer/max_subarray.zig`](divide_and_conquer/max_subarray.zig) | O(n log n) |
+| 单峰数组峰值 | [`divide_and_conquer/peak.zig`](divide_and_conquer/peak.zig) | O(log n) |
+| 快速幂（分治） | [`divide_and_conquer/power.zig`](divide_and_conquer/power.zig) | O(log |b|) |
+| 第 k 小元素（分治） | [`divide_and_conquer/kth_order_statistic.zig`](divide_and_conquer/kth_order_statistic.zig) | 平均 O(n) |
+| 逆序对计数 | [`divide_and_conquer/inversions.zig`](divide_and_conquer/inversions.zig) | O(n log n) |
+| 最大差值对（分治） | [`divide_and_conquer/max_difference_pair.zig`](divide_and_conquer/max_difference_pair.zig) | O(n log n) |
+| 归并排序（分治） | [`divide_and_conquer/mergesort.zig`](divide_and_conquer/mergesort.zig) | O(n log n) |
+| Heap 排列算法（分治） | [`divide_and_conquer/heaps_algorithm.zig`](divide_and_conquer/heaps_algorithm.zig) | O(n · n!) |
+| Heap 排列算法（迭代） | [`divide_and_conquer/heaps_algorithm_iterative.zig`](divide_and_conquer/heaps_algorithm_iterative.zig) | O(n · n!) |
+| 最近点对（分治） | [`divide_and_conquer/closest_pair_of_points.zig`](divide_and_conquer/closest_pair_of_points.zig) | O(n log n) |
+
+### 线性代数 (10)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 高斯消元 | [`linear_algebra/gaussian_elimination.zig`](linear_algebra/gaussian_elimination.zig) | O(n³) |
+| LU 分解 | [`linear_algebra/lu_decomposition.zig`](linear_algebra/lu_decomposition.zig) | O(n³) |
+| Jacobi 迭代法 | [`linear_algebra/jacobi_iteration_method.zig`](linear_algebra/jacobi_iteration_method.zig) | O(iterations · n²) |
+| 矩阵求逆 | [`linear_algebra/matrix_inversion.zig`](linear_algebra/matrix_inversion.zig) | O(n³) |
+| 矩阵秩 | [`linear_algebra/rank_of_matrix.zig`](linear_algebra/rank_of_matrix.zig) | O(min(r,c)·r·c) |
+| 瑞利商 | [`linear_algebra/rayleigh_quotient.zig`](linear_algebra/rayleigh_quotient.zig) | O(n²) |
+| 幂迭代法 | [`linear_algebra/power_iteration.zig`](linear_algebra/power_iteration.zig) | O(iterations · n²) |
+| Schur 补 | [`linear_algebra/schur_complement.zig`](linear_algebra/schur_complement.zig) | O(n³ + n²m + nm²) |
+| 二维变换矩阵 | [`linear_algebra/transformations_2d.zig`](linear_algebra/transformations_2d.zig) | O(1) |
+| 高斯消元（部分主元） | [`linear_algebra/gaussian_elimination_pivoting.zig`](linear_algebra/gaussian_elimination_pivoting.zig) | O(n³) |
 
 ### 密码学 (47)
 
@@ -1147,17 +1300,20 @@ TheAlgorithms-Zig/
 ├── sorts/                   # 50 种排序算法
 ├── searches/                # 6 种查找算法
 ├── maths/                   # 81 种数学算法
-├── data_structures/         # 73 种数据结构实现
+├── data_structures/         # 101 种数据结构实现
 ├── dynamic_programming/     # 42 个动态规划算法
 ├── graphs/                  # 46 个图算法
-├── bit_manipulation/        # 6 个位运算算法
-├── conversions/             # 7 个进制转换
+├── bit_manipulation/        # 16 个位运算算法
+├── conversions/             # 17 个进制转换算法
+├── boolean_algebra/         # 10 个布尔代数算法
+├── divide_and_conquer/      # 10 个分治算法
+├── linear_algebra/          # 10 个线性代数算法
 ├── ciphers/                 # 47 个密码学算法
 ├── hashing/                 # 1 个哈希算法
 ├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法
 ├── matrix/                  # 5 个矩阵算法
-└── backtracking/            # 6 个回溯算法
+└── backtracking/            # 16 个回溯算法
 ```
 
 ## 开发指南
