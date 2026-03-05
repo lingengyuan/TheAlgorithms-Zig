@@ -17,6 +17,50 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch I - Wave 7 (2026-03-05)
+
+Scope:
+- `physics/reynolds_number.zig`
+- `physics/shear_stress.zig`
+- `electronics/real_and_reactive_power.zig`
+- `electronics/wheatstone_bridge.zig`
+- `financial/time_and_half_pay.zig`
+- `scheduling/multi_level_feedback_queue.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch I category progress after this wave:
+  - `physics`: 14
+  - `electronics`: 13
+  - `financial`: 7
+  - `scheduling`: 8
+- Total registered algorithms in `build.zig`: 575.
+
+Verification:
+- `zig test physics/reynolds_number.zig` ✅
+- `zig test physics/shear_stress.zig` ✅
+- `zig test electronics/real_and_reactive_power.zig` ✅
+- `zig test electronics/wheatstone_bridge.zig` ✅
+- `zig test financial/time_and_half_pay.zig` ✅
+- `zig test scheduling/multi_level_feedback_queue.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test physics/shear_stress.zig`
+  - Symptom: expected `NegativeArea`, got `InvalidKnownValuesCount`.
+  - Root cause: test input `shearStress(1, 2, -3)` violated the "exactly one zero" precondition first, so function correctly failed before area-negativity branch.
+  - Fix applied: changed validation test input to `shearStress(1, 0, -3)` to satisfy one-zero precondition and isolate negative-area behavior.
+  - Post-fix verification: file-level test passed; full `zig build test` passed.
+- Failing step/command:
+  - `zig test financial/time_and_half_pay.zig`
+  - Symptom: boundary assertion expected `60.0` but function returned `63.75`.
+  - Root cause: test expectation was wrong; for `pay(40, 1.5, 35)`, overtime is 5 hours and correct result is `40*1.5 + 5*1.5/2 = 63.75`.
+  - Fix applied: corrected expected value to `63.75`.
+  - Post-fix verification: file-level test passed; full `zig build test` passed.
+
 ## Phase 5 Batch I - Wave 6 (2026-03-05)
 
 Scope:
