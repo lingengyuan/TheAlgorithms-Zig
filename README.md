@@ -533,7 +533,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Gaussian Elimination (Pivoting) | [`linear_algebra/gaussian_elimination_pivoting.zig`](linear_algebra/gaussian_elimination_pivoting.zig) | O(n³) |
 | Conjugate Gradient Method | [`linear_algebra/conjugate_gradient.zig`](linear_algebra/conjugate_gradient.zig) | O(iterations · n²) |
 
-### Physics (10)
+### Physics (12)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -547,8 +547,10 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Speed of Sound in a Fluid | [`physics/speed_of_sound.zig`](physics/speed_of_sound.zig) | O(1) |
 | Mass-Energy Equivalence | [`physics/mass_energy_equivalence.zig`](physics/mass_energy_equivalence.zig) | O(1) |
 | Ideal Gas Law Utilities | [`physics/ideal_gas_law.zig`](physics/ideal_gas_law.zig) | O(1) |
+| Terminal Velocity | [`physics/terminal_velocity.zig`](physics/terminal_velocity.zig) | O(1) |
+| RMS Speed of Molecule | [`physics/rms_speed_of_molecule.zig`](physics/rms_speed_of_molecule.zig) | O(1) |
 
-### Electronics (9)
+### Electronics (11)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -561,8 +563,10 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Resonant Frequency (LC Circuit) | [`electronics/resonant_frequency.zig`](electronics/resonant_frequency.zig) | O(1) |
 | Electric Conductivity | [`electronics/electric_conductivity.zig`](electronics/electric_conductivity.zig) | O(1) |
 | Charging Capacitor (RC) | [`electronics/charging_capacitor.zig`](electronics/charging_capacitor.zig) | O(1) |
+| Charging Inductor (RL) | [`electronics/charging_inductor.zig`](electronics/charging_inductor.zig) | O(1) |
+| Apparent Power (AC Phasors) | [`electronics/apparent_power.zig`](electronics/apparent_power.zig) | O(1) |
 
-### Financial (5)
+### Financial (6)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -571,8 +575,9 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Price Plus Tax | [`financial/price_plus_tax.zig`](financial/price_plus_tax.zig) | O(1) |
 | Simple Moving Average | [`financial/simple_moving_average.zig`](financial/simple_moving_average.zig) | O(n · window_size) |
 | Equated Monthly Installments | [`financial/equated_monthly_installments.zig`](financial/equated_monthly_installments.zig) | O(1) |
+| Straight-Line Depreciation | [`financial/straight_line_depreciation.zig`](financial/straight_line_depreciation.zig) | O(years) |
 
-### Scheduling (6)
+### Scheduling (7)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -582,6 +587,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Highest Response Ratio Next | [`scheduling/highest_response_ratio_next.zig`](scheduling/highest_response_ratio_next.zig) | O(n²) |
 | Non-Preemptive Shortest Job First | [`scheduling/non_preemptive_shortest_job_first.zig`](scheduling/non_preemptive_shortest_job_first.zig) | O(n²) |
 | Job Sequence With Deadline | [`scheduling/job_sequence_with_deadline.zig`](scheduling/job_sequence_with_deadline.zig) | O(n²) |
+| Job Sequencing With Deadlines (Profit Slots) | [`scheduling/job_sequencing_with_deadline.zig`](scheduling/job_sequencing_with_deadline.zig) | O(n log n + n·d) |
 
 ### Ciphers (47)
 
@@ -717,10 +723,10 @@ TheAlgorithms-Zig/
 ├── boolean_algebra/         # 12 boolean algebra algorithms
 ├── divide_and_conquer/      # 11 divide-and-conquer algorithms
 ├── linear_algebra/          # 11 linear algebra algorithms
-├── physics/                 # 10 physics algorithms
-├── electronics/             # 9 electronics algorithms
-├── financial/               # 5 financial algorithms
-├── scheduling/              # 6 scheduling algorithms
+├── physics/                 # 12 physics algorithms
+├── electronics/             # 11 electronics algorithms
+├── financial/               # 6 financial algorithms
+├── scheduling/              # 7 scheduling algorithms
 ├── ciphers/                 # 47 cipher algorithms
 ├── hashing/                 # 1 hashing algorithm
 ├── strings/                 # 38 string algorithms
@@ -1288,7 +1294,7 @@ MIT
 | 高斯消元（部分主元） | [`linear_algebra/gaussian_elimination_pivoting.zig`](linear_algebra/gaussian_elimination_pivoting.zig) | O(n³) |
 | 共轭梯度法 | [`linear_algebra/conjugate_gradient.zig`](linear_algebra/conjugate_gradient.zig) | O(iterations · n²) |
 
-### 物理 (10)
+### 物理 (12)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1302,8 +1308,10 @@ MIT
 | 流体中的声速 | [`physics/speed_of_sound.zig`](physics/speed_of_sound.zig) | O(1) |
 | 质能等价 | [`physics/mass_energy_equivalence.zig`](physics/mass_energy_equivalence.zig) | O(1) |
 | 理想气体方程工具 | [`physics/ideal_gas_law.zig`](physics/ideal_gas_law.zig) | O(1) |
+| 终端速度 | [`physics/terminal_velocity.zig`](physics/terminal_velocity.zig) | O(1) |
+| 分子均方根速率 | [`physics/rms_speed_of_molecule.zig`](physics/rms_speed_of_molecule.zig) | O(1) |
 
-### 电子学 (9)
+### 电子学 (11)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1316,8 +1324,10 @@ MIT
 | 谐振频率（LC 电路） | [`electronics/resonant_frequency.zig`](electronics/resonant_frequency.zig) | O(1) |
 | 电导率计算 | [`electronics/electric_conductivity.zig`](electronics/electric_conductivity.zig) | O(1) |
 | 电容充电（RC） | [`electronics/charging_capacitor.zig`](electronics/charging_capacitor.zig) | O(1) |
+| 电感充电（RL） | [`electronics/charging_inductor.zig`](electronics/charging_inductor.zig) | O(1) |
+| 视在功率（交流相量） | [`electronics/apparent_power.zig`](electronics/apparent_power.zig) | O(1) |
 
-### 金融 (5)
+### 金融 (6)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1326,8 +1336,9 @@ MIT
 | 含税价格计算 | [`financial/price_plus_tax.zig`](financial/price_plus_tax.zig) | O(1) |
 | 简单移动平均（SMA） | [`financial/simple_moving_average.zig`](financial/simple_moving_average.zig) | O(n · window_size) |
 | 等额月供（EMI） | [`financial/equated_monthly_installments.zig`](financial/equated_monthly_installments.zig) | O(1) |
+| 直线折旧法 | [`financial/straight_line_depreciation.zig`](financial/straight_line_depreciation.zig) | O(years) |
 
-### 调度 (6)
+### 调度 (7)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1337,6 +1348,7 @@ MIT
 | 最高响应比优先调度 | [`scheduling/highest_response_ratio_next.zig`](scheduling/highest_response_ratio_next.zig) | O(n²) |
 | 非抢占式最短作业优先 | [`scheduling/non_preemptive_shortest_job_first.zig`](scheduling/non_preemptive_shortest_job_first.zig) | O(n²) |
 | 截止期任务排序 | [`scheduling/job_sequence_with_deadline.zig`](scheduling/job_sequence_with_deadline.zig) | O(n²) |
+| 截止期作业排序（利润槽位） | [`scheduling/job_sequencing_with_deadline.zig`](scheduling/job_sequencing_with_deadline.zig) | O(n log n + n·d) |
 
 ### 密码学 (47)
 
@@ -1472,10 +1484,10 @@ TheAlgorithms-Zig/
 ├── boolean_algebra/         # 12 个布尔代数算法
 ├── divide_and_conquer/      # 11 个分治算法
 ├── linear_algebra/          # 11 个线性代数算法
-├── physics/                 # 10 个物理算法
-├── electronics/             # 9 个电子学算法
-├── financial/               # 5 个金融算法
-├── scheduling/              # 6 个调度算法
+├── physics/                 # 12 个物理算法
+├── electronics/             # 11 个电子学算法
+├── financial/               # 6 个金融算法
+├── scheduling/              # 7 个调度算法
 ├── ciphers/                 # 47 个密码学算法
 ├── hashing/                 # 1 个哈希算法
 ├── strings/                 # 38 个字符串算法

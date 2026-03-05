@@ -17,6 +17,39 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch I - Wave 6 (2026-03-05)
+
+Scope:
+- `physics/terminal_velocity.zig`
+- `physics/rms_speed_of_molecule.zig`
+- `electronics/charging_inductor.zig`
+- `electronics/apparent_power.zig`
+- `financial/straight_line_depreciation.zig`
+- `scheduling/job_sequencing_with_deadline.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch I category progress after this wave:
+  - `physics`: 12
+  - `electronics`: 11
+  - `financial`: 6
+  - `scheduling`: 7
+- Total registered algorithms in `build.zig`: 569.
+
+Verification:
+- `zig test physics/terminal_velocity.zig` ✅
+- `zig test physics/rms_speed_of_molecule.zig` ✅
+- `zig test electronics/charging_inductor.zig` ✅
+- `zig test electronics/apparent_power.zig` ✅
+- `zig test financial/straight_line_depreciation.zig` ✅
+- `zig test scheduling/job_sequencing_with_deadline.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
 ## Phase 5 Batch I - Wave 5 (2026-03-05)
 
 Scope:

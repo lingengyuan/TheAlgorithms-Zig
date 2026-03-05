@@ -445,6 +445,8 @@ pub fn build(b: *std.Build) void {
         "physics/speed_of_sound.zig",
         "physics/mass_energy_equivalence.zig",
         "physics/ideal_gas_law.zig",
+        "physics/terminal_velocity.zig",
+        "physics/rms_speed_of_molecule.zig",
         // Electronics
         "electronics/ohms_law.zig",
         "electronics/electric_power.zig",
@@ -455,12 +457,15 @@ pub fn build(b: *std.Build) void {
         "electronics/resonant_frequency.zig",
         "electronics/electric_conductivity.zig",
         "electronics/charging_capacitor.zig",
+        "electronics/charging_inductor.zig",
+        "electronics/apparent_power.zig",
         // Financial
         "financial/interest.zig",
         "financial/present_value.zig",
         "financial/price_plus_tax.zig",
         "financial/simple_moving_average.zig",
         "financial/equated_monthly_installments.zig",
+        "financial/straight_line_depreciation.zig",
         // Scheduling
         "scheduling/round_robin.zig",
         "scheduling/shortest_job_first.zig",
@@ -468,6 +473,7 @@ pub fn build(b: *std.Build) void {
         "scheduling/highest_response_ratio_next.zig",
         "scheduling/non_preemptive_shortest_job_first.zig",
         "scheduling/job_sequence_with_deadline.zig",
+        "scheduling/job_sequencing_with_deadline.zig",
         // Ciphers
         "ciphers/caesar_cipher.zig",
         "ciphers/rot13.zig",
