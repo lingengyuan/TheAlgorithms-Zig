@@ -551,6 +551,12 @@ pub fn build(b: *std.Build) void {
         "ciphers/diffie_hellman.zig",
         // Hashing
         "hashing/sha256.zig",
+        "hashing/adler32.zig",
+        "hashing/djb2.zig",
+        "hashing/elf.zig",
+        "hashing/fletcher16.zig",
+        "hashing/luhn.zig",
+        "hashing/sha1.zig",
         // Greedy Methods
         "greedy_methods/best_time_to_buy_sell_stock.zig",
         "greedy_methods/minimum_coin_change.zig",

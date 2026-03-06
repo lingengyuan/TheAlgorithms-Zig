@@ -17,6 +17,36 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch J - Wave 1 (2026-03-06)
+
+Scope:
+- `hashing/adler32.zig`
+- `hashing/djb2.zig`
+- `hashing/elf.zig`
+- `hashing/fletcher16.zig`
+- `hashing/luhn.zig`
+- `hashing/sha1.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 7
+- Total registered algorithms in `build.zig`: 602.
+
+Verification:
+- `zig test hashing/adler32.zig` ✅
+- `zig test hashing/djb2.zig` ✅
+- `zig test hashing/elf.zig` ✅
+- `zig test hashing/fletcher16.zig` ✅
+- `zig test hashing/luhn.zig` ✅
+- `zig test hashing/sha1.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
 ## Phase 5 Batch I - Wave 11 (2026-03-06)
 
 Scope:

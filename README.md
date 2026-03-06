@@ -671,11 +671,17 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 Note:
 - `ciphers/diffie_hellman.zig` currently uses toy safe-prime groups (keeping group-id API shape) instead of RFC3526 huge primes, because this repository phase focuses on algorithm behavior validation under Zig `u128` without adding a big-integer dependency.
 
-### Hashing (1)
+### Hashing (7)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
 | SHA-256 | [`hashing/sha256.zig`](hashing/sha256.zig) | O(n) |
+| Adler-32 | [`hashing/adler32.zig`](hashing/adler32.zig) | O(n) |
+| DJB2 | [`hashing/djb2.zig`](hashing/djb2.zig) | O(n) |
+| ELF Hash | [`hashing/elf.zig`](hashing/elf.zig) | O(n) |
+| Fletcher-16 | [`hashing/fletcher16.zig`](hashing/fletcher16.zig) | O(n) |
+| Luhn Check | [`hashing/luhn.zig`](hashing/luhn.zig) | O(n) |
+| SHA-1 | [`hashing/sha1.zig`](hashing/sha1.zig) | O(n) |
 
 ### Strings (38)
 
@@ -755,7 +761,7 @@ TheAlgorithms-Zig/
 ├── financial/               # 7 financial algorithms
 ├── scheduling/              # 8 scheduling algorithms
 ├── ciphers/                 # 47 cipher algorithms
-├── hashing/                 # 1 hashing algorithm
+├── hashing/                 # 7 hashing algorithms
 ├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
 ├── matrix/                  # 5 matrix algorithms
@@ -1459,11 +1465,17 @@ MIT
 说明：
 - `ciphers/diffie_hellman.zig` 当前采用 toy-safe 质数组（保留 group id 入口形态），未直接落 RFC3526 超大素数，原因是本阶段优先在不引入大整数依赖的前提下完成算法行为验证。
 
-### 哈希 (1)
+### 哈希 (7)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
 | SHA-256 | [`hashing/sha256.zig`](hashing/sha256.zig) | O(n) |
+| Adler-32 | [`hashing/adler32.zig`](hashing/adler32.zig) | O(n) |
+| DJB2 | [`hashing/djb2.zig`](hashing/djb2.zig) | O(n) |
+| ELF 哈希 | [`hashing/elf.zig`](hashing/elf.zig) | O(n) |
+| Fletcher-16 | [`hashing/fletcher16.zig`](hashing/fletcher16.zig) | O(n) |
+| Luhn 校验 | [`hashing/luhn.zig`](hashing/luhn.zig) | O(n) |
+| SHA-1 | [`hashing/sha1.zig`](hashing/sha1.zig) | O(n) |
 
 ### 字符串 (38)
 
@@ -1543,7 +1555,7 @@ TheAlgorithms-Zig/
 ├── financial/               # 7 个金融算法
 ├── scheduling/              # 8 个调度算法
 ├── ciphers/                 # 47 个密码学算法
-├── hashing/                 # 1 个哈希算法
+├── hashing/                 # 7 个哈希算法
 ├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法
 ├── matrix/                  # 5 个矩阵算法
