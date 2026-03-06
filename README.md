@@ -533,7 +533,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Gaussian Elimination (Pivoting) | [`linear_algebra/gaussian_elimination_pivoting.zig`](linear_algebra/gaussian_elimination_pivoting.zig) | O(n³) |
 | Conjugate Gradient Method | [`linear_algebra/conjugate_gradient.zig`](linear_algebra/conjugate_gradient.zig) | O(iterations · n²) |
 
-### Physics (20)
+### Physics (29)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -557,6 +557,15 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Malus Law | [`physics/malus_law.zig`](physics/malus_law.zig) | O(1) |
 | Photoelectric Effect | [`physics/photoelectric_effect.zig`](physics/photoelectric_effect.zig) | O(1) |
 | Lens Formulae | [`physics/lens_formulae.zig`](physics/lens_formulae.zig) | O(1) |
+| Altitude from Pressure | [`physics/altitude_pressure.zig`](physics/altitude_pressure.zig) | O(1) |
+| Basic Orbital Capture | [`physics/basic_orbital_capture.zig`](physics/basic_orbital_capture.zig) | O(1) |
+| Casimir Effect Solver | [`physics/casimir_effect.zig`](physics/casimir_effect.zig) | O(1) |
+| Center of Mass (3D) | [`physics/center_of_mass.zig`](physics/center_of_mass.zig) | O(n) |
+| Horizontal Projectile Motion | [`physics/horizontal_projectile_motion.zig`](physics/horizontal_projectile_motion.zig) | O(1) |
+| Mirror Formulae | [`physics/mirror_formulae.zig`](physics/mirror_formulae.zig) | O(1) |
+| Orbital Transfer Work | [`physics/orbital_transfer_work.zig`](physics/orbital_transfer_work.zig) | O(1) |
+| Speeds of Gas Molecules | [`physics/speeds_of_gas_molecules.zig`](physics/speeds_of_gas_molecules.zig) | O(1) |
+| Static Equilibrium Check | [`physics/in_static_equilibrium.zig`](physics/in_static_equilibrium.zig) | O(n) |
 
 ### Electronics (19)
 
@@ -741,7 +750,7 @@ TheAlgorithms-Zig/
 ├── boolean_algebra/         # 12 boolean algebra algorithms
 ├── divide_and_conquer/      # 11 divide-and-conquer algorithms
 ├── linear_algebra/          # 11 linear algebra algorithms
-├── physics/                 # 20 physics algorithms
+├── physics/                 # 29 physics algorithms
 ├── electronics/             # 19 electronics algorithms
 ├── financial/               # 7 financial algorithms
 ├── scheduling/              # 8 scheduling algorithms
@@ -1312,7 +1321,7 @@ MIT
 | 高斯消元（部分主元） | [`linear_algebra/gaussian_elimination_pivoting.zig`](linear_algebra/gaussian_elimination_pivoting.zig) | O(n³) |
 | 共轭梯度法 | [`linear_algebra/conjugate_gradient.zig`](linear_algebra/conjugate_gradient.zig) | O(iterations · n²) |
 
-### 物理 (20)
+### 物理 (29)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1336,6 +1345,15 @@ MIT
 | 马吕斯定律 | [`physics/malus_law.zig`](physics/malus_law.zig) | O(1) |
 | 光电效应 | [`physics/photoelectric_effect.zig`](physics/photoelectric_effect.zig) | O(1) |
 | 透镜公式 | [`physics/lens_formulae.zig`](physics/lens_formulae.zig) | O(1) |
+| 气压估算高度 | [`physics/altitude_pressure.zig`](physics/altitude_pressure.zig) | O(1) |
+| 基础轨道捕获 | [`physics/basic_orbital_capture.zig`](physics/basic_orbital_capture.zig) | O(1) |
+| 卡西米尔效应求解 | [`physics/casimir_effect.zig`](physics/casimir_effect.zig) | O(1) |
+| 质心计算（3D） | [`physics/center_of_mass.zig`](physics/center_of_mass.zig) | O(n) |
+| 水平抛体运动 | [`physics/horizontal_projectile_motion.zig`](physics/horizontal_projectile_motion.zig) | O(1) |
+| 球面镜公式 | [`physics/mirror_formulae.zig`](physics/mirror_formulae.zig) | O(1) |
+| 轨道转移做功 | [`physics/orbital_transfer_work.zig`](physics/orbital_transfer_work.zig) | O(1) |
+| 气体分子速度 | [`physics/speeds_of_gas_molecules.zig`](physics/speeds_of_gas_molecules.zig) | O(1) |
+| 静力平衡判定 | [`physics/in_static_equilibrium.zig`](physics/in_static_equilibrium.zig) | O(n) |
 
 ### 电子学 (19)
 
@@ -1520,7 +1538,7 @@ TheAlgorithms-Zig/
 ├── boolean_algebra/         # 12 个布尔代数算法
 ├── divide_and_conquer/      # 11 个分治算法
 ├── linear_algebra/          # 11 个线性代数算法
-├── physics/                 # 20 个物理算法
+├── physics/                 # 29 个物理算法
 ├── electronics/             # 19 个电子学算法
 ├── financial/               # 7 个金融算法
 ├── scheduling/              # 8 个调度算法

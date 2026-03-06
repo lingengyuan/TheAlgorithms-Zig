@@ -17,6 +17,66 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch I - Wave 11 (2026-03-06)
+
+Scope:
+- `physics/orbital_transfer_work.zig`
+- `physics/speeds_of_gas_molecules.zig`
+- `physics/in_static_equilibrium.zig`
+
+Result:
+- 3/3 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch I category progress after this wave:
+  - `physics`: 29
+  - `electronics`: 19
+  - `financial`: 7
+  - `scheduling`: 8
+- Total registered algorithms in `build.zig`: 596.
+
+Verification:
+- `zig test physics/orbital_transfer_work.zig` ✅
+- `zig test physics/speeds_of_gas_molecules.zig` ✅
+- `zig test physics/in_static_equilibrium.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
+## Phase 5 Batch I - Wave 10 (2026-03-06)
+
+Scope:
+- `physics/altitude_pressure.zig`
+- `physics/basic_orbital_capture.zig`
+- `physics/casimir_effect.zig`
+- `physics/center_of_mass.zig`
+- `physics/horizontal_projectile_motion.zig`
+- `physics/mirror_formulae.zig`
+
+Result:
+- 6/6 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch I category progress after this wave:
+  - `physics`: 26
+  - `electronics`: 19
+  - `financial`: 7
+  - `scheduling`: 8
+- Total registered algorithms in `build.zig`: 593.
+
+Verification:
+- `zig test physics/altitude_pressure.zig` ✅
+- `zig test physics/basic_orbital_capture.zig` ✅
+- `zig test physics/casimir_effect.zig` ✅
+- `zig test physics/center_of_mass.zig` ✅
+- `zig test physics/horizontal_projectile_motion.zig` ✅
+- `zig test physics/mirror_formulae.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
 ## Phase 5 Batch I - Wave 9 (2026-03-05)
 
 Scope:
