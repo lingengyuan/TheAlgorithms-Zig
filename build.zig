@@ -557,6 +557,12 @@ pub fn build(b: *std.Build) void {
         "hashing/fletcher16.zig",
         "hashing/luhn.zig",
         "hashing/sha1.zig",
+        // Data Compression
+        "data_compression/run_length_encoding.zig",
+        "data_compression/burrows_wheeler.zig",
+        // Cellular Automata
+        "cellular_automata/conways_game_of_life.zig",
+        "cellular_automata/one_dimensional.zig",
         // Greedy Methods
         "greedy_methods/best_time_to_buy_sell_stock.zig",
         "greedy_methods/minimum_coin_change.zig",

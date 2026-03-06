@@ -17,6 +17,45 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch J - Wave 2 (2026-03-06)
+
+Scope:
+- `data_compression/run_length_encoding.zig`
+- `data_compression/burrows_wheeler.zig`
+- `cellular_automata/conways_game_of_life.zig`
+- `cellular_automata/one_dimensional.zig`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 7
+  - `data_compression`: 2
+  - `cellular_automata`: 2
+- Total registered algorithms in `build.zig`: 606.
+
+Verification:
+- `zig test data_compression/run_length_encoding.zig` ✅
+- `zig test data_compression/burrows_wheeler.zig` ✅
+- `zig test cellular_automata/conways_game_of_life.zig` ✅
+- `zig test cellular_automata/one_dimensional.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test data_compression/burrows_wheeler.zig`
+  - Symptom: compile error `local variable is never mutated` for `indices`.
+  - Root cause: `indices` binding declared as `var` though only elements were mutated.
+  - Fix applied: changed binding to `const indices = ...`.
+  - Post-fix verification: file-level test passed; full `zig build test` passed.
+- Failing step/command:
+  - `zig test cellular_automata/one_dimensional.zig`
+  - Symptom: error set mismatch: expected `OneDimensionalError`, found `error.OutOfMemory`.
+  - Root cause: `newGeneration` allocates output buffer but return type did not include allocator errors.
+  - Fix applied: widened return type to `(std.mem.Allocator.Error || OneDimensionalError)![]u8`.
+  - Post-fix verification: file-level test passed; full `zig build test` passed.
+
 ## Phase 5 Batch J - Wave 1 (2026-03-06)
 
 Scope:

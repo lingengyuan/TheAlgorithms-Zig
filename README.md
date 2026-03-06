@@ -683,6 +683,20 @@ Note:
 | Luhn Check | [`hashing/luhn.zig`](hashing/luhn.zig) | O(n) |
 | SHA-1 | [`hashing/sha1.zig`](hashing/sha1.zig) | O(n) |
 
+### Data Compression (2)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Run-Length Encoding | [`data_compression/run_length_encoding.zig`](data_compression/run_length_encoding.zig) | O(n) |
+| Burrows-Wheeler Transform | [`data_compression/burrows_wheeler.zig`](data_compression/burrows_wheeler.zig) | O(n² log n) |
+
+### Cellular Automata (2)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Conway's Game of Life (Next Generation) | [`cellular_automata/conways_game_of_life.zig`](cellular_automata/conways_game_of_life.zig) | O(h · w) |
+| One-Dimensional Cellular Automata | [`cellular_automata/one_dimensional.zig`](cellular_automata/one_dimensional.zig) | O(n) |
+
 ### Strings (38)
 
 | Algorithm | File | Complexity |
@@ -762,6 +776,8 @@ TheAlgorithms-Zig/
 ├── scheduling/              # 8 scheduling algorithms
 ├── ciphers/                 # 47 cipher algorithms
 ├── hashing/                 # 7 hashing algorithms
+├── data_compression/        # 2 data compression algorithms
+├── cellular_automata/       # 2 cellular automata algorithms
 ├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
 ├── matrix/                  # 5 matrix algorithms
@@ -1477,6 +1493,20 @@ MIT
 | Luhn 校验 | [`hashing/luhn.zig`](hashing/luhn.zig) | O(n) |
 | SHA-1 | [`hashing/sha1.zig`](hashing/sha1.zig) | O(n) |
 
+### 数据压缩 (2)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 游程编码（RLE） | [`data_compression/run_length_encoding.zig`](data_compression/run_length_encoding.zig) | O(n) |
+| Burrows-Wheeler 变换 | [`data_compression/burrows_wheeler.zig`](data_compression/burrows_wheeler.zig) | O(n² log n) |
+
+### 元胞自动机 (2)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| Conway 生命游戏（下一代） | [`cellular_automata/conways_game_of_life.zig`](cellular_automata/conways_game_of_life.zig) | O(h · w) |
+| 一维元胞自动机 | [`cellular_automata/one_dimensional.zig`](cellular_automata/one_dimensional.zig) | O(n) |
+
 ### 字符串 (38)
 
 | 算法 | 文件 | 复杂度 |
@@ -1556,6 +1586,8 @@ TheAlgorithms-Zig/
 ├── scheduling/              # 8 个调度算法
 ├── ciphers/                 # 47 个密码学算法
 ├── hashing/                 # 7 个哈希算法
+├── data_compression/        # 2 个数据压缩算法
+├── cellular_automata/       # 2 个元胞自动机算法
 ├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法
 ├── matrix/                  # 5 个矩阵算法
