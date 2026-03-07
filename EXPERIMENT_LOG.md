@@ -17,6 +17,75 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch J - Wave 5 (2026-03-07)
+
+Scope:
+- `hashing/sdbm.zig`
+- `data_compression/lempel_ziv.zig`
+- `cellular_automata/nagel_schrekenberg.zig`
+- `fractals/sierpinski_triangle.zig`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 10
+  - `data_compression`: 6
+  - `cellular_automata`: 4
+  - `fractals`: 4
+- Total registered algorithms in `build.zig`: 619.
+
+Verification:
+- `zig test hashing/sdbm.zig` ✅
+- `zig test data_compression/lempel_ziv.zig` ✅
+- `zig test cellular_automata/nagel_schrekenberg.zig` ✅
+- `zig test fractals/sierpinski_triangle.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test cellular_automata/nagel_schrekenberg.zig`
+  - Symptom: compile errors: variable name shadowed primitive type (`u1`) and error-set mismatch (`error.OutOfMemory` not in function return types).
+  - Root cause: test variable naming conflicted with Zig primitive names; allocator-returning functions were typed with domain-only error set.
+  - Fix applied: renamed local test variables and widened return types to `(std.mem.Allocator.Error || NagelSchreckenbergError)!...`.
+  - Post-fix verification: file-level test compiled and passed.
+- Failing step/command:
+  - `zig test cellular_automata/nagel_schrekenberg.zig`
+  - Symptom: memory leak reported by test runner on `MissingRandomSource` path inside `update`.
+  - Root cause: output buffer was allocated before validating the `probability in (0,1)` + missing RNG precondition.
+  - Fix applied: moved `MissingRandomSource` precheck before buffer allocation in `update`.
+  - Post-fix verification: file-level tests passed with no leak report; full `zig build test` passed.
+
+## Phase 5 Batch J - Wave 4 (2026-03-07)
+
+Scope:
+- `hashing/chaos_machine.zig`
+- `data_compression/lz77.zig`
+- `cellular_automata/langtons_ant.zig`
+- `fractals/vicsek.zig`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 9
+  - `data_compression`: 5
+  - `cellular_automata`: 3
+  - `fractals`: 3
+- Total registered algorithms in `build.zig`: 615.
+
+Verification:
+- `zig test hashing/chaos_machine.zig` ✅
+- `zig test data_compression/lz77.zig` ✅
+- `zig test cellular_automata/langtons_ant.zig` ✅
+- `zig test fractals/vicsek.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
 ## Phase 5 Batch J - Wave 3 (2026-03-07)
 
 Scope:

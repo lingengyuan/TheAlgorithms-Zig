@@ -558,17 +558,25 @@ pub fn build(b: *std.Build) void {
         "hashing/luhn.zig",
         "hashing/sha1.zig",
         "hashing/md5.zig",
+        "hashing/chaos_machine.zig",
+        "hashing/sdbm.zig",
         // Data Compression
         "data_compression/run_length_encoding.zig",
         "data_compression/burrows_wheeler.zig",
         "data_compression/coordinate_compression.zig",
+        "data_compression/lz77.zig",
         "data_compression/peak_signal_to_noise_ratio.zig",
+        "data_compression/lempel_ziv.zig",
         // Cellular Automata
         "cellular_automata/conways_game_of_life.zig",
+        "cellular_automata/langtons_ant.zig",
         "cellular_automata/one_dimensional.zig",
+        "cellular_automata/nagel_schrekenberg.zig",
         // Fractals
         "fractals/mandelbrot.zig",
         "fractals/koch_snowflake.zig",
+        "fractals/vicsek.zig",
+        "fractals/sierpinski_triangle.zig",
         // Greedy Methods
         "greedy_methods/best_time_to_buy_sell_stock.zig",
         "greedy_methods/minimum_coin_change.zig",
