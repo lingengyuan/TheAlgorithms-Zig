@@ -17,6 +17,37 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch J - Wave 3 (2026-03-07)
+
+Scope:
+- `hashing/md5.zig`
+- `data_compression/coordinate_compression.zig`
+- `data_compression/peak_signal_to_noise_ratio.zig`
+- `fractals/mandelbrot.zig`
+- `fractals/koch_snowflake.zig`
+
+Result:
+- 5/5 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 8
+  - `data_compression`: 4
+  - `cellular_automata`: 2
+  - `fractals`: 2
+- Total registered algorithms in `build.zig`: 611.
+
+Verification:
+- `zig test hashing/md5.zig` ✅
+- `zig test data_compression/coordinate_compression.zig` ✅
+- `zig test data_compression/peak_signal_to_noise_ratio.zig` ✅
+- `zig test fractals/mandelbrot.zig` ✅
+- `zig test fractals/koch_snowflake.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures encountered in this wave.
+
 ## Phase 5 Batch J - Wave 2 (2026-03-06)
 
 Scope:

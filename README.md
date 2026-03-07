@@ -671,7 +671,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 Note:
 - `ciphers/diffie_hellman.zig` currently uses toy safe-prime groups (keeping group-id API shape) instead of RFC3526 huge primes, because this repository phase focuses on algorithm behavior validation under Zig `u128` without adding a big-integer dependency.
 
-### Hashing (7)
+### Hashing (8)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -682,13 +682,16 @@ Note:
 | Fletcher-16 | [`hashing/fletcher16.zig`](hashing/fletcher16.zig) | O(n) |
 | Luhn Check | [`hashing/luhn.zig`](hashing/luhn.zig) | O(n) |
 | SHA-1 | [`hashing/sha1.zig`](hashing/sha1.zig) | O(n) |
+| MD5 | [`hashing/md5.zig`](hashing/md5.zig) | O(n) |
 
-### Data Compression (2)
+### Data Compression (4)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
 | Run-Length Encoding | [`data_compression/run_length_encoding.zig`](data_compression/run_length_encoding.zig) | O(n) |
 | Burrows-Wheeler Transform | [`data_compression/burrows_wheeler.zig`](data_compression/burrows_wheeler.zig) | O(n² log n) |
+| Coordinate Compression | [`data_compression/coordinate_compression.zig`](data_compression/coordinate_compression.zig) | O(n log n) build |
+| Peak Signal-to-Noise Ratio | [`data_compression/peak_signal_to_noise_ratio.zig`](data_compression/peak_signal_to_noise_ratio.zig) | O(n) |
 
 ### Cellular Automata (2)
 
@@ -696,6 +699,13 @@ Note:
 |-----------|------|-----------|
 | Conway's Game of Life (Next Generation) | [`cellular_automata/conways_game_of_life.zig`](cellular_automata/conways_game_of_life.zig) | O(h · w) |
 | One-Dimensional Cellular Automata | [`cellular_automata/one_dimensional.zig`](cellular_automata/one_dimensional.zig) | O(n) |
+
+### Fractals (2)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Mandelbrot Set Utilities | [`fractals/mandelbrot.zig`](fractals/mandelbrot.zig) | O(max_step) per point |
+| Koch Snowflake Utilities | [`fractals/koch_snowflake.zig`](fractals/koch_snowflake.zig) | O(segments · 4^steps) |
 
 ### Strings (38)
 
@@ -775,9 +785,10 @@ TheAlgorithms-Zig/
 ├── financial/               # 7 financial algorithms
 ├── scheduling/              # 8 scheduling algorithms
 ├── ciphers/                 # 47 cipher algorithms
-├── hashing/                 # 7 hashing algorithms
-├── data_compression/        # 2 data compression algorithms
+├── hashing/                 # 8 hashing algorithms
+├── data_compression/        # 4 data compression algorithms
 ├── cellular_automata/       # 2 cellular automata algorithms
+├── fractals/                # 2 fractal algorithms
 ├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
 ├── matrix/                  # 5 matrix algorithms
@@ -1481,7 +1492,7 @@ MIT
 说明：
 - `ciphers/diffie_hellman.zig` 当前采用 toy-safe 质数组（保留 group id 入口形态），未直接落 RFC3526 超大素数，原因是本阶段优先在不引入大整数依赖的前提下完成算法行为验证。
 
-### 哈希 (7)
+### 哈希 (8)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1492,13 +1503,16 @@ MIT
 | Fletcher-16 | [`hashing/fletcher16.zig`](hashing/fletcher16.zig) | O(n) |
 | Luhn 校验 | [`hashing/luhn.zig`](hashing/luhn.zig) | O(n) |
 | SHA-1 | [`hashing/sha1.zig`](hashing/sha1.zig) | O(n) |
+| MD5 | [`hashing/md5.zig`](hashing/md5.zig) | O(n) |
 
-### 数据压缩 (2)
+### 数据压缩 (4)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
 | 游程编码（RLE） | [`data_compression/run_length_encoding.zig`](data_compression/run_length_encoding.zig) | O(n) |
 | Burrows-Wheeler 变换 | [`data_compression/burrows_wheeler.zig`](data_compression/burrows_wheeler.zig) | O(n² log n) |
+| 坐标压缩 | [`data_compression/coordinate_compression.zig`](data_compression/coordinate_compression.zig) | 构建 O(n log n) |
+| 峰值信噪比（PSNR） | [`data_compression/peak_signal_to_noise_ratio.zig`](data_compression/peak_signal_to_noise_ratio.zig) | O(n) |
 
 ### 元胞自动机 (2)
 
@@ -1506,6 +1520,13 @@ MIT
 |------|------|--------|
 | Conway 生命游戏（下一代） | [`cellular_automata/conways_game_of_life.zig`](cellular_automata/conways_game_of_life.zig) | O(h · w) |
 | 一维元胞自动机 | [`cellular_automata/one_dimensional.zig`](cellular_automata/one_dimensional.zig) | O(n) |
+
+### 分形 (2)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| Mandelbrot 集工具 | [`fractals/mandelbrot.zig`](fractals/mandelbrot.zig) | 每点 O(max_step) |
+| Koch 雪花工具 | [`fractals/koch_snowflake.zig`](fractals/koch_snowflake.zig) | O(segments · 4^steps) |
 
 ### 字符串 (38)
 
@@ -1585,9 +1606,10 @@ TheAlgorithms-Zig/
 ├── financial/               # 7 个金融算法
 ├── scheduling/              # 8 个调度算法
 ├── ciphers/                 # 47 个密码学算法
-├── hashing/                 # 7 个哈希算法
-├── data_compression/        # 2 个数据压缩算法
+├── hashing/                 # 8 个哈希算法
+├── data_compression/        # 4 个数据压缩算法
 ├── cellular_automata/       # 2 个元胞自动机算法
+├── fractals/                # 2 个分形算法
 ├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法
 ├── matrix/                  # 5 个矩阵算法
