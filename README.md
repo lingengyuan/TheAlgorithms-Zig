@@ -671,7 +671,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 Note:
 - `ciphers/diffie_hellman.zig` currently uses toy safe-prime groups (keeping group-id API shape) instead of RFC3526 huge primes, because this repository phase focuses on algorithm behavior validation under Zig `u128` without adding a big-integer dependency.
 
-### Hashing (10)
+### Hashing (12)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -685,8 +685,10 @@ Note:
 | MD5 | [`hashing/md5.zig`](hashing/md5.zig) | O(n) |
 | Chaos Machine PRNG | [`hashing/chaos_machine.zig`](hashing/chaos_machine.zig) | O(1) per push/pull |
 | SDBM Hash | [`hashing/sdbm.zig`](hashing/sdbm.zig) | O(n * k) |
+| Enigma Machine (ASCII 32-125) | [`hashing/enigma_machine.zig`](hashing/enigma_machine.zig) | O(n * 94) |
+| Hamming Code Utilities | [`hashing/hamming_code.zig`](hashing/hamming_code.zig) | O((n + p) * p) |
 
-### Data Compression (6)
+### Data Compression (7)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -696,17 +698,20 @@ Note:
 | LZ77 Compression | [`data_compression/lz77.zig`](data_compression/lz77.zig) | O(n * window_size) |
 | Peak Signal-to-Noise Ratio | [`data_compression/peak_signal_to_noise_ratio.zig`](data_compression/peak_signal_to_noise_ratio.zig) | O(n) |
 | Lempel-Ziv Bitstring Compression | [`data_compression/lempel_ziv.zig`](data_compression/lempel_ziv.zig) | O(n²) |
+| Huffman Coding | [`data_compression/huffman.zig`](data_compression/huffman.zig) | O(n + k²) |
 
-### Cellular Automata (4)
+### Cellular Automata (6)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
 | Conway's Game of Life (Next Generation) | [`cellular_automata/conways_game_of_life.zig`](cellular_automata/conways_game_of_life.zig) | O(h · w) |
 | Langton's Ant | [`cellular_automata/langtons_ant.zig`](cellular_automata/langtons_ant.zig) | O(steps) |
+| Game of Life (Numpy-Slice Variant) | [`cellular_automata/game_of_life.zig`](cellular_automata/game_of_life.zig) | O(size²) |
 | One-Dimensional Cellular Automata | [`cellular_automata/one_dimensional.zig`](cellular_automata/one_dimensional.zig) | O(n) |
 | Nagel-Schreckenberg Traffic Model | [`cellular_automata/nagel_schrekenberg.zig`](cellular_automata/nagel_schrekenberg.zig) | O(updates · cells²) |
+| Wa-Tor Simulation | [`cellular_automata/wa_tor.zig`](cellular_automata/wa_tor.zig) | O(iterations · entities) |
 
-### Fractals (4)
+### Fractals (5)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -714,6 +719,7 @@ Note:
 | Koch Snowflake Utilities | [`fractals/koch_snowflake.zig`](fractals/koch_snowflake.zig) | O(segments · 4^steps) |
 | Vicsek Fractal Utilities | [`fractals/vicsek.zig`](fractals/vicsek.zig) | O(5^depth) |
 | Sierpinski Triangle Utilities | [`fractals/sierpinski_triangle.zig`](fractals/sierpinski_triangle.zig) | O(3^depth) |
+| Julia Sets Utilities | [`fractals/julia_sets.zig`](fractals/julia_sets.zig) | O(iterations · pixels²) |
 
 ### Strings (38)
 
@@ -793,10 +799,10 @@ TheAlgorithms-Zig/
 ├── financial/               # 7 financial algorithms
 ├── scheduling/              # 8 scheduling algorithms
 ├── ciphers/                 # 47 cipher algorithms
-├── hashing/                 # 10 hashing algorithms
-├── data_compression/        # 6 data compression algorithms
-├── cellular_automata/       # 4 cellular automata algorithms
-├── fractals/                # 4 fractal algorithms
+├── hashing/                 # 12 hashing algorithms
+├── data_compression/        # 7 data compression algorithms
+├── cellular_automata/       # 6 cellular automata algorithms
+├── fractals/                # 5 fractal algorithms
 ├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
 ├── matrix/                  # 5 matrix algorithms
@@ -1500,7 +1506,7 @@ MIT
 说明：
 - `ciphers/diffie_hellman.zig` 当前采用 toy-safe 质数组（保留 group id 入口形态），未直接落 RFC3526 超大素数，原因是本阶段优先在不引入大整数依赖的前提下完成算法行为验证。
 
-### 哈希 (10)
+### 哈希 (12)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1514,8 +1520,10 @@ MIT
 | MD5 | [`hashing/md5.zig`](hashing/md5.zig) | O(n) |
 | Chaos Machine 伪随机发生器 | [`hashing/chaos_machine.zig`](hashing/chaos_machine.zig) | 每次 push/pull 为 O(1) |
 | SDBM 哈希 | [`hashing/sdbm.zig`](hashing/sdbm.zig) | O(n * k) |
+| Enigma 机器（ASCII 32-125） | [`hashing/enigma_machine.zig`](hashing/enigma_machine.zig) | O(n * 94) |
+| Hamming 码工具 | [`hashing/hamming_code.zig`](hashing/hamming_code.zig) | O((n + p) * p) |
 
-### 数据压缩 (6)
+### 数据压缩 (7)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1525,17 +1533,20 @@ MIT
 | LZ77 压缩 | [`data_compression/lz77.zig`](data_compression/lz77.zig) | O(n * window_size) |
 | 峰值信噪比（PSNR） | [`data_compression/peak_signal_to_noise_ratio.zig`](data_compression/peak_signal_to_noise_ratio.zig) | O(n) |
 | Lempel-Ziv 位串压缩 | [`data_compression/lempel_ziv.zig`](data_compression/lempel_ziv.zig) | O(n²) |
+| Huffman 编码 | [`data_compression/huffman.zig`](data_compression/huffman.zig) | O(n + k²) |
 
-### 元胞自动机 (4)
+### 元胞自动机 (6)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
 | Conway 生命游戏（下一代） | [`cellular_automata/conways_game_of_life.zig`](cellular_automata/conways_game_of_life.zig) | O(h · w) |
 | Langton 蚂蚁 | [`cellular_automata/langtons_ant.zig`](cellular_automata/langtons_ant.zig) | O(steps) |
+| 生命游戏（Numpy 切片语义） | [`cellular_automata/game_of_life.zig`](cellular_automata/game_of_life.zig) | O(size²) |
 | 一维元胞自动机 | [`cellular_automata/one_dimensional.zig`](cellular_automata/one_dimensional.zig) | O(n) |
 | Nagel-Schreckenberg 交通模型 | [`cellular_automata/nagel_schrekenberg.zig`](cellular_automata/nagel_schrekenberg.zig) | O(updates · cells²) |
+| Wa-Tor 仿真 | [`cellular_automata/wa_tor.zig`](cellular_automata/wa_tor.zig) | O(iterations · entities) |
 
-### 分形 (4)
+### 分形 (5)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1543,6 +1554,7 @@ MIT
 | Koch 雪花工具 | [`fractals/koch_snowflake.zig`](fractals/koch_snowflake.zig) | O(segments · 4^steps) |
 | Vicsek 分形工具 | [`fractals/vicsek.zig`](fractals/vicsek.zig) | O(5^depth) |
 | Sierpinski 三角形工具 | [`fractals/sierpinski_triangle.zig`](fractals/sierpinski_triangle.zig) | O(3^depth) |
+| Julia 集工具 | [`fractals/julia_sets.zig`](fractals/julia_sets.zig) | O(iterations · pixels²) |
 
 ### 字符串 (38)
 
@@ -1622,10 +1634,10 @@ TheAlgorithms-Zig/
 ├── financial/               # 7 个金融算法
 ├── scheduling/              # 8 个调度算法
 ├── ciphers/                 # 47 个密码学算法
-├── hashing/                 # 10 个哈希算法
-├── data_compression/        # 6 个数据压缩算法
-├── cellular_automata/       # 4 个元胞自动机算法
-├── fractals/                # 4 个分形算法
+├── hashing/                 # 12 个哈希算法
+├── data_compression/        # 7 个数据压缩算法
+├── cellular_automata/       # 6 个元胞自动机算法
+├── fractals/                # 5 个分形算法
 ├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法
 ├── matrix/                  # 5 个矩阵算法

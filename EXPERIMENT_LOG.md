@@ -17,6 +17,101 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch J - Wave 8 (2026-03-08)
+
+Scope:
+- `cellular_automata/wa_tor.zig`
+
+Result:
+- 1/1 implementation completed and registered in `build.zig`.
+- File includes normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+- Total registered algorithms in `build.zig`: 625.
+- Batch J target scope is now fully covered.
+
+Verification:
+- `zig test cellular_automata/wa_tor.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test cellular_automata/wa_tor.zig`
+  - Symptom: compile errors:
+    - `incompatible types` for anonymous struct values in `switch` direction delta construction.
+    - `local variable is never mutated` diagnostics on temporary bindings.
+  - Root cause: Zig inferred different anonymous-struct types across switch branches; some locals were declared `var` unnecessarily.
+  - Fix applied:
+    - Introduced explicit `Delta` struct type in direction switch.
+    - Converted non-mutated locals to `const`.
+  - Post-fix verification: file-level tests passed; full `zig build test` passed.
+
+## Phase 5 Batch J - Wave 7 (2026-03-08)
+
+Scope:
+- `hashing/hamming_code.zig`
+
+Result:
+- 1/1 implementation completed and registered in `build.zig`.
+- File includes normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 5
+  - `fractals`: 5
+- Total registered algorithms in `build.zig`: 624.
+
+Verification:
+- `zig test hashing/hamming_code.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test hashing/hamming_code.zig`
+  - Symptom: runtime panic `integer overflow` in Python-compatibility parity-size validation expression.
+  - Root cause: Zig `usize` arithmetic underflow/overflow on large `data.len`, while Python evaluates the same expression with arbitrary-precision integers.
+  - Fix applied: converted validation expression to signed `i128` arithmetic to preserve Python semantics safely.
+  - Post-fix verification: file-level tests passed; full `zig build test` passed.
+
+## Phase 5 Batch J - Wave 6 (2026-03-08)
+
+Scope:
+- `hashing/enigma_machine.zig`
+- `data_compression/huffman.zig`
+- `cellular_automata/game_of_life.zig`
+- `fractals/julia_sets.zig`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 11
+  - `data_compression`: 7
+  - `cellular_automata`: 5
+  - `fractals`: 5
+- Total registered algorithms in `build.zig`: 623.
+
+Verification:
+- `zig test hashing/enigma_machine.zig` ✅
+- `zig test data_compression/huffman.zig` ✅
+- `zig test cellular_automata/game_of_life.zig` ✅
+- `zig test fractals/julia_sets.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test cellular_automata/game_of_life.zig`
+  - Symptom: runtime panic `start index 3 is larger than end index 2` while building neighbor slices.
+  - Root cause: Python slicing allows `start > stop` and returns an empty slice, but direct Zig slicing with `start..stop` panics in this case.
+  - Fix applied: normalized column-slice upper bound to `max(start, stop)` before slicing, preserving Python empty-slice semantics.
+  - Post-fix verification: file-level tests passed; full `zig build test` passed.
+
 ## Phase 5 Batch J - Wave 5 (2026-03-07)
 
 Scope:
