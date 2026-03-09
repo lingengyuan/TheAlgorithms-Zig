@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- Core categories are: `sorts/`, `searches/`, `maths/`, `data_structures/`, `dynamic_programming/`, `graphs/`, `bit_manipulation/`, `conversions/`, `strings/`, `greedy_methods/`, `matrix/`, `backtracking/`.
+- Core categories are: `sorts/`, `searches/`, `maths/`, `data_structures/`, `dynamic_programming/`, `graphs/`, `bit_manipulation/`, `conversions/`, `strings/`, `greedy_methods/`, `matrix/`, `backtracking/`, `project_euler/`.
 - Each algorithm lives in one `.zig` file with both implementation and `test` blocks.
 - [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig) is the test registry; add new algorithm files to `test_files` so they run in CI-style local checks.
 
@@ -27,6 +27,10 @@
 - Cover normal, edge, and boundary cases (empty input, single item, sorted/reversed, negative values when applicable).
 - Mandatory (Phase 4 rule #3): every algorithm test set must include extreme-case scenarios to verify correctness under stress/edge conditions (for example: empty/min/max inputs, degenerate structures, overflow-prone values, invalid/out-of-range inputs, and disconnected/unreachable cases when applicable).
 - For allocator-returning functions, free allocated memory in tests.
+- Test execution cadence (updated):
+  - during implementation, run affected file-level tests with `zig test <file>` (mandatory)
+  - run full `zig build test` at least once per every 2 waves (recommended)
+  - run full `zig build test` before each commit/push (mandatory)
 
 ## Commit & Pull Request Guidelines
 - Follow observed Conventional Commit style: `feat: ...`, `docs: ...`.

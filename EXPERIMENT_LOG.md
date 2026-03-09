@@ -17,6 +17,425 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Batch J - Wave 22 (2026-03-08)
+
+Scope:
+- `project_euler/problem_031.zig`
+- `project_euler/problem_032.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 32
+- Total registered algorithms in `build.zig`: 657.
+
+Verification:
+- `zig test project_euler/problem_031.zig` ✅
+- `zig test project_euler/problem_032.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures in this wave.
+
+## Phase 5 Batch J - Wave 21 (2026-03-08)
+
+Scope:
+- `project_euler/problem_029.zig`
+- `project_euler/problem_030.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 30
+- Total registered algorithms in `build.zig`: 655.
+- Full-suite run deferred to next wave by cadence rule (full test at least every 2 waves).
+
+Verification:
+- `zig test project_euler/problem_029.zig` ✅
+- `zig test project_euler/problem_030.zig` ✅
+
+Failure Log:
+- No implementation/test failures in this wave.
+
+## Phase 5 Batch J - Wave 20 (2026-03-08)
+
+Scope:
+- `project_euler/problem_027.zig`
+- `project_euler/problem_028.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 28
+- Total registered algorithms in `build.zig`: 653.
+
+Verification:
+- `zig test project_euler/problem_027.zig` ✅
+- `zig test project_euler/problem_028.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures in this wave.
+
+## Phase 5 Batch J - Wave 19 (2026-03-08)
+
+Scope:
+- `project_euler/problem_025.zig`
+- `project_euler/problem_026.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 26
+- Total registered algorithms in `build.zig`: 651.
+- Full-suite run deferred to next wave by cadence rule (full test at least every 2 waves).
+
+Verification:
+- `zig test project_euler/problem_025.zig` ✅
+- `zig test project_euler/problem_026.zig` ✅
+
+Failure Log:
+- No implementation/test failures in this wave.
+
+## Phase 5 Batch J - Wave 18 (2026-03-08)
+
+Scope:
+- `project_euler/problem_023.zig`
+- `project_euler/problem_024.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 24
+- Total registered algorithms in `build.zig`: 649.
+
+Verification:
+- `zig test project_euler/problem_023.zig` ✅
+- `zig test project_euler/problem_024.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test project_euler/problem_024.zig`
+  - Symptom: compile errors for local bindings declared `var` but never mutated in tests.
+  - Root cause: test temporary permutation buffers were immutable yet declared mutable.
+  - Fix applied: changed those local bindings from `var` to `const`.
+  - Post-fix verification: file-level tests passed; full `zig build test` passed.
+
+## Phase 5 Batch J - Wave 17 (2026-03-08)
+
+Scope:
+- `project_euler/problem_021.zig`
+- `project_euler/problem_022.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 22
+- Total registered algorithms in `build.zig`: 647.
+- Full-suite run deferred to next wave by cadence rule (full test at least every 2 waves).
+
+Verification:
+- `zig test project_euler/problem_021.zig` ✅
+- `zig test project_euler/problem_022.zig` ✅
+
+Failure Log:
+- No implementation/test failures in this wave.
+
+## Phase 5 Batch J - Wave 16 (2026-03-08)
+
+Scope:
+- `project_euler/problem_019.zig`
+- `project_euler/problem_020.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 20
+- Total registered algorithms in `build.zig`: 645.
+
+Verification:
+- `zig test project_euler/problem_019.zig` ✅
+- `zig test project_euler/problem_020.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures in this wave.
+
+## Phase 5 Batch J - Wave 15 (2026-03-08)
+
+Scope:
+- `project_euler/problem_017.zig`
+- `project_euler/problem_018.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 18
+- Total registered algorithms in `build.zig`: 643.
+- Full-suite run deferred to next wave by cadence rule (full test at least every 2 waves).
+
+Verification:
+- `zig test project_euler/problem_017.zig` ✅
+- `zig test project_euler/problem_018.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test project_euler/problem_018.zig`
+  - Symptom: compile error from `allocator.alloc` because returned error union includes `OutOfMemory` not present in function error set.
+  - Root cause: `Problem018Error` omitted `OutOfMemory` while function uses dynamic allocation.
+  - Fix applied: added `OutOfMemory` to `Problem018Error`.
+  - Post-fix verification: file-level tests passed.
+
+## Phase 5 Batch J - Wave 14 (2026-03-08)
+
+Scope:
+- `project_euler/problem_015.zig`
+- `project_euler/problem_016.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 16
+- Total registered algorithms in `build.zig`: 641.
+
+Verification:
+- `zig test project_euler/problem_015.zig` ✅
+- `zig test project_euler/problem_016.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test project_euler/problem_016.zig`
+  - Symptom: compile error `std.ArrayList(u8).init` is not available on Zig 0.15.2.
+  - Root cause: used outdated `ArrayList` initialization API incompatible with repository Zig toolchain.
+  - Fix applied: replaced with `std.ArrayListUnmanaged(u8){}` and allocator-aware `append/deinit` calls.
+  - Post-fix verification: file-level tests passed; full `zig build test` passed.
+
+## Phase 5 Batch J - Wave 13 (2026-03-08)
+
+Scope:
+- `project_euler/problem_013.zig`
+- `project_euler/problem_014.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 14
+- Total registered algorithms in `build.zig`: 639.
+- Full-suite run deferred to next wave by cadence rule (full test at least every 2 waves).
+
+Verification:
+- `zig test project_euler/problem_013.zig` ✅
+- `zig test project_euler/problem_014.zig` ✅
+
+Failure Log:
+- No implementation/test failures in this wave.
+
+## Phase 5 Batch J - Wave 12 (2026-03-08)
+
+Scope:
+- `project_euler/problem_011.zig`
+- `project_euler/problem_012.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 12
+- Total registered algorithms in `build.zig`: 637.
+
+Verification:
+- `zig test project_euler/problem_011.zig` ✅
+- `zig test project_euler/problem_012.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test project_euler/problem_011.zig`
+  - Symptom: assertion mismatch (`expected 70600674, found 71639296`) in Python-reference test.
+  - Root cause: in `solution()`, row slices were built from a loop value copy of `default_grid`, causing invalid/stale slice data and incorrect computed maximum.
+  - Fix applied: rebuilt row slices using direct indexing from the static grid (`default_grid[i][0..]`) so all rows reference stable data.
+  - Post-fix verification: file-level tests passed; full `zig build test` passed.
+
+## Phase 5 Batch J - Wave 11 (2026-03-08)
+
+Scope:
+- `project_euler/problem_009.zig`
+- `project_euler/problem_010.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 10
+- Total registered algorithms in `build.zig`: 635.
+- Full-suite run deferred to next wave by updated cadence rule (full test at least every 2 waves).
+
+Verification:
+- `zig test project_euler/problem_009.zig` ✅
+- `zig test project_euler/problem_010.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test project_euler/problem_010.zig`
+  - Symptom: compile error for remainder on signed integers (`i64 % comptime_int`) requiring explicit modulo builtin.
+  - Root cause: used `%` with signed integer type in primality checks.
+  - Fix applied: replaced `%` with `@mod(...)` in all signed modulo checks.
+  - Post-fix verification: file-level tests passed.
+
+## Phase 5 Batch J - Wave 10 (2026-03-08)
+
+Scope:
+- `project_euler/problem_005.zig`
+- `project_euler/problem_006.zig`
+- `project_euler/problem_007.zig`
+- `project_euler/problem_008.zig`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 8
+- Total registered algorithms in `build.zig`: 633.
+
+Verification:
+- `zig test project_euler/problem_005.zig` ✅
+- `zig test project_euler/problem_006.zig` ✅
+- `zig test project_euler/problem_007.zig` ✅
+- `zig test project_euler/problem_008.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test project_euler/problem_006.zig`
+  - Symptom: compile error for signed division (`i128 / comptime_int`) requiring explicit division builtin.
+  - Root cause: used `/` with signed integers in closed-form formula.
+  - Fix applied: replaced with `@divTrunc(...)` in both formula terms.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig test project_euler/problem_006.zig`
+  - Symptom: assertion failure on large-input expected value.
+  - Root cause: expected constant in test was incorrect (manual value error), implementation result matched Python reference.
+  - Fix applied: corrected expected value to `250000166666416666500000`.
+  - Post-fix verification: file-level tests passed; full `zig build test` passed.
+
+## Phase 5 Batch J - Wave 9 (2026-03-08)
+
+Scope:
+- `project_euler/problem_001.zig`
+- `project_euler/problem_002.zig`
+- `project_euler/problem_003.zig`
+- `project_euler/problem_004.zig`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 4
+- Total registered algorithms in `build.zig`: 629.
+- Full-suite run intentionally deferred to Wave 10 under updated cadence rule (full test at least every 2 waves).
+
+Verification:
+- `zig test project_euler/problem_001.zig` ✅
+- `zig test project_euler/problem_002.zig` ✅
+- `zig test project_euler/problem_003.zig` ✅
+- `zig test project_euler/problem_004.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test project_euler/problem_001.zig`
+  - Symptom: compile errors on signed integer division using `/`.
+  - Root cause: used plain `/` with `i128` in arithmetic-progression formula and term calculations.
+  - Fix applied: replaced with `@divFloor` / `@divTrunc` accordingly.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig test project_euler/problem_002.zig`
+  - Symptom: large-input assertion mismatch.
+  - Root cause: expected value in test was incorrect; Python reference output for `4_000_000_000_000_000` is `2763969850442378`.
+  - Fix applied: updated test expected constant to match Python result.
+  - Post-fix verification: file-level tests passed.
+
 ## Phase 5 Batch J - Wave 8 (2026-03-08)
 
 Scope:

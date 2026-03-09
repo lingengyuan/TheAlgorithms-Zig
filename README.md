@@ -721,6 +721,43 @@ Note:
 | Sierpinski Triangle Utilities | [`fractals/sierpinski_triangle.zig`](fractals/sierpinski_triangle.zig) | O(3^depth) |
 | Julia Sets Utilities | [`fractals/julia_sets.zig`](fractals/julia_sets.zig) | O(iterations · pixels²) |
 
+### Project Euler (32)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Problem 001: Multiples of 3 and 5 | [`project_euler/problem_001.zig`](project_euler/problem_001.zig) | O(1) |
+| Problem 002: Even Fibonacci Numbers | [`project_euler/problem_002.zig`](project_euler/problem_002.zig) | O(k) |
+| Problem 003: Largest Prime Factor | [`project_euler/problem_003.zig`](project_euler/problem_003.zig) | O(sqrt(n)) |
+| Problem 004: Largest Palindrome Product | [`project_euler/problem_004.zig`](project_euler/problem_004.zig) | O(900^2) |
+| Problem 005: Smallest Multiple | [`project_euler/problem_005.zig`](project_euler/problem_005.zig) | O(n log n) |
+| Problem 006: Sum Square Difference | [`project_euler/problem_006.zig`](project_euler/problem_006.zig) | O(1) |
+| Problem 007: 10001st Prime | [`project_euler/problem_007.zig`](project_euler/problem_007.zig) | O(n * sqrt(p_n)) |
+| Problem 008: Largest Product in a Series | [`project_euler/problem_008.zig`](project_euler/problem_008.zig) | O(13n) |
+| Problem 009: Special Pythagorean Triplet | [`project_euler/problem_009.zig`](project_euler/problem_009.zig) | O(target^2) fast |
+| Problem 010: Summation of Primes | [`project_euler/problem_010.zig`](project_euler/problem_010.zig) | O(n * sqrt(n)) |
+| Problem 011: Largest Product in a Grid | [`project_euler/problem_011.zig`](project_euler/problem_011.zig) | O(r * c) |
+| Problem 012: Highly Divisible Triangular Number | [`project_euler/problem_012.zig`](project_euler/problem_012.zig) | O(k * sqrt(t_k)) |
+| Problem 013: Large Sum (First Ten Digits) | [`project_euler/problem_013.zig`](project_euler/problem_013.zig) | O(m * n) |
+| Problem 014: Longest Collatz Sequence | [`project_euler/problem_014.zig`](project_euler/problem_014.zig) | O(limit * avg_chain) |
+| Problem 015: Lattice Paths | [`project_euler/problem_015.zig`](project_euler/problem_015.zig) | O(n * log n) |
+| Problem 016: Power Digit Sum | [`project_euler/problem_016.zig`](project_euler/problem_016.zig) | O(power * digits) |
+| Problem 017: Number Letter Counts | [`project_euler/problem_017.zig`](project_euler/problem_017.zig) | O(n) |
+| Problem 018: Maximum Path Sum I | [`project_euler/problem_018.zig`](project_euler/problem_018.zig) | O(r^2) |
+| Problem 019: Counting Sundays | [`project_euler/problem_019.zig`](project_euler/problem_019.zig) | O(years * 12) |
+| Problem 020: Factorial Digit Sum | [`project_euler/problem_020.zig`](project_euler/problem_020.zig) | O(n * digits(n!)) |
+| Problem 021: Amicable Numbers | [`project_euler/problem_021.zig`](project_euler/problem_021.zig) | O(n * sqrt(n)) |
+| Problem 022: Names Scores | [`project_euler/problem_022.zig`](project_euler/problem_022.zig) | O(m log m + chars) |
+| Problem 023: Non-Abundant Sums | [`project_euler/problem_023.zig`](project_euler/problem_023.zig) | O(limit^2) worst |
+| Problem 024: Lexicographic Permutations | [`project_euler/problem_024.zig`](project_euler/problem_024.zig) | O(n^2) |
+| Problem 025: 1000-digit Fibonacci Number | [`project_euler/problem_025.zig`](project_euler/problem_025.zig) | O(index * digits) |
+| Problem 026: Reciprocal Cycles | [`project_euler/problem_026.zig`](project_euler/problem_026.zig) | O((d-n+1) * d^2) |
+| Problem 027: Quadratic Primes | [`project_euler/problem_027.zig`](project_euler/problem_027.zig) | O(a*b*run*sqrt(v)) |
+| Problem 028: Number Spiral Diagonals | [`project_euler/problem_028.zig`](project_euler/problem_028.zig) | O(n) |
+| Problem 029: Distinct Powers | [`project_euler/problem_029.zig`](project_euler/problem_029.zig) | O(n^2 * log n) |
+| Problem 030: Digit Fifth Powers | [`project_euler/problem_030.zig`](project_euler/problem_030.zig) | O(1e6 * digits) |
+| Problem 031: Coin Sums | [`project_euler/problem_031.zig`](project_euler/problem_031.zig) | O(n * coins) |
+| Problem 032: Pandigital Products | [`project_euler/problem_032.zig`](project_euler/problem_032.zig) | O(search_space) |
+
 ### Strings (38)
 
 | Algorithm | File | Complexity |
@@ -803,6 +840,7 @@ TheAlgorithms-Zig/
 ├── data_compression/        # 7 data compression algorithms
 ├── cellular_automata/       # 6 cellular automata algorithms
 ├── fractals/                # 5 fractal algorithms
+├── project_euler/           # 32 project euler algorithms
 ├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
 ├── matrix/                  # 5 matrix algorithms
@@ -1556,6 +1594,43 @@ MIT
 | Sierpinski 三角形工具 | [`fractals/sierpinski_triangle.zig`](fractals/sierpinski_triangle.zig) | O(3^depth) |
 | Julia 集工具 | [`fractals/julia_sets.zig`](fractals/julia_sets.zig) | O(iterations · pixels²) |
 
+### Project Euler (32)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 第 001 题：3 和 5 的倍数和 | [`project_euler/problem_001.zig`](project_euler/problem_001.zig) | O(1) |
+| 第 002 题：偶数 Fibonacci 和 | [`project_euler/problem_002.zig`](project_euler/problem_002.zig) | O(k) |
+| 第 003 题：最大质因子 | [`project_euler/problem_003.zig`](project_euler/problem_003.zig) | O(sqrt(n)) |
+| 第 004 题：最大回文乘积 | [`project_euler/problem_004.zig`](project_euler/problem_004.zig) | O(900^2) |
+| 第 005 题：最小公倍整除数 | [`project_euler/problem_005.zig`](project_euler/problem_005.zig) | O(n log n) |
+| 第 006 题：平方和差值 | [`project_euler/problem_006.zig`](project_euler/problem_006.zig) | O(1) |
+| 第 007 题：第 n 个质数 | [`project_euler/problem_007.zig`](project_euler/problem_007.zig) | O(n * sqrt(p_n)) |
+| 第 008 题：序列中最大相邻乘积 | [`project_euler/problem_008.zig`](project_euler/problem_008.zig) | O(13n) |
+| 第 009 题：特殊勾股三元组 | [`project_euler/problem_009.zig`](project_euler/problem_009.zig) | 快速版 O(target^2) |
+| 第 010 题：质数求和 | [`project_euler/problem_010.zig`](project_euler/problem_010.zig) | O(n * sqrt(n)) |
+| 第 011 题：网格中的最大乘积 | [`project_euler/problem_011.zig`](project_euler/problem_011.zig) | O(r * c) |
+| 第 012 题：高因数三角数 | [`project_euler/problem_012.zig`](project_euler/problem_012.zig) | O(k * sqrt(t_k)) |
+| 第 013 题：大数求和前十位 | [`project_euler/problem_013.zig`](project_euler/problem_013.zig) | O(m * n) |
+| 第 014 题：最长 Collatz 序列 | [`project_euler/problem_014.zig`](project_euler/problem_014.zig) | O(limit * avg_chain) |
+| 第 015 题：网格路径计数 | [`project_euler/problem_015.zig`](project_euler/problem_015.zig) | O(n * log n) |
+| 第 016 题：2^n 数位和 | [`project_euler/problem_016.zig`](project_euler/problem_016.zig) | O(power * digits) |
+| 第 017 题：数字英文计数 | [`project_euler/problem_017.zig`](project_euler/problem_017.zig) | O(n) |
+| 第 018 题：最大路径和 I | [`project_euler/problem_018.zig`](project_euler/problem_018.zig) | O(r^2) |
+| 第 019 题：周日计数 | [`project_euler/problem_019.zig`](project_euler/problem_019.zig) | O(years * 12) |
+| 第 020 题：阶乘数位和 | [`project_euler/problem_020.zig`](project_euler/problem_020.zig) | O(n * digits(n!)) |
+| 第 021 题：亲和数 | [`project_euler/problem_021.zig`](project_euler/problem_021.zig) | O(n * sqrt(n)) |
+| 第 022 题：姓名分数 | [`project_euler/problem_022.zig`](project_euler/problem_022.zig) | O(m log m + chars) |
+| 第 023 题：非盈数和 | [`project_euler/problem_023.zig`](project_euler/problem_023.zig) | 最坏 O(limit^2) |
+| 第 024 题：字典序排列 | [`project_euler/problem_024.zig`](project_euler/problem_024.zig) | O(n^2) |
+| 第 025 题：首个 1000 位 Fibonacci 下标 | [`project_euler/problem_025.zig`](project_euler/problem_025.zig) | O(index * digits) |
+| 第 026 题：循环小数周期 | [`project_euler/problem_026.zig`](project_euler/problem_026.zig) | O((d-n+1) * d^2) |
+| 第 027 题：二次多项式与质数 | [`project_euler/problem_027.zig`](project_euler/problem_027.zig) | O(a*b*run*sqrt(v)) |
+| 第 028 题：数字螺旋对角线和 | [`project_euler/problem_028.zig`](project_euler/problem_028.zig) | O(n) |
+| 第 029 题：不同幂的个数 | [`project_euler/problem_029.zig`](project_euler/problem_029.zig) | O(n^2 * log n) |
+| 第 030 题：数位五次幂 | [`project_euler/problem_030.zig`](project_euler/problem_030.zig) | O(1e6 * digits) |
+| 第 031 题：硬币组合数 | [`project_euler/problem_031.zig`](project_euler/problem_031.zig) | O(n * coins) |
+| 第 032 题：全数字乘积 | [`project_euler/problem_032.zig`](project_euler/problem_032.zig) | O(search_space) |
+
 ### 字符串 (38)
 
 | 算法 | 文件 | 复杂度 |
@@ -1638,6 +1713,7 @@ TheAlgorithms-Zig/
 ├── data_compression/        # 7 个数据压缩算法
 ├── cellular_automata/       # 6 个元胞自动机算法
 ├── fractals/                # 5 个分形算法
+├── project_euler/           # 32 个 Project Euler 算法
 ├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法
 ├── matrix/                  # 5 个矩阵算法
