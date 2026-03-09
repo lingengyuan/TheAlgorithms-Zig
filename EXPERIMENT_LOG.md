@@ -17,6 +17,248 @@ For each batch/review cycle, only record:
 - fix applied,
 - post-fix verification result.
 
+## Phase 5 Accounting Correction (2026-03-09)
+
+Scope:
+- [`phase5-plan.md`](/root/projects/plans/TheAlgorithms-Zig/phase5-plan.md)
+- [`README.md`](/root/projects/TheAlgorithms-Zig/README.md)
+
+Result:
+- Corrected the Phase 5 portable-target arithmetic from `939` to `929`.
+- Corrected the initial Phase 5 remaining-gap arithmetic from `807` to `797`.
+- Recorded current checkpoint accounting:
+  - `build.zig` registered algorithms: `687`
+  - Phase 5 effective completed count under plan-category caps: `679`
+  - Remaining planned gap: `250`
+
+Failure Log:
+- Failing step/command:
+  - manual Phase 5 progress reconciliation against `build.zig` and category caps
+  - Symptom: plan summary totals (`939`, `807`) did not match the sum of category rows or the current implementation ledger.
+  - Root cause: arithmetic aggregation error in the original Phase 5 summary table; later progress updates inherited the incorrect total.
+  - Fix applied: corrected totals in `phase5-plan.md` and added a checkpoint note in `README.md` to lock the current accounting basis.
+  - Post-fix verification: category-row sum equals `929`; current remaining plan gap now reconciles to `250`.
+
+## Phase 5 Batch K - Wave 27 (2026-03-09)
+
+Scope:
+- `project_euler/problem_037.zig`
+- `project_euler/problem_038.zig`
+- `project_euler/problem_039.zig`
+- `project_euler/problem_040.zig`
+- `project_euler/problem_041.zig`
+
+Result:
+- 5/5 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch K category progress after this wave:
+  - `searches`: 12
+  - `knapsack`: 3
+  - `geodesy`: 2
+  - `matrix`: 15
+  - `project_euler`: 41
+- Total registered algorithms in `build.zig`: 687.
+- Phase 5 effective completed count: 679.
+- Remaining planned gap: 250.
+
+Verification:
+- `zig test project_euler/problem_037.zig` ✅
+- `zig test project_euler/problem_038.zig` ✅
+- `zig test project_euler/problem_039.zig` ✅
+- `zig test project_euler/problem_040.zig` ✅
+- `zig test project_euler/problem_041.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test project_euler/problem_038.zig`
+  - Symptom: compile error on `@as(u16, 1) << digit` because Zig required a smaller integer type for the shift count.
+  - Root cause: decimal digit was kept as `u8` instead of being narrowed to the shift-width type.
+  - Fix applied: cast the shift count to `u4` after validating the digit range.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig test project_euler/problem_039.zig`
+  - Symptom: `solution(100)` returned `60` instead of Python's `90`.
+  - Root cause: scanning perimeter counts in ascending numeric order broke Python's `Counter.most_common()` tie behavior, which preserves first encounter order.
+  - Fix applied: recorded first-seen perimeter order during triple enumeration and selected the maximum using that preserved order.
+  - Post-fix verification: file-level tests passed with Python-reference outputs for `100`, `200`, and `1000`.
+- Failing step/command:
+  - `zig test project_euler/problem_040.zig`
+  - Symptom: `std.fmt.bufPrint()` introduced `error.NoSpaceLeft`, which was not in the function error set.
+  - Root cause: Zig error-set inference for `bufPrint` was stricter than the hand-written error union.
+  - Fix applied: handled the impossible short-buffer failure with `catch unreachable` because the local buffer is oversized for the generated integers.
+  - Post-fix verification: file-level tests passed.
+
+## Phase 5 Batch K - Wave 26 (2026-03-09)
+
+Scope:
+- `matrix/binary_search_matrix.zig`
+- `matrix/count_negative_numbers_in_sorted_matrix.zig`
+- `matrix/count_paths.zig`
+- `matrix/count_islands_in_matrix.zig`
+- `matrix/cramers_rule_2x2.zig`
+- `matrix/largest_square_area_in_matrix.zig`
+- `matrix/max_area_of_island.zig`
+- `matrix/median_matrix.zig`
+- `matrix/searching_in_sorted_matrix.zig`
+- `matrix/validate_sudoku_board.zig`
+
+Result:
+- 10/10 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch K category progress after this wave:
+  - `searches`: 12
+  - `knapsack`: 3
+  - `geodesy`: 2
+  - `matrix`: 15
+  - `project_euler`: 36
+- Total registered algorithms in `build.zig`: 682.
+- Full-suite run deferred to next wave by cadence rule.
+
+Verification:
+- `zig test matrix/binary_search_matrix.zig` ✅
+- `zig test matrix/count_negative_numbers_in_sorted_matrix.zig` ✅
+- `zig test matrix/count_paths.zig` ✅
+- `zig test matrix/count_islands_in_matrix.zig` ✅
+- `zig test matrix/cramers_rule_2x2.zig` ✅
+- `zig test matrix/largest_square_area_in_matrix.zig` ✅
+- `zig test matrix/max_area_of_island.zig` ✅
+- `zig test matrix/median_matrix.zig` ✅
+- `zig test matrix/searching_in_sorted_matrix.zig` ✅
+- `zig test matrix/validate_sudoku_board.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test matrix/count_paths.zig`
+  - Symptom: compile error reported that `visited` was never mutated.
+  - Root cause: the allocated slice contents were mutated, but the slice binding itself was never reassigned, so Zig required `const`.
+  - Fix applied: changed the slice binding from `var` to `const`.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig test matrix/count_islands_in_matrix.zig`
+  - Symptom: compile error reported that `visited` was never mutated.
+  - Root cause: same binding-vs-content distinction as in `count_paths.zig`.
+  - Fix applied: changed the slice binding from `var` to `const`.
+  - Post-fix verification: file-level tests passed.
+
+## Phase 5 Batch K - Wave 25 (2026-03-09)
+
+Scope:
+- `searches/double_linear_search.zig`
+- `searches/double_linear_search_recursion.zig`
+- `searches/sentinel_linear_search.zig`
+- `searches/simple_binary_search.zig`
+- `searches/quick_select.zig`
+- `searches/median_of_medians.zig`
+- `knapsack/knapsack.zig`
+- `knapsack/recursive_approach_knapsack.zig`
+- `knapsack/greedy_knapsack.zig`
+- `geodesy/haversine_distance.zig`
+- `geodesy/lamberts_ellipsoidal_distance.zig`
+
+Result:
+- 11/11 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch K category progress after this wave:
+  - `searches`: 12
+  - `knapsack`: 3
+  - `geodesy`: 2
+- Total registered algorithms in `build.zig`: 672.
+- Full-suite run deferred to later waves by cadence rule.
+
+Verification:
+- `zig test searches/double_linear_search.zig` ✅
+- `zig test searches/double_linear_search_recursion.zig` ✅
+- `zig test searches/sentinel_linear_search.zig` ✅
+- `zig test searches/simple_binary_search.zig` ✅
+- `zig test searches/quick_select.zig` ✅
+- `zig test searches/median_of_medians.zig` ✅
+- `zig test knapsack/knapsack.zig` ✅
+- `zig test knapsack/recursive_approach_knapsack.zig` ✅
+- `zig test knapsack/greedy_knapsack.zig` ✅
+- `zig test geodesy/haversine_distance.zig` ✅
+- `zig test geodesy/lamberts_ellipsoidal_distance.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test searches/quick_select.zig`
+  - Symptom: allocator leak detection failed during partitioning.
+  - Root cause: the initial partition helper used temporary dynamic arrays that were not fully released on all paths.
+  - Fix applied: rewrote partitioning as a two-pass exact-allocation routine and duplicated only the final combined slice.
+  - Post-fix verification: `quick_select.zig` and `median_of_medians.zig` both passed file-level tests.
+- Failing step/command:
+  - `zig test geodesy/lamberts_ellipsoidal_distance.zig`
+  - Symptom: compile error on `flattening / 2` because Zig could not disambiguate `comptime_float` and integer division.
+  - Root cause: the divisor literal was written as an integer instead of a floating-point value.
+  - Fix applied: changed the divisor to `2.0`.
+  - Post-fix verification: compilation succeeded and the Python-reference examples still matched.
+- Failing step/command:
+  - `zig test geodesy/lamberts_ellipsoidal_distance.zig`
+  - Symptom: identical-point boundary test produced `NaN`.
+  - Root cause: Lambert's formula divides by `sin²(sigma / 2)` and `cos²(sigma / 2)`; for degenerate central angles, the Python implementation effectively raises a division error.
+  - Fix applied: changed the Zig API to return `error.SingularGeometry` on singular denominators and updated tests to match the Python degenerate-input behavior contract.
+  - Post-fix verification: file-level tests passed.
+
+## Phase 5 Batch J - Wave 24 (2026-03-09)
+
+Scope:
+- `project_euler/problem_035.zig`
+- `project_euler/problem_036.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 36
+- Total registered algorithms in `build.zig`: 661.
+
+Verification:
+- `zig test project_euler/problem_035.zig` ✅
+- `zig test project_euler/problem_036.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures in this wave.
+
+## Phase 5 Batch J - Wave 23 (2026-03-09)
+
+Scope:
+- `project_euler/problem_033.zig`
+- `project_euler/problem_034.zig`
+
+Result:
+- 2/2 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch J category progress after this wave:
+  - `hashing`: 12
+  - `data_compression`: 7
+  - `cellular_automata`: 6
+  - `fractals`: 5
+  - `project_euler`: 34
+- Total registered algorithms in `build.zig`: 659.
+- Full-suite run deferred to next wave by cadence rule (full test at least every 2 waves).
+
+Verification:
+- `zig test project_euler/problem_033.zig` ✅
+- `zig test project_euler/problem_034.zig` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test project_euler/problem_034.zig`
+  - Symptom: assertion mismatch in extreme-case helper test for `sumOfDigitFactorial(999999)`.
+  - Root cause: expected constant incorrectly used `7 * 9!`; the test input has six digits, so the correct value is `6 * 9!`.
+  - Fix applied: corrected expected value from `2540160` to `2177280`.
+  - Post-fix verification: file-level tests passed.
+
 ## Phase 5 Batch J - Wave 22 (2026-03-08)
 
 Scope:

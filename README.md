@@ -4,6 +4,8 @@ Classic algorithm implementations in Zig, with built-in unit tests. Inspired by 
 
 This project is also a **vibe coding experiment**: using AI to translate Python algorithms into Zig — a language the author has zero prior experience with — and recording success rates, failure patterns, and human intervention costs along the way.
 
+Phase 5 accounting note (2026-03-09): the portable-category totals in the implementation plan sum to `929` algorithms, not `939`. [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig) currently registers `687` algorithms; under the plan's per-category caps, `679` count toward the Phase 5 target, leaving `250` planned algorithms remaining.
+
 ---
 
 ## Features
@@ -71,7 +73,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Tim Sort (Educational Variant) | [`sorts/tim_sort.zig`](sorts/tim_sort.zig) | O(n log n) |
 | Topological Sort | [`sorts/topological_sort.zig`](sorts/topological_sort.zig) | O(V + E) |
 
-### Searching (6)
+### Searching (12)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -81,6 +83,12 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Interpolation Search | [`searches/interpolation_search.zig`](searches/interpolation_search.zig) | O(log log n) avg |
 | Jump Search | [`searches/jump_search.zig`](searches/jump_search.zig) | O(√n) |
 | Ternary Search | [`searches/ternary_search.zig`](searches/ternary_search.zig) | O(log₃ n) |
+| Double Linear Search | [`searches/double_linear_search.zig`](searches/double_linear_search.zig) | O(n) |
+| Double Linear Search (Recursive) | [`searches/double_linear_search_recursion.zig`](searches/double_linear_search_recursion.zig) | O(n) |
+| Sentinel Linear Search | [`searches/sentinel_linear_search.zig`](searches/sentinel_linear_search.zig) | O(n) |
+| Simple Binary Search | [`searches/simple_binary_search.zig`](searches/simple_binary_search.zig) | O(log n) |
+| Quick Select | [`searches/quick_select.zig`](searches/quick_select.zig) | average O(n), worst O(n²) |
+| Median of Medians | [`searches/median_of_medians.zig`](searches/median_of_medians.zig) | O(n) |
 
 ### Math (81)
 
@@ -384,7 +392,7 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Huffman Coding | [`greedy_methods/huffman_coding.zig`](greedy_methods/huffman_coding.zig) | O(n + σ log σ) |
 | Job Sequencing with Deadlines | [`greedy_methods/job_sequencing_with_deadline.zig`](greedy_methods/job_sequencing_with_deadline.zig) | O(n log n + n·d) |
 
-### Matrix (5)
+### Matrix (15)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -393,6 +401,31 @@ This project is also a **vibe coding experiment**: using AI to translate Python 
 | Rotate Matrix 90° | [`matrix/rotate_matrix.zig`](matrix/rotate_matrix.zig) | O(n²) |
 | Spiral Print | [`matrix/spiral_print.zig`](matrix/spiral_print.zig) | O(m·n) |
 | Pascal's Triangle | [`matrix/pascal_triangle.zig`](matrix/pascal_triangle.zig) | O(n²) |
+| Binary Search Matrix | [`matrix/binary_search_matrix.zig`](matrix/binary_search_matrix.zig) | O(r log c) |
+| Count Negative Numbers in Sorted Matrix | [`matrix/count_negative_numbers_in_sorted_matrix.zig`](matrix/count_negative_numbers_in_sorted_matrix.zig) | O(r log c) |
+| Count Paths | [`matrix/count_paths.zig`](matrix/count_paths.zig) | worst-case exponential |
+| Count Islands in Matrix | [`matrix/count_islands_in_matrix.zig`](matrix/count_islands_in_matrix.zig) | O(r·c) |
+| Cramer's Rule (2x2) | [`matrix/cramers_rule_2x2.zig`](matrix/cramers_rule_2x2.zig) | O(1) |
+| Largest Square Area in Matrix | [`matrix/largest_square_area_in_matrix.zig`](matrix/largest_square_area_in_matrix.zig) | O(r·c) |
+| Max Area of Island | [`matrix/max_area_of_island.zig`](matrix/max_area_of_island.zig) | O(r·c) |
+| Median Matrix | [`matrix/median_matrix.zig`](matrix/median_matrix.zig) | O(n log n) |
+| Searching in Sorted Matrix | [`matrix/searching_in_sorted_matrix.zig`](matrix/searching_in_sorted_matrix.zig) | O(r + c) |
+| Validate Sudoku Board | [`matrix/validate_sudoku_board.zig`](matrix/validate_sudoku_board.zig) | O(1) |
+
+### Geodesy (2)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| Haversine Distance | [`geodesy/haversine_distance.zig`](geodesy/haversine_distance.zig) | O(1) |
+| Lambert's Ellipsoidal Distance | [`geodesy/lamberts_ellipsoidal_distance.zig`](geodesy/lamberts_ellipsoidal_distance.zig) | O(1) |
+
+### Knapsack (3)
+
+| Algorithm | File | Complexity |
+|-----------|------|-----------|
+| 0/1 Knapsack (Memoized Recursive) | [`knapsack/knapsack.zig`](knapsack/knapsack.zig) | O(n × W) |
+| Recursive Approach Knapsack | [`knapsack/recursive_approach_knapsack.zig`](knapsack/recursive_approach_knapsack.zig) | O(2ⁿ) |
+| Greedy Knapsack | [`knapsack/greedy_knapsack.zig`](knapsack/greedy_knapsack.zig) | O(n log n) |
 
 ### Backtracking (21)
 
@@ -721,7 +754,7 @@ Note:
 | Sierpinski Triangle Utilities | [`fractals/sierpinski_triangle.zig`](fractals/sierpinski_triangle.zig) | O(3^depth) |
 | Julia Sets Utilities | [`fractals/julia_sets.zig`](fractals/julia_sets.zig) | O(iterations · pixels²) |
 
-### Project Euler (32)
+### Project Euler (41)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -757,6 +790,15 @@ Note:
 | Problem 030: Digit Fifth Powers | [`project_euler/problem_030.zig`](project_euler/problem_030.zig) | O(1e6 * digits) |
 | Problem 031: Coin Sums | [`project_euler/problem_031.zig`](project_euler/problem_031.zig) | O(n * coins) |
 | Problem 032: Pandigital Products | [`project_euler/problem_032.zig`](project_euler/problem_032.zig) | O(search_space) |
+| Problem 033: Digit Cancelling Fractions | [`project_euler/problem_033.zig`](project_euler/problem_033.zig) | O(1) |
+| Problem 034: Digit Factorials | [`project_euler/problem_034.zig`](project_euler/problem_034.zig) | O(limit * digits) |
+| Problem 035: Circular Primes | [`project_euler/problem_035.zig`](project_euler/problem_035.zig) | O(limit log log limit + candidates * rotations) |
+| Problem 036: Double-Base Palindromes | [`project_euler/problem_036.zig`](project_euler/problem_036.zig) | O(n log n) |
+| Problem 037: Truncatable Primes | [`project_euler/problem_037.zig`](project_euler/problem_037.zig) | O(search_horizon · digits · sqrt(n)) |
+| Problem 038: Pandigital Multiples | [`project_euler/problem_038.zig`](project_euler/problem_038.zig) | O(1) bounded search |
+| Problem 039: Integer Right Triangles | [`project_euler/problem_039.zig`](project_euler/problem_039.zig) | O(p²) |
+| Problem 040: Champernowne's Constant | [`project_euler/problem_040.zig`](project_euler/problem_040.zig) | O(n) |
+| Problem 041: Pandigital Prime | [`project_euler/problem_041.zig`](project_euler/problem_041.zig) | O(n! · sqrt(10ⁿ)) |
 
 ### Strings (38)
 
@@ -821,7 +863,7 @@ TheAlgorithms-Zig/
 ├── build.zig                # Build script — registers all test files
 ├── build.zig.zon            # Package manifest
 ├── sorts/                   # 50 sorting algorithms
-├── searches/                # 6 search algorithms
+├── searches/                # 12 search algorithms
 ├── maths/                   # 81 math algorithms
 ├── data_structures/         # 101 data structure implementations
 ├── dynamic_programming/     # 42 dynamic programming algorithms
@@ -840,10 +882,12 @@ TheAlgorithms-Zig/
 ├── data_compression/        # 7 data compression algorithms
 ├── cellular_automata/       # 6 cellular automata algorithms
 ├── fractals/                # 5 fractal algorithms
-├── project_euler/           # 32 project euler algorithms
+├── project_euler/           # 41 project euler algorithms
 ├── strings/                 # 38 string algorithms
 ├── greedy_methods/          # 7 greedy algorithms
-├── matrix/                  # 5 matrix algorithms
+├── matrix/                  # 15 matrix algorithms
+├── geodesy/                 # 2 geodesy algorithms
+├── knapsack/                # 3 knapsack algorithms
 └── backtracking/            # 21 backtracking algorithms
 ```
 
@@ -888,6 +932,8 @@ MIT
 经典算法的 Zig 实现，每个算法内置单元测试。灵感来自 [TheAlgorithms/Python](https://github.com/TheAlgorithms/Python)。
 
 本项目同时是一个 **vibe coding 实验**：用 AI 将 Python 算法翻译为 Zig——一门作者此前零基础的语言——并记录 AI 的成功率、报错模式和人工干预成本。
+
+Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项求和应为 `929`，不是 `939`。当前 [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig) 已注册 `661` 个算法；按计划分类上限口径，其中 `653` 个计入 Phase 5 目标，剩余计划缺口为 `276`。
 
 ---
 
@@ -956,7 +1002,7 @@ MIT
 | Tim 排序（教学变体） | [`sorts/tim_sort.zig`](sorts/tim_sort.zig) | O(n log n) |
 | 拓扑排序 | [`sorts/topological_sort.zig`](sorts/topological_sort.zig) | O(V + E) |
 
-### 查找 (6)
+### 查找 (12)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -966,6 +1012,12 @@ MIT
 | 插值查找 | [`searches/interpolation_search.zig`](searches/interpolation_search.zig) | O(log log n) 平均 |
 | 跳跃查找 | [`searches/jump_search.zig`](searches/jump_search.zig) | O(√n) |
 | 三分查找 | [`searches/ternary_search.zig`](searches/ternary_search.zig) | O(log₃ n) |
+| 双向线性查找 | [`searches/double_linear_search.zig`](searches/double_linear_search.zig) | O(n) |
+| 双向线性查找（递归） | [`searches/double_linear_search_recursion.zig`](searches/double_linear_search_recursion.zig) | O(n) |
+| 哨兵线性查找 | [`searches/sentinel_linear_search.zig`](searches/sentinel_linear_search.zig) | O(n) |
+| 简单双向二分查找 | [`searches/simple_binary_search.zig`](searches/simple_binary_search.zig) | O(log n) |
+| Quick Select | [`searches/quick_select.zig`](searches/quick_select.zig) | 平均 O(n)，最坏 O(n²) |
+| Median of Medians | [`searches/median_of_medians.zig`](searches/median_of_medians.zig) | O(n) |
 
 ### 数学 (81)
 
@@ -1257,7 +1309,7 @@ MIT
 | 哈夫曼编码 | [`greedy_methods/huffman_coding.zig`](greedy_methods/huffman_coding.zig) | O(n + σ log σ) |
 | 截止时间作业调度 | [`greedy_methods/job_sequencing_with_deadline.zig`](greedy_methods/job_sequencing_with_deadline.zig) | O(n log n + n·d) |
 
-### 矩阵 (5)
+### 矩阵 (15)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1266,6 +1318,31 @@ MIT
 | 矩阵旋转 90° | [`matrix/rotate_matrix.zig`](matrix/rotate_matrix.zig) | O(n²) |
 | 螺旋打印 | [`matrix/spiral_print.zig`](matrix/spiral_print.zig) | O(m·n) |
 | 杨辉三角 | [`matrix/pascal_triangle.zig`](matrix/pascal_triangle.zig) | O(n²) |
+| 矩阵二分查找 | [`matrix/binary_search_matrix.zig`](matrix/binary_search_matrix.zig) | O(r log c) |
+| 递减排序矩阵中的负数计数 | [`matrix/count_negative_numbers_in_sorted_matrix.zig`](matrix/count_negative_numbers_in_sorted_matrix.zig) | O(r log c) |
+| 网格路径计数 | [`matrix/count_paths.zig`](matrix/count_paths.zig) | 最坏指数级 |
+| 矩阵中的岛屿计数 | [`matrix/count_islands_in_matrix.zig`](matrix/count_islands_in_matrix.zig) | O(r·c) |
+| 克拉默法则（2x2） | [`matrix/cramers_rule_2x2.zig`](matrix/cramers_rule_2x2.zig) | O(1) |
+| 最大全 1 正方形边长 | [`matrix/largest_square_area_in_matrix.zig`](matrix/largest_square_area_in_matrix.zig) | O(r·c) |
+| 岛屿最大面积 | [`matrix/max_area_of_island.zig`](matrix/max_area_of_island.zig) | O(r·c) |
+| 矩阵中位数 | [`matrix/median_matrix.zig`](matrix/median_matrix.zig) | O(n log n) |
+| 有序矩阵查找 | [`matrix/searching_in_sorted_matrix.zig`](matrix/searching_in_sorted_matrix.zig) | O(r + c) |
+| 数独棋盘有效性校验 | [`matrix/validate_sudoku_board.zig`](matrix/validate_sudoku_board.zig) | O(1) |
+
+### 测地学 (2)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| Haversine 距离 | [`geodesy/haversine_distance.zig`](geodesy/haversine_distance.zig) | O(1) |
+| Lambert 椭球距离 | [`geodesy/lamberts_ellipsoidal_distance.zig`](geodesy/lamberts_ellipsoidal_distance.zig) | O(1) |
+
+### 背包 (3)
+
+| 算法 | 文件 | 复杂度 |
+|------|------|--------|
+| 0/1 背包（记忆化递归） | [`knapsack/knapsack.zig`](knapsack/knapsack.zig) | O(n × W) |
+| 递归背包 | [`knapsack/recursive_approach_knapsack.zig`](knapsack/recursive_approach_knapsack.zig) | O(2ⁿ) |
+| 贪心背包 | [`knapsack/greedy_knapsack.zig`](knapsack/greedy_knapsack.zig) | O(n log n) |
 
 ### 回溯算法 (21)
 
@@ -1594,7 +1671,7 @@ MIT
 | Sierpinski 三角形工具 | [`fractals/sierpinski_triangle.zig`](fractals/sierpinski_triangle.zig) | O(3^depth) |
 | Julia 集工具 | [`fractals/julia_sets.zig`](fractals/julia_sets.zig) | O(iterations · pixels²) |
 
-### Project Euler (32)
+### Project Euler (41)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1630,6 +1707,15 @@ MIT
 | 第 030 题：数位五次幂 | [`project_euler/problem_030.zig`](project_euler/problem_030.zig) | O(1e6 * digits) |
 | 第 031 题：硬币组合数 | [`project_euler/problem_031.zig`](project_euler/problem_031.zig) | O(n * coins) |
 | 第 032 题：全数字乘积 | [`project_euler/problem_032.zig`](project_euler/problem_032.zig) | O(search_space) |
+| 第 033 题：消位分数 | [`project_euler/problem_033.zig`](project_euler/problem_033.zig) | O(1) |
+| 第 034 题：各位阶乘和 | [`project_euler/problem_034.zig`](project_euler/problem_034.zig) | O(limit * digits) |
+| 第 035 题：循环质数 | [`project_euler/problem_035.zig`](project_euler/problem_035.zig) | O(limit log log limit + 候选旋转检查) |
+| 第 036 题：双进制回文数 | [`project_euler/problem_036.zig`](project_euler/problem_036.zig) | O(n log n) |
+| 第 037 题：可截断质数 | [`project_euler/problem_037.zig`](project_euler/problem_037.zig) | O(search_horizon · digits · sqrt(n)) |
+| 第 038 题：Pandigital 倍数 | [`project_euler/problem_038.zig`](project_euler/problem_038.zig) | 有界搜索 O(1) |
+| 第 039 题：整数直角三角形 | [`project_euler/problem_039.zig`](project_euler/problem_039.zig) | O(p²) |
+| 第 040 题：Champernowne 常数 | [`project_euler/problem_040.zig`](project_euler/problem_040.zig) | O(n) |
+| 第 041 题：Pandigital 质数 | [`project_euler/problem_041.zig`](project_euler/problem_041.zig) | O(n! · sqrt(10ⁿ)) |
 
 ### 字符串 (38)
 
@@ -1694,7 +1780,7 @@ TheAlgorithms-Zig/
 ├── build.zig                # 构建脚本 — 注册所有测试文件
 ├── build.zig.zon            # 包清单
 ├── sorts/                   # 50 种排序算法
-├── searches/                # 6 种查找算法
+├── searches/                # 12 种查找算法
 ├── maths/                   # 81 种数学算法
 ├── data_structures/         # 101 种数据结构实现
 ├── dynamic_programming/     # 42 个动态规划算法
@@ -1713,10 +1799,12 @@ TheAlgorithms-Zig/
 ├── data_compression/        # 7 个数据压缩算法
 ├── cellular_automata/       # 6 个元胞自动机算法
 ├── fractals/                # 5 个分形算法
-├── project_euler/           # 32 个 Project Euler 算法
+├── project_euler/           # 41 个 Project Euler 算法
 ├── strings/                 # 38 个字符串算法
 ├── greedy_methods/          # 7 个贪心算法
-├── matrix/                  # 5 个矩阵算法
+├── matrix/                  # 15 个矩阵算法
+├── geodesy/                 # 2 个测地学算法
+├── knapsack/                # 3 个背包算法
 └── backtracking/            # 21 个回溯算法
 ```
 
