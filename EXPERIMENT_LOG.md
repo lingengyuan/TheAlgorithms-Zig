@@ -183,6 +183,69 @@ Failure Log:
   - Fix applied: implemented a dedicated 2x2 / 3x3 wrapper that matches the Python reference semantics and documented that decision in code comments.
   - Post-fix verification: file-level tests passed and stayed aligned with the Python reference outputs.
 
+## Phase 5 Batch M - Wave 29 (2026-03-09)
+
+Scope:
+- `project_euler/problem_047.zig`
+- `project_euler/problem_048.zig`
+- `project_euler/problem_049.zig`
+- `project_euler/problem_050.zig`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch M category progress after this wave:
+  - `project_euler`: 50
+- Total registered algorithms in `build.zig`: 741.
+- Phase 5 effective completed count: 733.
+- Remaining planned gap: 196.
+
+Verification:
+- `zig test project_euler/problem_047.zig` ✅
+- `zig test project_euler/problem_048.zig` ✅
+- `zig test project_euler/problem_049.zig` ✅
+- `zig test project_euler/problem_050.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures in this wave.
+
+## Phase 5 Batch M - Wave 30 (2026-03-09)
+
+Scope:
+- `project_euler/problem_051.zig`
+- `project_euler/problem_052.zig`
+- `project_euler/problem_053.zig`
+- `project_euler/problem_054.zig`
+- `project_euler/problem_054_poker_hands.txt`
+
+Result:
+- 4/4 implementations completed and registered in `build.zig`.
+- Added the bundled Project Euler 54 poker-hands dataset for embedded-file testing.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch M category progress after this wave:
+  - `project_euler`: 54
+- Total registered algorithms in `build.zig`: 745.
+- Phase 5 effective completed count: 737.
+- Remaining planned gap: 192.
+
+Verification:
+- `zig test project_euler/problem_051.zig` ✅
+- `zig test project_euler/problem_052.zig` ✅
+- `zig test project_euler/problem_053.zig` ✅
+- `zig test project_euler/problem_054.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - manual behavior reconciliation for `project_euler/problem_051`
+  - Symptom: the Python reference returned `229399` for `solution(2)` and `221311` for `solution(3)`, but an ascending deterministic scan returned different values.
+  - Root cause: `problem_051/sol1.py` iterates over a Python `set` of candidate primes, so non-canonical family sizes depend on hash-set iteration order rather than on sorted search order.
+  - Fix applied: documented the discrepancy in Zig and implemented deterministic ascending-prime scanning while preserving the canonical Euler target result `solution(8) == 121313`.
+  - Post-fix verification: helper tests passed, and the canonical Project Euler answer matched the Python reference.
+
 ## Phase 5 Batch K - Wave 28 (2026-03-09)
 
 Scope:
