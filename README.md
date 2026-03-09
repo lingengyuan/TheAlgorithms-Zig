@@ -4,7 +4,7 @@ Classic algorithm implementations in Zig, with built-in unit tests. Inspired by 
 
 This project is also a **vibe coding experiment**: using AI to translate Python algorithms into Zig — a language the author has zero prior experience with — and recording success rates, failure patterns, and human intervention costs along the way.
 
-Phase 5 accounting note (2026-03-09): the portable-category totals in the implementation plan sum to `929` algorithms, not `939`. [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig) currently registers `687` algorithms; under the plan's per-category caps, `679` count toward the Phase 5 target, leaving `250` planned algorithms remaining.
+Phase 5 accounting note (2026-03-09): the portable-category totals in the implementation plan sum to `929` algorithms, not `939`. [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig) currently registers `737` algorithms; under the plan's per-category caps, `729` count toward the Phase 5 target, leaving `200` planned algorithms remaining.
 
 ---
 
@@ -90,7 +90,7 @@ Phase 5 accounting note (2026-03-09): the portable-category totals in the implem
 | Quick Select | [`searches/quick_select.zig`](searches/quick_select.zig) | average O(n), worst O(n²) |
 | Median of Medians | [`searches/median_of_medians.zig`](searches/median_of_medians.zig) | O(n) |
 
-### Math (81)
+### Math (119)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -175,6 +175,44 @@ Phase 5 accounting note (2026-03-09): the portable-category totals in the implem
 | Polynomial Evaluation | [`maths/polynomial_evaluation.zig`](maths/polynomial_evaluation.zig) | O(n) |
 | Kth Lexicographic Permutation | [`maths/kth_lexicographic_permutation.zig`](maths/kth_lexicographic_permutation.zig) | O(n²) |
 | Largest of Very Large Numbers (Log Compare) | [`maths/largest_of_very_large_numbers.zig`](maths/largest_of_very_large_numbers.zig) | O(1) |
+| Base -2 Conversion | [`maths/base_neg2_conversion.zig`](maths/base_neg2_conversion.zig) | O(log \|n\|) |
+| Degrees to Radians | [`maths/radians.zig`](maths/radians.zig) | O(1) |
+| Modular Exponential | [`maths/modular_exponential.zig`](maths/modular_exponential.zig) | O(log power) |
+| Persistence (Multiplicative/Additive) | [`maths/persistence.zig`](maths/persistence.zig) | O(steps · digits) |
+| IPv4 Address Validation | [`maths/is_ip_v4_address_valid.zig`](maths/is_ip_v4_address_valid.zig) | O(n) |
+| Square-Free Factor List Check | [`maths/is_square_free.zig`](maths/is_square_free.zig) | O(n) |
+| Juggler Sequence | [`maths/juggler_sequence.zig`](maths/juggler_sequence.zig) | O(sequence length) |
+| Sophie Germain Prime Check | [`maths/germain_primes.zig`](maths/germain_primes.zig) | O(√n) |
+| Greatest Common Divisor Variants | [`maths/greatest_common_divisor.zig`](maths/greatest_common_divisor.zig) | O(log n) |
+| Lucas-Lehmer Primality Test | [`maths/lucas_lehmer_primality_test.zig`](maths/lucas_lehmer_primality_test.zig) | O(p) |
+| GCD of N Numbers | [`maths/gcd_of_n_numbers.zig`](maths/gcd_of_n_numbers.zig) | O(n log m) |
+| Prime Factors | [`maths/prime_factors.zig`](maths/prime_factors.zig) | O(√n) |
+| Prime Numbers Generators | [`maths/prime_numbers.zig`](maths/prime_numbers.zig) | O(n√n) |
+| Prime Sieve Eratosthenes | [`maths/prime_sieve_eratosthenes.zig`](maths/prime_sieve_eratosthenes.zig) | O(n log log n) |
+| Power Using Recursion | [`maths/power_using_recursion.zig`](maths/power_using_recursion.zig) | O(exponent) |
+| Liouville Lambda Function | [`maths/liouville_lambda.zig`](maths/liouville_lambda.zig) | O(√n) |
+| Mobius Function | [`maths/mobius_function.zig`](maths/mobius_function.zig) | O(√n) |
+| Interquartile Range | [`maths/interquartile_range.zig`](maths/interquartile_range.zig) | O(n log n) |
+| Binary Exponentiation | [`maths/binary_exponentiation.zig`](maths/binary_exponentiation.zig) | O(log exponent) |
+| Binary Multiplication | [`maths/binary_multiplication.zig`](maths/binary_multiplication.zig) | O(log b) |
+| Area Under Curve | [`maths/area_under_curve.zig`](maths/area_under_curve.zig) | O(steps) |
+| Trapezoidal Rule | [`maths/trapezoidal_rule.zig`](maths/trapezoidal_rule.zig) | O(steps) |
+| Points Are Collinear in 3D | [`maths/points_are_collinear_3d.zig`](maths/points_are_collinear_3d.zig) | O(1) |
+| Joint Probability Distribution | [`maths/joint_probability_distribution.zig`](maths/joint_probability_distribution.zig) | O(\|X\| · \|Y\|) |
+| Fast Inverse Square Root | [`maths/fast_inverse_sqrt.zig`](maths/fast_inverse_sqrt.zig) | O(1) |
+| Gaussian Function | [`maths/gaussian.zig`](maths/gaussian.zig) | O(1) |
+| Sigmoid Function | [`maths/sigmoid.zig`](maths/sigmoid.zig) | O(n) |
+| Softmax Function | [`maths/softmax.zig`](maths/softmax.zig) | O(n) |
+| Hyperbolic Tangent | [`maths/tanh.zig`](maths/tanh.zig) | O(n) |
+| Modular Division | [`maths/modular_division.zig`](maths/modular_division.zig) | O(log n) |
+| Maclaurin Series | [`maths/maclaurin_series.zig`](maths/maclaurin_series.zig) | O(k) |
+| Dodecahedron Formulas | [`maths/dodecahedron.zig`](maths/dodecahedron.zig) | O(1) |
+| Binomial Distribution | [`maths/binomial_distribution.zig`](maths/binomial_distribution.zig) | O(trials) |
+| Basic Maths Utilities | [`maths/basic_maths.zig`](maths/basic_maths.zig) | O(√n) |
+| Continued Fraction | [`maths/continued_fraction.zig`](maths/continued_fraction.zig) | O(k) |
+| Karatsuba Multiplication | [`maths/karatsuba.zig`](maths/karatsuba.zig) | O(n^log2(3)) |
+| Spearman Rank Correlation Coefficient | [`maths/spearman_rank_correlation_coefficient.zig`](maths/spearman_rank_correlation_coefficient.zig) | O(n log n) |
+| Zeller's Congruence | [`maths/zellers_congruence.zig`](maths/zellers_congruence.zig) | O(1) |
 
 ### Data Structures (101)
 
@@ -380,7 +418,7 @@ Phase 5 accounting note (2026-03-09): the portable-category totals in the implem
 | Graph Adjacency List Data Structure | [`graphs/graph_adjacency_list.zig`](graphs/graph_adjacency_list.zig) | O(1) avg edge insert/query, O(deg) removal |
 | Graph Adjacency Matrix Data Structure | [`graphs/graph_adjacency_matrix.zig`](graphs/graph_adjacency_matrix.zig) | O(1) edge query/update, O(V²) vertex resize |
 
-### Greedy Methods (7)
+### Greedy Methods (8)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -391,8 +429,9 @@ Phase 5 accounting note (2026-03-09): the portable-category totals in the implem
 | Activity Selection | [`greedy_methods/activity_selection.zig`](greedy_methods/activity_selection.zig) | O(n) |
 | Huffman Coding | [`greedy_methods/huffman_coding.zig`](greedy_methods/huffman_coding.zig) | O(n + σ log σ) |
 | Job Sequencing with Deadlines | [`greedy_methods/job_sequencing_with_deadline.zig`](greedy_methods/job_sequencing_with_deadline.zig) | O(n log n + n·d) |
+| Gas Station | [`greedy_methods/gas_station.zig`](greedy_methods/gas_station.zig) | O(n) |
 
-### Matrix (15)
+### Matrix (20)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -411,6 +450,11 @@ Phase 5 accounting note (2026-03-09): the portable-category totals in the implem
 | Median Matrix | [`matrix/median_matrix.zig`](matrix/median_matrix.zig) | O(n log n) |
 | Searching in Sorted Matrix | [`matrix/searching_in_sorted_matrix.zig`](matrix/searching_in_sorted_matrix.zig) | O(r + c) |
 | Validate Sudoku Board | [`matrix/validate_sudoku_board.zig`](matrix/validate_sudoku_board.zig) | O(1) |
+| Matrix Equalization | [`matrix/matrix_equalization.zig`](matrix/matrix_equalization.zig) | O(u · n) |
+| Nth Fibonacci Using Matrix Exponentiation | [`matrix/nth_fibonacci_using_matrix_exponentiation.zig`](matrix/nth_fibonacci_using_matrix_exponentiation.zig) | O(log n) |
+| Matrix Operation Utilities | [`matrix/matrix_operation.zig`](matrix/matrix_operation.zig) | varies by operation; determinant/inverse O(n!) |
+| Inverse Of Matrix (2x2 / 3x3 Reference Variant) | [`matrix/inverse_of_matrix.zig`](matrix/inverse_of_matrix.zig) | O(1) |
+| Matrix Multiplication (Recursive) | [`matrix/matrix_multiplication_recursion.zig`](matrix/matrix_multiplication_recursion.zig) | O(n³) |
 
 ### Geodesy (2)
 
@@ -721,7 +765,7 @@ Note:
 | Enigma Machine (ASCII 32-125) | [`hashing/enigma_machine.zig`](hashing/enigma_machine.zig) | O(n * 94) |
 | Hamming Code Utilities | [`hashing/hamming_code.zig`](hashing/hamming_code.zig) | O((n + p) * p) |
 
-### Data Compression (7)
+### Data Compression (8)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -731,6 +775,7 @@ Note:
 | LZ77 Compression | [`data_compression/lz77.zig`](data_compression/lz77.zig) | O(n * window_size) |
 | Peak Signal-to-Noise Ratio | [`data_compression/peak_signal_to_noise_ratio.zig`](data_compression/peak_signal_to_noise_ratio.zig) | O(n) |
 | Lempel-Ziv Bitstring Compression | [`data_compression/lempel_ziv.zig`](data_compression/lempel_ziv.zig) | O(n²) |
+| Lempel-Ziv Bitstring Decompression | [`data_compression/lempel_ziv_decompress.zig`](data_compression/lempel_ziv_decompress.zig) | O(n²) |
 | Huffman Coding | [`data_compression/huffman.zig`](data_compression/huffman.zig) | O(n + k²) |
 
 ### Cellular Automata (6)
@@ -754,7 +799,7 @@ Note:
 | Sierpinski Triangle Utilities | [`fractals/sierpinski_triangle.zig`](fractals/sierpinski_triangle.zig) | O(3^depth) |
 | Julia Sets Utilities | [`fractals/julia_sets.zig`](fractals/julia_sets.zig) | O(iterations · pixels²) |
 
-### Project Euler (41)
+### Project Euler (46)
 
 | Algorithm | File | Complexity |
 |-----------|------|-----------|
@@ -799,6 +844,11 @@ Note:
 | Problem 039: Integer Right Triangles | [`project_euler/problem_039.zig`](project_euler/problem_039.zig) | O(p²) |
 | Problem 040: Champernowne's Constant | [`project_euler/problem_040.zig`](project_euler/problem_040.zig) | O(n) |
 | Problem 041: Pandigital Prime | [`project_euler/problem_041.zig`](project_euler/problem_041.zig) | O(n! · sqrt(10ⁿ)) |
+| Problem 042: Coded Triangle Numbers | [`project_euler/problem_042.zig`](project_euler/problem_042.zig) | O(len(data)) |
+| Problem 043: Sub-string Divisibility | [`project_euler/problem_043.zig`](project_euler/problem_043.zig) | O(10!) worst-case with pruning |
+| Problem 044: Pentagon Numbers | [`project_euler/problem_044.zig`](project_euler/problem_044.zig) | O(limit²) |
+| Problem 045: Triangular, Pentagonal, and Hexagonal | [`project_euler/problem_045.zig`](project_euler/problem_045.zig) | O(search span) |
+| Problem 046: Goldbach's Other Conjecture | [`project_euler/problem_046.zig`](project_euler/problem_046.zig) | O(search_horizon · sqrt(n)) |
 
 ### Strings (38)
 
@@ -864,7 +914,7 @@ TheAlgorithms-Zig/
 ├── build.zig.zon            # Package manifest
 ├── sorts/                   # 50 sorting algorithms
 ├── searches/                # 12 search algorithms
-├── maths/                   # 81 math algorithms
+├── maths/                   # 119 math algorithms
 ├── data_structures/         # 101 data structure implementations
 ├── dynamic_programming/     # 42 dynamic programming algorithms
 ├── graphs/                  # 46 graph algorithms
@@ -879,13 +929,13 @@ TheAlgorithms-Zig/
 ├── scheduling/              # 8 scheduling algorithms
 ├── ciphers/                 # 47 cipher algorithms
 ├── hashing/                 # 12 hashing algorithms
-├── data_compression/        # 7 data compression algorithms
+├── data_compression/        # 8 data compression algorithms
 ├── cellular_automata/       # 6 cellular automata algorithms
 ├── fractals/                # 5 fractal algorithms
-├── project_euler/           # 41 project euler algorithms
+├── project_euler/           # 46 project euler algorithms
 ├── strings/                 # 38 string algorithms
-├── greedy_methods/          # 7 greedy algorithms
-├── matrix/                  # 15 matrix algorithms
+├── greedy_methods/          # 8 greedy algorithms
+├── matrix/                  # 20 matrix algorithms
 ├── geodesy/                 # 2 geodesy algorithms
 ├── knapsack/                # 3 knapsack algorithms
 └── backtracking/            # 21 backtracking algorithms
@@ -933,7 +983,7 @@ MIT
 
 本项目同时是一个 **vibe coding 实验**：用 AI 将 Python 算法翻译为 Zig——一门作者此前零基础的语言——并记录 AI 的成功率、报错模式和人工干预成本。
 
-Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项求和应为 `929`，不是 `939`。当前 [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig) 已注册 `661` 个算法；按计划分类上限口径，其中 `653` 个计入 Phase 5 目标，剩余计划缺口为 `276`。
+Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项求和应为 `929`，不是 `939`。当前 [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig) 已注册 `737` 个算法；按计划分类上限口径，其中 `729` 个计入 Phase 5 目标，剩余计划缺口为 `200`。
 
 ---
 
@@ -1019,7 +1069,7 @@ Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项�
 | Quick Select | [`searches/quick_select.zig`](searches/quick_select.zig) | 平均 O(n)，最坏 O(n²) |
 | Median of Medians | [`searches/median_of_medians.zig`](searches/median_of_medians.zig) | O(n) |
 
-### 数学 (81)
+### 数学 (119)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1104,6 +1154,44 @@ Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项�
 | 多项式求值 | [`maths/polynomial_evaluation.zig`](maths/polynomial_evaluation.zig) | O(n) |
 | 第 k 个字典序排列 | [`maths/kth_lexicographic_permutation.zig`](maths/kth_lexicographic_permutation.zig) | O(n²) |
 | 超大幂比较（对数法） | [`maths/largest_of_very_large_numbers.zig`](maths/largest_of_very_large_numbers.zig) | O(1) |
+| 负二进制转换 | [`maths/base_neg2_conversion.zig`](maths/base_neg2_conversion.zig) | O(log \|n\|) |
+| 角度转弧度 | [`maths/radians.zig`](maths/radians.zig) | O(1) |
+| 模幂运算 | [`maths/modular_exponential.zig`](maths/modular_exponential.zig) | O(log power) |
+| 数位持久性（乘法/加法） | [`maths/persistence.zig`](maths/persistence.zig) | O(steps · digits) |
+| IPv4 地址校验 | [`maths/is_ip_v4_address_valid.zig`](maths/is_ip_v4_address_valid.zig) | O(n) |
+| 平方因子重复检查 | [`maths/is_square_free.zig`](maths/is_square_free.zig) | O(n) |
+| Juggler 序列 | [`maths/juggler_sequence.zig`](maths/juggler_sequence.zig) | O(序列长度) |
+| Sophie Germain 质数检查 | [`maths/germain_primes.zig`](maths/germain_primes.zig) | O(√n) |
+| 最大公约数变体 | [`maths/greatest_common_divisor.zig`](maths/greatest_common_divisor.zig) | O(log n) |
+| Lucas-Lehmer 素性测试 | [`maths/lucas_lehmer_primality_test.zig`](maths/lucas_lehmer_primality_test.zig) | O(p) |
+| 多数最大公约数 | [`maths/gcd_of_n_numbers.zig`](maths/gcd_of_n_numbers.zig) | O(n log m) |
+| 质因数分解 | [`maths/prime_factors.zig`](maths/prime_factors.zig) | O(√n) |
+| 质数生成器 | [`maths/prime_numbers.zig`](maths/prime_numbers.zig) | O(n√n) |
+| 埃拉托斯特尼筛变体 | [`maths/prime_sieve_eratosthenes.zig`](maths/prime_sieve_eratosthenes.zig) | O(n log log n) |
+| 递归幂运算 | [`maths/power_using_recursion.zig`](maths/power_using_recursion.zig) | O(exponent) |
+| Liouville Lambda 函数 | [`maths/liouville_lambda.zig`](maths/liouville_lambda.zig) | O(√n) |
+| Mobius 函数 | [`maths/mobius_function.zig`](maths/mobius_function.zig) | O(√n) |
+| 四分位距 | [`maths/interquartile_range.zig`](maths/interquartile_range.zig) | O(n log n) |
+| 二分幂 | [`maths/binary_exponentiation.zig`](maths/binary_exponentiation.zig) | O(log exponent) |
+| 二进制乘法 | [`maths/binary_multiplication.zig`](maths/binary_multiplication.zig) | O(log b) |
+| 曲线下面积 | [`maths/area_under_curve.zig`](maths/area_under_curve.zig) | O(steps) |
+| 梯形积分公式 | [`maths/trapezoidal_rule.zig`](maths/trapezoidal_rule.zig) | O(steps) |
+| 三维点共线判断 | [`maths/points_are_collinear_3d.zig`](maths/points_are_collinear_3d.zig) | O(1) |
+| 联合概率分布 | [`maths/joint_probability_distribution.zig`](maths/joint_probability_distribution.zig) | O(\|X\| · \|Y\|) |
+| 快速平方根倒数 | [`maths/fast_inverse_sqrt.zig`](maths/fast_inverse_sqrt.zig) | O(1) |
+| 高斯函数 | [`maths/gaussian.zig`](maths/gaussian.zig) | O(1) |
+| Sigmoid 函数 | [`maths/sigmoid.zig`](maths/sigmoid.zig) | O(n) |
+| Softmax 函数 | [`maths/softmax.zig`](maths/softmax.zig) | O(n) |
+| 双曲正切 | [`maths/tanh.zig`](maths/tanh.zig) | O(n) |
+| 模除法 | [`maths/modular_division.zig`](maths/modular_division.zig) | O(log n) |
+| Maclaurin 级数 | [`maths/maclaurin_series.zig`](maths/maclaurin_series.zig) | O(k) |
+| 正十二面体公式 | [`maths/dodecahedron.zig`](maths/dodecahedron.zig) | O(1) |
+| 二项分布 | [`maths/binomial_distribution.zig`](maths/binomial_distribution.zig) | O(trials) |
+| 基础数学工具 | [`maths/basic_maths.zig`](maths/basic_maths.zig) | O(√n) |
+| 连分数 | [`maths/continued_fraction.zig`](maths/continued_fraction.zig) | O(k) |
+| Karatsuba 乘法 | [`maths/karatsuba.zig`](maths/karatsuba.zig) | O(n^log2(3)) |
+| Spearman 秩相关系数 | [`maths/spearman_rank_correlation_coefficient.zig`](maths/spearman_rank_correlation_coefficient.zig) | O(n log n) |
+| Zeller 同余公式 | [`maths/zellers_congruence.zig`](maths/zellers_congruence.zig) | O(1) |
 
 ### 数据结构 (101)
 
@@ -1297,7 +1385,7 @@ Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项�
 | 图深拷贝 | [`graphs/deep_clone_graph.zig`](graphs/deep_clone_graph.zig) | O(V + E) |
 | Dijkstra（邻接矩阵） | [`graphs/dijkstra_matrix.zig`](graphs/dijkstra_matrix.zig) | O(V²) |
 
-### 贪心算法 (7)
+### 贪心算法 (8)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1308,8 +1396,9 @@ Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项�
 | 活动选择 | [`greedy_methods/activity_selection.zig`](greedy_methods/activity_selection.zig) | O(n) |
 | 哈夫曼编码 | [`greedy_methods/huffman_coding.zig`](greedy_methods/huffman_coding.zig) | O(n + σ log σ) |
 | 截止时间作业调度 | [`greedy_methods/job_sequencing_with_deadline.zig`](greedy_methods/job_sequencing_with_deadline.zig) | O(n log n + n·d) |
+| 加油站环路 | [`greedy_methods/gas_station.zig`](greedy_methods/gas_station.zig) | O(n) |
 
-### 矩阵 (15)
+### 矩阵 (20)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1328,6 +1417,11 @@ Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项�
 | 矩阵中位数 | [`matrix/median_matrix.zig`](matrix/median_matrix.zig) | O(n log n) |
 | 有序矩阵查找 | [`matrix/searching_in_sorted_matrix.zig`](matrix/searching_in_sorted_matrix.zig) | O(r + c) |
 | 数独棋盘有效性校验 | [`matrix/validate_sudoku_board.zig`](matrix/validate_sudoku_board.zig) | O(1) |
+| 矩阵均衡化 | [`matrix/matrix_equalization.zig`](matrix/matrix_equalization.zig) | O(u · n) |
+| 矩阵快速幂求第 n 个 Fibonacci | [`matrix/nth_fibonacci_using_matrix_exponentiation.zig`](matrix/nth_fibonacci_using_matrix_exponentiation.zig) | O(log n) |
+| 矩阵操作工具 | [`matrix/matrix_operation.zig`](matrix/matrix_operation.zig) | 随操作而变；det/inverse 最坏 O(n!) |
+| 矩阵求逆（2x2 / 3x3 参考实现语义） | [`matrix/inverse_of_matrix.zig`](matrix/inverse_of_matrix.zig) | O(1) |
+| 递归矩阵乘法 | [`matrix/matrix_multiplication_recursion.zig`](matrix/matrix_multiplication_recursion.zig) | O(n³) |
 
 ### 测地学 (2)
 
@@ -1638,7 +1732,7 @@ Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项�
 | Enigma 机器（ASCII 32-125） | [`hashing/enigma_machine.zig`](hashing/enigma_machine.zig) | O(n * 94) |
 | Hamming 码工具 | [`hashing/hamming_code.zig`](hashing/hamming_code.zig) | O((n + p) * p) |
 
-### 数据压缩 (7)
+### 数据压缩 (8)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1648,6 +1742,7 @@ Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项�
 | LZ77 压缩 | [`data_compression/lz77.zig`](data_compression/lz77.zig) | O(n * window_size) |
 | 峰值信噪比（PSNR） | [`data_compression/peak_signal_to_noise_ratio.zig`](data_compression/peak_signal_to_noise_ratio.zig) | O(n) |
 | Lempel-Ziv 位串压缩 | [`data_compression/lempel_ziv.zig`](data_compression/lempel_ziv.zig) | O(n²) |
+| Lempel-Ziv 位串解压 | [`data_compression/lempel_ziv_decompress.zig`](data_compression/lempel_ziv_decompress.zig) | O(n²) |
 | Huffman 编码 | [`data_compression/huffman.zig`](data_compression/huffman.zig) | O(n + k²) |
 
 ### 元胞自动机 (6)
@@ -1671,7 +1766,7 @@ Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项�
 | Sierpinski 三角形工具 | [`fractals/sierpinski_triangle.zig`](fractals/sierpinski_triangle.zig) | O(3^depth) |
 | Julia 集工具 | [`fractals/julia_sets.zig`](fractals/julia_sets.zig) | O(iterations · pixels²) |
 
-### Project Euler (41)
+### Project Euler (46)
 
 | 算法 | 文件 | 复杂度 |
 |------|------|--------|
@@ -1716,6 +1811,11 @@ Phase 5 统计说明（2026-03-09）：实施计划中的可移植分类逐项�
 | 第 039 题：整数直角三角形 | [`project_euler/problem_039.zig`](project_euler/problem_039.zig) | O(p²) |
 | 第 040 题：Champernowne 常数 | [`project_euler/problem_040.zig`](project_euler/problem_040.zig) | O(n) |
 | 第 041 题：Pandigital 质数 | [`project_euler/problem_041.zig`](project_euler/problem_041.zig) | O(n! · sqrt(10ⁿ)) |
+| 第 042 题：编码三角词 | [`project_euler/problem_042.zig`](project_euler/problem_042.zig) | O(len(data)) |
+| 第 043 题：子串整除性 | [`project_euler/problem_043.zig`](project_euler/problem_043.zig) | 最坏 O(10!)，含剪枝 |
+| 第 044 题：五边形数 | [`project_euler/problem_044.zig`](project_euler/problem_044.zig) | O(limit²) |
+| 第 045 题：三角/五边形/六边形数 | [`project_euler/problem_045.zig`](project_euler/problem_045.zig) | O(search span) |
+| 第 046 题：Goldbach 另一猜想 | [`project_euler/problem_046.zig`](project_euler/problem_046.zig) | O(search_horizon · sqrt(n)) |
 
 ### 字符串 (38)
 
@@ -1781,7 +1881,7 @@ TheAlgorithms-Zig/
 ├── build.zig.zon            # 包清单
 ├── sorts/                   # 50 种排序算法
 ├── searches/                # 12 种查找算法
-├── maths/                   # 81 种数学算法
+├── maths/                   # 119 种数学算法
 ├── data_structures/         # 101 种数据结构实现
 ├── dynamic_programming/     # 42 个动态规划算法
 ├── graphs/                  # 46 个图算法
@@ -1796,13 +1896,13 @@ TheAlgorithms-Zig/
 ├── scheduling/              # 8 个调度算法
 ├── ciphers/                 # 47 个密码学算法
 ├── hashing/                 # 12 个哈希算法
-├── data_compression/        # 7 个数据压缩算法
+├── data_compression/        # 8 个数据压缩算法
 ├── cellular_automata/       # 6 个元胞自动机算法
 ├── fractals/                # 5 个分形算法
-├── project_euler/           # 41 个 Project Euler 算法
+├── project_euler/           # 46 个 Project Euler 算法
 ├── strings/                 # 38 个字符串算法
-├── greedy_methods/          # 7 个贪心算法
-├── matrix/                  # 15 个矩阵算法
+├── greedy_methods/          # 8 个贪心算法
+├── matrix/                  # 20 个矩阵算法
 ├── geodesy/                 # 2 个测地学算法
 ├── knapsack/                # 3 个背包算法
 └── backtracking/            # 21 个回溯算法

@@ -27,9 +27,9 @@ Result:
 - Corrected the Phase 5 portable-target arithmetic from `939` to `929`.
 - Corrected the initial Phase 5 remaining-gap arithmetic from `807` to `797`.
 - Recorded current checkpoint accounting:
-  - `build.zig` registered algorithms: `687`
-  - Phase 5 effective completed count under plan-category caps: `679`
-  - Remaining planned gap: `250`
+  - `build.zig` registered algorithms: `692`
+  - Phase 5 effective completed count under plan-category caps: `684`
+  - Remaining planned gap: `245`
 
 Failure Log:
 - Failing step/command:
@@ -37,7 +37,187 @@ Failure Log:
   - Symptom: plan summary totals (`939`, `807`) did not match the sum of category rows or the current implementation ledger.
   - Root cause: arithmetic aggregation error in the original Phase 5 summary table; later progress updates inherited the incorrect total.
   - Fix applied: corrected totals in `phase5-plan.md` and added a checkpoint note in `README.md` to lock the current accounting basis.
-  - Post-fix verification: category-row sum equals `929`; current remaining plan gap now reconciles to `250`.
+  - Post-fix verification: category-row sum equals `929`; current remaining plan gap now reconciles to `245`.
+
+## Phase 5 Batch L - Remaining 200 Checkpoint (2026-03-09)
+
+Scope:
+- `data_compression/lempel_ziv_decompress.zig`
+- `greedy_methods/gas_station.zig`
+- `matrix/matrix_equalization.zig`
+- `matrix/nth_fibonacci_using_matrix_exponentiation.zig`
+- `matrix/matrix_operation.zig`
+- `matrix/inverse_of_matrix.zig`
+- `matrix/matrix_multiplication_recursion.zig`
+- `maths/base_neg2_conversion.zig`
+- `maths/radians.zig`
+- `maths/modular_exponential.zig`
+- `maths/persistence.zig`
+- `maths/is_ip_v4_address_valid.zig`
+- `maths/is_square_free.zig`
+- `maths/juggler_sequence.zig`
+- `maths/germain_primes.zig`
+- `maths/greatest_common_divisor.zig`
+- `maths/lucas_lehmer_primality_test.zig`
+- `maths/gcd_of_n_numbers.zig`
+- `maths/prime_factors.zig`
+- `maths/prime_numbers.zig`
+- `maths/prime_sieve_eratosthenes.zig`
+- `maths/power_using_recursion.zig`
+- `maths/liouville_lambda.zig`
+- `maths/mobius_function.zig`
+- `maths/interquartile_range.zig`
+- `maths/binary_exponentiation.zig`
+- `maths/binary_multiplication.zig`
+- `maths/area_under_curve.zig`
+- `maths/trapezoidal_rule.zig`
+- `maths/points_are_collinear_3d.zig`
+- `maths/joint_probability_distribution.zig`
+- `maths/fast_inverse_sqrt.zig`
+- `maths/gaussian.zig`
+- `maths/sigmoid.zig`
+- `maths/softmax.zig`
+- `maths/tanh.zig`
+- `maths/modular_division.zig`
+- `maths/maclaurin_series.zig`
+- `maths/dodecahedron.zig`
+- `maths/binomial_distribution.zig`
+- `maths/basic_maths.zig`
+- `maths/continued_fraction.zig`
+- `maths/karatsuba.zig`
+- `maths/spearman_rank_correlation_coefficient.zig`
+- `maths/zellers_congruence.zig`
+- `build.zig`
+- `README.md`
+
+Result:
+- 45/45 implementations completed and registered in `build.zig`.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- `matrix/inverse_of_matrix.zig` explicitly matches the current TheAlgorithms/Python 3x3 output semantics, even where that differs from the fully transposed adjugate form.
+- Category progress after this checkpoint:
+  - `maths`: 119
+  - `data_compression`: 8
+  - `greedy_methods`: 8
+  - `matrix`: 20
+  - `project_euler`: 46
+- Total registered algorithms in `build.zig`: 737.
+- Phase 5 effective completed count: 729.
+- Remaining planned gap: 200.
+
+Verification:
+- File-level `zig test <file>` passed for every new file listed in Scope.
+- `zig build test` ✅
+
+Failure Log:
+- Failing step/command:
+  - `zig test matrix/matrix_equalization.zig`
+  - Symptom: compile error because `min_updates` was initialized from `std.math.maxInt(usize)` without an explicit type.
+  - Root cause: Zig 0.15.2 required the variable type to be fixed at declaration here.
+  - Fix applied: changed the declaration to `var min_updates: usize = std.math.maxInt(usize);`.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig test matrix/matrix_equalization.zig`
+  - Symptom: extreme-case test with `step_size = std.math.maxInt(usize)` overflowed during index advancement.
+  - Root cause: unchecked `idx += step_size` overflowed before loop termination.
+  - Fix applied: switched to `@addWithOverflow` and clamped the traversal to the vector length.
+  - Post-fix verification: extreme-case test passed.
+- Failing step/command:
+  - `zig test maths/base_neg2_conversion.zig`
+  - Symptom: compile failure when using `std.ArrayList(u8).init(allocator)`.
+  - Root cause: this Zig version's `ArrayList` API shape differed from the older pattern used initially.
+  - Fix applied: replaced the buffer with `std.ArrayListUnmanaged(u8)` and explicit allocator calls.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig test maths/modular_exponential.zig`
+  - Symptom: compile error on signed remainder handling.
+  - Root cause: `%` on signed integers did not match the intended semantics under Zig's checked operators.
+  - Fix applied: replaced the signed remainder path with `@mod(...)`.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig test maths/germain_primes.zig`
+  - Symptom: compile errors on signed `%` and `/` operations.
+  - Root cause: Zig required explicit signed arithmetic intrinsics for these integer operations.
+  - Fix applied: replaced them with `@rem(...)` and `@divTrunc(...)`.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig test maths/prime_numbers.zig`
+  - Symptom: compile error from a local variable shadowing the exported `primes` function.
+  - Root cause: the temporary slice variable reused the function name.
+  - Fix applied: renamed the local variable to `out`.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig test maths/trapezoidal_rule.zig`
+  - Symptom: `std.fmt.bufPrint()` introduced `error.NoSpaceLeft`, which was missing from the declared error set.
+  - Root cause: the function signature was narrower than the actual allocator/buffer-producing helpers it called.
+  - Fix applied: widened the function error union to include allocator errors.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig test maths/tanh.zig`
+  - Symptom: approximation test at `1.0` failed with an over-strict absolute tolerance.
+  - Root cause: the numerically stable Zig implementation was close to, but not exactly equal to, the asserted value.
+  - Fix applied: relaxed the tolerance from `1e-9` to `1e-8`.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig test maths/maclaurin_series.zig`
+  - Symptom: compile failure when `std.math.sin()` and related calls received comptime integers in tests.
+  - Root cause: Zig required explicit floating-point arguments for those standard-library functions.
+  - Fix applied: converted the test literals to floats.
+  - Post-fix verification: file-level tests passed.
+- Failing step/command:
+  - `zig fmt matrix/matrix_operation.zig matrix/inverse_of_matrix.zig matrix/matrix_multiplication_recursion.zig`
+  - Symptom: syntax errors from inline 2D-array slice expressions inside tests.
+  - Root cause: complex inline array literal slicing was not valid in those call sites under Zig 0.15.2.
+  - Fix applied: replaced inline slice expressions with explicit local array bindings before the calls.
+  - Post-fix verification: `zig fmt` and subsequent file-level tests passed.
+- Failing step/command:
+  - `zig test matrix/matrix_operation.zig`
+  - Symptom: allocator leak reported from `matrix_operation.inverse`.
+  - Root cause: the temporary adjugate matrix was allocated and passed onward without being freed on the successful return path.
+  - Fix applied: freed the adjugate matrix after `scalarMultiply()` returned.
+  - Post-fix verification: file-level tests passed without leaks.
+- Failing step/command:
+  - `zig test matrix/inverse_of_matrix.zig`
+  - Symptom: the 3x3 result disagreed with the Python reference expectations.
+  - Root cause: the generic inverse helper computed the mathematically transposed adjugate form, while the current TheAlgorithms/Python `inverse_of_matrix.py` 3x3 branch returns the cofactor-matrix-based output directly.
+  - Fix applied: implemented a dedicated 2x2 / 3x3 wrapper that matches the Python reference semantics and documented that decision in code comments.
+  - Post-fix verification: file-level tests passed and stayed aligned with the Python reference outputs.
+
+## Phase 5 Batch K - Wave 28 (2026-03-09)
+
+Scope:
+- `project_euler/problem_042.zig`
+- `project_euler/problem_042_words.txt`
+- `project_euler/problem_043.zig`
+- `project_euler/problem_044.zig`
+- `project_euler/problem_045.zig`
+- `project_euler/problem_046.zig`
+
+Result:
+- 5/5 implementations completed and registered in `build.zig`.
+- Added the bundled Project Euler 42 dataset for embedded-file testing.
+- All files include normal + boundary + extreme-case tests.
+- Python-reference behavior aligned for covered input domains.
+- Batch K category progress after this wave:
+  - `searches`: 12
+  - `knapsack`: 3
+  - `geodesy`: 2
+  - `matrix`: 15
+  - `project_euler`: 46
+- Total registered algorithms in `build.zig`: 692.
+- Phase 5 effective completed count: 684.
+- Remaining planned gap: 245.
+
+Verification:
+- `zig test project_euler/problem_042.zig` ✅
+- `zig test project_euler/problem_043.zig` ✅
+- `zig test project_euler/problem_044.zig` ✅
+- `zig test project_euler/problem_045.zig` ✅
+- `zig test project_euler/problem_046.zig` ✅
+- `zig build test` ✅
+
+Failure Log:
+- No implementation/test failures in this wave.
 
 ## Phase 5 Batch K - Wave 27 (2026-03-09)
 
