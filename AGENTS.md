@@ -26,6 +26,12 @@
 - Name tests with pattern `test "algorithm: scenario"` (example: `test "binary search: not found"`).
 - Cover normal, edge, and boundary cases (empty input, single item, sorted/reversed, negative values when applicable).
 - Mandatory (Phase 4 rule #3): every algorithm test set must include extreme-case scenarios to verify correctness under stress/edge conditions (for example: empty/min/max inputs, degenerate structures, overflow-prone values, invalid/out-of-range inputs, and disconnected/unreachable cases when applicable).
+- Mandatory accuracy rule: tests must prove that the algorithm is actually implemented correctly, not just that one happy-path example passes.
+- For algorithms with a Python reference module, include direct behavior checks against Python reference examples whenever they are deterministic and portable.
+- For numerical algorithms, test both known reference values and algorithm-specific invariants (for example: reconstruction identities, orthogonality, conservation properties, monotonicity, or error bounds where applicable).
+- For data-structure or graph algorithms, prefer validating semantic invariants (for example: ordering, reachability, shortest-path optimality, adjacency legality, acyclicity, or partition correctness), not only one exact traversal/order string.
+- For randomized algorithms, use fixed seeds or deterministic tie-breaking in tests, and assert stable semantic outcomes instead of fragile incidental sequences unless the reference behavior itself is seed-fixed.
+- If an extreme-case test is invalid because it violates the Python reference precondition, rewrite the test to the hardest valid case rather than weakening the requirement.
 - For allocator-returning functions, free allocated memory in tests.
 - Test execution cadence (updated):
   - during implementation, run affected file-level tests with `zig test <file>` (mandatory)
