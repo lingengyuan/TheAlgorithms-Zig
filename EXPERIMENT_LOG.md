@@ -22,14 +22,14 @@ Reference Project for Behavior Alignment / 行为对齐参考项目:
 
 ## Current Status / 当前状态
 
-- `build.zig` registered algorithms: `902`
-- `build.zig` 已注册算法数：`902`
+- `build.zig` registered algorithms: `925`
+- `build.zig` 已注册算法数：`925`
 - Portable target after Phase 6 scope reconciliation: `916`
 - 第 6 阶段范围校准后的可移植目标总量：`916`
-- Effective completed count under plan-category caps: `894`
-- 按计划分类上限口径的有效完成数：`894`
-- Remaining planned gap: `22`
-- 剩余计划缺口：`22`
+- Effective completed count under plan-category caps: `916`
+- 按计划分类上限口径的有效完成数：`916`
+- Remaining planned gap: `0`
+- 剩余计划缺口：`0`
 
 ## Phase 5 Logs / 第 5 阶段日志
 

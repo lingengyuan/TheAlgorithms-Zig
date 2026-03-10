@@ -1021,3 +1021,266 @@ Failure Log / 失败记录:
   - 中文说明：已把 `p` 显式声明为 `f64`。
   - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_190.zig` passed.
   - 中文说明：修复后 `zig test project_euler/problem_190.zig` 已通过。
+
+## Full-Test Observation / 全量测试观察 (2026-03-10)
+
+Result / 结果:
+- Recorded a full-suite test execution observation that initially looked like a Zig scheduler/build-runner anomaly, then re-checked it before classifying it.
+- 记录了一次全量测试执行现象：初看像 Zig 调度或构建运行器异常，随后在归类前进行了复检。
+
+Failure Log / 失败记录:
+- Failing Step/Command / 失败步骤或命令:
+  - `zig build test`
+  - Symptom / 现象: the first full-suite run stayed silent for several minutes with no stdout/stderr progress, which made it look stalled. Process inspection showed the top-level `zig build test` process waiting while a child Zig build process remained active for a long time, and later individual `test --seed` children appeared only intermittently.
+  - 中文说明：第一次全量测试在数分钟内没有任何 stdout/stderr 进度输出，表面看起来像卡死。通过进程检查可以看到顶层 `zig build test` 在等待，而子级 Zig 构建进程长时间活跃；之后具体的 `test --seed` 子进程也是间歇性出现。
+  - Root Cause / 根因: not proven to be a Zig defect. The re-run strongly suggests this was a long, quiet full-suite execution pattern combined with Zig's build/test orchestration not emitting intermediate progress on this machine, rather than a confirmed scheduler bug.
+  - 中文说明：未能证明这是 Zig 缺陷。复跑结果更支持另一种解释：这是一次耗时较长但静默的全量测试执行，而 Zig 的 build/test 调度层在这台机器上没有输出中间进度，因此看上去像“调度异常”，但并未证实为真正的调度 bug。
+  - Fix Applied / 修复措施: inspected the process tree with `ps`, terminated the first long-silent run after it exceeded a reasonable observation window, and immediately re-ran `zig build test` using the warmed cache to verify whether the behavior was reproducible.
+  - 中文说明：通过 `ps` 检查了进程树；在第一轮静默运行超过合理观察窗口后终止它，并利用已经生成的缓存立即重跑 `zig build test`，用于验证该现象是否稳定复现。
+  - Post-Fix Verification / 修复后验证: the second full-suite run progressed through child `test --seed` executables and completed successfully with exit code `0`, so the repository was released with the event recorded as an observation, not as a confirmed Zig bug.
+  - 中文说明：第二次全量测试能够看到子级 `test --seed` 可执行文件持续推进，并最终以 `0` 退出成功，因此这次事件被记录为“观察项”，而不是“已确认的 Zig 缺陷”。
+
+## Batch E Wave 24 Update / Batch E 第 24 波更新 (2026-03-10)
+
+Result / 结果:
+- Added `Project Euler` problems `068`, `070`, `078`, and `086`.
+- 已新增 `Project Euler` 第 `068`、`070`、`078`、`086` 题。
+- Reduced the remaining planned gap to `18`.
+- 将剩余计划缺口压到 `18`。
+- Current checkpoint accounting after Batch E Wave 24 integration:
+- Batch E 第 24 波接入后的当前检查点统计：
+  - `build.zig` registered algorithms: `906`
+  - `build.zig` 已注册算法数：`906`
+  - portable target total: `916`
+  - 可移植目标总量：`916`
+  - effective completed count under plan-category caps: `898`
+  - 按计划分类上限口径的有效完成数：`898`
+  - remaining planned gap: `18`
+  - 剩余计划缺口：`18`
+
+Failure Log / 失败记录:
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_068.zig`
+  - Symptom / 现象: the first implementation crashed while validating 4-gon candidates because the last triplet was never populated and `isMagicGon` read uninitialized bytes.
+  - 中文说明：第一版在验证 4-gon 候选时崩溃，因为最后一个三元组没有被填充完整，`isMagicGon` 读到了未初始化字节。
+  - Root Cause / 根因: the translated loop count forgot that the Python reference appends one extra copied inner node before computing how many triplets to emit.
+  - 中文说明：移植时漏掉了 Python 参考实现会先追加一个复制的内部节点，因此生成三元组时少算了一轮循环。
+  - Fix Applied / 修复措施: recalculated the triplet loop count as if the extra copied node had already been appended, and cast chunk sums to `u16` explicitly.
+  - 中文说明：已按“额外复制节点已追加”的前提重新计算三元组循环次数，并把分组求和显式提升到 `u16`。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_068.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_068.zig` 已通过。
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_086.zig`
+  - Symptom / 现象: the first implementation panicked from unsigned underflow when computing `sum_shortest_sides - max_cuboid_size`.
+  - 中文说明：第一版在计算 `sum_shortest_sides - max_cuboid_size` 时触发了无符号下溢 panic。
+  - Root Cause / 根因: the Python formula uses signed arithmetic implicitly, but the direct Zig translation used `u32` subtraction without guarding the branch where `sum_shortest_sides <= max_cuboid_size`.
+  - 中文说明：Python 公式默认带有有符号语义，而直接翻译到 Zig 后用了 `u32` 减法，却没有保护 `sum_shortest_sides <= max_cuboid_size` 的分支。
+  - Fix Applied / 修复措施: split the lower-bound calculation into a guarded branch before subtracting.
+  - 中文说明：已把下界计算拆成带保护的分支，再执行减法。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_086.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_086.zig` 已通过。
+
+## Phase 6 Batch E - Wave 25 / 第 6 阶段 Batch E - 第 25 波 (2026-03-10)
+
+Result / 结果:
+- Added four more `Project Euler` implementations: `119`, `129`, `135`, and `136`.
+- 已新增 4 个 `Project Euler` 实现：`119`、`129`、`135`、`136`。
+- Kept repository accounting unchanged during file-level validation and deferred raw-count integration to the final registration wave.
+- 本波只做文件级验证，仓库总量统计暂未前推，原始计数统一延后到最终注册波次更新。
+
+Verification / 验证:
+- `zig test project_euler/problem_119.zig` ✅
+- `zig test project_euler/problem_129.zig` ✅
+- `zig test project_euler/problem_135.zig` ✅
+- `zig test project_euler/problem_136.zig` ✅
+
+Failure Log / 失败记录:
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_135.zig`
+  - Symptom / 现象: the first draft failed to compile because the solution reduction used a single-line `for` accumulation form that Zig rejected as an invalid assignment target.
+  - 中文说明：第一版编译失败，因为结果累加用了 Zig 不接受的单行 `for` 累加写法，形成了非法赋值目标。
+  - Root Cause / 根因: I compressed the counting loop too aggressively instead of expanding it into a normal block loop.
+  - 中文说明：我把计数循环写得过于紧凑，没有展开成普通块体循环。
+  - Fix Applied / 修复措施: rewrote the accumulation as an explicit block loop.
+  - 中文说明：已改为显式块体循环。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_135.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_135.zig` 已通过。
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_136.zig`
+  - Symptom / 现象: the first draft failed to compile for the same single-line `for` accumulation pattern as `problem_135`.
+  - 中文说明：第一版因与 `problem_135` 相同的单行 `for` 累加写法而编译失败。
+  - Root Cause / 根因: the final counting reduction again used a non-assignable single-expression loop form.
+  - 中文说明：最终计数归约再次使用了不能作为赋值目标的单表达式循环形式。
+  - Fix Applied / 修复措施: expanded the reduction into a standard loop block.
+  - 中文说明：已把归约展开成标准循环块。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_136.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_136.zig` 已通过。
+
+## Phase 6 Batch E - Wave 26 / 第 6 阶段 Batch E - 第 26 波 (2026-03-10)
+
+Result / 结果:
+- Added four more `Project Euler` implementations: `080`, `122`, `164`, and `187`.
+- 已新增 4 个 `Project Euler` 实现：`080`、`122`、`164`、`187`。
+
+Verification / 验证:
+- `zig test project_euler/problem_080.zig` ✅
+- `zig test project_euler/problem_122.zig` ✅
+- `zig test project_euler/problem_164.zig` ✅
+- `zig test project_euler/problem_187.zig` ✅
+
+Failure Log / 失败记录:
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_080.zig`
+  - Symptom / 现象: the first draft failed to compile on `BigInt.order`, then later failed helper assertions with incorrect tiny-case expectations.
+  - 中文说明：第一版先在 `BigInt.order` 调用处编译失败，随后又因为我写错的小样例期望值导致测试失败。
+  - Root Cause / 根因: I passed `*const BigInt` where Zig 0.15.2 expects `Managed` values, and I also guessed the small-range decimal-sum results instead of checking them against Python.
+  - 中文说明：我把 `*const BigInt` 直接传给了 Zig 0.15.2 期望 `Managed` 值的接口，同时还主观猜了小范围数位和结果，没有先核对 Python。
+  - Fix Applied / 修复措施: switched to `BigInt.order(left.*, right.*)`, cleaned up `const` diagnostics, and corrected the tiny-case expectations after checking Python values.
+  - 中文说明：已改为 `BigInt.order(left.*, right.*)`，顺手修正 `const` 级编译提示，并在核对 Python 后更正小样例期望值。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_080.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_080.zig` 已通过。
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_164.zig`
+  - Symptom / 现象: the helper test initially failed to compile because I passed a const array pointer where the recursive memo routine expected a mutable slice.
+  - 中文说明：辅助测试一开始编译失败，因为我把常量数组指针传给了需要可变切片的递归 memo 例程。
+  - Root Cause / 根因: the quick inline memo literal discarded mutability information.
+  - 中文说明：直接内联的 memo 字面量丢失了可变性。
+  - Fix Applied / 修复措施: introduced a local mutable memo buffer before calling the helper.
+  - 中文说明：改为先声明本地可变 memo 缓冲区，再调用辅助函数。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_164.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_164.zig` 已通过。
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_187.zig`
+  - Symptom / 现象: the small bound `solution(5)` panicked because the prime list was empty and the code subtracted `1` from `primes.len`.
+  - 中文说明：小边界 `solution(5)` 会 panic，因为素数列表为空，但代码仍然对 `primes.len` 做了减一。
+  - Root Cause / 根因: the sieve upper bound copied from the larger-case reasoning used `max_number / 2`, which excludes the prime `2` for the smallest valid semiprime bound.
+  - 中文说明：我沿用了大范围情况的 `max_number / 2` 上界推理，但在最小半素数边界下会把素数 `2` 排除掉。
+  - Fix Applied / 修复措施: changed the sieve bound to `max_number / 2 + 1` and guarded the empty-prime case.
+  - 中文说明：已把筛法上界改为 `max_number / 2 + 1`，并补上空素数列表保护。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_187.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_187.zig` 已通过。
+
+## Phase 6 Batch E - Wave 27 / 第 6 阶段 Batch E - 第 27 波 (2026-03-10)
+
+Result / 结果:
+- Added four more `Project Euler` implementations: `101`, `345`, `493`, and `587`.
+- 已新增 4 个 `Project Euler` 实现：`101`、`345`、`493`、`587`。
+
+Verification / 验证:
+- `zig test project_euler/problem_101.zig` ✅
+- `zig test project_euler/problem_345.zig` ✅
+- `zig test project_euler/problem_493.zig` ✅
+- `zig test project_euler/problem_587.zig` ✅
+
+Failure Log / 失败记录:
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_101.zig`
+  - Symptom / 现象: the first finite-difference implementation failed to compile on signed division.
+  - 中文说明：第一版有限差分实现因为有符号整除写法不合法而编译失败。
+  - Root Cause / 根因: Zig requires explicit signed-division intrinsics where Python can use `/` directly inside exact combinatorial updates.
+  - 中文说明：Python 在精确组合更新里可以直接用 `/`，而 Zig 对有符号整除必须显式指定内建函数。
+  - Fix Applied / 修复措施: replaced the exact combinatorial update with `@divExact(...)`.
+  - 中文说明：已把精确组合更新改成 `@divExact(...)`。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_101.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_101.zig` 已通过。
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_493.zig`
+  - Symptom / 现象: the edge-case test for drawing all `70` balls crashed with unsigned overflow while computing the “missing colour” ratio product.
+  - 中文说明：抽取全部 `70` 个球的边界测试在计算“缺失一种颜色”的比率乘积时触发了无符号溢出。
+  - Root Cause / 根因: once `num_picks > 60`, the combinatorial term corresponding to `C(60, num_picks)` should be zero, but the direct loop still subtracted `i` from `60` in unsigned arithmetic.
+  - 中文说明：当 `num_picks > 60` 时，对应 `C(60, num_picks)` 的组合数本应为零，但直接循环仍在无符号语义下执行 `60 - i`。
+  - Fix Applied / 修复措施: short-circuited that branch and returned the full `7` colours expectation when all colours must appear.
+  - 中文说明：已对该分支做短路处理，在所有颜色必然出现时直接返回期望值 `7`。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_493.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_493.zig` 已通过。
+
+## Phase 6 Batch E - Wave 28 / 第 6 阶段 Batch E - 第 28 波 (2026-03-10)
+
+Result / 结果:
+- Added five more `Project Euler` implementations: `104`, `144`, `234`, `686`, and `800`.
+- 已新增 5 个 `Project Euler` 实现：`104`、`144`、`234`、`686`、`800`。
+
+Verification / 验证:
+- `zig test project_euler/problem_104.zig` ✅
+- `zig test project_euler/problem_144.zig` ✅
+- `zig test project_euler/problem_234.zig` ✅
+- `zig test project_euler/problem_686.zig` ✅
+- `zig test project_euler/problem_800.zig` ✅
+
+Failure Log / 失败记录:
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_234.zig`
+  - Symptom / 现象: the first helper assertion expected `30` from the arithmetic-range sum helper, but the actual closed-form result was `50`.
+  - 中文说明：第一版辅助断言把等差区间求和的结果写成了 `30`，而闭式计算实际应为 `50`。
+  - Root Cause / 根因: I miscomputed the inclusive multiple range while writing the edge-case test, even though the main semidivisible totals were already correct.
+  - 中文说明：主算法已经正确，但我在写边界测试时把倍数区间的闭区间范围算错了。
+  - Fix Applied / 修复措施: corrected the helper expectation to `50` after checking the actual divisor range.
+  - 中文说明：核对实际倍数区间后，已把辅助期望值改为 `50`。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_234.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_234.zig` 已通过。
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_686.zig`
+  - Symptom / 现象: the helper log-difference assertions were too strict for Zig's `log10` floating implementation and failed by a few ulps even though all Python reference outputs matched.
+  - 中文说明：辅助断言对 Zig `log10` 的浮点结果要求过严，虽然主输出与 Python 一致，但仍因几个 ulp 的差距失败。
+  - Root Cause / 根因: I treated the helper decimals as exact identities instead of floating approximations.
+  - 中文说明：我把辅助小数当成了精确恒等式，而不是浮点近似值。
+  - Fix Applied / 修复措施: relaxed the helper tolerance while keeping the main sequence outputs exact.
+  - 中文说明：已放宽辅助断言容差，同时保留主序列输出的精确匹配。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_686.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_686.zig` 已通过。
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_800.zig`
+  - Symptom / 现象: the first draft failed to compile because the prime-count loop used the invalid single-line accumulation form again, and `@intFromFloat` lacked an explicit result type.
+  - 中文说明：第一版编译失败，一方面 prime 计数又用了非法单行累加写法，另一方面 `@intFromFloat` 缺少显式结果类型。
+  - Root Cause / 根因: I reused two shorthand forms that Zig 0.15.2 does not accept in this context.
+  - 中文说明：我重复使用了 Zig 0.15.2 在该场景下不接受的两种简写方式。
+  - Fix Applied / 修复措施: expanded the counting loop and added an explicit `usize` cast around `@intFromFloat`.
+  - 中文说明：已展开计数循环，并为 `@intFromFloat` 增加显式 `usize` 转换。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_800.zig` passed.
+  - 中文说明：修复后 `zig test project_euler/problem_800.zig` 已通过。
+
+## Phase 6 Batch E - Wave 29 / 第 6 阶段 Batch E - 第 29 波 (2026-03-10)
+
+Result / 结果:
+- Added the last two missing `Project Euler` implementations: `180` and `551`.
+- 已补齐最后两个缺失的 `Project Euler` 实现：`180`、`551`。
+- Registered the remaining `19` newly implemented `Project Euler` files in `build.zig`.
+- 已把剩余 `19` 个新实现的 `Project Euler` 文件全部接入 `build.zig`。
+- Closed Phase 6 accounting at `925` registered algorithms, `916` effective completed algorithms, and `0` remaining planned gap under the corrected portable target.
+- 已将 Phase 6 统计收口到：修正后的可移植目标口径下共有 `925` 个已注册算法、`916` 个有效完成算法、`0` 个剩余计划缺口。
+
+Verification / 验证:
+- `zig test project_euler/problem_180.zig` ✅
+- `zig test project_euler/problem_551.zig` ✅
+
+Failure Log / 失败记录:
+- Failing Step/Command / 失败步骤或命令:
+  - `zig test project_euler/problem_551.zig`
+  - Symptom / 现象: the first translation hit three separate issues in sequence: Zig 0.15.2 `ArrayList` API mismatches, a later segmentation fault inside the memo table, and a wrong helper expectation for `add()`.
+  - 中文说明：第一版翻译连续撞上了三个问题：Zig 0.15.2 的 `ArrayList` API 不兼容、随后 memo 表里发生段错误，以及 `add()` 辅助测试期望值写错。
+  - Root Cause / 根因: the Python structure relied on dynamic lists and nested dictionaries; in Zig the initial port used the wrong `ArrayList` initialization model, then kept a hash-map value pointer alive across recursive insertions, and finally I misread the Python `add()` carry semantics when writing the helper test.
+  - 中文说明：Python 结构依赖动态列表和嵌套字典；移植到 Zig 时我先用了错误的 `ArrayList` 初始化模型，接着又在递归插入期间错误地长期持有哈希表 value 指针，最后写辅助测试时还误读了 Python `add()` 的进位语义。
+  - Fix Applied / 修复措施: switched the dynamic arrays to Zig 0.15.2-compatible allocator-passing calls, reacquired the memo entry after recursive growth instead of keeping a stale pointer, and corrected the helper expectation to the Python result.
+  - 中文说明：已把动态数组改成 Zig 0.15.2 兼容的显式 allocator 调用；在递归扩容后重新获取 memo 条目，而不再持有失效指针；并把辅助测试期望值改成 Python 结果。
+  - Post-Fix Verification / 修复后验证: `zig test project_euler/problem_551.zig` passed, including the `10^15` reference case.
+  - 中文说明：修复后 `zig test project_euler/problem_551.zig` 已通过，并包含 `10^15` 参考 case。
+
+## Phase 6 Final Verification / 第 6 阶段最终验证 (2026-03-10)
+
+Result / 结果:
+- `project_euler` reached zero real missing modules against the current local Python reference snapshot.
+- `project_euler` 已与当前本地 Python 参考快照实现零真实缺项对账。
+- `zig build test` passed after final registration.
+- 在完成最终注册后，`zig build test` 已全量通过。
+
+Failure Log / 失败记录:
+- Failing Step/Command / 失败步骤或命令:
+  - `zig build test`
+  - Symptom / 现象: the first final full-suite attempt stayed silent, and process inspection showed that terminating it left behind orphan `build` / `test --seed` children which then contended with the next run for cache resources.
+  - 中文说明：第一次最终全量测试长时间静默；检查进程后发现中止它会留下孤儿 `build` / `test --seed` 子进程，这些残留进程随后会与下一轮测试争用缓存资源。
+  - Root Cause / 根因: the interrupted earlier full-suite run had not fully cleaned up its child processes, so the immediate re-run was competing with stale build/test workers instead of running in isolation.
+  - 中文说明：更早那轮被中断的全量测试没有彻底清理子进程，导致紧接着的重跑并不是在隔离环境下执行，而是在与残留的构建/测试 worker 竞争。
+  - Fix Applied / 修复措施: inspected the process tree, killed the orphaned old `build` / `test --seed` processes, and then waited for the clean re-run to finish.
+  - 中文说明：先检查进程树，清理旧的孤儿 `build` / `test --seed` 进程，再等待干净的重跑收口。
+  - Post-Fix Verification / 修复后验证: the clean re-run of `zig build test` exited with code `0`.
+  - 中文说明：清理残留后的重跑 `zig build test` 已以 `0` 退出。
