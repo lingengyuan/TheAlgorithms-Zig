@@ -89,7 +89,11 @@ pub const Treap = struct {
     /// Removes all nodes equal to value.
     /// Time complexity: O(log n) expected, Space complexity: O(1) extra.
     pub fn erase(self: *Treap, value: i64) void {
-        const a = split(self.root, value - 1);
+        const SplitResult = @TypeOf(split(null, 0));
+        const a: SplitResult = if (value == std.math.minInt(i64))
+            .{ .left = @as(?*Node, null), .right = self.root }
+        else
+            split(self.root, value - 1);
         const b = split(a.right, value);
         self.freeSubtree(b.left);
         self.root = merge(a.left, b.right);
@@ -186,4 +190,17 @@ test "treap: extreme insert/erase" {
     const values = try treap.inorder(testing.allocator);
     defer testing.allocator.free(values);
     try testing.expectEqual(@as(usize, 0), values.len);
+}
+
+test "treap: erase minInt does not underflow" {
+    var treap = Treap.init(testing.allocator, 7);
+    defer treap.deinit();
+
+    try treap.insert(std.math.minInt(i64));
+    try treap.insert(0);
+    treap.erase(std.math.minInt(i64));
+
+    const values = try treap.inorder(testing.allocator);
+    defer testing.allocator.free(values);
+    try testing.expectEqualSlices(i64, &[_]i64{0}, values);
 }

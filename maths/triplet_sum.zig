@@ -18,7 +18,8 @@ pub fn tripletSum1(arr: []const i64, target: i64) Triplet {
             var k: usize = 0;
             while (k < arr.len) : (k += 1) {
                 if (k == i or k == j) continue;
-                if (arr[i] + arr[j] + arr[k] == target) {
+                const sum = @as(i128, arr[i]) + arr[j] + arr[k];
+                if (sum == target) {
                     var out: Triplet = .{ arr[i], arr[j], arr[k] };
                     sortTriplet(&out);
                     return out;
@@ -45,7 +46,7 @@ pub fn tripletSum2(allocator: std.mem.Allocator, arr: []const i64, target: i64) 
         var left = i + 1;
         var right = sorted.len - 1;
         while (left < right) {
-            const sum = sorted[i] + sorted[left] + sorted[right];
+            const sum = @as(i128, sorted[i]) + sorted[left] + sorted[right];
             if (sum == target) return .{ sorted[i], sorted[left], sorted[right] };
             if (sum < target) {
                 left += 1;
@@ -76,4 +77,7 @@ test "triplet sum: python reference examples" {
 test "triplet sum: edge and extreme cases" {
     try testing.expectEqualSlices(i64, &[_]i64{ 0, 0, 0 }, &(try tripletSum2(testing.allocator, &[_]i64{}, 0)));
     try testing.expectEqualSlices(i64, &[_]i64{ -3, 1, 2 }, &(try tripletSum2(testing.allocator, &[_]i64{ -3, 1, 2, 9, 15 }, 0)));
+    const extreme = [_]i64{ std.math.maxInt(i64), std.math.maxInt(i64), std.math.minInt(i64), 2, 5 };
+    try testing.expectEqualSlices(i64, &[_]i64{ std.math.minInt(i64), 2, std.math.maxInt(i64) }, &tripletSum1(&extreme, 1));
+    try testing.expectEqualSlices(i64, &[_]i64{ std.math.minInt(i64), 2, std.math.maxInt(i64) }, &(try tripletSum2(testing.allocator, &extreme, 1)));
 }

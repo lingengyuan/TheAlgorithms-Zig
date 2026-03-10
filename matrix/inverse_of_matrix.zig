@@ -11,8 +11,6 @@ pub const InverseOfMatrixError = error{
 };
 
 /// Returns the inverse of a 2x2 or 3x3 matrix.
-/// For 3x3 inputs, this intentionally matches the current Python reference
-/// module output semantics from TheAlgorithms/Python.
 /// Caller owns the returned matrix.
 pub fn inverseOfMatrix(allocator: std.mem.Allocator, matrix: []const []const f64) (InverseOfMatrixError || std.mem.Allocator.Error)![][]f64 {
     if (matrix.len != 2 and matrix.len != 3) return error.InvalidMatrixSize;
@@ -48,13 +46,13 @@ pub fn inverseOfMatrix(allocator: std.mem.Allocator, matrix: []const []const f64
     if (determinant == 0) return error.NoInverse;
 
     result[0][0] = normalizeZero(((e * i) - (f * h)) / determinant);
-    result[0][1] = normalizeZero((-((d * i) - (f * g))) / determinant);
-    result[0][2] = normalizeZero(((d * h) - (e * g)) / determinant);
-    result[1][0] = normalizeZero((-((b * i) - (c * h))) / determinant);
+    result[0][1] = normalizeZero((-((b * i) - (c * h))) / determinant);
+    result[0][2] = normalizeZero(((b * f) - (c * e)) / determinant);
+    result[1][0] = normalizeZero((-((d * i) - (f * g))) / determinant);
     result[1][1] = normalizeZero(((a * i) - (c * g)) / determinant);
-    result[1][2] = normalizeZero((-((a * h) - (b * g))) / determinant);
-    result[2][0] = normalizeZero(((b * f) - (c * e)) / determinant);
-    result[2][1] = normalizeZero((-((a * f) - (c * d))) / determinant);
+    result[1][2] = normalizeZero((-((a * f) - (c * d))) / determinant);
+    result[2][0] = normalizeZero(((d * h) - (e * g)) / determinant);
+    result[2][1] = normalizeZero((-((a * h) - (b * g))) / determinant);
     result[2][2] = normalizeZero(((a * e) - (b * d)) / determinant);
     return result;
 }
@@ -68,6 +66,17 @@ fn expectMatrixApproxEq(expected: []const []const f64, actual: []const []const f
     for (expected, actual) |expected_row, actual_row| {
         for (expected_row, actual_row) |e, a| {
             try testing.expectApproxEqAbs(e, a, tol);
+        }
+    }
+}
+
+fn multiplyMatrix(lhs: []const []const f64, rhs: []const []const f64, out: []f64, size: usize) void {
+    @memset(out, 0);
+    for (0..size) |r| {
+        for (0..size) |c| {
+            for (0..size) |k| {
+                out[r * size + c] += lhs[r][k] * rhs[k][c];
+            }
         }
     }
 }
@@ -89,13 +98,23 @@ test "inverse of matrix: python reference examples" {
     defer matrix_operation.freeMatrix(alloc, inv3);
     try expectMatrixApproxEq(
         &[_][]const f64{
-            &[_]f64{ 2.0, 5.0, -4.0 },
-            &[_]f64{ 1.0, 1.0, -1.0 },
-            &[_]f64{ -5.0, -12.0, 10.0 },
+            &[_]f64{ 2.0, 1.0, -5.0 },
+            &[_]f64{ 5.0, 1.0, -12.0 },
+            &[_]f64{ -4.0, -1.0, 10.0 },
         },
         inv3,
         1e-12,
     );
+
+    var product = [_]f64{0} ** 9;
+    multiplyMatrix(matrix_3x3[0..], inv3, &product, 3);
+    const identity = [_][]const f64{
+        &[_]f64{ 1.0, 0.0, 0.0 },
+        &[_]f64{ 0.0, 1.0, 0.0 },
+        &[_]f64{ 0.0, 0.0, 1.0 },
+    };
+    const product_rows = [_][]const f64{ product[0..3], product[3..6], product[6..9] };
+    try expectMatrixApproxEq(identity[0..], product_rows[0..], 1e-12);
 }
 
 test "inverse of matrix: edge cases" {

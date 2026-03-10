@@ -97,13 +97,10 @@ pub const HashTable = struct {
     }
 
     /// Linear-probing collision resolution.
-    /// Intentionally follows Python reference behavior.
     fn collisionResolution(self: *HashTable, key: usize, data: i64) ?usize {
-        _ = data;
-
         var new_key = self.hashFunction(@as(i64, @intCast(key + 1)));
 
-        while (self.values[new_key] != null and self.values[new_key].? != @as(i64, @intCast(key))) {
+        while (self.values[new_key] != null and self.values[new_key].? != data) {
             if (self.countNone() > 0) {
                 new_key = self.hashFunction(@as(i64, @intCast(new_key + 1)));
             } else {
@@ -291,4 +288,21 @@ test "hash table: extreme large insert and contains" {
 
     try testing.expect(!ht.contains(-123456789));
     try testing.expect(ht.size_table > 7);
+}
+
+test "hash table: collision resolution preserves displaced value equal to bucket index" {
+    var ht = try HashTable.init(testing.allocator, 10, null, null);
+    defer ht.deinit();
+
+    try ht.insertData(16);
+    try ht.insertData(6);
+    try ht.insertData(26);
+
+    const kv = try ht.keys(testing.allocator);
+    defer testing.allocator.free(kv);
+    try testing.expectEqualSlices(KeyValue, &[_]KeyValue{
+        .{ .key = 6, .value = 16 },
+        .{ .key = 7, .value = 6 },
+        .{ .key = 8, .value = 26 },
+    }, kv);
 }

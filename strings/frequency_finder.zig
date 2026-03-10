@@ -30,7 +30,7 @@ pub fn getFrequencyOrder(allocator: Allocator, message: []const u8) ![]u8 {
             const count_a = ctx.counts[a - 'A'];
             const count_b = ctx.counts[b - 'A'];
             if (count_a != count_b) return count_a > count_b;
-            return etaoinIndex(a) > etaoinIndex(b);
+            return etaoinIndex(a) < etaoinIndex(b);
         }
 
         fn etaoinIndex(char: u8) usize {
@@ -58,22 +58,26 @@ pub fn englishFreqMatchScore(allocator: Allocator, message: []const u8) !u32 {
 test "frequency finder: python samples" {
     const one = try getFrequencyOrder(testing.allocator, "Hello World");
     defer testing.allocator.free(one);
-    try testing.expectEqualStrings("LOWDRHEZQXJKVBPYGFMUCSNIAT", one);
+    try testing.expectEqualStrings("LOEHRDWTAINSCUMFGYPBVKJXQZ", one);
 
     const two = try getFrequencyOrder(testing.allocator, "Hello@");
     defer testing.allocator.free(two);
-    try testing.expectEqualStrings("LHOEZQXJKVBPYGFWMUCDRSNIAT", two);
+    try testing.expectEqualStrings("LEOHTAINSRDCUMWFGYPBVKJXQZ", two);
 
     const three = try getFrequencyOrder(testing.allocator, "h");
     defer testing.allocator.free(three);
-    try testing.expectEqualStrings("HZQXJKVBPYGFWMUCLDRSNIOATE", three);
+    try testing.expectEqualStrings("HETAOINSRDLCUMWFGYPBVKJXQZ", three);
 }
 
 test "frequency finder: match score and extreme" {
-    try testing.expectEqual(@as(u32, 1), try englishFreqMatchScore(testing.allocator, "Hello World"));
+    try testing.expectEqual(@as(u32, 8), try englishFreqMatchScore(testing.allocator, "Hello World"));
 
     const counts = getLetterCount("AaBbCc123!!!");
     try testing.expectEqual(@as(u32, 2), counts['A' - 'A']);
     try testing.expectEqual(@as(u32, 2), counts['B' - 'A']);
     try testing.expectEqual(@as(u32, 2), counts['C' - 'A']);
+
+    const empty = try getFrequencyOrder(testing.allocator, "");
+    defer testing.allocator.free(empty);
+    try testing.expectEqualStrings(ETAOIN, empty);
 }

@@ -36,7 +36,7 @@ pub fn isPolishNationalId(input_str: []const u8) PolishNationalIdError!bool {
     for (multipliers, 0..) |multiplier, index| {
         subtotal += ((input_str[index] - '0') * multiplier) % 10;
     }
-    const checksum: u8 = @intCast(10 - (subtotal % 10));
+    const checksum: u8 = @intCast((10 - (subtotal % 10)) % 10);
     return checksum == input_str[10] - '0';
 }
 
@@ -58,4 +58,5 @@ test "polish national id: edge and extreme" {
     try testing.expect(!(try isPolishNationalId("-99012212349"[1..])));
     try testing.expect(!(try isPolishNationalId("00000000000")));
     try testing.expectError(PolishNationalIdError.ExpectedNumber, isPolishNationalId("02A70803628"));
+    try testing.expect(try isPolishNationalId("80010100000"));
 }

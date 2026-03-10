@@ -201,6 +201,7 @@ pub fn findNeighborhood(route: []const u8, graph: Graph, allocator: std.mem.Allo
         var j: usize = i + 1;
         while (j + 1 < route.len) : (j += 1) {
             const swapped = try swapRoute(route, i, j, allocator);
+            errdefer allocator.free(swapped);
             const cost = try routeCost(swapped, graph);
             try candidates.append(allocator, .{ .path = swapped, .cost = cost });
         }
@@ -279,8 +280,9 @@ pub fn tabuSearch(
                 found = true;
 
                 if (candidate.cost < best_cost) {
+                    const replacement = try allocator.dupe(u8, solution);
                     allocator.free(best_solution);
-                    best_solution = try allocator.dupe(u8, solution);
+                    best_solution = replacement;
                     best_cost = candidate.cost;
                 }
             } else {
@@ -364,4 +366,19 @@ test "tabu search: finds best sampled tour and handles extremes" {
     defer immediate.deinit(testing.allocator);
     try expectPathEqual(first.path, immediate.path);
     try testing.expectEqual(first.cost, immediate.cost);
+}
+
+fn tabuSearchAllocFailImpl(allocator: std.mem.Allocator) !void {
+    var graph = try parseGraph(sample_graph_text, allocator);
+    defer graph.deinit();
+
+    var first = try generateFirstSolution(graph, allocator);
+    defer first.deinit(allocator);
+
+    var best = try tabuSearch(allocator, first.path, first.cost, graph, 4, 3);
+    defer best.deinit(allocator);
+}
+
+test "tabu search: allocation failures do not double free" {
+    try testing.checkAllAllocationFailures(testing.allocator, tabuSearchAllocFailImpl, .{});
 }

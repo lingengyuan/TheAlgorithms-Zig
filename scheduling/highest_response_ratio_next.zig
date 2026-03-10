@@ -27,7 +27,7 @@ fn argsortByArrival(
 }
 
 /// Calculates per-process turnaround time using HRRN scheduling.
-/// Output order matches the Python reference implementation after sorting by arrival time.
+/// Output order matches the original process submission order.
 ///
 /// Time complexity: O(n^2)
 /// Space complexity: O(n)
@@ -86,7 +86,7 @@ pub fn calculateTurnAroundTime(
             }
         }
 
-        turn_around_time[loc] = current_time + sorted_burst[loc] - sorted_arrival[loc];
+        turn_around_time[sorted_idx[loc]] = current_time + sorted_burst[loc] - sorted_arrival[loc];
         current_time += sorted_burst[loc];
         finished_process[loc] = 1;
         finished_process_count += 1;
@@ -205,4 +205,14 @@ test "highest response ratio next: boundary and extreme cases" {
     );
     defer alloc.free(stress_ta);
     try testing.expectEqual(@as(usize, 5), stress_ta.len);
+
+    const unsorted = try calculateTurnAroundTime(
+        alloc,
+        &[_][]const u8{ "A", "B", "C" },
+        &[_]i64{ 5, 0, 1 },
+        &[_]i64{ 2, 1, 2 },
+        3,
+    );
+    defer alloc.free(unsorted);
+    try testing.expectEqualSlices(i64, &[_]i64{ 2, 1, 2 }, unsorted);
 }

@@ -1273,6 +1273,25 @@ Result / 结果:
 - `zig build test` passed after final registration.
 - 在完成最终注册后，`zig build test` 已全量通过。
 
+## Post-Phase Review Remediation / 阶段收口后的复核修复
+
+- Began validating `REVIEW_FINDINGS.md` after Phase 6 closure instead of assuming the report was already correct.
+- 在 Phase 6 收口后开始逐条核验 `REVIEW_FINDINGS.md`，而不是直接把报告视为已证实结论。
+- Confirmed and fixed the first batch of `9` critical defects across matrix, linear algebra, maths, data structures, and boolean algebra.
+- 已确认并修复第一批 `9` 个严重缺陷，覆盖矩阵、线性代数、数学、数据结构和布尔代数模块。
+- Replaced multiple tests that had been asserting buggy behavior with correctness-oriented checks such as matrix-inverse identity, Bézout identity, reflection involution, and collision-preservation regressions.
+- 已将多处原本在断言错误行为的测试替换为面向正确性的校验，包括矩阵逆单位阵验证、Bézout 恒等式、反射变换自反性，以及碰撞保值回归测试。
+- Continued into a first high-confidence major batch, fixing truthiness bugs, boundary-validation mistakes, and incorrect edge-case expectations in boolean algebra, strings, maths, automata, and binary-tree code.
+- 继续推进第一批高确定性的重大问题修复，处理了布尔代数、字符串、数学、自动机和二叉树代码中的 truthiness 语义错误、边界校验缺陷，以及错误的极端测试期望值。
+- Cleared a second major/minor remediation batch covering allocator-failure cleanup, arithmetic overflow guards, scheduling output mapping, safe last-line formatting, and a few remaining low-risk edge cases.
+- 已完成第二批重大/次要修复，覆盖分配失败清理、算术溢出保护、调度输出映射、最后一行安全拼接，以及若干剩余低风险边界问题。
+- Left the remaining graph-search review claims under verification because they need a concrete counterexample against the current API contracts before code should be changed.
+- 剩余的图搜索评审项暂时保留在核验中，因为在修改代码前，需要先构造出违反当前 API 合同的具体反例。
+- Finished that graph-search verification pass: both bidirectional BFS variants were confirmed faulty and fixed, while the `a_star_search` reopen claim was classified as a false positive under the current “consistent heuristic required” contract.
+- 已完成这轮图搜索核验：两个双向 BFS 变体都被确认存在问题并已修复，而 `a_star_search` 的 reopen 指控在当前“必须使用一致启发式”的接口约束下被判定为误报。
+- Closed the review-remediation pass with all actionable defects fixed, one graph claim explicitly classified as false positive (`a_star_search`), and one documented Python-compatibility quirk intentionally retained (`octal_to_hexadecimal("0") -> "0x"`).
+- 已完成本轮 review 修复收口：所有可执行缺陷均已修复；其中一条图搜索项被明确判定为误报（`a_star_search`），另有一条 Python 兼容性特殊行为被刻意保留（`octal_to_hexadecimal("0") -> "0x"`）。
+
 Failure Log / 失败记录:
 - Failing Step/Command / 失败步骤或命令:
   - `zig build test`

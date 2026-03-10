@@ -53,7 +53,14 @@ pub fn compareString(
     return out;
 }
 
-/// Python-reference-compatible `check` behavior, including its current reduction semantics.
+fn containsString(items: []const []u8, needle: []const u8) bool {
+    for (items) |item| {
+        if (std.mem.eql(u8, item, needle)) return true;
+    }
+    return false;
+}
+
+/// Returns prime implicants by repeatedly merging terms that differ in one bit.
 ///
 /// Time complexity: O(n^2 * m) for pairwise comparisons in each iteration.
 /// Space complexity: O(n * m)
@@ -75,17 +82,20 @@ pub fn check(
         defer allocator.free(check1);
         @memset(check1, '$');
 
-        var temp_count: usize = 0;
+        var next_terms = std.ArrayListUnmanaged([]u8){};
+        defer freeStringArrayList(allocator, &next_terms);
         for (current.items, 0..) |lhs, i| {
             var j = i + 1;
             while (j < current.items.len) : (j += 1) {
                 const compared = try compareString(allocator, lhs, current.items[j]);
                 if (compared) |value| {
-                    allocator.free(value);
-                } else {
                     check1[i] = '*';
                     check1[j] = '*';
-                    temp_count += 1;
+                    if (!containsString(next_terms.items, value)) {
+                        try next_terms.append(allocator, value);
+                    } else {
+                        allocator.free(value);
+                    }
                 }
             }
         }
@@ -96,13 +106,14 @@ pub fn check(
             }
         }
 
-        if (temp_count == 0) {
+        if (next_terms.items.len == 0) {
             freeStringArrayList(allocator, &current);
             return prime_implicants.toOwnedSlice(allocator);
         }
 
         freeStringArrayList(allocator, &current);
-        try current.append(allocator, try allocator.dupe(u8, "X"));
+        current = next_terms;
+        next_terms = .{};
     }
 }
 
@@ -273,9 +284,8 @@ test "quine mc cluskey: check doctests and edge" {
     const two = [_][]const u8{ "000", "001" };
     const r2 = try check(alloc, &two);
     defer freeStringList(alloc, r2);
-    try testing.expectEqual(@as(usize, 2), r2.len);
-    try testing.expectEqualStrings("000", r2[0]);
-    try testing.expectEqualStrings("001", r2[1]);
+    try testing.expectEqual(@as(usize, 1), r2.len);
+    try testing.expectEqualStrings("00_", r2[0]);
 }
 
 test "quine mc cluskey: decimal to binary doctest and boundary" {

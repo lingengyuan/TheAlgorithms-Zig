@@ -19,6 +19,7 @@ pub fn depthFirstSearch(allocator: Allocator, graph: []const []const usize, star
 
     var stack = std.ArrayListUnmanaged(usize){};
     defer stack.deinit(allocator);
+    visited[start] = true;
     try stack.append(allocator, start);
 
     var order = std.ArrayListUnmanaged(usize){};
@@ -28,8 +29,7 @@ pub fn depthFirstSearch(allocator: Allocator, graph: []const []const usize, star
         const node = stack.items[stack.items.len - 1];
         _ = stack.pop();
 
-        if (node >= n or visited[node]) continue;
-        visited[node] = true;
+        if (node >= n) continue;
         try order.append(allocator, node);
 
         // Push neighbors in reverse so lower index neighbors are visited first.
@@ -38,6 +38,7 @@ pub fn depthFirstSearch(allocator: Allocator, graph: []const []const usize, star
             i -= 1;
             const next = graph[node][i];
             if (next >= n or visited[next]) continue;
+            visited[next] = true;
             try stack.append(allocator, next);
         }
     }
@@ -102,4 +103,18 @@ test "depth first search 2: extreme deep chain" {
     try testing.expectEqual(n, order.len);
     try testing.expectEqual(@as(usize, 0), order[0]);
     try testing.expectEqual(n - 1, order[n - 1]);
+}
+
+test "depth first search 2: shared successor is visited once" {
+    const alloc = testing.allocator;
+    const graph = [_][]const usize{
+        &[_]usize{ 1, 2 },
+        &[_]usize{3},
+        &[_]usize{3},
+        &[_]usize{},
+    };
+
+    const order = try depthFirstSearch(alloc, &graph, 0);
+    defer alloc.free(order);
+    try testing.expectEqualSlices(usize, &[_]usize{ 0, 1, 3, 2 }, order);
 }

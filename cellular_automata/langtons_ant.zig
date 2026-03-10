@@ -49,7 +49,7 @@ pub const LangtonsAnt = struct {
             .board = board,
             .width = width,
             .height = height,
-            .ant_position = .{ .x = @intCast(width / 2), .y = @intCast(height / 2) },
+            .ant_position = .{ .x = @intCast(height / 2), .y = @intCast(width / 2) },
             .ant_direction = 3,
         };
     }
@@ -129,4 +129,13 @@ test "langtons ant: boundary and extreme cases" {
     }
 
     try testing.expectError(LangtonsAntError.InvalidBoardSize, LangtonsAnt.init(testing.allocator, 0, 80));
+}
+
+test "langtons ant: non-square board starts in bounds" {
+    var ant = try LangtonsAnt.init(testing.allocator, 20, 5);
+    defer ant.deinit();
+
+    try testing.expectEqual(@as(i32, 2), ant.ant_position.x);
+    try testing.expectEqual(@as(i32, 10), ant.ant_position.y);
+    try ant.moveAnt();
 }

@@ -58,36 +58,9 @@ pub fn bidirectionalBfsPath(
     var meeting: ?usize = null;
 
     while (head_start < q_start.items.len and head_goal < q_goal.items.len and meeting == null) {
-        const cur_start = q_start.items[head_start];
-        head_start += 1;
-        for (adj[cur_start]) |next| {
-            if (next >= n) continue;
-            if (!visited_start[next]) {
-                visited_start[next] = true;
-                parent_start[next] = cur_start;
-                try q_start.append(allocator, next);
-            }
-            if (visited_goal[next]) {
-                meeting = next;
-                break;
-            }
-        }
+        meeting = try expandLevel(allocator, adj, &q_start, &head_start, visited_start, parent_start, visited_goal);
         if (meeting != null) break;
-
-        const cur_goal = q_goal.items[head_goal];
-        head_goal += 1;
-        for (adj[cur_goal]) |next| {
-            if (next >= n) continue;
-            if (!visited_goal[next]) {
-                visited_goal[next] = true;
-                parent_goal[next] = cur_goal;
-                try q_goal.append(allocator, next);
-            }
-            if (visited_start[next]) {
-                meeting = next;
-                break;
-            }
-        }
+        meeting = try expandLevel(allocator, adj, &q_goal, &head_goal, visited_goal, parent_goal, visited_start);
     }
 
     if (meeting == null) {
@@ -125,6 +98,32 @@ pub fn bidirectionalBfsPath(
     @memcpy(out[0..left_reversed.items.len], left_reversed.items);
     @memcpy(out[left_reversed.items.len..], right.items);
     return out;
+}
+
+fn expandLevel(
+    allocator: Allocator,
+    adj: []const []const usize,
+    queue: *std.ArrayListUnmanaged(usize),
+    head: *usize,
+    visited: []bool,
+    parent: []usize,
+    opposite_visited: []const bool,
+) !?usize {
+    const level_end = queue.items.len;
+    while (head.* < level_end) {
+        const current = queue.items[head.*];
+        head.* += 1;
+        for (adj[current]) |next| {
+            if (next >= adj.len) continue;
+            if (!visited[next]) {
+                visited[next] = true;
+                parent[next] = current;
+                try queue.append(allocator, next);
+            }
+            if (opposite_visited[next]) return next;
+        }
+    }
+    return null;
 }
 
 test "bidirectional bfs: path found in connected graph" {
@@ -215,4 +214,20 @@ test "bidirectional bfs: extreme long chain" {
 
     try testing.expectEqual(n, path.len);
     for (path, 0..) |v, i| try testing.expectEqual(i, v);
+}
+
+test "bidirectional bfs: level-synchronous expansion preserves shortest path" {
+    const alloc = testing.allocator;
+    const adj = [_][]const usize{
+        &[_]usize{ 3, 4 },
+        &[_]usize{ 2, 4, 5 },
+        &[_]usize{ 1, 3 },
+        &[_]usize{ 0, 2 },
+        &[_]usize{ 0, 1 },
+        &[_]usize{1},
+    };
+
+    const path = try bidirectionalBfsPath(alloc, &adj, 0, 5);
+    defer alloc.free(path);
+    try testing.expectEqualSlices(usize, &[_]usize{ 0, 4, 1, 5 }, path);
 }

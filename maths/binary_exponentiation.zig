@@ -41,7 +41,7 @@ pub fn binaryExpIterative(base: f64, exponent: i64) BinaryExponentiationError!f6
 pub fn binaryExpModRecursive(base: f64, exponent: i64, modulus: i64) BinaryExponentiationError!f64 {
     if (exponent < 0) return error.InvalidExponent;
     if (modulus <= 0) return error.InvalidModulus;
-    if (exponent == 0) return 1;
+    if (exponent == 0) return @mod(1.0, @as(f64, @floatFromInt(modulus)));
     if (@rem(exponent, 2) == 1) {
         return @mod((try binaryExpModRecursive(base, exponent - 1, modulus)) * base, @as(f64, @floatFromInt(modulus)));
     }
@@ -56,7 +56,7 @@ pub fn binaryExpModIterative(base: f64, exponent: i64, modulus: i64) BinaryExpon
     if (modulus <= 0) return error.InvalidModulus;
 
     const mod_f: f64 = @floatFromInt(modulus);
-    var result: f64 = 1;
+    var result: f64 = @mod(1.0, mod_f);
     var current_base = @mod(base, mod_f);
     var current_exp: u64 = @intCast(exponent);
 
@@ -83,4 +83,6 @@ test "binary exponentiation: edge and extreme cases" {
     try testing.expectApproxEqAbs(@as(f64, 5.0625), try binaryExpRecursive(1.5, 4), 1e-12);
     try testing.expectError(error.InvalidExponent, binaryExpRecursive(3, -1));
     try testing.expectError(error.InvalidModulus, binaryExpModRecursive(7, 13, 0));
+    try testing.expectApproxEqAbs(@as(f64, 0.0), try binaryExpModRecursive(7, 0, 1), 1e-12);
+    try testing.expectApproxEqAbs(@as(f64, 0.0), try binaryExpModIterative(7, 0, 1), 1e-12);
 }

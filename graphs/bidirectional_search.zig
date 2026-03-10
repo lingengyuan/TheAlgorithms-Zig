@@ -48,16 +48,16 @@ pub fn bidirectionalSearch(
     var intersection: ?usize = null;
 
     while (hf < qf.items.len and hb < qb.items.len and intersection == null) {
-        intersection = try expandSearch(allocator, adj, &qf, &hf, forward_parent, backward_parent);
+        intersection = try expandSearchLevel(allocator, adj, &qf, &hf, forward_parent, backward_parent);
         if (intersection != null) break;
-        intersection = try expandSearch(allocator, adj, &qb, &hb, backward_parent, forward_parent);
+        intersection = try expandSearchLevel(allocator, adj, &qb, &hb, backward_parent, forward_parent);
     }
 
     const meet = intersection orelse return null;
     return try constructFullPath(allocator, forward_parent, backward_parent, start, goal, meet);
 }
 
-fn expandSearch(
+fn expandSearchLevel(
     allocator: Allocator,
     adj: []const []const usize,
     queue: *std.ArrayListUnmanaged(usize),
@@ -65,20 +65,21 @@ fn expandSearch(
     parents: []usize,
     opposite_parents: []const usize,
 ) !?usize {
-    if (head.* >= queue.items.len) return null;
+    const level_end = queue.items.len;
+    while (head.* < level_end) {
+        const current = queue.items[head.*];
+        head.* += 1;
 
-    const current = queue.items[head.*];
-    head.* += 1;
+        for (adj[current]) |neighbor| {
+            if (neighbor >= adj.len) continue;
+            if (parents[neighbor] != std.math.maxInt(usize)) continue;
 
-    for (adj[current]) |neighbor| {
-        if (neighbor >= adj.len) continue;
-        if (parents[neighbor] != std.math.maxInt(usize)) continue;
+            parents[neighbor] = current;
+            try queue.append(allocator, neighbor);
 
-        parents[neighbor] = current;
-        try queue.append(allocator, neighbor);
-
-        if (opposite_parents[neighbor] != std.math.maxInt(usize)) {
-            return neighbor;
+            if (opposite_parents[neighbor] != std.math.maxInt(usize)) {
+                return neighbor;
+            }
         }
     }
     return null;
@@ -218,4 +219,20 @@ test "bidirectional search: extreme chain graph" {
     defer alloc.free(path);
     try testing.expectEqual(n, path.len);
     for (path, 0..) |v, i| try testing.expectEqual(i, v);
+}
+
+test "bidirectional search: level-synchronous expansion preserves shortest path" {
+    const alloc = testing.allocator;
+    const graph = [_][]const usize{
+        &[_]usize{ 3, 4 },
+        &[_]usize{ 2, 4, 5 },
+        &[_]usize{ 1, 3 },
+        &[_]usize{ 0, 2 },
+        &[_]usize{ 0, 1 },
+        &[_]usize{1},
+    };
+
+    const path = (try bidirectionalSearch(alloc, &graph, 0, 5)).?;
+    defer alloc.free(path);
+    try testing.expectEqualSlices(usize, &[_]usize{ 0, 4, 1, 5 }, path);
 }

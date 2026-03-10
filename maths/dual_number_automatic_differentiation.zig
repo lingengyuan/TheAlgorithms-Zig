@@ -31,8 +31,8 @@ pub const Dual = struct {
         const max_len = @max(self.duals.len, other.duals.len);
         const coeffs = try allocator.alloc(f64, max_len);
         for (0..max_len) |i| {
-            const left = if (i < self.duals.len) self.duals[i] else 1.0;
-            const right = if (i < other.duals.len) other.duals[i] else 1.0;
+            const left = if (i < self.duals.len) self.duals[i] else 0.0;
+            const right = if (i < other.duals.len) other.duals[i] else 0.0;
             coeffs[i] = left + right;
         }
         return .{ .real = self.real + other.real, .duals = coeffs };
@@ -141,4 +141,18 @@ test "dual autodiff: order zero and extreme polynomial degree" {
 
 test "dual autodiff: high derivative beyond polynomial degree is zero" {
     try testing.expectEqual(@as(f64, 0.0), try differentiate(testing.allocator, sixthPowerFunction, 2.0, 8));
+}
+
+test "dual autodiff: add treats missing coefficients as zero" {
+    const alloc = testing.allocator;
+    var lhs = try Dual.initCoefficients(alloc, 2.0, &[_]f64{ 1.0, 2.0 });
+    defer alloc.free(lhs.duals);
+    const rhs = try Dual.initCoefficients(alloc, 5.0, &[_]f64{3.0});
+    defer alloc.free(rhs.duals);
+
+    const sum = try lhs.add(alloc, rhs);
+    defer alloc.free(sum.duals);
+
+    try testing.expectEqual(@as(f64, 7.0), sum.real);
+    try testing.expectEqualSlices(f64, &[_]f64{ 4.0, 2.0 }, sum.duals);
 }

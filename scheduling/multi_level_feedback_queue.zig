@@ -119,9 +119,8 @@ pub const MLFQ = struct {
         for (queue) |idx| {
             var p = &self.processes[idx];
 
-            // Preserve Python reference behavior.
             if (self.current_time < p.arrival_time) {
-                self.current_time += p.arrival_time;
+                self.current_time = p.arrival_time;
             }
 
             _ = self.updateWaitingTime(idx);
@@ -142,9 +141,8 @@ pub const MLFQ = struct {
         for (queue) |idx| {
             var p = &self.processes[idx];
 
-            // Preserve Python reference behavior.
             if (self.current_time < p.arrival_time) {
-                self.current_time += p.arrival_time;
+                self.current_time = p.arrival_time;
             }
 
             _ = self.updateWaitingTime(idx);
@@ -311,4 +309,22 @@ test "mlfq: boundary and validation cases" {
     try testing.expectEqual(@as(usize, 2), seq.len);
     try testing.expectEqualStrings("A", seq[0]);
     try testing.expectEqualStrings("B", seq[1]);
+
+    var delayed_processes = [_]Process{
+        Process.init("A", 5, 2),
+        Process.init("B", 10, 1),
+    };
+    var delayed = try MLFQ.init(
+        alloc,
+        1,
+        &[_]i64{},
+        delayed_processes[0..],
+        &[_]usize{ 0, 1 },
+        0,
+    );
+    defer delayed.deinit();
+    _ = try delayed.multiLevelFeedbackQueue();
+    const delayed_ct = try delayed.calculateCompletionTime(alloc, &[_]usize{ 0, 1 });
+    defer alloc.free(delayed_ct);
+    try testing.expectEqualSlices(i64, &[_]i64{ 7, 11 }, delayed_ct);
 }

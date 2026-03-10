@@ -24,12 +24,12 @@ fn validateStrictDominance(coeff: []const f64, rows: usize, cols: usize) JacobiE
         var total: f64 = 0;
         for (0..cols) |c| {
             if (c == r) continue;
-            total += coeff[idx(r, c, cols)];
+            total += @abs(coeff[idx(r, c, cols)]);
         }
 
         const diag = coeff[idx(r, r, cols)];
         if (@abs(diag) <= 1e-12) return JacobiError.ZeroDiagonal;
-        if (diag <= total) return JacobiError.NotStrictlyDiagonallyDominant;
+        if (@abs(diag) <= total) return JacobiError.NotStrictlyDiagonallyDominant;
     }
 }
 
@@ -176,4 +176,20 @@ test "jacobi iteration: diagonal dominance and edge cases" {
     const single_result = try jacobiIterationMethod(alloc, &single, 1, 1, &single_const, 1, 1, &single_init, 1);
     defer alloc.free(single_result);
     try expectApproxSlice(&[_]f64{4}, single_result, 1e-12);
+}
+
+test "jacobi iteration: negative diagonal strict dominance remains valid" {
+    const alloc = testing.allocator;
+    const coeff = [_]f64{
+        -6, 2, 3,
+        1, -5, 2,
+        2, 1, -4,
+    };
+    const constant = [_]f64{ 1, 2, 3 };
+    const init_vals = [_]f64{ 0, 0, 0 };
+
+    const result = try jacobiIterationMethod(alloc, &coeff, 3, 3, &constant, 3, 1, &init_vals, 1);
+    defer alloc.free(result);
+
+    try expectApproxSlice(&[_]f64{ -1.0 / 6.0, -0.4, -0.75 }, result, 1e-12);
 }

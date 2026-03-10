@@ -48,7 +48,7 @@ pub fn qrHouseholder(allocator: Allocator, matrix: []const []const f64) QrError!
 
     const t = @min(rows, cols);
     var k: usize = 0;
-    while (k + 1 < t) : (k += 1) {
+    while (k < t) : (k += 1) {
         var norm_sq: f64 = 0.0;
         var i: usize = k;
         while (i < rows) : (i += 1) {
@@ -201,6 +201,7 @@ test "qr decomposition: rectangular matrix" {
         3, 4,
         5, 6,
     }, qr_product, 1e-8);
+    try expectUpperTriangular(qr.r, qr.rows, qr.cols, 1e-8);
 }
 
 test "qr decomposition: extreme diagonal scale remains stable" {

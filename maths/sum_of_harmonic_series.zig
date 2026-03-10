@@ -14,6 +14,7 @@ pub fn sumOfHarmonicProgression(
     number_of_terms: i64,
 ) HarmonicError!f64 {
     if (first_term == 0.0) return HarmonicError.InvalidFirstTerm;
+    if (number_of_terms == 0) return 0.0;
 
     var ap_term = 1.0 / first_term;
     var total = 1.0 / ap_term;
@@ -33,6 +34,6 @@ test "sum of harmonic series: python reference examples" {
 
 test "sum of harmonic series: edge and extreme cases" {
     try testing.expectError(HarmonicError.InvalidFirstTerm, sumOfHarmonicProgression(0.0, 1.0, 5));
-    try testing.expectApproxEqAbs(@as(f64, 2.0), try sumOfHarmonicProgression(2.0, 3.0, 0), 1e-12);
+    try testing.expectApproxEqAbs(@as(f64, 0.0), try sumOfHarmonicProgression(2.0, 3.0, 0), 1e-12);
     try testing.expect(try sumOfHarmonicProgression(1.0 / 3.0, 1.0, 100_000) > 0.0);
 }

@@ -117,7 +117,7 @@ pub fn goldbach(allocator: std.mem.Allocator, number: u64) PrimeLibError![]u64 {
     defer result.deinit(allocator);
 
     for (primes, 0..) |left, i| {
-        for (primes[i + 1 ..]) |right| {
+        for (primes[i..]) |right| {
             if (left + right == number) {
                 try result.append(allocator, left);
                 try result.append(allocator, right);
@@ -255,6 +255,11 @@ test "primelib: parity, lcm and goldbach" {
     const pair = try goldbach(alloc, 8);
     defer alloc.free(pair);
     try testing.expectEqualSlices(u64, &[_]u64{ 3, 5 }, pair);
+
+    const pair_four = try goldbach(alloc, 4);
+    defer alloc.free(pair_four);
+    try testing.expectEqualSlices(u64, &[_]u64{ 2, 2 }, pair_four);
+
     try testing.expectError(error.InvalidInput, goldbach(alloc, 9));
 }
 

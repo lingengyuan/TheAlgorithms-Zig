@@ -7,6 +7,7 @@ const testing = std.testing;
 pub const BinomialDistributionError = error{
     InvalidInput,
     InvalidProbability,
+    Overflow,
 };
 
 fn factorial(n: i64) u128 {
@@ -22,6 +23,7 @@ fn factorial(n: i64) u128 {
 pub fn binomialDistribution(successes: i64, trials: i64, prob: f64) BinomialDistributionError!f64 {
     if (successes > trials or trials < 0 or successes < 0) return error.InvalidInput;
     if (!(0.0 < prob and prob < 1.0)) return error.InvalidProbability;
+    if (trials > 34) return error.Overflow;
 
     const probability = std.math.pow(f64, prob, @floatFromInt(successes)) *
         std.math.pow(f64, 1.0 - prob, @floatFromInt(trials - successes));
@@ -40,4 +42,5 @@ test "binomial distribution: edge cases" {
     try testing.expectError(error.InvalidInput, binomialDistribution(5, 3, 0.7));
     try testing.expectError(error.InvalidInput, binomialDistribution(-1, 4, 0.5));
     try testing.expectError(error.InvalidProbability, binomialDistribution(2, 4, 1.0));
+    try testing.expectError(error.Overflow, binomialDistribution(17, 35, 0.5));
 }

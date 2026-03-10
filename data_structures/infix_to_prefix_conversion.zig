@@ -5,6 +5,31 @@ const std = @import("std");
 const testing = std.testing;
 const postfix_mod = @import("infix_to_postfix_conversion.zig");
 
+fn precedence(ch: u8) i32 {
+    return switch (ch) {
+        '+', '-' => 1,
+        '*', '/' => 2,
+        '^' => 3,
+        else => -1,
+    };
+}
+
+fn isRightAssociative(ch: u8) bool {
+    return ch == '^';
+}
+
+fn isOperator(ch: u8) bool {
+    return switch (ch) {
+        '+', '-', '*', '/', '^' => true,
+        else => false,
+    };
+}
+
+fn appendToken(out: *std.ArrayListUnmanaged(u8), allocator: std.mem.Allocator, token: u8) !void {
+    if (out.items.len > 0) try out.append(allocator, ' ');
+    try out.append(allocator, token);
+}
+
 fn reverseAndSwapParentheses(allocator: std.mem.Allocator, infix: []const u8) ![]u8 {
     const reversed = try allocator.alloc(u8, infix.len);
 
@@ -45,6 +70,63 @@ fn postfixToPrefixNoSpaces(allocator: std.mem.Allocator, postfix: []const u8) ![
     return try out.toOwnedSlice(allocator);
 }
 
+fn infixToPostfixFlippedAssociativity(allocator: std.mem.Allocator, expression: []const u8) ![]u8 {
+    var stack = std.ArrayListUnmanaged(u8){};
+    defer stack.deinit(allocator);
+
+    var out = std.ArrayListUnmanaged(u8){};
+    errdefer out.deinit(allocator);
+
+    for (expression) |ch| {
+        if (std.ascii.isWhitespace(ch)) continue;
+
+        if (std.ascii.isAlphanumeric(ch)) {
+            try appendToken(&out, allocator, ch);
+            continue;
+        }
+
+        if (ch == '(') {
+            try stack.append(allocator, ch);
+            continue;
+        }
+
+        if (ch == ')') {
+            while (stack.items.len > 0 and stack.items[stack.items.len - 1] != '(') {
+                try appendToken(&out, allocator, stack.pop().?);
+            }
+            if (stack.items.len == 0) return error.MismatchedParentheses;
+            _ = stack.pop();
+            continue;
+        }
+
+        if (!isOperator(ch)) return error.InvalidCharacter;
+
+        while (stack.items.len > 0) {
+            const top = stack.items[stack.items.len - 1];
+            if (top == '(') break;
+
+            const char_prec = precedence(ch);
+            const top_prec = precedence(top);
+            const flipped_right_assoc = !isRightAssociative(ch);
+
+            if (char_prec > top_prec) break;
+            if (char_prec == top_prec and flipped_right_assoc) break;
+
+            try appendToken(&out, allocator, stack.pop().?);
+        }
+
+        try stack.append(allocator, ch);
+    }
+
+    while (stack.items.len > 0) {
+        const top = stack.pop().?;
+        if (top == '(') return error.MismatchedParentheses;
+        try appendToken(&out, allocator, top);
+    }
+
+    return try out.toOwnedSlice(allocator);
+}
+
 /// Converts infix to prefix notation.
 /// Time complexity: O(n), Space complexity: O(n)
 pub fn infixToPrefix(allocator: std.mem.Allocator, infix: []const u8) ![]u8 {
@@ -53,7 +135,7 @@ pub fn infixToPrefix(allocator: std.mem.Allocator, infix: []const u8) ![]u8 {
     const reversed = try reverseAndSwapParentheses(allocator, infix);
     defer allocator.free(reversed);
 
-    const postfix = try postfix_mod.infixToPostfix(allocator, reversed);
+    const postfix = try infixToPostfixFlippedAssociativity(allocator, reversed);
     defer allocator.free(postfix);
 
     return postfixToPrefixNoSpaces(allocator, postfix);
@@ -97,4 +179,10 @@ test "infix to prefix conversion: extreme long expression" {
 
     try testing.expect(prefix.len > n);
     try testing.expect(prefix[0] == '+');
+}
+
+test "infix to prefix conversion: repeated left associative operators" {
+    const prefix = try infixToPrefix(testing.allocator, "a-b-c");
+    defer testing.allocator.free(prefix);
+    try testing.expectEqualStrings("--abc", prefix);
 }

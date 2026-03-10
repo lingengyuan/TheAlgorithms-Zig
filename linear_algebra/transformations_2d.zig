@@ -44,7 +44,7 @@ pub fn projection(angle: f64) Matrix2 {
     };
 }
 
-/// Returns 2D reflection matrix using the same formula as Python reference.
+/// Returns 2D reflection matrix.
 ///
 /// Time complexity: O(1)
 /// Space complexity: O(1)
@@ -53,8 +53,8 @@ pub fn reflection(angle: f64) Matrix2 {
     const s = @sin(angle);
     const cs = c * s;
     return .{
-        .{ 2.0 * c - 1.0, 2.0 * cs },
-        .{ 2.0 * cs, 2.0 * s - 1.0 },
+        .{ 2.0 * c * c - 1.0, 2.0 * cs },
+        .{ 2.0 * cs, 2.0 * s * s - 1.0 },
     };
 }
 
@@ -87,8 +87,8 @@ test "transformations 2d: python examples" {
     try expectApproxMatrix(expected_projection, projection(angle), 1e-12);
 
     const expected_reflection = Matrix2{
-        .{ 0.05064397763545947, 0.893996663600558 },
-        .{ 0.893996663600558, 0.7018070490682369 },
+        .{ -0.4480736161291701, 0.893996663600558 },
+        .{ 0.893996663600558, 0.4480736161291701 },
     };
     try expectApproxMatrix(expected_reflection, reflection(angle), 1e-12);
 }
@@ -119,4 +119,19 @@ test "transformations 2d: extreme scaling magnitude" {
     try testing.expectApproxEqAbs(@as(f64, 1e12), m[1][1], 1e-3);
     try testing.expectApproxEqAbs(@as(f64, 0.0), m[0][1], 1e-12);
     try testing.expectApproxEqAbs(@as(f64, 0.0), m[1][0], 1e-12);
+}
+
+test "transformations 2d: reflection is involutive" {
+    const r = reflection(0.731);
+    const rr = Matrix2{
+        .{
+            r[0][0] * r[0][0] + r[0][1] * r[1][0],
+            r[0][0] * r[0][1] + r[0][1] * r[1][1],
+        },
+        .{
+            r[1][0] * r[0][0] + r[1][1] * r[1][0],
+            r[1][0] * r[0][1] + r[1][1] * r[1][1],
+        },
+    };
+    try expectApproxMatrix(Matrix2{ .{ 1.0, 0.0 }, .{ 0.0, 1.0 } }, rr, 1e-12);
 }

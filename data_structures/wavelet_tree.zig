@@ -12,6 +12,11 @@ pub const Node = struct {
     right: ?*Node = null,
 };
 
+fn midpoint(min_v: i64, max_v: i64) i64 {
+    const delta: i128 = @as(i128, max_v) - @as(i128, min_v);
+    return @intCast(@as(i128, min_v) + @divFloor(delta, 2));
+}
+
 pub fn freeTree(allocator: std.mem.Allocator, root: ?*Node) void {
     const start = root orelse return;
 
@@ -57,7 +62,7 @@ pub fn buildTree(allocator: std.mem.Allocator, arr: []const i64) !?*Node {
         return node;
     }
 
-    const pivot = @divFloor(min_v + max_v, 2);
+    const pivot = midpoint(min_v, max_v);
 
     var left_values = std.ArrayListUnmanaged(i64){};
     defer left_values.deinit(allocator);
@@ -102,7 +107,7 @@ pub fn rankTillIndex(node: ?*const Node, num: i64, index: isize) usize {
         return if (n.minn == num) idx + 1 else 0;
     }
 
-    const pivot = @divFloor(n.minn + n.maxx, 2);
+    const pivot = midpoint(n.minn, n.maxx);
     if (num <= pivot) {
         const mapped = @as(isize, @intCast(n.map_left[idx])) - 1;
         return rankTillIndex(n.left, num, mapped);
@@ -309,4 +314,17 @@ test "wavelet tree: extreme randomized parity" {
             quantile(root, @intCast(idx), @intCast(l), @intCast(r)),
         );
     }
+}
+
+test "wavelet tree: midpoint remains safe near i64 upper bound" {
+    const values = [_]i64{
+        @divFloor(std.math.maxInt(i64), 2) + 1,
+        std.math.maxInt(i64),
+    };
+
+    const root = (try buildTree(testing.allocator, &values)).?;
+    defer freeTree(testing.allocator, root);
+
+    try testing.expectEqual(@as(usize, 1), rank(root, std.math.maxInt(i64), 0, 1));
+    try testing.expectEqual(std.math.maxInt(i64), quantile(root, 1, 0, 1));
 }

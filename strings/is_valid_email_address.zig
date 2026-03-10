@@ -21,6 +21,7 @@ pub fn isValidEmailAddress(email: []const u8) bool {
 
     const local_part = email[0..split_index];
     const domain = email[split_index + 1 ..];
+    if (local_part.len == 0 or domain.len == 0) return false;
     if (local_part.len > MAX_LOCAL_PART_OCTETS or domain.len > MAX_DOMAIN_OCTETS) return false;
 
     const local_allowed = ".(!#$%&'*+-/=?^_`{|}~)";
@@ -80,4 +81,7 @@ test "email validator: edge and extreme" {
     try testing.expect(!isValidEmailAddress("enddot.@example.com"));
     try testing.expect(!isValidEmailAddress("user@.example.com"));
     try testing.expect(!isValidEmailAddress("user@example."));
+    try testing.expect(!isValidEmailAddress("@domain.com"));
+    try testing.expect(!isValidEmailAddress("user@"));
+    try testing.expect(!isValidEmailAddress("@"));
 }

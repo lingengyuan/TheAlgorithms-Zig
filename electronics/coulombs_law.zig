@@ -51,10 +51,10 @@ pub fn coulombsLaw(
         return CoulombsLawResult{ .force = coulombs_constant * charge_product / (distance * distance) };
     }
     if (charge1 == 0) {
-        return CoulombsLawResult{ .charge1 = @abs(force) * (distance * distance) / (coulombs_constant * charge2) };
+        return CoulombsLawResult{ .charge1 = @abs(force) * (distance * distance) / (coulombs_constant * @abs(charge2)) };
     }
     if (charge2 == 0) {
-        return CoulombsLawResult{ .charge2 = @abs(force) * (distance * distance) / (coulombs_constant * charge1) };
+        return CoulombsLawResult{ .charge2 = @abs(force) * (distance * distance) / (coulombs_constant * @abs(charge1)) };
     }
     return CoulombsLawResult{ .distance = @sqrt(coulombs_constant * charge_product / @abs(force)) };
 }
@@ -95,6 +95,12 @@ test "coulombs law: validation and edge cases" {
             try testing.expect(std.math.isFinite(value));
             try testing.expect(value > 0);
         },
+        else => try testing.expect(false),
+    }
+
+    const negative_known_charge = try coulombsLaw(10, 0, -5, 2000);
+    switch (negative_known_charge) {
+        .charge1 => |value| try testing.expect(value > 0),
         else => try testing.expect(false),
     }
 }

@@ -9,7 +9,7 @@ pub const LucasLehmerError = error{InvalidInput};
 /// Returns true when `2^p - 1` is prime according to the Lucas-Lehmer test.
 /// Time complexity: O(p), Space complexity: O(1)
 pub fn lucasLehmerTest(p: i64) LucasLehmerError!bool {
-    if (p < 2) return error.InvalidInput;
+    if (p < 2 or p >= 65) return error.InvalidInput;
     if (p == 2) return true;
 
     var s: u128 = 4;
@@ -31,4 +31,5 @@ test "lucas lehmer: python reference examples" {
 test "lucas lehmer: edge cases" {
     try testing.expect(try lucasLehmerTest(2));
     try testing.expectError(error.InvalidInput, lucasLehmerTest(1));
+    try testing.expectError(error.InvalidInput, lucasLehmerTest(65));
 }

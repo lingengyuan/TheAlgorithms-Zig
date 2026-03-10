@@ -9,7 +9,7 @@ const testing = std.testing;
 /// Time complexity: O(1)
 /// Space complexity: O(1)
 pub fn nimplyGate(input_1: i64, input_2: i64) u8 {
-    return @intFromBool(input_1 == 1 and input_2 == 0);
+    return @intFromBool(input_1 != 0 and input_2 == 0);
 }
 
 test "nimply gate: truth table" {
@@ -20,7 +20,7 @@ test "nimply gate: truth table" {
 }
 
 test "nimply gate: non-binary values" {
-    try testing.expectEqual(@as(u8, 0), nimplyGate(2, 0));
+    try testing.expectEqual(@as(u8, 1), nimplyGate(2, 0));
     try testing.expectEqual(@as(u8, 0), nimplyGate(1, -3));
-    try testing.expectEqual(@as(u8, 0), nimplyGate(-1, 0));
+    try testing.expectEqual(@as(u8, 1), nimplyGate(-1, 0));
 }

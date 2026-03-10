@@ -5,12 +5,12 @@ const std = @import("std");
 const testing = std.testing;
 
 /// Calculates OR gate output for two integer inputs.
-/// Python reference semantics: only literal `1` counts as logical true.
+/// Any non-zero value is treated as logical true.
 ///
 /// Time complexity: O(1)
 /// Space complexity: O(1)
 pub fn orGate(input_1: i64, input_2: i64) u8 {
-    return if (input_1 == 1 or input_2 == 1) 1 else 0;
+    return if (input_1 != 0 or input_2 != 0) 1 else 0;
 }
 
 test "or gate: truth table" {
@@ -20,8 +20,8 @@ test "or gate: truth table" {
     try testing.expectEqual(@as(u8, 1), orGate(1, 1));
 }
 
-test "or gate: non-binary values follow python semantics" {
-    try testing.expectEqual(@as(u8, 0), orGate(2, 0));
+test "or gate: non-binary values use truthiness" {
+    try testing.expectEqual(@as(u8, 1), orGate(2, 0));
     try testing.expectEqual(@as(u8, 1), orGate(2, 1));
-    try testing.expectEqual(@as(u8, 0), orGate(std.math.maxInt(i64), std.math.minInt(i64)));
+    try testing.expectEqual(@as(u8, 1), orGate(std.math.maxInt(i64), std.math.minInt(i64)));
 }

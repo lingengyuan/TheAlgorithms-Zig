@@ -17,6 +17,7 @@ pub fn textJustification(allocator: Allocator, text: []const u8, max_width: usiz
     while (tokenizer.next()) |word| {
         try tokens.append(allocator, word);
     }
+    if (tokens.items.len == 0) return allocator.alloc([]u8, 0);
 
     var answer = std.ArrayListUnmanaged([]u8){};
     errdefer freeLines(allocator, answer.items);
@@ -37,14 +38,15 @@ pub fn textJustification(allocator: Allocator, text: []const u8, max_width: usiz
         }
     }
 
-    const remaining_spaces = max_width - width - line.items.len;
+    const gaps = line.items.len - 1;
+    const remaining_spaces = max_width - width - gaps;
     var last = std.ArrayListUnmanaged(u8){};
     defer last.deinit(allocator);
     for (line.items, 0..) |word, index| {
         if (index > 0) try last.append(allocator, ' ');
         try last.appendSlice(allocator, word);
     }
-    for (0..remaining_spaces + 1) |_| try last.append(allocator, ' ');
+    for (0..remaining_spaces) |_| try last.append(allocator, ' ');
     try answer.append(allocator, try last.toOwnedSlice(allocator));
 
     return answer.toOwnedSlice(allocator);
@@ -94,4 +96,15 @@ test "text justification: python samples" {
     try testing.expectEqualStrings("Two        roads", two[0]);
     try testing.expectEqualStrings("diverged   in  a", two[1]);
     try testing.expectEqualStrings("yellow wood     ", two[2]);
+}
+
+test "text justification: exact fit and empty input" {
+    const exact = try textJustification(testing.allocator, "ab cd", 5);
+    defer freeLines(testing.allocator, exact);
+    try testing.expectEqual(@as(usize, 1), exact.len);
+    try testing.expectEqualStrings("ab cd", exact[0]);
+
+    const empty = try textJustification(testing.allocator, "", 5);
+    defer freeLines(testing.allocator, empty);
+    try testing.expectEqual(@as(usize, 0), empty.len);
 }

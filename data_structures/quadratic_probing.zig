@@ -87,14 +87,11 @@ pub const QuadraticProbing = struct {
     }
 
     /// Quadratic probing collision resolution.
-    /// Intentionally follows Python reference behavior.
     fn collisionResolution(self: *QuadraticProbing, key: usize, data: i64) ?usize {
-        _ = data;
-
         var i: usize = 1;
         var new_key = self.hashFunction(@as(i64, @intCast(key + i * i)));
 
-        while (self.values[new_key] != null and self.values[new_key].? != @as(i64, @intCast(key))) {
+        while (self.values[new_key] != null and self.values[new_key].? != data) {
             i += 1;
             if (!(self.balancedFactor() >= self.lim_charge)) {
                 new_key = self.hashFunction(@as(i64, @intCast(key + i * i)));
@@ -240,6 +237,7 @@ test "quadratic probing: python doctest examples" {
         const kv = try qp.keys(testing.allocator);
         defer testing.allocator.free(kv);
         try testing.expectEqualSlices(KeyValue, &[_]KeyValue{
+            .{ .key = 0, .value = 0 },
             .{ .key = 1, .value = 111 },
             .{ .key = 4, .value = 999 },
         }, kv);
@@ -269,4 +267,21 @@ test "quadratic probing: extreme large insert" {
     }
 
     try testing.expect(qp.size_table > 5);
+}
+
+test "quadratic probing: collision resolution preserves displaced value equal to bucket index" {
+    var qp = try QuadraticProbing.init(testing.allocator, 10, null, null);
+    defer qp.deinit();
+
+    try qp.insertData(16);
+    try qp.insertData(6);
+    try qp.insertData(26);
+
+    const kv = try qp.keys(testing.allocator);
+    defer testing.allocator.free(kv);
+    try testing.expectEqualSlices(KeyValue, &[_]KeyValue{
+        .{ .key = 0, .value = 26 },
+        .{ .key = 6, .value = 16 },
+        .{ .key = 7, .value = 6 },
+    }, kv);
 }

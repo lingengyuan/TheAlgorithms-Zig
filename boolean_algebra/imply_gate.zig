@@ -11,7 +11,7 @@ pub const ImplyGateError = error{InvalidInput};
 /// Time complexity: O(1)
 /// Space complexity: O(1)
 pub fn implyGate(input_1: i64, input_2: i64) u8 {
-    return @intFromBool(input_1 == 0 or input_2 == 1);
+    return @intFromBool(input_1 == 0 or input_2 != 0);
 }
 
 /// Recursively-equivalent left-fold implication:
@@ -59,4 +59,5 @@ test "imply gate: invalid and non-binary edge values" {
     try testing.expectEqual(@as(u8, 1), implyGate(0, 9));
     try testing.expectEqual(@as(u8, 1), implyGate(-3, 1));
     try testing.expectEqual(@as(u8, 0), implyGate(2, 0));
+    try testing.expectEqual(@as(u8, 1), implyGate(1, 5));
 }

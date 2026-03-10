@@ -31,6 +31,13 @@ pub fn freeTree(allocator: std.mem.Allocator, root: ?*TreeNode) void {
     }
 }
 
+fn freeTreeNoAlloc(allocator: std.mem.Allocator, root: ?*TreeNode) void {
+    const node = root orelse return;
+    freeTreeNoAlloc(allocator, node.left);
+    freeTreeNoAlloc(allocator, node.right);
+    allocator.destroy(node);
+}
+
 fn appendSerialized(out: *std.ArrayListUnmanaged(u8), allocator: std.mem.Allocator, node: ?*const TreeNode) !void {
     if (node == null) {
         try out.appendSlice(allocator, "null");
@@ -67,7 +74,7 @@ fn buildFromTokens(allocator: std.mem.Allocator, tokens: []const []const u8, ind
     const value = std.fmt.parseInt(i64, token, 10) catch return error.InvalidValue;
 
     const node = try allocator.create(TreeNode);
-    errdefer allocator.destroy(node);
+    errdefer freeTreeNoAlloc(allocator, node);
 
     node.* = .{ .value = value };
     node.left = try buildFromTokens(allocator, tokens, index);
@@ -223,4 +230,13 @@ test "serialize deserialize: extreme long chain" {
     try testing.expectEqual(n, try countNodes(testing.allocator, roundtrip));
     try testing.expectEqual(@as(i64, 1), roundtrip.value);
     try testing.expectEqual(@as(i64, @intCast(n)), rightmostValue(roundtrip));
+}
+
+fn deserializeAllocFailImpl(allocator: std.mem.Allocator) !void {
+    const tree = (try deserialize(allocator, "1,2,null,null,3,null,null")).?;
+    defer freeTreeNoAlloc(allocator, tree);
+}
+
+test "serialize deserialize: allocation failures free partial trees" {
+    try testing.checkAllAllocationFailures(testing.allocator, deserializeAllocFailImpl, .{});
 }
