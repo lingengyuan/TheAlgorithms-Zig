@@ -22,12 +22,14 @@ Reference Project for Behavior Alignment / 行为对齐参考项目:
 
 ## Current Status / 当前状态
 
-- `build.zig` registered algorithms: `745`
-- `build.zig` 已注册算法数：`745`
-- Phase 5 effective completed count under plan-category caps: `737`
-- 按 Phase 5 分类上限口径的有效完成数：`737`
-- Remaining planned gap: `192`
-- 剩余计划缺口：`192`
+- `build.zig` registered algorithms: `832`
+- `build.zig` 已注册算法数：`832`
+- Portable target after Phase 6 scope reconciliation: `916`
+- 第 6 阶段范围校准后的可移植目标总量：`916`
+- Effective completed count under plan-category caps: `824`
+- 按计划分类上限口径的有效完成数：`824`
+- Remaining planned gap: `92`
+- 剩余计划缺口：`92`
 
 ## Phase 5 Logs / 第 5 阶段日志
 
@@ -38,6 +40,12 @@ Reference Project for Behavior Alignment / 行为对齐参考项目:
 - 2026-03-07: [`docs/experiment_logs/phase5/by-date/2026-03-07.md`](docs/experiment_logs/phase5/by-date/2026-03-07.md)
 - 2026-03-08: [`docs/experiment_logs/phase5/by-date/2026-03-08.md`](docs/experiment_logs/phase5/by-date/2026-03-08.md)
 - 2026-03-09: [`docs/experiment_logs/phase5/by-date/2026-03-09.md`](docs/experiment_logs/phase5/by-date/2026-03-09.md)
+
+## Phase 6 Logs / 第 6 阶段日志
+
+- Overview / 总览: [`docs/experiment_logs/phase6/overview.md`](docs/experiment_logs/phase6/overview.md)
+- 2026-03-09: [`docs/experiment_logs/phase6/by-date/2026-03-09.md`](docs/experiment_logs/phase6/by-date/2026-03-09.md)
+- 2026-03-10: [`docs/experiment_logs/phase6/by-date/2026-03-10.md`](docs/experiment_logs/phase6/by-date/2026-03-10.md)
 
 ## Migration Note / 迁移说明
 

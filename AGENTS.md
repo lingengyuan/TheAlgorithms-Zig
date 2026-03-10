@@ -29,7 +29,6 @@
 - For allocator-returning functions, free allocated memory in tests.
 - Test execution cadence (updated):
   - during implementation, run affected file-level tests with `zig test <file>` (mandatory)
-  - run full `zig build test` at least once per every 2 waves (recommended)
   - run full `zig build test` before each commit/push (mandatory)
 
 ## Commit & Pull Request Guidelines
@@ -53,7 +52,7 @@
 - Do not add Python-vs-Zig performance comparison code or records to this repository.
 - For each Zig algorithm that has a Python reference module, prioritize functional consistency with the Python implementation (same algorithmic outcome under equivalent input domain).
 - Test expectations must align with Python reference behavior. If Zig introduces intentional API differences, keep output semantics equivalent and document the difference clearly in code comments/tests.
-- `EXPERIMENT_LOG.md` is the bilingual experiment-log index. When the log grows too large, keep the root file as a bilingual summary/index and split detailed records into linked date-based files under `docs/experiment_logs/phase5/by-date/`.
+- `EXPERIMENT_LOG.md` is the bilingual experiment-log index. When the log grows too large, keep the root file as a bilingual summary/index and split detailed records into linked date-based files under `docs/experiment_logs/<phase>/by-date/`.
 - All new experiment-log content must be bilingual (English + Simplified Chinese). When logs are split, append the entry to the correct date file while keeping the batch/wave section inside that dated log.
 - Experimental integrity is mandatory: any real errors encountered during implementation/testing (compile errors, runtime panics, overflow/data-range issues, logic mismatches) must be truthfully logged in the relevant batch section inside the dated file referenced by `EXPERIMENT_LOG.md`.
   - each recorded issue must include: failing step/command, error symptom, root cause, fix applied, and post-fix verification result
