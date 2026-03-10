@@ -46,7 +46,7 @@ Result / 结果:
 - Added the four real remaining `searches` algorithms: `fibonacci_search`, `hill_climbing`, `simulated_annealing`, and `tabu_search`.
 - 已补齐 `searches` 分类中 4 个真实剩余算法：`fibonacci_search`、`hill_climbing`、`simulated_annealing` 与 `tabu_search`。
 - Confirmed that `bit_manipulation` has no real missing file under the current Python-reference snapshot; the earlier `remaining 1` was a category-count drift.
-- 确认在当前 Python 参考快照下，`bit_manipulation` 没有真实缺项；之前的“剩余 1”属于分类统计漂移。
+- 确认在当前 Python 参考快照下，`bit_manipulation` 没有真实缺项；之前的“剩余 1”属于分类计数虚高。
 - Current checkpoint accounting after Batch A Wave 2 integration:
 - Batch A 第 2 波接入后的当前检查点统计：
   - `build.zig` registered algorithms: `752`
@@ -92,7 +92,7 @@ Result / 结果:
 - Reconciled `ciphers` against the current local Python-reference snapshot and confirmed there are no real missing files in that category.
 - 已将 `ciphers` 与当前本地 Python 参考快照完成对账，并确认该分类没有真实缺项。
 - Wrote off the earlier `remaining 11` in `ciphers` as category-count drift rather than implementation work.
-- 将此前 `ciphers` 的“剩余 11”核销为分类统计漂移，而非实现缺口。
+- 将此前 `ciphers` 的“剩余 11”核销为分类计数虚高，而非实现缺口。
 - Current checkpoint accounting after Batch B Wave 5 reconciliation:
 - Batch B 第 5 波口径修正后的当前检查点统计：
   - `build.zig` registered algorithms: `764`
@@ -142,7 +142,7 @@ Result / 结果:
 - Added and registered 28 `graphs` compatibility-entry files that map Python filenames to already-existing Zig implementations.
 - 已新增并注册 28 个 `graphs` 兼容入口文件，用于把 Python 文件名与已存在的 Zig 实现对齐。
 - Reduced the real remaining `graphs` gap from a naming-drift-heavy inventory to only 8 true missing algorithms.
-- 将 `graphs` 的真实剩余缺口压缩到仅剩 8 个真正缺实现的算法，基本清除了命名漂移造成的统计噪音。
+- 将 `graphs` 的真实剩余缺口压缩到仅剩 8 个真正缺实现的算法，基本清除了文件名不一致造成的统计虚高。
 - Current checkpoint accounting after Batch D Wave 1 integration:
 - Batch D 第 1 波接入后的当前检查点统计：
   - `build.zig` registered algorithms: `813`
