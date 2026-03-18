@@ -392,7 +392,7 @@
 | Breadth-First Search (Python Filename Alias) | [`graphs/breadth_first_search.zig`](graphs/breadth_first_search.zig) | O(V + E) |
 | BFS Shortest Path Variant 2 (Python Filename Alias) | [`graphs/breadth_first_search_shortest_path_2.zig`](graphs/breadth_first_search_shortest_path_2.zig) | O(V + E) |
 | 0-1 BFS Shortest Path (Python Filename Alias) | [`graphs/breadth_first_search_zero_one_shortest_path.zig`](graphs/breadth_first_search_zero_one_shortest_path.zig) | O(V + E) |
-| Bipartite Check (Python Filename Alias) | [`graphs/check_bipatrite.zig`](graphs/check_bipatrite.zig) | O(V + E) |
+| Bipartite Check (Python Filename Alias) | [`graphs/check_bipartite.zig`](graphs/check_bipartite.zig) | O(V + E) |
 | Cycle Detection (Python Filename Alias) | [`graphs/check_cycle.zig`](graphs/check_cycle.zig) | O(V + E) |
 | Depth-First Search (Python Filename Alias) | [`graphs/depth_first_search.zig`](graphs/depth_first_search.zig) | O(V + E) |
 | Dijkstra Shortest Path (Python Filename Alias) | [`graphs/dijkstra_algorithm.zig`](graphs/dijkstra_algorithm.zig) | O(V² + E) |
@@ -479,7 +479,7 @@
 | 广度优先搜索（Python 文件名兼容层） | [`graphs/breadth_first_search.zig`](graphs/breadth_first_search.zig) | O(V + E) |
 | BFS 最短路径变体 2（Python 文件名兼容层） | [`graphs/breadth_first_search_shortest_path_2.zig`](graphs/breadth_first_search_shortest_path_2.zig) | O(V + E) |
 | 0-1 BFS 最短路径（Python 文件名兼容层） | [`graphs/breadth_first_search_zero_one_shortest_path.zig`](graphs/breadth_first_search_zero_one_shortest_path.zig) | O(V + E) |
-| 二分图检查（Python 文件名兼容层） | [`graphs/check_bipatrite.zig`](graphs/check_bipatrite.zig) | O(V + E) |
+| 二分图检查（Python 文件名兼容层） | [`graphs/check_bipartite.zig`](graphs/check_bipartite.zig) | O(V + E) |
 | 环检测（Python 文件名兼容层） | [`graphs/check_cycle.zig`](graphs/check_cycle.zig) | O(V + E) |
 | 深度优先搜索（Python 文件名兼容层） | [`graphs/depth_first_search.zig`](graphs/depth_first_search.zig) | O(V + E) |
 | Dijkstra 最短路径（Python 文件名兼容层） | [`graphs/dijkstra_algorithm.zig`](graphs/dijkstra_algorithm.zig) | O(V² + E) |

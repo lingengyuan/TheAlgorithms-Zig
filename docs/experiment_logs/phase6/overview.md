@@ -23,8 +23,8 @@ For each batch/review cycle, only record:
 Scope / 范围:
 - [`phase6-plan.md`](/root/projects/plans/TheAlgorithms-Zig/phase6-plan.md)
 - [`phase6-execution-guideline.md`](/root/projects/plans/TheAlgorithms-Zig/phase6-execution-guideline.md)
-- [`README.md`](/root/projects/TheAlgorithms-Zig/README.md)
-- [`EXPERIMENT_LOG.md`](/root/projects/TheAlgorithms-Zig/EXPERIMENT_LOG.md)
+- [`README.md`](README.md)
+- [`EXPERIMENT_LOG.md`](EXPERIMENT_LOG.md)
 
 Result / 结果:
 - Excluded `audio_filters/show_response.py` from the portable target because it is a visualization helper built around `numpy` and `matplotlib`, not a pure portable algorithm module.

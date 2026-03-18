@@ -4,7 +4,7 @@ Classic algorithm implementations in Zig, with built-in unit tests. Inspired by 
 
 This project is also a **vibe coding experiment**: using AI to translate Python algorithms into Zig and recording correctness, failure modes, and maintenance costs along the way.
 
-Phase 6 accounting note (2026-03-10): the portable target has been fully closed out. [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig) currently registers `925` algorithms; under the corrected per-category caps, `916` count toward the portable target, leaving `0` planned algorithms remaining.
+Phase 6 accounting note (2026-03-10): the portable target has been fully closed out. [`build.zig`](build.zig) currently registers `925` algorithms; under the corrected per-category caps, `916` count toward the portable target, leaving `0` planned algorithms remaining.
 
 ---
 
@@ -18,7 +18,7 @@ This repository implements algorithms and data-structure exercises in Zig, with 
 
 - Single-file algorithm modules with colocated `test` blocks
 - Zero external runtime dependencies beyond the Zig standard library
-- `zig build test` registry through [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig)
+- `zig build test` registry through [`build.zig`](build.zig)
 - Bilingual repository-level documentation and experiment logs
 - Phase 6 portable target completed: `916 / 916`
 
@@ -52,7 +52,7 @@ The full catalog has been split out of this root README.
 
 ### Development And Testing
 
-- Add every new algorithm file to [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig)
+- Add every new algorithm file to [`build.zig`](build.zig)
 - Run file-level tests during implementation: `zig test <file>`
 - Run full-suite verification before commit/push: `zig build test`
 - Keep experiment-log entries bilingual and truthful
@@ -85,7 +85,7 @@ The full catalog has been split out of this root README.
 
 - Root `README.md` stays concise and acts as the project overview plus index.
 - Detailed algorithm listings live under `docs/algorithm_catalog/`.
-- Experiment logs are indexed from [`EXPERIMENT_LOG.md`](/root/projects/TheAlgorithms-Zig/EXPERIMENT_LOG.md).
+- Experiment logs are indexed from [`EXPERIMENT_LOG.md`](EXPERIMENT_LOG.md).
 
 ## 简体中文
 
@@ -97,7 +97,7 @@ The full catalog has been split out of this root README.
 
 - 单文件算法模块，测试与实现同置
 - 除 Zig 标准库外无额外运行时依赖
-- 通过 [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig) 统一注册 `zig build test`
+- 通过 [`build.zig`](build.zig) 统一注册 `zig build test`
 - 仓库级文档与实验日志保持双语
 - Phase 6 可移植目标已完成：`916 / 916`
 
@@ -131,7 +131,7 @@ zig build test
 
 ### 开发与测试
 
-- 每新增一个算法文件，都要同步注册到 [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig)
+- 每新增一个算法文件，都要同步注册到 [`build.zig`](build.zig)
 - 实现过程中执行文件级测试：`zig test <file>`
 - commit / push 前执行全量验证：`zig build test`
 - 实验日志必须保持双语且如实记录错误
@@ -164,4 +164,4 @@ zig build test
 
 - 根 `README.md` 保持精简，只承担项目概览和索引角色。
 - 详细算法目录统一放在 `docs/algorithm_catalog/` 下。
-- 实验日志从 [`EXPERIMENT_LOG.md`](/root/projects/TheAlgorithms-Zig/EXPERIMENT_LOG.md) 进入索引。
+- 实验日志从 [`EXPERIMENT_LOG.md`](EXPERIMENT_LOG.md) 进入索引。

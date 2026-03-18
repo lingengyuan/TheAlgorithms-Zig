@@ -3,11 +3,11 @@
 ## Project Structure & Module Organization
 - Core categories are: `sorts/`, `searches/`, `maths/`, `data_structures/`, `dynamic_programming/`, `graphs/`, `bit_manipulation/`, `conversions/`, `strings/`, `greedy_methods/`, `matrix/`, `backtracking/`, `project_euler/`.
 - Each algorithm lives in one `.zig` file with both implementation and `test` blocks.
-- [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig) is the test registry; add new algorithm files to `test_files` so they run in CI-style local checks.
+- [`build.zig`](build.zig) is the test registry; add new algorithm files to `test_files` so they run in CI-style local checks.
 
 ## Build, Test, and Development Commands
 - `zig version`: verify Zig toolchain (project is tested on `0.15.2`).
-- `zig build test`: run all registered algorithm tests via [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig).
+- `zig build test`: run all registered algorithm tests via [`build.zig`](build.zig).
 - `zig test sorts/bubble_sort.zig`: run tests for a single file while iterating.
 - `zig fmt $(rg --files -g '*.zig')`: format all Zig sources.
 
@@ -42,7 +42,7 @@
 - Keep subjects concise and imperative; add a short body when listing added algorithms or test totals.
 - Before opening a PR, confirm:
   - `zig build test` passes
-  - new files are registered in [`build.zig`](/root/projects/TheAlgorithms-Zig/build.zig)
+  - new files are registered in [`build.zig`](build.zig)
   - reference link and complexity comments are present in each new algorithm file.
 - PR descriptions should include scope, touched directories, and local test evidence.
 

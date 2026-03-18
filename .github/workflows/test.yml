@@ -17,5 +17,8 @@ jobs:
         with:
           version: 0.15.2
 
+      - name: Check formatting
+        run: find . -name '*.zig' -not -path './zig-cache/*' -not -path './.zig-cache/*' | xargs zig fmt --check
+
       - name: Run tests
         run: zig build test

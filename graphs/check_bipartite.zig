@@ -4,7 +4,7 @@
 const testing = @import("std").testing;
 const impl = @import("bipartite_check_bfs.zig");
 
-test "check bipatrite: compatibility wrapper imports implementation" {
+test "check bipartite: compatibility wrapper imports implementation" {
     _ = impl;
     try testing.expect(true);
 }

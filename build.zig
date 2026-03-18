@@ -4,10 +4,10 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    // 在循环外创建一次 test step，避免重复注册 panic
+    // Create test step once outside the loop to avoid duplicate registration panic
     const test_step = b.step("test", "Run all algorithm tests");
 
-    // 每个算法文件注册为独立测试单元
+    // Register each algorithm file as an independent test unit
     const test_files = [_][]const u8{
         // Sorts
         "sorts/bubble_sort.zig",
@@ -393,7 +393,7 @@ pub fn build(b: *std.Build) void {
         "graphs/breadth_first_search.zig",
         "graphs/breadth_first_search_shortest_path_2.zig",
         "graphs/breadth_first_search_zero_one_shortest_path.zig",
-        "graphs/check_bipatrite.zig",
+        "graphs/check_bipartite.zig",
         "graphs/check_cycle.zig",
         "graphs/depth_first_search.zig",
         "graphs/dijkstra_algorithm.zig",
@@ -966,7 +966,7 @@ pub fn build(b: *std.Build) void {
     };
 
     for (test_files) |file| {
-        // Zig 0.15+ API：addTest 使用 root_module + createModule 模式
+        // Zig 0.15+ API: addTest uses root_module + createModule pattern
         const t = b.addTest(.{
             .root_module = b.createModule(.{
                 .root_source_file = b.path(file),

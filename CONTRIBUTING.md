@@ -15,10 +15,16 @@ Thank you for your interest in contributing! This project ports classic algorith
 Place your `.zig` file in the appropriate category directory:
 
 ```
-sorts/           searches/         maths/
-data_structures/ dynamic_programming/ graphs/
-bit_manipulation/ conversions/      greedy_methods/
-matrix/          backtracking/      strings/
+sorts/             searches/           maths/
+data_structures/   dynamic_programming/ graphs/
+bit_manipulation/  conversions/        greedy_methods/
+matrix/            backtracking/       strings/
+audio_filters/     boolean_algebra/    cellular_automata/
+ciphers/           data_compression/   divide_and_conquer/
+electronics/       financial/          fractals/
+geodesy/           geometry/           hashing/
+knapsack/          linear_algebra/     physics/
+project_euler/     scheduling/
 ```
 
 Every file must start with a reference header:
@@ -96,10 +102,16 @@ All existing tests plus your new tests must pass.
 将 `.zig` 文件放在对应的分类目录中：
 
 ```
-sorts/           searches/         maths/
-data_structures/ dynamic_programming/ graphs/
-bit_manipulation/ conversions/      greedy_methods/
-matrix/          backtracking/      strings/
+sorts/             searches/           maths/
+data_structures/   dynamic_programming/ graphs/
+bit_manipulation/  conversions/        greedy_methods/
+matrix/            backtracking/       strings/
+audio_filters/     boolean_algebra/    cellular_automata/
+ciphers/           data_compression/   divide_and_conquer/
+electronics/       financial/          fractals/
+geodesy/           geometry/           hashing/
+knapsack/          linear_algebra/     physics/
+project_euler/     scheduling/
 ```
 
 每个文件必须以引用头开始：
