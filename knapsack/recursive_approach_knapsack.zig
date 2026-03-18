@@ -26,5 +26,5 @@ test "recursive knapsack: python reference" {
 
 test "recursive knapsack: boundaries" {
     try testing.expectEqual(@as(i32, 0), knapsack(&[_]i32{}, &[_]i32{}, 0, 10, 0));
-    try testing.expectEqual(@as(i32, 0), knapsack(&[_]i32{ 5 }, &[_]i32{ 10 }, 1, 0, 0));
+    try testing.expectEqual(@as(i32, 0), knapsack(&[_]i32{5}, &[_]i32{10}, 1, 0, 0));
 }

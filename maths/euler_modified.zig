@@ -65,4 +65,3 @@ test "euler modified: edge and extreme cases" {
     defer alloc.free(stable);
     try testing.expect(stable[stable.len - 1] >= 0.0);
 }
-

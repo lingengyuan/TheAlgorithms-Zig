@@ -144,8 +144,8 @@ test "power iteration: python real example" {
     const alloc = testing.allocator;
 
     const matrix = [_]f64{
-        41, 4, 20,
-        4, 26, 30,
+        41, 4,  20,
+        4,  26, 30,
         20, 30, 50,
     };
     const vector = [_]f64{ 41, 4, 20 };

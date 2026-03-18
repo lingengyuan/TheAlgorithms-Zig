@@ -23,7 +23,7 @@ For each batch/review cycle, only record:
 
 Scope / 范围:
 - [`phase5-plan.md`](/root/projects/plans/TheAlgorithms-Zig/phase5-plan.md)
-- [`README.md`](/root/projects/TheAlgorithms-Zig/README.md)
+- [`README.md`](README.md)
 
 Result / 结果:
 - Corrected the Phase 5 portable-target arithmetic from `939` to `929`.

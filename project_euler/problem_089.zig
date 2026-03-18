@@ -7,7 +7,7 @@ const testing = std.testing;
 const roman_file = @embedFile("problem_089_roman.txt");
 const roman_test_file = @embedFile("problem_089_numeralcleanup_test.txt");
 
-pub const Problem089Error = error{ InvalidNumeral };
+pub const Problem089Error = error{InvalidNumeral};
 
 fn symbolValue(ch: u8) Problem089Error!u32 {
     return switch (ch) {

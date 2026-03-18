@@ -58,4 +58,3 @@ test "problem 122: recursive reachability edge cases" {
     try testing.expect(canReach(&chain, 1, 15, 5));
     try testing.expect(!canReach(&chain, 1, 15, 4));
 }
-

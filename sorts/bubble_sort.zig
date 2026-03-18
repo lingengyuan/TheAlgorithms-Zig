@@ -4,8 +4,8 @@
 const std = @import("std");
 const testing = std.testing;
 
-/// 原地冒泡排序，升序
-/// 时间复杂度: O(n²)，空间复杂度: O(1)
+/// In-place bubble sort, ascending order.
+/// Time complexity: O(n²), Space complexity: O(1)
 pub fn bubbleSort(comptime T: type, arr: []T) void {
     const n = arr.len;
     var i: usize = 0;

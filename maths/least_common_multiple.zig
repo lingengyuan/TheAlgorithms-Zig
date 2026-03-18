@@ -56,4 +56,3 @@ test "least common multiple: zero and sign edge cases" {
     try testing.expectEqual(@as(u64, 42), leastCommonMultipleSlow(-21, 6));
     try testing.expectEqual(@as(u64, 42), leastCommonMultipleFast(-21, 6));
 }
-

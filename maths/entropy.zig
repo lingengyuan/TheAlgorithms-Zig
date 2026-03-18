@@ -106,21 +106,10 @@ test "entropy: python reference examples" {
 test "entropy: long reference text and edge cases" {
     const alloc = testing.allocator;
     const text =
-        "Had repulsive dashwoods suspicion sincerity but advantage now him. "
-        ++ "Remark easily garret nor nay.  Civil those mrs enjoy shy fat merry. "
-        ++ "You greatest jointure saw horrible. He private he on be imagine "
-        ++ "suppose. Fertile beloved evident through no service elderly is. Blind "
-        ++ "there if every no so at. Own neglected you preferred way sincerity "
-        ++ "delivered his attempted. To of message cottage windows do besides "
-        ++ "against uncivil.  Delightful unreserved impossible few estimating "
-        ++ "men favourable see entreaties. She propriety immediate was improving. "
-        ++ "He or entrance humoured likewise moderate. Much nor game son say "
-        ++ "feel. Fat make met can must form into gate. Me we offending prevailed "
-        ++ "discovery.";
+        "Had repulsive dashwoods suspicion sincerity but advantage now him. " ++ "Remark easily garret nor nay.  Civil those mrs enjoy shy fat merry. " ++ "You greatest jointure saw horrible. He private he on be imagine " ++ "suppose. Fertile beloved evident through no service elderly is. Blind " ++ "there if every no so at. Own neglected you preferred way sincerity " ++ "delivered his attempted. To of message cottage windows do besides " ++ "against uncivil.  Delightful unreserved impossible few estimating " ++ "men favourable see entreaties. She propriety immediate was improving. " ++ "He or entrance humoured likewise moderate. Much nor game son say " ++ "feel. Fat make met can must form into gate. Me we offending prevailed " ++ "discovery.";
     const result = try calculateProb(alloc, text);
     try testing.expectEqual(@as(f64, 4.0), result.single);
     try testing.expectEqual(@as(f64, 7.0), result.pair);
     try testing.expectEqual(@as(f64, 3.0), result.conditional);
     try testing.expectError(error.EmptyText, calculateProb(alloc, ""));
 }
-

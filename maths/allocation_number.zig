@@ -66,4 +66,3 @@ test "allocation number: edge and extreme cases" {
     try testing.expectEqual(@as(usize, 1), single.items.len);
     try testing.expectEqualStrings("1-1", single.items[0]);
 }
-

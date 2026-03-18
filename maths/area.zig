@@ -154,4 +154,3 @@ test "area: invalid and extreme cases" {
     try testing.expectEqual(@as(f64, 0.0), try areaCircle(0));
     try testing.expectEqual(@as(f64, 0.0), try areaTriangleThreeSides(0, 0, 0));
 }
-

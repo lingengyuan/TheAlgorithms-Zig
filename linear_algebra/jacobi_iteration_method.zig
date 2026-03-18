@@ -181,9 +181,9 @@ test "jacobi iteration: diagonal dominance and edge cases" {
 test "jacobi iteration: negative diagonal strict dominance remains valid" {
     const alloc = testing.allocator;
     const coeff = [_]f64{
-        -6, 2, 3,
-        1, -5, 2,
-        2, 1, -4,
+        -6, 2,  3,
+        1,  -5, 2,
+        2,  1,  -4,
     };
     const constant = [_]f64{ 1, 2, 3 };
     const init_vals = [_]f64{ 0, 0, 0 };

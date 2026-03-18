@@ -4,7 +4,7 @@
 const std = @import("std");
 const testing = std.testing;
 
-pub const Problem071Error = error{InvalidFraction, InvalidLimit};
+pub const Problem071Error = error{ InvalidFraction, InvalidLimit };
 
 /// Returns the numerator of the reduced proper fraction immediately to the left
 /// of `numerator / denominator` among fractions with denominator `<= limit`.

@@ -56,4 +56,3 @@ test "euler method: edge and extreme cases" {
     defer alloc.free(fine);
     try testing.expect(fine[fine.len - 1] > 2.71 and fine[fine.len - 1] < 2.72);
 }
-
