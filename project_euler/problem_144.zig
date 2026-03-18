@@ -67,4 +67,3 @@ test "problem 144: next reflection samples" {
     try testing.expectApproxEqAbs(@as(f64, -10.0), reflected_sloped.y, 1e-12);
     try testing.expectApproxEqAbs(@as(f64, 2.0), reflected_sloped.gradient, 1e-12);
 }
-

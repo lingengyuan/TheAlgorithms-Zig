@@ -4,7 +4,7 @@
 const std = @import("std");
 const testing = std.testing;
 
-pub const Problem069Error = error{InvalidLimit, OutOfMemory};
+pub const Problem069Error = error{ InvalidLimit, OutOfMemory };
 
 /// Returns the value `n <= limit` for which `n / phi(n)` is maximal.
 /// Time complexity: O(limit log log limit)

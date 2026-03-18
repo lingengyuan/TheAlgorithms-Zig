@@ -135,4 +135,3 @@ test "volume: invalid and extreme cases" {
     try testing.expectEqual(@as(f64, 0.0), try volSpheresIntersect(0, 0, 0));
     try testing.expectEqual(@as(f64, 0.0), try volConicalFrustum(0, 0, 0));
 }
-

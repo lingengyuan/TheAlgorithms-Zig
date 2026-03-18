@@ -79,4 +79,3 @@ test "problem 104: pandigital checks" {
     try testing.expect(isPandigitalNine(123456789));
     try testing.expect(!isPandigitalNine(112345678));
 }
-

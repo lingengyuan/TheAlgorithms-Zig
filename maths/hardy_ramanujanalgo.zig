@@ -49,4 +49,3 @@ test "hardy ramanujan algo: edge and extreme cases" {
     try testing.expectError(error.InvalidInput, hardyRamanujanApprox(1));
     try testing.expectApproxEqAbs(@as(f64, 2.8765), try hardyRamanujanApprox(51_242_183), 1e-4);
 }
-

@@ -62,7 +62,7 @@ pub fn mergeSort(allocator: std.mem.Allocator, array: []const i64) std.mem.Alloc
 test "mergesort: merge helper" {
     const alloc = testing.allocator;
 
-    const m1 = try merge(alloc, &[_]i64{ -2 }, &[_]i64{ -1 });
+    const m1 = try merge(alloc, &[_]i64{-2}, &[_]i64{-1});
     defer alloc.free(m1);
     try testing.expectEqualSlices(i64, &[_]i64{ -2, -1 }, m1);
 
@@ -82,9 +82,9 @@ test "mergesort: python-style examples" {
     defer alloc.free(s1);
     try testing.expectEqualSlices(i64, &[_]i64{ -200, -10, -2, 3, 11, 99, 100, 100000 }, s1);
 
-    const s2 = try mergeSort(alloc, &[_]i64{ -200 });
+    const s2 = try mergeSort(alloc, &[_]i64{-200});
     defer alloc.free(s2);
-    try testing.expectEqualSlices(i64, &[_]i64{ -200 }, s2);
+    try testing.expectEqualSlices(i64, &[_]i64{-200}, s2);
 
     const s3 = try mergeSort(alloc, &[_]i64{});
     defer alloc.free(s3);
